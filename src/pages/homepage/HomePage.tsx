@@ -1,8 +1,9 @@
 import { Button, Col, Row, Typography } from "antd";
+import Header from "../../components/header/Header";
 
 const HomePage = () => {
   return (
-    <div
+    <><Header /><div
       style={{
         display: "flex",
         alignItems: "center",
@@ -39,7 +40,7 @@ const HomePage = () => {
           </Button>
         </Col>
       </Row>
-    </div>
+    </div></>
   );
 };
 

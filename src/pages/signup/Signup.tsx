@@ -1,17 +1,30 @@
-import { Button, Card, Form, Input, Select } from "antd";
+import { Button, Card, Col, Form, Input, Row, Select } from "antd";
 
 const Signup = () => {
   return (
-    <Card
-      title="Sign UP"
-      className="max-w-lg text-center top-10 justify-c  mx-auto"
+   <Row gutter={24} className="h-full" align="middle" justify="center">
+    <Col span={8}> 
+     <Card
+      size="small"
+      title={<div className="text-center text-xl">
+      Sign UP
+      </div>}
     >
-      <Form size="middle" layout="vertical">
-        <Form.Item>
+      <Form 
+      size="middle" layout="vertical">
+        <Form.Item
+        name="name"
+        label="Name"
+        rules={[{required: true, message: "Please enter your name"}]}
+        >
           <Input placeholder="name" />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item
+        label="Student ID"
+        name="studentId"
+        rules={[{required: true, message: "Please enter your StudentID"}]}
+        >
           <Input placeholder="Student ID" />
         </Form.Item>
 
@@ -37,27 +50,46 @@ const Signup = () => {
           />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item
+        label="Email"
+        name="Email"
+        rules={[{required: true, message: "Please enter your name"}]}
+
+        >
           <Input placeholder="Email" />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item
+                label="Phone"
+                name="phone"
+                rules={[{required: true, message: "Please enter your phone"}]}
+        >
           <Input placeholder="Phone" />
         </Form.Item>
 
-        <Form.Item>
-          <Input placeholder="Password" />
+        <Form.Item
+                label="Password"
+                name="password"
+                rules={[{required: true, message: "Please enter your Password"}]}
+        >
+          <Input.Password placeholder="Password" />
+        </Form.Item>
+
+        <Form.Item
+                label="Confirm Password"
+                name="confirmPassword"
+                rules={[{required: true, message: "Please enter Confirm Password"}]}
+        >
+          <Input.Password placeholder="Confirm Password" />
         </Form.Item>
 
         <Form.Item>
-          <Input placeholder="Confirm Password" />
-        </Form.Item>
-
-        <Form.Item>
-          <Button className="bg-orange-200 w-full">Sign UP</Button>
+          <Button htmlType="submit" className="bg-orange-500 w-full">Sign UP</Button>
         </Form.Item>
       </Form>
     </Card>
+    </Col>
+   </Row>
   );
 };
 

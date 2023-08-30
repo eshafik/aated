@@ -1,11 +1,10 @@
 import { Button, Col, Layout, Row, Typography } from "antd";
 import { Header as AntHeader } from "antd/es/layout/layout";
-import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-type HeaderProps = {
-  isSignButton: boolean;
-};
-const Header: FC<HeaderProps> = ({ isSignButton }) => {
+// type HeaderProps = {
+//   isSignButton: boolean;
+// };
+const Header = ( ) => {
   const navigate = useNavigate();
   const HEADER_LINK = [
     {
@@ -13,15 +12,15 @@ const Header: FC<HeaderProps> = ({ isSignButton }) => {
       path: "/homepage",
     },
     {
-      name: "About us",
+      name: "/About us",
       path: "",
     },
     {
-      name: "Committee",
+      name: "/Committee",
       path: "",
     },
     {
-      name: "Sign in",
+      name: "/Sign in",
       path: "",
     },
   ];
@@ -40,8 +39,7 @@ const Header: FC<HeaderProps> = ({ isSignButton }) => {
             ))}
           </Col>
           <Col>
-            {isSignButton ? (
-              <Button
+          <Button
                 size="large"
                 type="text"
                 className="bg-orange-400"
@@ -49,7 +47,6 @@ const Header: FC<HeaderProps> = ({ isSignButton }) => {
               >
                 Sign Up
               </Button>
-            ) : null}
           </Col>
         </Row>
       </AntHeader>
