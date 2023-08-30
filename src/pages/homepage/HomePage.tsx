@@ -1,7 +1,9 @@
 import { Button, Col, Row, Typography } from "antd";
 import Header from "../../components/header/Header";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const navigate = useNavigate();
   return (
     <><Header /><div
       style={{
@@ -35,7 +37,7 @@ const HomePage = () => {
         </Col>
 
         <Col>
-          <Button size="large" type="text" className="bg-orange-400">
+          <Button size="large" type="text" className="bg-orange-400" onClick={() => navigate('/signin')}>
             Sign In
           </Button>
         </Col>

@@ -52,8 +52,8 @@ const Signup = () => {
 
         <Form.Item
         label="Email"
-        name="Email"
-        rules={[{required: true, message: "Please enter your name"}]}
+        name="email"
+        rules={[{required: true, message: "Please enter your email"}]}
 
         >
           <Input placeholder="Email" />

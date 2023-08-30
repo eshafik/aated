@@ -12,15 +12,15 @@ const Header = ( ) => {
       path: "/homepage",
     },
     {
-      name: "/About us",
+      name: "About us",
       path: "",
     },
     {
-      name: "/Committee",
+      name: "Committee",
       path: "",
     },
     {
-      name: "/Sign in",
+      name: "Sign in",
       path: "",
     },
   ];
