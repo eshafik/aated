@@ -1,4 +1,4 @@
-import { Card, Col, Row } from "antd";
+import { Card, Col, Row, Select } from "antd";
 import SettingCard from "./component/SettingCard";
 
 const Members = () => {
@@ -46,20 +46,27 @@ const Members = () => {
     },
   ];
   return (
-    <Card tabList={tabList} className="h-full w-full">
-      <Row gutter={[12, 12]}>
-        {BATCH_DATA.map((item, i) => (
-          <Col>
-            <SettingCard
-              key={i}
-              name={item.name}
-              position={item.position}
-              batch={item.batch}
-            />
+    <>
+      <Card tabList={tabList} className="h-full w-full">
+        <Row gutter={[12, 12]}>
+          <Col span={24}>
+            <Select size="large" />
+            <Select size="large" />
+            <Select size="large" />
           </Col>
-        ))}
-      </Row>
-    </Card>
+          {BATCH_DATA.map((item, i) => (
+            <Col key={i} xs={24} md={8} lg={6}>
+              <SettingCard
+                key={i}
+                name={item.name}
+                position={item.position}
+                batch={item.batch}
+              />
+            </Col>
+          ))}
+        </Row>
+      </Card>
+    </>
   );
 };
 

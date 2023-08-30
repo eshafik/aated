@@ -1,11 +1,32 @@
-import { Avatar, Badge, Card, Space, Typography } from "antd";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  Dropdown,
+  MenuProps,
+  Space,
+  Typography,
+} from "antd";
 import { FC } from "react";
+import { MoreOutlined } from "@ant-design/icons";
+
 type SettingType = {
   name?: string;
   position?: string;
   batch?: string;
 };
 const SettingCard: FC<SettingType> = ({ name, position, batch }) => {
+  const items: MenuProps["items"] = [
+    {
+      label: "First Name",
+      key: "fullname",
+    },
+    {
+      label: "Last Name",
+      key: "lastname",
+    },
+  ];
   return (
     <Badge.Ribbon text={batch}>
       <Card type="inner" hoverable className="h-full">
@@ -27,6 +48,11 @@ const SettingCard: FC<SettingType> = ({ name, position, batch }) => {
             </Typography.Paragraph>
           </Space.Compact>
         </Space>
+        <div className="text-end">
+          <Dropdown menu={{ items }}>
+            <Button icon={<MoreOutlined />} />
+          </Dropdown>
+        </div>
       </Card>
     </Badge.Ribbon>
   );
