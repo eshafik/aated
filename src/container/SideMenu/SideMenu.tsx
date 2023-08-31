@@ -25,7 +25,7 @@ const SideMenu = () => {
           key: "post",
           title: "post",
           icon: <AppstoreAddOutlined />,
-          onClick: () => navigate("/products"),
+          onClick: () => navigate("/posts"),
           label: "Post",
         },
       ]}

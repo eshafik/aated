@@ -1,9 +1,9 @@
 import { Layout, theme } from "antd";
-import SideMenu from "../container/SideMenu/SideMenu";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header } from "antd/es/layout/layout";
+import SideMenu from "../SideMenu/SideMenu";
 
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
