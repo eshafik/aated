@@ -1,10 +1,11 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import HomeLayout from "../layout/HomeLayout";
 import HomePage from "../pages/homepage/HomePage";
 import Signup from "../pages/signup/Signup";
 import SignIn from "../pages/signin/Signin";
-import DashboardLayout from "../layout/DashboardLayout";
 import Members from "../pages/members/Members";
+import Posts from "../pages/posts/Posts";
+import DashboardLayout from "../container/layout/DashboardLayout";
+import HomeLayout from "../container/layout/HomeLayout";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ export const protectedRouter = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/members" /> },
       { path: "members", element: <Members /> },
+      { path: "posts", element: <Posts /> },
     ],
   },
 ]);
