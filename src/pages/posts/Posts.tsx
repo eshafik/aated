@@ -1,5 +1,6 @@
 import { Avatar, Button, Card, Col, Form, Row, Typography } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import { useNavigate } from "react-router-dom";
 // type PostType = {
 //   name?: string;
 //   src?: string;
@@ -7,6 +8,7 @@ import TextArea from "antd/es/input/TextArea";
 //   post?: string;
 // };
 const Posts = () => {
+  const navigate = useNavigate();
   const POST_DATA = [
     {
       name: "John Snow",
@@ -32,35 +34,50 @@ const Posts = () => {
   return (
     <Row gutter={24} align="middle" justify="center">
       <Col>
-        {POST_DATA.map((items, i) => (
-          <Card
-            key={i}
-            className="max-w-2xl "
-            title={
-              <>
-                <Avatar className="mr-2" />
-                {items.name}
-              </>
-            }
-            cover={<img alt="example" src={items.src} />}
-          >
-            <div className="text-black font-bold text-xl">
-              {items.post_title}
-            </div>
-            <div className="mt-4 mb-4">{items.post}</div>
-            <Typography.Title level={5}> Comment (20)</Typography.Title>
-            <Form>
-              <Form.Item name="comment">
-                <TextArea rows={5} />
-              </Form.Item>
-              <Form.Item>
-                <Button className="bg-yellow-300" htmlType="submit">
-                  Comment
-                </Button>
-              </Form.Item>
-            </Form>
-          </Card>
-        ))}
+        <Card
+          className="bg-transparent"
+          tabList={[
+            { key: "allpost", label: "All Post" },
+            { key: "jobpost", label: "Job Post" },
+            { key: "generalpost", label: "General Post" },
+            { key: "helppost", label: "Help Post" },
+            { key: "notice", label: "Notie" },
+          ]}
+        >
+          {POST_DATA.map((items, i) => (
+            <Card
+              key={i}
+              className="max-w-2xl"
+              title={
+                <>
+                  <Avatar className="mr-2" />
+                  {items.name}
+                </>
+              }
+              cover={<img alt="example" src={items.src} />}
+            >
+              <div className="text-black font-bold text-xl">
+                {items.post_title}
+              </div>
+              <div className="mt-4 mb-4">{items.post}</div>
+              <Typography.Title level={5}> Comment (20)</Typography.Title>
+              <Form>
+                <Form.Item name="comment">
+                  <TextArea rows={5} />
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    className="bg-yellow-300"
+                    htmlType="submit"
+                    onClick={() => navigate(`/${i}`)}
+                  >
+                    Comment
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Card>
+          ))}
+        </Card>
       </Col>
     </Row>
   );

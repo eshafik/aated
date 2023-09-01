@@ -6,6 +6,7 @@ import Members from "../pages/members/Members";
 import Posts from "../pages/posts/Posts";
 import DashboardLayout from "../container/layout/DashboardLayout";
 import HomeLayout from "../container/layout/HomeLayout";
+import Post from "../pages/post/Post";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -27,7 +28,13 @@ export const protectedRouter = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/members" /> },
       { path: "members", element: <Members /> },
-      { path: "posts", element: <Posts /> },
+      {
+        path: "posts",
+        children: [
+          { index: true, element: <Posts /> },
+          { path: "post", element: <Post /> },
+        ],
+      },
     ],
   },
 ]);
