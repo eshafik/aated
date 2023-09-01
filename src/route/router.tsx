@@ -7,6 +7,8 @@ import Posts from "../pages/posts/Posts";
 import DashboardLayout from "../container/layout/DashboardLayout";
 import HomeLayout from "../container/layout/HomeLayout";
 import Post from "../pages/post/Post";
+import Committee from "../pages/committee/Committee";
+import ProfileSetting from "../pages/profileSetting/ProfileSetting";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -35,6 +37,8 @@ export const protectedRouter = createBrowserRouter([
           { path: "post", element: <Post /> },
         ],
       },
+      { path: "committee", element: <Committee /> },
+      { path: "profilesetting", element: <ProfileSetting /> },
     ],
   },
 ]);

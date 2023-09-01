@@ -1,6 +1,21 @@
-import { Avatar, Button, Card, Col, Form, Row, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Typography,
+  Upload,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useNavigate } from "react-router-dom";
+import { SearchOutlined, UploadOutlined } from "@ant-design/icons";
+import { useState } from "react";
+
 // type PostType = {
 //   name?: string;
 //   src?: string;
@@ -31,6 +46,16 @@ const Posts = () => {
               reprehenderit in voluptate velit esse cillum dolore See more{" "}`,
     },
   ];
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
   return (
     <Row gutter={24} align="middle" justify="center">
       <Col>
@@ -44,6 +69,51 @@ const Posts = () => {
             { key: "notice", label: "Notie" },
           ]}
         >
+          <Form>
+            <Row gutter={[12, 12]}>
+              <Col span={19}>
+                <Form.Item>
+                  <Input
+                    suffix={
+                      <SearchOutlined onClick={() => console.log("HI There")} />
+                    }
+                  />
+                </Form.Item>
+              </Col>
+              <Col>
+                <Form.Item>
+                  <Button onClick={showModal}>create Post</Button>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Modal
+              title="create post"
+              open={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleOk}
+              okText="Submit"
+              okType="default"
+              centered
+            >
+              <Form.Item>
+                <Input placeholder="Title" />
+              </Form.Item>
+
+              <Form.Item>
+                <Select placeholder="Post catagory" />
+              </Form.Item>
+
+              <Form.Item>
+                <Input.TextArea rows={5} placeholder="Description" />
+              </Form.Item>
+
+              <Form.Item>
+                <Upload>
+                  <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                </Upload>
+              </Form.Item>
+            </Modal>
+          </Form>
           {POST_DATA.map((items, i) => (
             <Card
               key={i}

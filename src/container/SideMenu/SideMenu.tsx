@@ -1,4 +1,8 @@
-import { AppstoreAddOutlined, UsergroupAddOutlined } from "@ant-design/icons";
+import {
+  AppstoreAddOutlined,
+  UsergroupAddOutlined,
+  GroupOutlined,
+} from "@ant-design/icons";
 import { Menu } from "antd";
 import { useNavigate } from "react-router-dom";
 
@@ -27,6 +31,20 @@ const SideMenu = () => {
           icon: <AppstoreAddOutlined />,
           onClick: () => navigate("/posts"),
           label: "Post",
+        },
+        {
+          key: "committee",
+          title: "Committee",
+          icon: <GroupOutlined />,
+          onClick: () => navigate("committee"),
+          label: "Committee",
+        },
+        {
+          key: "profilesetting",
+          title: "Setting",
+          icon: <GroupOutlined />,
+          onClick: () => navigate("profilesetting"),
+          label: "Profile Setting",
         },
       ]}
     />

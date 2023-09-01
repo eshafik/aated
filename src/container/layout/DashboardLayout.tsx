@@ -1,4 +1,4 @@
-import { Layout, theme } from "antd";
+import { Avatar, Col, Layout, Row, theme } from "antd";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import Sider from "antd/es/layout/Sider";
@@ -22,7 +22,14 @@ const DashboardLayout = () => {
         <SideMenu />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Header style={{ padding: 0, background: colorBgContainer }}>
+          <Row className="mr-3" justify={"end"}>
+            <Col>
+              <Avatar />
+              Demon
+            </Col>
+          </Row>
+        </Header>
         <Content className="overflow-auto p-2">
           <Outlet />
         </Content>
