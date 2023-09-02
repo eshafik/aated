@@ -12,7 +12,7 @@ import {
   Upload,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SearchOutlined, UploadOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
@@ -130,7 +130,9 @@ const Posts = () => {
                 {items.post_title}
               </div>
               <div className="mt-4 mb-4">{items.post}</div>
-              <Typography.Title level={5}> Comment (20)</Typography.Title>
+              <Link to={"post"}>
+                <Typography.Title level={5}> Comment (20)</Typography.Title>
+              </Link>
               <Form>
                 <Form.Item name="comment">
                   <TextArea rows={5} />

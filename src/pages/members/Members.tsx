@@ -47,7 +47,7 @@ const Members = () => {
   ];
   return (
     <>
-      <Card tabList={tabList} className="h-full w-full">
+      <Card tabList={tabList} className="bg-transparent h-full w-full">
         <Row gutter={[12, 12]}>
           <Col span={24}>
             <Select size="large" />
