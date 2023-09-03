@@ -9,6 +9,7 @@ import HomeLayout from "../container/layout/HomeLayout";
 import Post from "../pages/post/Post";
 import Committee from "../pages/committee/Committee";
 import ProfileSetting from "../pages/profileSetting/ProfileSetting";
+import EmailVerify from "../pages/emailverify/EmailVerify";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ export const publicRoute = createBrowserRouter([
       { path: "homepage", element: <HomePage /> },
       { path: "signup", element: <Signup /> },
       { path: "signin", element: <SignIn /> },
+      { path: "verify", element: <EmailVerify /> },
     ],
   },
 ]);

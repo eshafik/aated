@@ -6,8 +6,14 @@ export interface CreateUserPayload {
   batch?: string;
   student_id?: string;
   passing_year?: string;
+  otp?: string;
 }
 
 export interface CreateUserResponse {
   message?: string;
+}
+
+export interface VerifyOTP {
+  email?: string;
+  opt?: string;
 }
