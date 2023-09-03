@@ -1,10 +1,13 @@
-import { Button, Card, Col, Form, Input, InputNumber, Row, Select } from "antd";
+import { Button, Card, Col, Form, Input, InputNumber, Row } from "antd";
 import { useMutation } from "react-query";
 import { CreateUserPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
   const { mutate, isLoading } = useMutation((payload: CreateUserPayload) =>
     authAPI.createUser(payload)
   );
@@ -48,7 +51,7 @@ const Signup = () => {
             >
               <Input placeholder="Student ID" />
             </Form.Item>
-
+            {/* 
             <Form.Item>
               <Select
                 options={[
@@ -58,9 +61,9 @@ const Signup = () => {
                   { value: "disabled", label: "Disabled", disabled: true },
                 ]}
               />
-            </Form.Item>
+            </Form.Item> */}
 
-            <Form.Item>
+            {/* <Form.Item>
               <Select
                 options={[
                   { value: "jack", label: "Jack" },
@@ -69,7 +72,7 @@ const Signup = () => {
                   { value: "disabled", label: "Disabled", disabled: true },
                 ]}
               />
-            </Form.Item>
+            </Form.Item> */}
 
             <Form.Item
               label="Email"
@@ -125,6 +128,7 @@ const Signup = () => {
                 loading={isLoading}
                 htmlType="submit"
                 className="bg-orange-500 w-full"
+                onClick={() => (isLoading ? "" : navigate("/verify"))}
               >
                 Sign UP
               </Button>
