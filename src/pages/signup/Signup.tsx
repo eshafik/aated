@@ -14,7 +14,9 @@ const Signup = () => {
     (payload: CreateUserPayload) => authAPI.createUser(payload),
     {
       onSuccess: () => {
-        notification.success({ message: "Sign-Up Successfully" });
+        notification.success({
+          message: "A Verification Code has been sent to you email",
+        });
         queryClient.invalidateQueries(["sign-up"]);
         navigate("/verify");
       },
