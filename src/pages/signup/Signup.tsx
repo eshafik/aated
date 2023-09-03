@@ -1,5 +1,5 @@
-import { Button, Card, Col, Form, Input, InputNumber, Row } from "antd";
-import { useMutation } from "react-query";
+import { App, Button, Card, Col, Form, Input, InputNumber, Row } from "antd";
+import { useMutation, useQueryClient } from "react-query";
 import { CreateUserPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
 import { useNavigate } from "react-router-dom";
@@ -7,9 +7,18 @@ import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const { notification } = App.useApp();
+  const queryClient = useQueryClient();
 
-  const { mutate, isLoading } = useMutation((payload: CreateUserPayload) =>
-    authAPI.createUser(payload)
+  const { mutate, isLoading } = useMutation(
+    (payload: CreateUserPayload) => authAPI.createUser(payload),
+    {
+      onSuccess: () => {
+        notification.success({ message: "Sign-Up Successfully" });
+        queryClient.invalidateQueries(["sign-up"]);
+        navigate("/verify");
+      },
+    }
   );
   return (
     <Row gutter={24} className="h-full" align="middle" justify="center">
@@ -128,7 +137,6 @@ const Signup = () => {
                 loading={isLoading}
                 htmlType="submit"
                 className="bg-orange-500 w-full"
-                onClick={() => (isLoading ? "" : navigate("/verify"))}
               >
                 Sign UP
               </Button>

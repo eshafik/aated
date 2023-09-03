@@ -1,22 +1,61 @@
-import { Button, Card, Col, Form, Input, Row, Typography } from "antd";
+import { App, Button, Card, Col, Form, Input, Row, Typography } from "antd";
+import { useMutation, useQueryClient } from "react-query";
+import { authAPI } from "../../libs/api/authAPI";
+import { useNavigate } from "react-router-dom";
+import { CreateUserPayload } from "../../libs/api/@types/auth";
 
 const EmailVerify = () => {
   const [form] = Form.useForm();
+  const { notification } = App.useApp();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { mutate, isLoading } = useMutation(
+    (payload: CreateUserPayload) => authAPI.createUser(payload),
+    {
+      onSuccess: () => {
+        notification.success({ message: "Successfully" });
+        queryClient.invalidateQueries(["sign-up"]);
+        navigate("/login");
+      },
+    }
+  );
   return (
     <Row align={"middle"} className="h-full w-full" justify={"center"}>
       <Col>
         <Card hoverable>
-          <Form form={form}>
-            <Typography.Title level={4}>
-              Enter The OTP To Verify Your Account
+          <Form
+            form={form}
+            onFinish={(values) =>
+              mutate({
+                email: values.email,
+                otp: values.otp,
+              })
+            }
+          >
+            <Typography.Title level={4} className="text-center">
+              Enter The OTP and The Email You Entered <br />
+              Before To Verify Your Account
             </Typography.Title>
+
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "You have to enter",
+                },
+              ]}
+            >
+              <Input placeholder="someone@domail.com" className="text-center" />
+            </Form.Item>
 
             <Form.Item
               name="otp"
               rules={[
                 {
                   required: true,
-                  message: "You have to enter the otp to verify account",
+                  message: "You have to enter",
                 },
               ]}
             >
@@ -27,7 +66,7 @@ const EmailVerify = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button className="w-full" htmlType="submit">
+              <Button loading={isLoading} className="w-full" htmlType="submit">
                 Submit
               </Button>
             </Form.Item>
