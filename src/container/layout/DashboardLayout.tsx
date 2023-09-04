@@ -4,9 +4,15 @@ import { useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header } from "antd/es/layout/layout";
 import SideMenu from "../SideMenu/SideMenu";
+import { useQuery } from "react-query";
+import { profileAPI } from "../../libs/api/profileAPI";
 
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const { data } = useQuery(["user-profile", "profile"], () =>
+    profileAPI.getProfileDetails()
+  );
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -25,7 +31,7 @@ const DashboardLayout = () => {
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <Row className="mr-3" justify={"end"}>
             <Col>
-              <Avatar />
+              <Avatar src={data?.data?.profile_pic} />
               Demon
             </Col>
           </Row>
