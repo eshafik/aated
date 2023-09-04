@@ -16,7 +16,7 @@ const EmailVerify = () => {
       onSuccess: () => {
         notification.success({ message: "Successfully" });
         queryClient.invalidateQueries(["sign-up"]);
-        navigate("/login");
+        navigate("/signin");
       },
     }
   );
