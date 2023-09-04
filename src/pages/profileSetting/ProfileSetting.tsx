@@ -14,7 +14,6 @@ import { profileAPI } from "../../libs/api/profileAPI";
 
 const ProfileSetting = () => {
   const { notification } = App.useApp();
-  const [form] = Form.useForm();
 
   const { mutate, isLoading } = useMutation(
     (payload: UpdateProfilePayload) => profileAPI.updateProfileDetails(payload),
@@ -27,25 +26,16 @@ const ProfileSetting = () => {
   const { data, isLoading: isProfileLoading } = useQuery(
     ["user-profile", "profile"],
     () => profileAPI.getProfileDetails()
-    // {
-    //   onSuccess: () => {
-    //     form.setFieldsValue({
-    //       name: data?.data?.name,
-    //       email: data?.data?.email,
-    //       phone: data?.data?.phone,
-    //       batch_no: data?.data?.batch_no,
-    //       passing_year: data?.data?.passing_year,
-    //       student_id: data?.data?.student_id,
-    //     });
-    //   },
-    // }
   );
 
   return (
     <Spin spinning={isProfileLoading}>
       <Card className="max-w-xl">
         <Form
-          form={form}
+          requiredMark="optional"
+          layout="vertical"
+          labelAlign="left"
+          // form={form}
           initialValues={{
             name: data?.data?.name,
             email: data?.data?.email,
@@ -64,8 +54,6 @@ const ProfileSetting = () => {
               student_id: values.student_id,
             });
           }}
-          requiredMark="optional"
-          layout="vertical"
         >
           {/* <Form.Item name="profile_pic">
           <Upload listType="picture-circle">Upload here</Upload>
