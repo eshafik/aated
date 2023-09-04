@@ -17,3 +17,17 @@ export interface VerifyOTP {
   email?: string;
   opt?: string;
 }
+
+export interface LoginPayload {
+  username?: string;
+  password?: string;
+}
+
+export interface LoginResponse {
+  data: {
+    refresh: string;
+    access: string;
+    role: string;
+    id: string | number;
+  };
+}
