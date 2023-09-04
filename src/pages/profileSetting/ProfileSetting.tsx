@@ -8,34 +8,46 @@ import {
   Spin,
   Typography,
 } from "antd";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { UpdateProfilePayload } from "../../libs/api/@types/profile";
 import { profileAPI } from "../../libs/api/profileAPI";
 
 const ProfileSetting = () => {
   const { notification } = App.useApp();
+  const queryClient = useQueryClient();
+  const [form] = Form.useForm();
 
   const { mutate, isLoading } = useMutation(
     (payload: UpdateProfilePayload) => profileAPI.updateProfileDetails(payload),
     {
       onSuccess: () => {
         notification.success({ message: "Profile Successfully Updated" });
+        queryClient.invalidateQueries(["user-profile"]);
       },
     }
   );
   const { data, isLoading: isProfileLoading } = useQuery(
-    ["user-profile", "profile"],
-    () => profileAPI.getProfileDetails()
+    ["user-profile"],
+    () => profileAPI.getProfileDetails(),
+    {
+      onSuccess: () => {
+        form.setFieldsValue({
+          name: data?.data?.name,
+          email: data?.data?.email,
+          phone: data?.data?.phone,
+          batch_no: data?.data?.batch_no,
+          passing_year: data?.data?.passing_year,
+          student_id: data?.data?.student_id,
+        });
+      },
+    }
   );
 
   return (
     <Spin spinning={isProfileLoading}>
       <Card className="max-w-xl">
         <Form
-          requiredMark="optional"
-          layout="vertical"
-          labelAlign="left"
-          // form={form}
+          form={form}
           initialValues={{
             name: data?.data?.name,
             email: data?.data?.email,
@@ -44,6 +56,9 @@ const ProfileSetting = () => {
             passing_year: data?.data?.passing_year,
             student_id: data?.data?.student_id,
           }}
+          requiredMark="optional"
+          layout="vertical"
+          labelAlign="left"
           onFinish={(values) => {
             mutate({
               name: values.name,
@@ -60,24 +75,25 @@ const ProfileSetting = () => {
         </Form.Item> */}
 
           <Form.Item
-            label="Name"
+            shouldUpdate
             name="name"
+            label="Name"
             rules={[{ required: true, message: "Please enter your Name" }]}
           >
             <Input placeholder="John" />
           </Form.Item>
 
           <Form.Item
-            label="Email"
             name="email"
+            label="Email"
             rules={[{ required: true, message: "Please enter your Email" }]}
           >
             <Input placeholder="someone@gmail.com" />
           </Form.Item>
 
           <Form.Item
-            label="Contact Number"
             name="phone"
+            label="Contact Number"
             rules={[
               { required: true, message: "Please enter your Phone Number" },
             ]}
@@ -87,16 +103,16 @@ const ProfileSetting = () => {
 
           <Typography.Title level={5}>Job Experience</Typography.Title>
           <Form.Item
-            label="Batch Number"
             name="batch_no"
+            label="Batch Number"
             rules={[{ required: true, message: "Please select role" }]}
           >
             <Input placeholder="5 Years" />
           </Form.Item>
 
           <Form.Item
-            label="Student ID"
             name="student_id"
+            label="Student ID"
             rules={[
               { required: true, message: "Please enter your Company Name" },
             ]}
@@ -105,8 +121,8 @@ const ProfileSetting = () => {
           </Form.Item>
 
           <Form.Item
-            label="Passing Year"
             name="passing_year"
+            label="Passing Year"
             rules={[
               { required: true, message: "Please write some description" },
             ]}
@@ -116,7 +132,7 @@ const ProfileSetting = () => {
 
           <Form.Item>
             <Button
-              loading={isLoading}
+              loading={isLoading || isProfileLoading}
               className="bg-blue-500 flex justify-end"
               htmlType="submit"
             >
