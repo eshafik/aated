@@ -15,13 +15,17 @@ export interface CreateUserResponse {
 
 export interface VerifyOTP {
   email?: string;
-  opt?: string;
+  otp?: string;
+  password?: string;
 }
 
 export interface LoginPayload {
   username?: string;
   password?: string;
 }
+
+export type ForgotPasswordPayload = Omit<VerifyOTP, "otp">;
+export type ResetPasswordPayload = VerifyOTP;
 
 export interface LoginResponse {
   data: {
