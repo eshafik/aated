@@ -37,4 +37,5 @@ export interface UpdateProfilePayload {
   student_id?: string | number;
   passing_year?: string | number;
   batch_no?: number | string;
+  profile_pic?: string;
 }
