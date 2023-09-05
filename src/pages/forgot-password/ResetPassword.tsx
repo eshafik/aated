@@ -2,11 +2,11 @@ import { App, Button, Card, Col, Form, Input, Row, Typography } from "antd";
 import { useMutation } from "react-query";
 import { ResetPasswordPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 
 const ResetPassword = () => {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const { notification } = App.useApp();
 
   const { isLoading, mutate } = useMutation(
@@ -14,7 +14,7 @@ const ResetPassword = () => {
     {
       onSuccess: () => {
         notification.success({ message: "Your password has been changed" });
-        // navigate("/members");
+        navigate("/signin");
       },
       onError: () => {
         notification.error;
