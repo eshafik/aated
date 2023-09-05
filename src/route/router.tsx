@@ -10,6 +10,8 @@ import Post from "../pages/post/Post";
 import Committee from "../pages/committee/Committee";
 import ProfileSetting from "../pages/profileSetting/ProfileSetting";
 import EmailVerify from "../pages/emailverify/EmailVerify";
+import ForgotPassword from "../pages/forgot-password/ForgotPassword";
+import ResetPassword from "../pages/forgot-password/ResetPassword";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -21,6 +23,8 @@ export const publicRoute = createBrowserRouter([
       { path: "signup", element: <Signup /> },
       { path: "signin", element: <SignIn /> },
       { path: "verify", element: <EmailVerify /> },
+      { path: "forgot-password", element: <ForgotPassword /> },
+      { path: "reset-password", element: <ResetPassword /> },
     ],
   },
 ]);
