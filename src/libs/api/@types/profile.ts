@@ -38,4 +38,5 @@ export interface UpdateProfilePayload {
   passing_year?: string | number;
   batch_no?: number | string;
   profile_pic?: string;
+  password?: string;
 }

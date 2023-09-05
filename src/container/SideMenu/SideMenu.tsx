@@ -11,14 +11,16 @@ const SideMenu = () => {
   const navigate = useNavigate();
   return (
     <Menu
-      style={{ height: "100%" }}
-      theme="dark"
-      className="flex-1 overflow-auto bg-transparent pb-14 mt-4"
+      mode="vertical"
+      theme="light"
+      className="bg-slate-300 h-full"
       items={[
         {
           key: "1",
           icon: "",
+          disabled: true,
         },
+
         {
           key: "members",
           title: "members",

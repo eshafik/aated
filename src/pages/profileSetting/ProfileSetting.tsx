@@ -36,7 +36,10 @@ const ProfileSetting = () => {
 
   return (
     <Spin spinning={isProfileLoading}>
-      <Card className="max-w-xl">
+      <Card
+        title="Profile Setting"
+        className="shadow-2xl bg-transparent max-w-xl mx-auto"
+      >
         {data?.data?.name && (
           <Form
             initialValues={{
@@ -59,6 +62,7 @@ const ProfileSetting = () => {
                 passing_year: values.passing_year,
                 student_id: values.student_id,
                 profile_pic: values.profile_pic,
+                password: values.password,
               });
             }}
           >
@@ -122,10 +126,14 @@ const ProfileSetting = () => {
               <InputNumber placeholder="Write something" />
             </Form.Item>
 
+            <Form.Item name="password" label="Password">
+              <Input.Password placeholder="Password" />
+            </Form.Item>
+
             <Form.Item>
               <Button
                 loading={isLoading || isProfileLoading}
-                className="bg-blue-500 flex justify-end"
+                className="bg-blue-400 "
                 htmlType="submit"
               >
                 Save
