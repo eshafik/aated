@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Avatar,
   Button,
@@ -7,17 +8,18 @@ import {
   Input,
   Modal,
   Row,
-  Select,
   Typography,
-  Upload,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { Link, useNavigate } from "react-router-dom";
-import { SearchOutlined, UploadOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useMutation } from "react-query";
 import { PostPayload } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
+import CreatePostModal from "./component/CreatePostModal";
+import { useForm } from "../../config/hook/formHook";
+import { CreatePostInputType } from "../../libs/api/@types/form";
 
 // type PostType = {
 //   name?: string;
@@ -49,17 +51,20 @@ const Posts = () => {
               reprehenderit in voluptate velit esse cillum dolore See more{" "}`,
     },
   ];
-  const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { mutate, isLoading } = useMutation(
     (payload: PostPayload) => postAPI.createPost(payload),
     {
       onSuccess: () => {
-        console.log("Success");
+        setIsModalOpen(false);
       },
     }
   );
+
+  const { form, handleFinish } = useForm<CreatePostInputType>({
+    onFinish: (values) => mutate(values),
+  });
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -81,16 +86,7 @@ const Posts = () => {
             { key: "notice", label: "Notie" },
           ]}
         >
-          <Form
-            form={form}
-            onFinish={(values) => {
-              mutate({
-                title: values.title,
-                body: values.body,
-                attachments: values.attachments,
-              });
-            }}
-          >
+          <Form form={form}>
             <Row gutter={[12, 12]}>
               <Col span={19}>
                 <Form.Item>
@@ -110,31 +106,17 @@ const Posts = () => {
             <Modal
               title="create post"
               open={isModalOpen}
-              onOk={handleOk}
+              onOk={form.submit}
               onCancel={handleOk}
               okText="Submit"
               okType="default"
               centered
             >
-              <Form.Item name="title">
-                <Input placeholder="Title" />
-              </Form.Item>
-
-              <Form.Item name="category">
-                <Select placeholder="Post category" />
-              </Form.Item>
-
-              <Form.Item name="body">
-                <Input.TextArea rows={5} placeholder="Description" />
-              </Form.Item>
-
-              <Form.Item name="attachments">
-                <Upload>
-                  <Button loading={isLoading} icon={<UploadOutlined />}>
-                    Click to Upload
-                  </Button>
-                </Upload>
-              </Form.Item>
+              <CreatePostModal
+                form={form}
+                isLoading={isLoading}
+                onfinish={handleFinish}
+              />
             </Modal>
           </Form>
           {POST_DATA.map((items, i) => (
