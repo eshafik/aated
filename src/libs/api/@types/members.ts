@@ -22,6 +22,7 @@ export interface MembersResponse {
       contact_details?: string;
       is_active?: boolean;
       experiences?: Experience[];
+      user_id?: string;
     }
   ];
 }
@@ -76,4 +77,8 @@ export interface Experience {
 export interface JobDepartment {
   id?: string | number;
   name?: string;
+}
+
+export interface ApproveMembersPayload {
+  user_id?: number | string;
 }

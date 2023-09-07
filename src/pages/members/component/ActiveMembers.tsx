@@ -1,18 +1,14 @@
 import {
   Avatar,
   Badge,
-  Button,
   Card,
   Col,
-  Dropdown,
-  MenuProps,
   Row,
   Select,
   Space,
   Spin,
   Typography,
 } from "antd";
-import { MoreOutlined } from "@ant-design/icons";
 import { useQuery } from "react-query";
 import { membersAPI } from "../../../libs/api/membersAPI";
 import { Link } from "react-router-dom";
@@ -22,16 +18,6 @@ const ActiveMembers = () => {
     membersAPI.activeMembersList()
   );
 
-  const items: MenuProps["items"] = [
-    {
-      label: "First Name",
-      key: "fullname",
-    },
-    {
-      label: "Last Name",
-      key: "lastname",
-    },
-  ];
   return (
     <Spin spinning={isLoading}>
       <Row gutter={[12, 12]}>
@@ -64,11 +50,6 @@ const ActiveMembers = () => {
                       </Typography.Paragraph>
                     </Space.Compact>
                   </Space>
-                  <div className="text-end">
-                    <Dropdown menu={{ items }}>
-                      <Button icon={<MoreOutlined />} />
-                    </Dropdown>
-                  </div>
                 </Card>
               </Link>
             </Badge.Ribbon>
