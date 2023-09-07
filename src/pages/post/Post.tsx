@@ -1,4 +1,13 @@
-import { Avatar, Button, Card, Form, Col, Row, Spin, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Card,
+  Form,
+  Col,
+  Row,
+  Typography,
+  Skeleton,
+} from "antd";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { postAPI } from "../../libs/api/postAPI";
@@ -22,9 +31,9 @@ const Post = () => {
   );
 
   return (
-    <Spin spinning={isLoading}>
-      <Row align={"middle"} justify={"center"}>
-        <Col>
+    <Row align={"middle"} justify={"center"}>
+      <Col>
+        <Skeleton loading={isLoading}>
           <Card
             className="w-full"
             title={
@@ -83,9 +92,9 @@ const Post = () => {
               </Form.Item>
             </Form>
           </Card>
-        </Col>
-      </Row>
-    </Spin>
+        </Skeleton>
+      </Col>
+    </Row>
   );
 };
 

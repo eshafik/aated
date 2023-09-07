@@ -8,6 +8,7 @@ import {
   Input,
   Modal,
   Row,
+  Spin,
   Typography,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
@@ -39,8 +40,9 @@ const Posts = () => {
     onFinish: (values) => mutate(values),
   });
 
-  const { data: postsData } = useQuery(["post-list"], () =>
-    postAPI.getPostList()
+  const { data: postsData, isLoading: loadingPostList } = useQuery(
+    ["post-list"],
+    () => postAPI.getPostList()
   );
 
   const showModal = () => {
@@ -53,86 +55,92 @@ const Posts = () => {
   return (
     <Row gutter={24} align="middle" justify="center">
       <Col>
-        <Card
-          className="bg-transparent"
-          tabList={[
-            { key: "allpost", label: "All Post" },
-            { key: "jobpost", label: "Job Post" },
-            { key: "generalpost", label: "General Post" },
-            { key: "helppost", label: "Help Post" },
-            { key: "notice", label: "Notie" },
-          ]}
-        >
-          <Form form={form}>
-            <Row gutter={[12, 12]}>
-              <Col span={19}>
-                <Form.Item>
-                  <Input
-                    suffix={
-                      <SearchOutlined onClick={() => console.log("HI There")} />
-                    }
-                  />
-                </Form.Item>
-              </Col>
-              <Col>
-                <Form.Item>
-                  <Button onClick={showModal}>create Post</Button>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Modal
-              title="create post"
-              open={isModalOpen}
-              onOk={form.submit}
-              onCancel={handleOk}
-              okText="Submit"
-              okType="default"
-              centered
-            >
-              <CreatePostModal
-                form={form}
-                isLoading={isLoading}
-                onfinish={handleFinish}
-              />
-            </Modal>
-          </Form>
-          {postsData?.data?.map((items, i) => (
-            <Card
-              key={i}
-              className="max-w-2xl"
-              title={
-                <>
-                  <Avatar className="mr-2" src={items?.user?.profile_pic} />
-                  {items.user?.name}
-                </>
-              }
-              cover={<img alt="example" src={items.attachments} />}
-            >
-              <div className="text-black font-bold text-xl">{items.title}</div>
-              <div className="mt-4 mb-4">{items.body}</div>
-              <Link to={`${items?.id}`}>
-                <Typography.Title level={5}>
-                  {" "}
-                  Comment ({items?.total_comments})
-                </Typography.Title>
-              </Link>
-              <Form>
-                <Form.Item name="comment">
-                  <TextArea rows={5} />
-                </Form.Item>
-                <Form.Item>
-                  <Button
-                    className="bg-yellow-300"
-                    htmlType="submit"
-                    onClick={() => navigate(`/${i}`)}
-                  >
-                    Comment
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Card>
-          ))}
-        </Card>
+        <Spin spinning={loadingPostList}>
+          <Card
+            className="bg-transparent"
+            tabList={[
+              { key: "allpost", label: "All Post" },
+              { key: "jobpost", label: "Job Post" },
+              { key: "generalpost", label: "General Post" },
+              { key: "helppost", label: "Help Post" },
+              { key: "notice", label: "Notie" },
+            ]}
+          >
+            <Form form={form}>
+              <Row gutter={[12, 12]}>
+                <Col span={19}>
+                  <Form.Item>
+                    <Input
+                      suffix={
+                        <SearchOutlined
+                          onClick={() => console.log("HI There")}
+                        />
+                      }
+                    />
+                  </Form.Item>
+                </Col>
+                <Col>
+                  <Form.Item>
+                    <Button onClick={showModal}>create Post</Button>
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Modal
+                title="create post"
+                open={isModalOpen}
+                onOk={form.submit}
+                onCancel={handleOk}
+                okText="Submit"
+                okType="default"
+                centered
+              >
+                <CreatePostModal
+                  form={form}
+                  isLoading={isLoading}
+                  onfinish={handleFinish}
+                />
+              </Modal>
+            </Form>
+            {postsData?.data?.map((items, i) => (
+              <Card
+                key={i}
+                className="max-w-2xl"
+                title={
+                  <>
+                    <Avatar className="mr-2" src={items?.user?.profile_pic} />
+                    {items.user?.name}
+                  </>
+                }
+                cover={<img alt="example" src={items.attachments} />}
+              >
+                <div className="text-black font-bold text-xl">
+                  {items.title}
+                </div>
+                <div className="mt-4 mb-4">{items.body}</div>
+                <Link to={`${items?.id}`}>
+                  <Typography.Title level={5}>
+                    {" "}
+                    Comment ({items?.total_comments})
+                  </Typography.Title>
+                </Link>
+                <Form>
+                  <Form.Item name="comment">
+                    <TextArea rows={5} />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button
+                      className="bg-yellow-300"
+                      htmlType="submit"
+                      onClick={() => navigate(`/${i}`)}
+                    >
+                      Comment
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Card>
+            ))}
+          </Card>
+        </Spin>
       </Col>
     </Row>
   );

@@ -1,37 +1,79 @@
 export interface MembersResponse {
   data?: [
     {
-      id: number | string;
-      batch: Batch;
-      occupation_type: OccupationType;
-      profile_pic: string;
-      last_login: string;
-      is_superuser: boolean;
-      username: string;
-      name: string;
-      email: string;
-      is_email_verified: boolean;
-      phone: string;
-      professional_designation: string;
-      batch_no: number;
-      employment_status: string;
-      unemployment_reasons: string;
-      student_id: string;
-      passing_year: number;
-      expertise_area: string;
-      contact_details: string;
-      is_active: boolean;
+      id?: number | string;
+      batch?: Batch;
+      occupation_type?: OccupationType;
+      profile_pic?: string;
+      last_login?: string;
+      is_superuser?: boolean;
+      username?: string;
+      name?: string;
+      email?: string;
+      is_email_verified?: boolean;
+      phone?: string;
+      professional_designation?: string;
+      batch_no?: number;
+      employment_status?: string;
+      unemployment_reasons?: string;
+      student_id?: string;
+      passing_year?: number;
+      expertise_area?: string;
+      contact_details?: string;
+      is_active?: boolean;
+      experiences?: Experience[];
     }
   ];
 }
 
+export interface MemberResponse {
+  data?: {
+    id?: number | string;
+    batch?: Batch;
+    occupation_type?: OccupationType;
+    profile_pic?: string;
+    last_login?: string;
+    is_superuser?: boolean;
+    username?: string;
+    name?: string;
+    email?: string;
+    is_email_verified?: boolean;
+    phone?: string;
+    professional_designation?: string;
+    batch_no?: number;
+    employment_status?: string;
+    unemployment_reasons?: string;
+    student_id?: string;
+    passing_year?: number;
+    expertise_area?: string;
+    contact_details?: string;
+    is_active?: boolean;
+    experiences?: Experience[];
+  };
+}
+
 export interface Batch {
-  id: number | string;
-  name: string;
-  batch_number: number;
+  id?: number | string;
+  name?: string;
+  batch_number?: number;
 }
 
 export interface OccupationType {
-  id: number | string;
-  name: string;
+  id?: number | string;
+  name?: string;
+}
+
+export interface Experience {
+  id?: string | number;
+  designation?: string;
+  company_name?: string;
+  working_years?: number;
+  job_location?: string;
+  job_department?: JobDepartment;
+  responsibilities?: string;
+}
+
+export interface JobDepartment {
+  id?: string | number;
+  name?: string;
 }

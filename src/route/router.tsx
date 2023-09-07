@@ -12,6 +12,7 @@ import ProfileSetting from "../pages/profileSetting/ProfileSetting";
 import EmailVerify from "../pages/emailverify/EmailVerify";
 import ForgotPassword from "../pages/forgot-password/ForgotPassword";
 import ResetPassword from "../pages/forgot-password/ResetPassword";
+import Member from "../pages/member/Member";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -35,7 +36,13 @@ export const protectedRouter = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       { index: true, element: <Navigate to="/members" /> },
-      { path: "members", element: <Members /> },
+      {
+        path: "members",
+        children: [
+          { index: true, element: <Members /> },
+          { path: ":memberId", element: <Member /> },
+        ],
+      },
       {
         path: "posts",
         children: [
