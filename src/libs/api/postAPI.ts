@@ -42,4 +42,4 @@ class PostAPI {
   }
 }
 const httpAuthService = new HttpAuthService(config.apiURL, authService);
-export const profileAPI = new PostAPI(httpAuthService);
+export const postAPI = new PostAPI(httpAuthService);

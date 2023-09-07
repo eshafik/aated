@@ -15,6 +15,9 @@ import TextArea from "antd/es/input/TextArea";
 import { Link, useNavigate } from "react-router-dom";
 import { SearchOutlined, UploadOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { useMutation } from "react-query";
+import { PostPayload } from "../../libs/api/@types/post";
+import { postAPI } from "../../libs/api/postAPI";
 
 // type PostType = {
 //   name?: string;
@@ -46,8 +49,17 @@ const Posts = () => {
               reprehenderit in voluptate velit esse cillum dolore See more{" "}`,
     },
   ];
-
+  const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { mutate, isLoading } = useMutation(
+    (payload: PostPayload) => postAPI.createPost(payload),
+    {
+      onSuccess: () => {
+        console.log("Success");
+      },
+    }
+  );
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -69,7 +81,16 @@ const Posts = () => {
             { key: "notice", label: "Notie" },
           ]}
         >
-          <Form>
+          <Form
+            form={form}
+            onFinish={(values) => {
+              mutate({
+                title: values.title,
+                body: values.body,
+                attachments: values.attachments,
+              });
+            }}
+          >
             <Row gutter={[12, 12]}>
               <Col span={19}>
                 <Form.Item>
@@ -95,21 +116,23 @@ const Posts = () => {
               okType="default"
               centered
             >
-              <Form.Item>
+              <Form.Item name="title">
                 <Input placeholder="Title" />
               </Form.Item>
 
-              <Form.Item>
-                <Select placeholder="Post catagory" />
+              <Form.Item name="category">
+                <Select placeholder="Post category" />
               </Form.Item>
 
-              <Form.Item>
+              <Form.Item name="body">
                 <Input.TextArea rows={5} placeholder="Description" />
               </Form.Item>
 
-              <Form.Item>
+              <Form.Item name="attachments">
                 <Upload>
-                  <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                  <Button loading={isLoading} icon={<UploadOutlined />}>
+                    Click to Upload
+                  </Button>
                 </Upload>
               </Form.Item>
             </Modal>
