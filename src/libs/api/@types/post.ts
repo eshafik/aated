@@ -46,7 +46,22 @@ export interface PostResponse {
       email?: string;
       profile_pic?: string;
     };
+    comments?: [
+      {
+        id: number;
+        comment: string;
+        user: User;
+      }
+    ];
   };
+}
+
+export interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  profile_pic: string;
 }
 
 export interface CommentPayload {

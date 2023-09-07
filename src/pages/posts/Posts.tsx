@@ -118,10 +118,10 @@ const Posts = () => {
                 </div>
                 <div className="mt-4 mb-4">{items.body}</div>
                 <Link to={`${items?.id}`}>
-                  <Typography.Title level={5}>
+                  <Typography.Link>
                     {" "}
                     Comment ({items?.total_comments})
-                  </Typography.Title>
+                  </Typography.Link>
                 </Link>
                 <Form>
                   <Form.Item name="comment">

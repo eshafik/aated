@@ -21,13 +21,8 @@ const Post = () => {
     postAPI.getPostDetails(slag as string)
   );
 
-  const { mutate } = useMutation(
-    (payload: CommentPayload) => postAPI.createComment(payload),
-    {
-      onSuccess: () => {
-        console.log("success");
-      },
-    }
+  const { mutate } = useMutation((payload: CommentPayload) =>
+    postAPI.createComment(payload)
   );
 
   return (
@@ -58,21 +53,23 @@ const Post = () => {
               Comment ({postData?.data?.total_comments})
             </Typography.Title>
 
-            <Row>
-              <Col>
-                <Avatar />
-              </Col>
-              <Col>
-                <Card
-                  className="bg-slate-100 ml-2"
-                  size="small"
-                  title="John Snow"
-                  extra={<DeleteTwoTone />}
-                >
-                  {"comment"}
-                </Card>
-              </Col>
-            </Row>
+            {postData?.data?.comments?.map((comments) => (
+              <Row>
+                <Col>
+                  <Avatar src={comments?.user?.profile_pic} />
+                </Col>
+                <Col>
+                  <Card
+                    className="bg-slate-100 ml-2 mt-2"
+                    size="small"
+                    title={comments?.user?.name}
+                    extra={<DeleteTwoTone />}
+                  >
+                    {comments?.comment}
+                  </Card>
+                </Col>
+              </Row>
+            ))}
             <Form
               onFinish={(values) => {
                 mutate({
