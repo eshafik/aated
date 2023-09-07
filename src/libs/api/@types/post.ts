@@ -5,27 +5,52 @@ export interface PostPayload {
   attachments?: string;
 }
 
+export interface PostsResponse {
+  data?: [
+    {
+      id?: string | number;
+      category?: {
+        id: number | string;
+        name?: string;
+      };
+      title?: string;
+      body?: string;
+      attachments?: string;
+      total_comments?: number;
+      user?: {
+        id?: string | number;
+        name?: string;
+        user?: string;
+        email?: string;
+        profile_pic?: string;
+      };
+    }
+  ];
+}
+
 export interface PostResponse {
-  id?: string | number;
-  category?: {
-    id: number | string;
-    name?: string;
-  };
-  title?: string;
-  body?: string;
-  attachments?: string;
-  total_comments?: number;
-  user?: {
+  data?: {
     id?: string | number;
-    name?: string;
-    user?: string;
-    email?: string;
-    profile_pic?: string;
+    category?: {
+      id: number | string;
+      name?: string;
+    };
+    title?: string;
+    body?: string;
+    attachments?: [];
+    total_comments?: number;
+    user?: {
+      id?: string | number;
+      name?: string;
+      user?: string;
+      email?: string;
+      profile_pic?: string;
+    };
   };
 }
 
 export interface CommentPayload {
-  post?: string;
+  post?: string | number;
   comment?: string;
 }
 

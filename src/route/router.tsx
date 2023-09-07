@@ -40,7 +40,7 @@ export const protectedRouter = createBrowserRouter([
         path: "posts",
         children: [
           { index: true, element: <Posts /> },
-          { path: "post", element: <Post /> },
+          { path: ":slag", element: <Post /> },
         ],
       },
       { path: "committee", element: <Committee /> },
