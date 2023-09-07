@@ -14,9 +14,10 @@ import { MoreOutlined } from "@ant-design/icons";
 type SettingType = {
   name?: string;
   position?: string;
-  batch?: string;
+  batch?: string | number;
+  src?: string;
 };
-const SettingCard: FC<SettingType> = ({ name, position, batch }) => {
+const SettingCard: FC<SettingType> = ({ name, position, batch, src }) => {
   const items: MenuProps["items"] = [
     {
       label: "First Name",
@@ -34,6 +35,7 @@ const SettingCard: FC<SettingType> = ({ name, position, batch }) => {
           <Avatar
             size="large"
             className="bg-primary/[15%] border-none dark:bg-primary flex justify-center items-center"
+            src={src}
           />
           <Space.Compact direction="vertical">
             <Typography.Title level={5} className="mb-1 mt-1">
