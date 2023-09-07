@@ -6,8 +6,12 @@ import { HttpAuthService } from "./httpService/httpAuth.service";
 class MembersAPI {
   constructor(private http: HttpAuthService) {}
 
-  membersList() {
+  activeMembersList() {
     return this.http.get<MembersResponse>("api/v1/users/all-members/");
+  }
+
+  pendingMembersList() {
+    return this.http.get<MembersResponse>("api/v1/users/pending-members/");
   }
 }
 const httpAuthService = new HttpAuthService(config.apiURL, authService);
