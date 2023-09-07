@@ -5,15 +5,13 @@ import {
   Button,
   Card,
   Col,
-  Dropdown,
-  MenuProps,
   Row,
   Space,
   Spin,
   Tooltip,
   Typography,
 } from "antd";
-import { MoreOutlined, ThunderboltOutlined } from "@ant-design/icons";
+import { ThunderboltOutlined } from "@ant-design/icons";
 import { useMutation, useQuery } from "react-query";
 import { membersAPI } from "../../../libs/api/membersAPI";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
@@ -34,12 +32,6 @@ const PendingMembers = () => {
     membersAPI.approveMembers(payload)
   );
 
-  const items: MenuProps["items"] = [
-    {
-      label: "Active",
-      key: "fullname",
-    },
-  ];
   return (
     <Spin spinning={isLoading}>
       {pendingMemberData?.data ? (
@@ -69,7 +61,14 @@ const PendingMembers = () => {
                   </Space>
                   <div className="text-end">
                     <Tooltip title="Active">
-                      <Button icon={<ThunderboltOutlined />} />
+                      <Button
+                        onClick={() =>
+                          mutate({
+                            user_id: item?.id,
+                          })
+                        }
+                        icon={<ThunderboltOutlined />}
+                      />
                     </Tooltip>
                   </div>
                 </Card>
