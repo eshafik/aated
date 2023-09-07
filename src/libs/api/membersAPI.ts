@@ -1,6 +1,10 @@
 import config from "../../config";
 import { authService } from "../auth/auth.service";
-import { MemberResponse, MembersResponse } from "./@types/members";
+import {
+  ApproveMembersPayload,
+  MemberResponse,
+  MembersResponse,
+} from "./@types/members";
 import { HttpAuthService } from "./httpService/httpAuth.service";
 
 class MembersAPI {
@@ -16,6 +20,10 @@ class MembersAPI {
 
   getMemberDetails(ID: string | number) {
     return this.http.get<MemberResponse>(`api/v1/users/all-members/${ID}`);
+  }
+
+  approveMembers(payload: ApproveMembersPayload) {
+    return this.http.post("api/v1/users/pending-members/", payload);
   }
 }
 const httpAuthService = new HttpAuthService(config.apiURL, authService);

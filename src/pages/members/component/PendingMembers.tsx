@@ -10,11 +10,13 @@ import {
   Row,
   Space,
   Spin,
+  Tooltip,
   Typography,
 } from "antd";
-import { MoreOutlined } from "@ant-design/icons";
-import { useQuery } from "react-query";
+import { MoreOutlined, ThunderboltOutlined } from "@ant-design/icons";
+import { useMutation, useQuery } from "react-query";
 import { membersAPI } from "../../../libs/api/membersAPI";
+import { ApproveMembersPayload } from "../../../libs/api/@types/members";
 
 const PendingMembers = () => {
   const { notification } = App.useApp();
@@ -28,16 +30,14 @@ const PendingMembers = () => {
     }
   );
 
-  console.log("Calling Pending", pendingMemberData);
+  const { mutate } = useMutation((payload: ApproveMembersPayload) =>
+    membersAPI.approveMembers(payload)
+  );
 
   const items: MenuProps["items"] = [
     {
-      label: "First Name",
+      label: "Active",
       key: "fullname",
-    },
-    {
-      label: "Last Name",
-      key: "lastname",
     },
   ];
   return (
@@ -68,9 +68,9 @@ const PendingMembers = () => {
                     </Space.Compact>
                   </Space>
                   <div className="text-end">
-                    <Dropdown menu={{ items }}>
-                      <Button icon={<MoreOutlined />} />
-                    </Dropdown>
+                    <Tooltip title="Active">
+                      <Button icon={<ThunderboltOutlined />} />
+                    </Tooltip>
                   </div>
                 </Card>
               </Badge.Ribbon>
