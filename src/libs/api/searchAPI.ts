@@ -20,4 +20,4 @@ class BatchAPI {
   }
 }
 const httpAuthService = new HttpAuthService(config.apiURL, authService);
-export const batchAPI = new BatchAPI(httpAuthService);
+export const searchAPI = new BatchAPI(httpAuthService);

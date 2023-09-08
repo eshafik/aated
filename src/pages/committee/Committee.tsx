@@ -1,47 +1,77 @@
-import { Button, Card, Col, Dropdown, Row, Table, Typography } from "antd";
-import { EditOutlined, DeleteOutlined, MoreOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Row,
+  Switch,
+  Table,
+  Typography,
+} from "antd";
+import { EditOutlined, MoreOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
+import { committeeAPI } from "../../libs/api/committee";
+import { ColumnsType } from "antd/es/table";
+import { Committee, CommitteePayload } from "../../libs/api/@types/committee";
 
 const Committee = () => {
   const navigate = useNavigate();
-  const dataSource = [
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-      action: true,
-    },
-    {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street",
-      action: true,
-    },
-  ];
+  const { data } = useQuery(["committee-list"], () =>
+    committeeAPI.getcommitteeList()
+  );
 
-  const columns = [
+  const { mutate, isLoading } = useMutation(
+    ({ id, payload }: { id: string | number; payload: CommitteePayload }) =>
+      committeeAPI.updateCommittee(id, payload)
+  );
+
+  const switchHandler = (id: string, is_active?: boolean) => {
+    const payload = {
+      is_active: is_active == true ? true : false,
+    };
+
+    mutate({ id, payload });
+  };
+
+  const columns: ColumnsType<Committee> = [
     {
-      title: "Name",
+      title: "Committee Name",
       dataIndex: "name",
       key: "name",
+      render: (_, record) => record?.name,
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Start Date",
+      dataIndex: "start_date",
+      key: "start_date",
+      render: (_, record) => record?.start_date,
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "End Date",
+      dataIndex: "end_date",
+      key: "end_date",
+      render: (_, record) => record?.end_date,
+    },
+    {
+      title: "STATUS",
+      dataIndex: "status",
+      responsive: ["md", "sm", "xs"],
+      align: "center",
+      key: "status",
+      render: (_, record) => (
+        <Switch
+          loading={isLoading}
+          defaultChecked={record?.is_active ? true : false}
+          onChange={(value) => switchHandler(String(record?.id), value)}
+        />
+      ),
     },
     {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: () => (
+      render: (_, record) => (
         <Dropdown
           menu={{
             items: [
@@ -49,13 +79,7 @@ const Committee = () => {
                 key: "edit",
                 label: "Edit",
                 icon: <EditOutlined />,
-                onClick: () => navigate(`/settings/skill/`),
-              },
-              {
-                key: "delete",
-                label: "Delete",
-                icon: <DeleteOutlined />,
-                //   onClick: () => showDeleteWarning(String(record?.id)),
+                onClick: () => navigate(`${record?.id}`),
               },
             ],
           }}
@@ -65,6 +89,7 @@ const Committee = () => {
       ),
     },
   ];
+
   return (
     <>
       <Row justify={"space-between"}>
@@ -72,11 +97,13 @@ const Committee = () => {
           <Typography.Title level={2}>Committee name</Typography.Title>
         </Col>
         <Col>
-          <Button>Create committee</Button>
+          <Button onClick={() => navigate("createcommittee")}>
+            Create committee
+          </Button>
         </Col>
       </Row>
       <Card extra={<Button>Add Members</Button>}>
-        <Table bordered dataSource={dataSource} columns={columns} />
+        <Table bordered dataSource={data?.data} columns={columns} />
       </Card>
     </>
   );
