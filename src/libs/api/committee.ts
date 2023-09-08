@@ -29,6 +29,10 @@ class CommitteeAPI {
   addCommitteeMember(payload: CommitteeMemberPayload) {
     return this.http.post(`api/v1/committee/committee-member/`, payload);
   }
+
+  removeCommitteeMember(ID: string | number) {
+    return this.http.delete(`api/v1/committee/committee-member/${ID}/`);
+  }
 }
 const httpAuthService = new HttpAuthService(config.apiURL, authService);
 export const committeeAPI = new CommitteeAPI(httpAuthService);

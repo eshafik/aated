@@ -19,8 +19,10 @@ import {
 import { committeeAPI } from "../../libs/api/committee";
 import { membersAPI } from "../../libs/api/membersAPI";
 import { useMemo } from "react";
+import { useParams } from "react-router-dom";
 
-const CreateCommittee = () => {
+const EditCommittee = () => {
+  const { committeeId } = useParams();
   const { mutate, isLoading } = useMutation((payload: CommitteePayload) =>
     committeeAPI.createCommittee(payload)
   );
@@ -29,7 +31,16 @@ const CreateCommittee = () => {
     membersAPI.activeMembersList()
   );
 
-  const membersbatchoptions: SelectProps["options"] = useMemo(() => {
+  const { mutate: addMemberMutate } = useMutation(
+    ["committee-member"],
+    (payload: CommitteeMemberPayload) =>
+      committeeAPI.addCommitteeMember(payload)
+  );
+  const { data: committeeData } = useQuery(["committee-list"], () =>
+    committeeAPI.getcommitteeList()
+  );
+
+  const memberoptions: SelectProps["options"] = useMemo(() => {
     if (allMembersData?.data && Array.isArray(allMembersData?.data)) {
       return allMembersData?.data.reduce(
         (acc: any, curr: any) => {
@@ -43,10 +54,22 @@ const CreateCommittee = () => {
     return [];
   }, [allMembersData?.data]);
 
-  const { mutate: addMemberMutate } = useMutation(
-    ["committee-member"],
-    (payload: CommitteeMemberPayload) =>
-      committeeAPI.addCommitteeMember(payload)
+  const committeoptions: SelectProps["options"] = useMemo(() => {
+    if (committeeData?.data && Array.isArray(committeeData?.data)) {
+      return committeeData?.data?.reduce(
+        (acc: any, curr: any) => {
+          acc.push({ value: curr.id.toString(), label: curr.name });
+          return acc;
+        },
+        [committeeData?.data]
+      );
+    }
+
+    return [];
+  }, [committeeData?.data]);
+
+  const { mutate: deleteMemberMutate } = useMutation((id: string | number) =>
+    committeeAPI.removeCommitteeMember(id)
   );
 
   return (
@@ -61,10 +84,12 @@ const CreateCommittee = () => {
                 end_date: values.end_date,
               });
               addMemberMutate({
-                member: values.member,
+                committee: committeeId,
+                member: values.member[0],
                 committee_designation: values.committee_designation,
                 position_order: values.position_order,
               });
+              console.log(values);
             }}
             layout="vertical"
           >
@@ -87,14 +112,19 @@ const CreateCommittee = () => {
             </Form.Item>
 
             <Form.Item name="member" label="Add Member">
-              <Select options={membersbatchoptions} />
+              <Select
+                onDeselect={(val) => {
+                  deleteMemberMutate(val);
+                }}
+                options={memberoptions}
+              />
             </Form.Item>
 
             <Form.Item
               name="committee_designation"
               label="Committee Designation"
             >
-              <Input />
+              <Select options={committeoptions} />
             </Form.Item>
 
             <Form.Item name="position_order" label="Position Order">
@@ -113,4 +143,4 @@ const CreateCommittee = () => {
   );
 };
 
-export default CreateCommittee;
+export default EditCommittee;
