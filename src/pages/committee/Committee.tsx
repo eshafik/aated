@@ -1,13 +1,4 @@
-import {
-  Button,
-  Card,
-  Col,
-  Dropdown,
-  Row,
-  Switch,
-  Table,
-  Typography,
-} from "antd";
+import { Button, Col, Dropdown, Row, Switch, Table, Typography } from "antd";
 import { EditOutlined, MoreOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
@@ -102,9 +93,8 @@ const Committee = () => {
           </Button>
         </Col>
       </Row>
-      <Card extra={<Button>Add Members</Button>}>
-        <Table bordered dataSource={data?.data} columns={columns} />
-      </Card>
+
+      <Table bordered dataSource={data?.data} columns={columns} />
     </>
   );
 };

@@ -15,6 +15,10 @@ class CommitteeAPI {
     return this.http.get<CommitteeResponse>("api/v1/committee/committee/");
   }
 
+  getCommitteeDetails() {
+    return this.http.get<Committee>("api/v1/committee/committee/");
+  }
+
   updateCommittee(ID: string | number, payload: CommitteePayload) {
     return this.http.patch<Committee>(
       `api/v1/committee/committee/${ID}/`,
