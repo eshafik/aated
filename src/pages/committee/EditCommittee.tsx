@@ -23,6 +23,8 @@ import { useParams } from "react-router-dom";
 
 const EditCommittee = () => {
   const { committeeId } = useParams();
+  const [form] = Form.useForm();
+
   const { mutate, isLoading } = useMutation((payload: CommitteePayload) =>
     committeeAPI.createCommittee(payload)
   );
@@ -36,8 +38,35 @@ const EditCommittee = () => {
     (payload: CommitteeMemberPayload) =>
       committeeAPI.addCommitteeMember(payload)
   );
-  const { data: committeeData } = useQuery(["committee-list"], () =>
-    committeeAPI.getcommitteeList()
+
+  const { data: committeeData } = useQuery(
+    ["committee-list"],
+    () => committeeAPI.getcommitteeList(),
+    {
+      onSuccess: () => {
+        form.setFieldsValue({
+          name: committeeDetailsData?.name,
+        });
+      },
+    }
+  );
+  const { data: committeeDetailsData } = useQuery(
+    ["committee-list"],
+    () => committeeAPI.getCommitteeDetails(),
+    {
+      onSuccess: () => {
+        committeeDetailsData?.name &&
+          form.setFieldsValue({
+            name: committeeDetailsData?.name,
+            start_date: committeeDetailsData?.start_date,
+            end_date: committeeDetailsData?.end_date,
+          });
+      },
+    }
+  );
+
+  const { mutate: deleteMemberMutate } = useMutation((id: string | number) =>
+    committeeAPI.removeCommitteeMember(id)
   );
 
   const memberoptions: SelectProps["options"] = useMemo(() => {
@@ -66,77 +95,76 @@ const EditCommittee = () => {
     }
 
     return [];
-  }, [committeeData?.data]);
-
-  const { mutate: deleteMemberMutate } = useMutation((id: string | number) =>
-    committeeAPI.removeCommitteeMember(id)
-  );
+  }, [committeeData]);
 
   return (
     <Row align="middle" justify={"center"}>
-      <Col span={12}>
+      <Col span={8}>
         <Card className="shadow-2xl" title="Create Your Committee">
-          <Form
-            onFinish={(values) => {
-              mutate({
-                name: values.name,
-                start_date: values.start_date,
-                end_date: values.end_date,
-              });
-              addMemberMutate({
-                committee: committeeId,
-                member: values.member[0],
-                committee_designation: values.committee_designation,
-                position_order: values.position_order,
-              });
-              console.log(values);
-            }}
-            layout="vertical"
-          >
-            <Form.Item
-              label="Committee Name"
-              name="name"
-              rules={[
-                { required: true, message: "Please Enter Committee Name" },
-              ]}
+          {committeeDetailsData?.name && (
+            <Form
+              form={form}
+              onFinish={(values) => {
+                mutate({
+                  name: values.name,
+                  start_date: values.start_date,
+                  end_date: values.end_date,
+                });
+                addMemberMutate({
+                  committee: committeeId,
+                  member: values.member[0],
+                  committee_designation: values.committee_designation,
+                  position_order: values.position_order,
+                });
+                console.log(values);
+              }}
+              layout="vertical"
             >
-              <Input placeholder="Committee Name" />
-            </Form.Item>
+              <Form.Item
+                label="Committee Name"
+                name="name"
+                rules={[
+                  { required: true, message: "Please Enter Committee Name" },
+                ]}
+              >
+                <Input placeholder="Committee Name" />
+              </Form.Item>
 
-            <Form.Item name="start_date" label="Start Date">
-              <DatePicker />
-            </Form.Item>
+              <Form.Item name="start_date" label="Start Date">
+                <DatePicker />
+              </Form.Item>
 
-            <Form.Item name="end_date" label="End Date">
-              <DatePicker />
-            </Form.Item>
+              <Form.Item name="end_date" label="End Date">
+                <DatePicker />
+              </Form.Item>
 
-            <Form.Item name="member" label="Add Member">
-              <Select
-                onDeselect={(val) => {
-                  deleteMemberMutate(val);
-                }}
-                options={memberoptions}
-              />
-            </Form.Item>
+              <Form.Item name="member" label="Add Member">
+                <Select
+                  onDeselect={(val) => {
+                    deleteMemberMutate(val);
+                  }}
+                  options={memberoptions}
+                />
+              </Form.Item>
 
-            <Form.Item
-              name="committee_designation"
-              label="Committee Designation"
-            >
-              <Select options={committeoptions} />
-            </Form.Item>
+              <Form.Item
+                name="committee_designation"
+                label="Committee Designation"
+              >
+                <Select options={committeoptions} />
+              </Form.Item>
 
-            <Form.Item name="position_order" label="Position Order">
-              <InputNumber />
-            </Form.Item>
+              <Form.Item name="position_order" label="Position Order">
+                <InputNumber />
+              </Form.Item>
 
-            <Form.Item>
-              <Button loading={isLoading} htmlType="submit">
-                Save
-              </Button>
-            </Form.Item>
-          </Form>
+              <Form.Item>
+                <Button loading={isLoading} htmlType="submit">
+                  Save
+                </Button>
+              </Form.Item>
+            </Form>
+          )}
         </Card>
       </Col>
     </Row>

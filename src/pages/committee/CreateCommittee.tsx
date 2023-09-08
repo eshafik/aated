@@ -10,7 +10,7 @@ const CreateCommittee = () => {
 
   return (
     <Row align="middle" justify={"center"}>
-      <Col span={12}>
+      <Col span={8}>
         <Card className="shadow-2xl" title="Create Your Committee">
           <Form
             onFinish={(values) => {
