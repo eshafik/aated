@@ -5,18 +5,17 @@ import {
   Button,
   Card,
   Col,
-  Dropdown,
-  MenuProps,
   Row,
   Space,
   Spin,
   Tooltip,
   Typography,
 } from "antd";
-import { MoreOutlined, ThunderboltOutlined } from "@ant-design/icons";
+import { ThunderboltOutlined } from "@ant-design/icons";
 import { useMutation, useQuery } from "react-query";
 import { membersAPI } from "../../../libs/api/membersAPI";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
+import { profileAPI } from "../../../libs/api/profileAPI";
 
 const PendingMembers = () => {
   const { notification } = App.useApp();
@@ -30,19 +29,22 @@ const PendingMembers = () => {
     }
   );
 
-  const { mutate } = useMutation((payload: ApproveMembersPayload) =>
-    membersAPI.approveMembers(payload)
+  const { mutate } = useMutation(
+    (payload: ApproveMembersPayload) => membersAPI.approveMembers(payload),
+    {
+      onSuccess: () => {
+        notification.success({ message: "User Approved" });
+      },
+    }
   );
 
-  const items: MenuProps["items"] = [
-    {
-      label: "Active",
-      key: "fullname",
-    },
-  ];
+  const { data: superUser } = useQuery(["user-profile"], () =>
+    profileAPI.getProfileDetails()
+  );
+
   return (
     <Spin spinning={isLoading}>
-      {pendingMemberData?.data ? (
+      {superUser?.data?.is_superuser ? (
         <Row gutter={[12, 12]}>
           {pendingMemberData?.data?.map((item, i) => (
             <Col key={i} xs={24} md={8} lg={6}>
@@ -69,7 +71,14 @@ const PendingMembers = () => {
                   </Space>
                   <div className="text-end">
                     <Tooltip title="Active">
-                      <Button icon={<ThunderboltOutlined />} />
+                      <Button
+                        onClick={() =>
+                          mutate({
+                            user_id: item?.id,
+                          })
+                        }
+                        icon={<ThunderboltOutlined />}
+                      />
                     </Tooltip>
                   </div>
                 </Card>

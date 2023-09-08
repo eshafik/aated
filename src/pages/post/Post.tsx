@@ -8,12 +8,12 @@ import {
   Typography,
   Skeleton,
 } from "antd";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { postAPI } from "../../libs/api/postAPI";
 import TextArea from "antd/es/input/TextArea";
-import { CommentPayload } from "../../libs/api/@types/post";
 import { DeleteTwoTone } from "@ant-design/icons";
+import { useComment } from "../../config/hook/usecomment";
 
 const Post = () => {
   const { slag } = useParams();
@@ -21,14 +21,7 @@ const Post = () => {
     postAPI.getPostDetails(slag as string)
   );
 
-  const { mutate } = useMutation(
-    (payload: CommentPayload) => postAPI.createComment(payload),
-    {
-      onSuccess: () => {
-        console.log("success");
-      },
-    }
-  );
+  const { isLoading: loadingComment, mutate, form } = useComment();
 
   return (
     <Row align={"middle"} justify={"center"}>
@@ -58,22 +51,25 @@ const Post = () => {
               Comment ({postData?.data?.total_comments})
             </Typography.Title>
 
-            <Row>
-              <Col>
-                <Avatar />
-              </Col>
-              <Col>
-                <Card
-                  className="bg-slate-100 ml-2"
-                  size="small"
-                  title="John Snow"
-                  extra={<DeleteTwoTone />}
-                >
-                  {"comment"}
-                </Card>
-              </Col>
-            </Row>
+            {postData?.data?.comments?.map((comments) => (
+              <Row>
+                <Col>
+                  <Avatar src={comments?.user?.profile_pic} />
+                </Col>
+                <Col>
+                  <Card
+                    className="bg-slate-100 ml-2 mt-2"
+                    size="small"
+                    title={comments?.user?.name}
+                    extra={<DeleteTwoTone />}
+                  >
+                    {comments?.comment}
+                  </Card>
+                </Col>
+              </Row>
+            ))}
             <Form
+              form={form}
               onFinish={(values) => {
                 mutate({
                   comment: values.comment,
@@ -86,7 +82,11 @@ const Post = () => {
                 <TextArea rows={5} />
               </Form.Item>
               <Form.Item>
-                <Button className="bg-yellow-300" htmlType="submit">
+                <Button
+                  loading={loadingComment}
+                  className="bg-yellow-300"
+                  htmlType="submit"
+                >
                   Comment
                 </Button>
               </Form.Item>

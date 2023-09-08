@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Avatar,
   Badge,
+  Button,
   Card,
   Col,
+  Form,
+  Input,
   Row,
   Select,
+  SelectProps,
   Space,
   Spin,
   Typography,
@@ -12,19 +17,112 @@ import {
 import { useQuery } from "react-query";
 import { membersAPI } from "../../../libs/api/membersAPI";
 import { Link } from "react-router-dom";
+import { batchAPI } from "../../../libs/api/searchAPI";
+import { useMemo } from "react";
 
 const ActiveMembers = () => {
   const { data: ActiveMemberData, isLoading } = useQuery(["members-list"], () =>
     membersAPI.activeMembersList()
   );
 
+  const { data: batchData } = useQuery(["batch-list"], () =>
+    batchAPI.getBatchList()
+  );
+
+  const { data: occupationData } = useQuery(["occupation-list"], () =>
+    batchAPI.getOccupationList()
+  );
+
+  const { data: jobDeptData } = useQuery(["jobDept-list"], () =>
+    batchAPI.getJobDepartment()
+  );
+  const batchoptions: SelectProps["options"] = useMemo(() => {
+    if (batchData?.data && Array.isArray(batchData?.data)) {
+      return batchData?.data.reduce(
+        (acc: any, curr: any) => {
+          acc.push({ value: curr.id.toString(), label: curr.name });
+          return acc;
+        },
+        [batchData?.data]
+      );
+    }
+
+    return [];
+  }, [batchData?.data]);
+
+  const occupationoptions: SelectProps["options"] = useMemo(() => {
+    if (occupationData?.data && Array.isArray(occupationData?.data)) {
+      return occupationData?.data.reduce(
+        (acc: any, curr: any) => {
+          acc.push({ value: curr.id.toString(), label: curr.name });
+          return acc;
+        },
+        [occupationData?.data]
+      );
+    }
+
+    return [];
+  }, [occupationData?.data]);
+
+  const jobDeptoptions: SelectProps["options"] = useMemo(() => {
+    if (jobDeptData?.data && Array.isArray(jobDeptData?.data)) {
+      return jobDeptData?.data.reduce(
+        (acc: any, curr: any) => {
+          acc.push({ value: curr.id.toString(), label: curr.name });
+          return acc;
+        },
+        [jobDeptData?.data]
+      );
+    }
+
+    return [];
+  }, [jobDeptData?.data]);
+
   return (
     <Spin spinning={isLoading}>
       <Row gutter={[12, 12]}>
         <Col span={24}>
-          <Select size="large" />
-          <Select size="large" />
-          <Select size="large" />
+          <Form layout="inline">
+            <Form.Item name="name">
+              <Input placeholder="name search" />
+            </Form.Item>
+
+            <Form.Item name="designation">
+              <Input placeholder="designation search" />
+            </Form.Item>
+
+            <Form.Item name="student_id">
+              <Input placeholder="student id search" />
+            </Form.Item>
+
+            <Form.Item name="location">
+              <Input placeholder="location search" />
+            </Form.Item>
+
+            <Form.Item name="company">
+              <Input placeholder="company search" />
+            </Form.Item>
+
+            <Form.Item name="skills">
+              <Input placeholder="skills search" />
+            </Form.Item>
+
+            <Form.Item>
+              <Select placeholder="batch" options={batchoptions} />
+            </Form.Item>
+
+            <Form.Item>
+              <Select placeholder="occupation" options={occupationoptions} />
+            </Form.Item>
+
+            <Form.Item>
+              <Select placeholder="job department" options={jobDeptoptions} />
+            </Form.Item>
+
+            <Form.Item>
+              <Button htmlType="submit">Apply Filter</Button>
+            </Form.Item>
+          </Form>
         </Col>
         {ActiveMemberData?.data?.map((item, i) => (
           <Col key={i} xs={24} md={8} lg={6}>
@@ -46,7 +144,7 @@ const ActiveMembers = () => {
                         className="mb-0"
                         ellipsis={{ rows: 2 }}
                       >
-                        {item?.professional_designation}
+                        {item?.student_id}
                       </Typography.Paragraph>
                     </Space.Compact>
                   </Space>
