@@ -1,5 +1,5 @@
 import { Avatar, Col, Dropdown, Layout, MenuProps, Row } from "antd";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header } from "antd/es/layout/layout";
@@ -9,6 +9,7 @@ import { profileAPI } from "../../libs/api/profileAPI";
 
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const navigation = useNavigate();
   const { data } = useQuery(["user-profile", "profile"], () =>
     profileAPI.getProfileDetails()
   );
@@ -16,7 +17,15 @@ const DashboardLayout = () => {
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: <a onClick={() => localStorage.removeItem("token")}>Logout</a>,
+      label: (
+        <a
+          onClick={() => (
+            navigation("/signin"), localStorage.removeItem("token")
+          )}
+        >
+          Logout
+        </a>
+      ),
     },
   ];
   return (

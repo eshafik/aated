@@ -13,6 +13,7 @@ import EmailVerify from "../pages/emailverify/EmailVerify";
 import ForgotPassword from "../pages/forgot-password/ForgotPassword";
 import ResetPassword from "../pages/forgot-password/ResetPassword";
 import Member from "../pages/member/Member";
+import CreateCommittee from "../pages/committee/CreateCommittee";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -50,7 +51,13 @@ export const protectedRouter = createBrowserRouter([
           { path: ":slag", element: <Post /> },
         ],
       },
-      { path: "committee", element: <Committee /> },
+      {
+        path: "committee",
+        children: [
+          { index: true, element: <Committee /> },
+          { path: "createcommittee", element: <CreateCommittee /> },
+        ],
+      },
       { path: "profilesetting", element: <ProfileSetting /> },
     ],
   },

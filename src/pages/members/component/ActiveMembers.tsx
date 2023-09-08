@@ -17,7 +17,7 @@ import {
 import { useQuery } from "react-query";
 import { membersAPI } from "../../../libs/api/membersAPI";
 import { Link } from "react-router-dom";
-import { batchAPI } from "../../../libs/api/searchAPI";
+import { searchAPI } from "../../../libs/api/searchAPI";
 import { useMemo } from "react";
 
 const ActiveMembers = () => {
@@ -26,15 +26,15 @@ const ActiveMembers = () => {
   );
 
   const { data: batchData } = useQuery(["batch-list"], () =>
-    batchAPI.getBatchList()
+    searchAPI.getBatchList()
   );
 
   const { data: occupationData } = useQuery(["occupation-list"], () =>
-    batchAPI.getOccupationList()
+    searchAPI.getOccupationList()
   );
 
   const { data: jobDeptData } = useQuery(["jobDept-list"], () =>
-    batchAPI.getJobDepartment()
+    searchAPI.getJobDepartment()
   );
   const batchoptions: SelectProps["options"] = useMemo(() => {
     if (batchData?.data && Array.isArray(batchData?.data)) {
