@@ -8,12 +8,12 @@ import {
   Typography,
   Skeleton,
 } from "antd";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { postAPI } from "../../libs/api/postAPI";
 import TextArea from "antd/es/input/TextArea";
-import { CommentPayload } from "../../libs/api/@types/post";
 import { DeleteTwoTone } from "@ant-design/icons";
+import { useComment } from "../../config/hook/usecomment";
 
 const Post = () => {
   const { slag } = useParams();
@@ -21,9 +21,7 @@ const Post = () => {
     postAPI.getPostDetails(slag as string)
   );
 
-  const { mutate } = useMutation((payload: CommentPayload) =>
-    postAPI.createComment(payload)
-  );
+  const { isLoading: loadingComment, mutate, form } = useComment();
 
   return (
     <Row align={"middle"} justify={"center"}>
@@ -71,6 +69,7 @@ const Post = () => {
               </Row>
             ))}
             <Form
+              form={form}
               onFinish={(values) => {
                 mutate({
                   comment: values.comment,
@@ -83,7 +82,11 @@ const Post = () => {
                 <TextArea rows={5} />
               </Form.Item>
               <Form.Item>
-                <Button className="bg-yellow-300" htmlType="submit">
+                <Button
+                  loading={loadingComment}
+                  className="bg-yellow-300"
+                  htmlType="submit"
+                >
                   Comment
                 </Button>
               </Form.Item>

@@ -12,7 +12,7 @@ import {
   Typography,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
@@ -21,10 +21,9 @@ import { postAPI } from "../../libs/api/postAPI";
 import CreatePostModal from "./component/CreatePostModal";
 import { useForm } from "../../config/hook/formHook";
 import { CreatePostInputType } from "../../libs/api/@types/form";
+import { useComment } from "../../config/hook/usecomment";
 
 const Posts = () => {
-  const navigate = useNavigate();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { mutate, isLoading } = useMutation(
@@ -44,6 +43,12 @@ const Posts = () => {
     ["post-list"],
     () => postAPI.getPostList()
   );
+
+  const {
+    isLoading: loadingComment,
+    mutate: mutateComment,
+    form: commentForm,
+  } = useComment();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -123,15 +128,23 @@ const Posts = () => {
                     Comment ({items?.total_comments})
                   </Typography.Link>
                 </Link>
-                <Form>
+                <Form
+                  form={commentForm}
+                  onFinish={(values) =>
+                    mutateComment({
+                      comment: values.comment,
+                      post: items?.id,
+                    })
+                  }
+                >
                   <Form.Item name="comment">
                     <TextArea rows={5} />
                   </Form.Item>
                   <Form.Item>
                     <Button
+                      loading={loadingComment}
                       className="bg-yellow-300"
                       htmlType="submit"
-                      onClick={() => navigate(`/${i}`)}
                     >
                       Comment
                     </Button>
