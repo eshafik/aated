@@ -1,6 +1,10 @@
 import config from "../../config";
 import { authService } from "../auth/auth.service";
-import { UpdateProfilePayload, UpdateProfileResponse } from "./@types/profile";
+import {
+  SuperUser,
+  UpdateProfilePayload,
+  UpdateProfileResponse,
+} from "./@types/profile";
 import { HttpAuthService } from "./httpService/httpAuth.service";
 
 class ProfileAPI {
@@ -17,6 +21,10 @@ class ProfileAPI {
     return this.http.get<UpdateProfileResponse>(
       "api/v1/profiles/personal/profile/"
     );
+  }
+
+  superUserCheck() {
+    return this.http.get<SuperUser>("api/v1/profiles/personal/profile/");
   }
 }
 const httpAuthService = new HttpAuthService(config.apiURL, authService);

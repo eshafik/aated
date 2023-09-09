@@ -30,6 +30,13 @@ export interface UpdateProfileResponse {
   };
 }
 
+export interface SuperUser {
+  data?: {
+    id?: string | number;
+    is_superuser?: boolean;
+  };
+}
+
 export interface UpdateProfilePayload {
   name?: string;
   email?: string;

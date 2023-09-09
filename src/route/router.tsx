@@ -15,7 +15,7 @@ import ResetPassword from "../pages/forgot-password/ResetPassword";
 import Member from "../pages/member/Member";
 import CreateCommittee from "../pages/committee/CreateCommittee";
 import EditCommittee from "../pages/committee/EditCommittee";
-import CommitteeMembers from "../pages/committeemembers/CommitteeMembers";
+import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
 
 export const publicRoute = createBrowserRouter([
   {
