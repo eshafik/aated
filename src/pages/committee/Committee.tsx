@@ -94,7 +94,12 @@ const Committee = () => {
         </Col>
       </Row>
 
-      <Table bordered dataSource={data?.data} columns={columns} />
+      <Table
+        // rowKey={(record) => record?.id}
+        bordered
+        dataSource={data?.data}
+        columns={columns}
+      />
     </>
   );
 };

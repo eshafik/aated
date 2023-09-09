@@ -20,6 +20,7 @@ import { committeeAPI } from "../../libs/api/committee";
 import { membersAPI } from "../../libs/api/membersAPI";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
+import { profileAPI } from "../../libs/api/profileAPI";
 
 const EditCommittee = () => {
   const { committeeId } = useParams();
@@ -97,11 +98,19 @@ const EditCommittee = () => {
     return [];
   }, [committeeData]);
 
+  const { data } = useQuery(
+    ["user-profile"],
+    () => profileAPI.getProfileDetails(),
+    {
+      onSuccess: () => {},
+    }
+  );
+
   return (
     <Row align="middle" justify={"center"}>
       <Col span={8}>
-        <Card className="shadow-2xl" title="Create Your Committee">
-          {committeeDetailsData?.name && (
+        {data?.data?.is_superuser ? (
+          <Card className="shadow-2xl" title="Create Your Committee">
             <Form
               form={form}
               onFinish={(values) => {
@@ -147,10 +156,7 @@ const EditCommittee = () => {
                 />
               </Form.Item>
 
-              <Form.Item
-                name="committee_designation"
-                label="Committee Designation"
-              >
+              <Form.Item name="committee_designation" label="Add Committee">
                 <Select options={committeoptions} />
               </Form.Item>
 
@@ -164,8 +170,10 @@ const EditCommittee = () => {
                 </Button>
               </Form.Item>
             </Form>
-          )}
-        </Card>
+          </Card>
+        ) : (
+          "You do not have permission to do this action"
+        )}
       </Col>
     </Row>
   );

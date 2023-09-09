@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   Col,
+  Dropdown,
   Form,
   Input,
   Row,
@@ -14,11 +15,13 @@ import {
   Spin,
   Typography,
 } from "antd";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { membersAPI } from "../../../libs/api/membersAPI";
 import { Link } from "react-router-dom";
 import { searchAPI } from "../../../libs/api/searchAPI";
 import { useMemo } from "react";
+import { ApproveMembersPayload } from "../../../libs/api/@types/members";
+import { MoreOutlined } from "@ant-design/icons";
 
 const ActiveMembers = () => {
   const { data: ActiveMemberData, isLoading } = useQuery(["members-list"], () =>
@@ -35,6 +38,10 @@ const ActiveMembers = () => {
 
   const { data: jobDeptData } = useQuery(["jobDept-list"], () =>
     searchAPI.getJobDepartment()
+  );
+
+  const { mutate } = useMutation((payload: ApproveMembersPayload) =>
+    membersAPI.updateMemberRole(payload)
   );
   const batchoptions: SelectProps["options"] = useMemo(() => {
     if (batchData?.data && Array.isArray(batchData?.data)) {
@@ -127,8 +134,8 @@ const ActiveMembers = () => {
         {ActiveMemberData?.data?.map((item, i) => (
           <Col key={i} xs={24} md={8} lg={6}>
             <Badge.Ribbon text={`${item?.batch_no}th batch`}>
-              <Link to={`${item?.id}`}>
-                <Card type="inner" hoverable className="h-full">
+              <Card type="inner" hoverable className="h-full">
+                <Link to={`${item?.id}`}>
                   <Space align="start" size="middle">
                     <Avatar
                       size="large"
@@ -148,8 +155,45 @@ const ActiveMembers = () => {
                       </Typography.Paragraph>
                     </Space.Compact>
                   </Space>
-                </Card>
-              </Link>
+                </Link>
+                <div className="text-end">
+                  <Dropdown
+                    menu={{
+                      items: [
+                        {
+                          key: "admin",
+                          label: "Admin",
+                          onClick: () =>
+                            mutate({
+                              role: "admin",
+                              user_id: item?.id,
+                            }),
+                        },
+                        {
+                          key: "member",
+                          label: "Member",
+                          onClick: () =>
+                            mutate({
+                              role: "member",
+                              user_id: item?.id,
+                            }),
+                        },
+                        {
+                          key: "moderator",
+                          label: "Moderator",
+                          onClick: () =>
+                            mutate({
+                              role: "moderator",
+                              user_id: item?.id,
+                            }),
+                        },
+                      ],
+                    }}
+                  >
+                    <Button icon={<MoreOutlined />} />
+                  </Dropdown>
+                </div>
+              </Card>
             </Badge.Ribbon>
           </Col>
         ))}
