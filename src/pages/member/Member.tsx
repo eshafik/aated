@@ -34,7 +34,7 @@ const Member = () => {
                 Experiences
               </Typography.Title>
               {memberData?.data?.experiences?.map((exp, i) => (
-                <Card title={`${i + 1}. ${exp?.company_name}`}>
+                <Card key={i} title={`${i + 1}. ${exp?.company_name}`}>
                   <div>{exp?.designation}</div>
                   <div>{exp?.job_department?.name}</div>
                   <div>{exp?.job_location}</div>

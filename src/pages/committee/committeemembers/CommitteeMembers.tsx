@@ -9,13 +9,15 @@ import {
   Spin,
   Typography,
 } from "antd";
-import { committeeAPI } from "../../libs/api/committee";
+import { committeeAPI } from "../../../libs/api/committee";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import { profileAPI } from "../../../libs/api/profileAPI";
 
 const CommitteeMembers = () => {
   const { notification } = App.useApp();
   const { committeemembersId } = useParams();
+
   const { data: committeeMemberData, isLoading } = useQuery(
     ["members-list"],
     () => committeeAPI.getcommitteeMembersList(committeemembersId as string),
@@ -24,6 +26,10 @@ const CommitteeMembers = () => {
         notification.error({ message: "You do not have permission" });
       },
     }
+  );
+
+  const { data: superUser } = useQuery(["user-profile"], () =>
+    profileAPI.superUserCheck()
   );
 
   //   const { mutate } = useMutation(
@@ -64,7 +70,9 @@ const CommitteeMembers = () => {
                   </Space.Compact>
                 </Space>
                 <div className="text-end">
-                  <Button>Remove</Button>
+                  <Button disabled={!superUser?.data?.is_superuser}>
+                    Remove
+                  </Button>
                 </div>
               </Card>
             </Badge.Ribbon>
