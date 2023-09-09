@@ -25,6 +25,10 @@ class MembersAPI {
   approveMembers(payload: ApproveMembersPayload) {
     return this.http.post("api/v1/users/pending-members/", payload);
   }
+
+  updateMemberRole(payload: ApproveMembersPayload) {
+    return this.http.post(`api/v1/users/manage-role/`, payload);
+  }
 }
 const httpAuthService = new HttpAuthService(config.apiURL, authService);
 export const membersAPI = new MembersAPI(httpAuthService);

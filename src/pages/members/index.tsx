@@ -7,7 +7,7 @@ const Members = () => {
     <Tabs
       items={[
         {
-          key: "active_memebers",
+          key: "active_members",
           label: "Active Members",
           children: <ActiveMembers />,
         },
