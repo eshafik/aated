@@ -6,7 +6,6 @@ import {
   Input,
   InputNumber,
   Spin,
-  Typography,
   Upload,
 } from "antd";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -53,6 +52,13 @@ const ProfileSetting = () => {
               passing_year: data?.data?.passing_year,
               student_id: data?.data?.student_id,
               profile_pic: data?.data?.profile_pic,
+              contact_details: data?.data?.contact_details,
+              employment_status: data?.data?.employment_status,
+              expertise_area: data?.data?.expertise_area,
+              occupation_type: data?.data?.occupation_type,
+              professional_designation: data?.data?.professional_designation,
+              unemployment_reasons: data?.data?.unemployment_reasons,
+              username: data?.data?.username,
             }}
             requiredMark="optional"
             layout="vertical"
@@ -68,8 +74,14 @@ const ProfileSetting = () => {
                 profile_pic:
                   values.profile_pic.file.response.data.attachment_url,
                 password: values.password,
+                contact_details: values.contact_details,
+                employment_status: values.employment_status,
+                expertise_area: values.expertise_area,
+                occupation_type: values.occupation_type,
+                professional_designation: values.professional_designation,
+                unemployment_reasons: values.unemployment_reasons,
+                username: values.username,
               });
-              console.log(values.profile_pic);
             }}
           >
             <Form.Item name="profile_pic">
@@ -82,6 +94,10 @@ const ProfileSetting = () => {
               >
                 <Button shape="circle" type="text" icon={<UploadOutlined />} />
               </Upload>
+            </Form.Item>
+
+            <Form.Item shouldUpdate name="username" label="Username">
+              <Input disabled={data?.data?.username ? true : false} />
             </Form.Item>
 
             <Form.Item
@@ -111,7 +127,6 @@ const ProfileSetting = () => {
               <Input placeholder="01XXXXXXXX" />
             </Form.Item>
 
-            <Typography.Title level={5}>Job Experience</Typography.Title>
             <Form.Item
               name="batch_no"
               label="Batch Number"
@@ -137,7 +152,30 @@ const ProfileSetting = () => {
                 { required: true, message: "Please write some description" },
               ]}
             >
-              <InputNumber placeholder="Write something" />
+              <InputNumber placeholder="passing year" />
+            </Form.Item>
+
+            <Form.Item
+              name="professional_designation"
+              label="Professional Designation"
+            >
+              <Input placeholder="professional designation" />
+            </Form.Item>
+
+            <Form.Item name="employment_status" label="Employment status">
+              <Input placeholder="employment status" />
+            </Form.Item>
+
+            <Form.Item name="unemployment_reason" label="Unemployment reason">
+              <Input.TextArea rows={2} placeholder="unemployment reason" />
+            </Form.Item>
+
+            <Form.Item name="expertise_area" label="Expertise area">
+              <Input.TextArea rows={2} placeholder="expertise area" />
+            </Form.Item>
+
+            <Form.Item name="contact_details" label="Contact details">
+              <Input.TextArea rows={2} placeholder="contact details" />
             </Form.Item>
 
             <Form.Item name="password" label="Password">

@@ -1,3 +1,5 @@
+import { Batch } from "./members";
+
 export interface UpdateProfileResponse {
   data?: {
     id?: number;
@@ -38,12 +40,27 @@ export interface SuperUser {
 }
 
 export interface UpdateProfilePayload {
+  id?: string | number;
+  batch?: Batch;
+  occupation_type?: OccupationType;
+  profile_pic?: string;
+  last_login?: string;
+  is_superuser?: boolean;
+  username?: string;
   name?: string;
   email?: string;
+  is_email_verified?: boolean;
   phone?: string;
-  student_id?: string | number;
-  passing_year?: string | number;
-  batch_no?: number | string;
+  professional_designation?: string;
+  batch_no?: number;
+  employment_status?: string;
+  unemployment_reasons?: string;
+  student_id?: string;
+  passing_year?: string;
+  expertise_area?: string;
+  contact_details?: string;
+  is_active?: boolean;
   password?: string;
-  profile_pic?: string;
 }
+
+export interface OccupationType {}
