@@ -3,6 +3,7 @@ import { authService } from "../auth/auth.service";
 import {
   Committee,
   CommitteeMemberPayload,
+  CommitteeMemberResponse,
   CommitteePayload,
   CommitteeResponse,
 } from "./@types/committee";
@@ -36,6 +37,12 @@ class CommitteeAPI {
 
   removeCommitteeMember(ID: string | number) {
     return this.http.delete(`api/v1/committee/committee-member/${ID}/`);
+  }
+
+  getcommitteeMembersList(ID: string | number) {
+    return this.http.get<CommitteeMemberResponse>(
+      `api/v1/committee/committee-member?committee_id=${ID}`
+    );
   }
 }
 const httpAuthService = new HttpAuthService(config.apiURL, authService);

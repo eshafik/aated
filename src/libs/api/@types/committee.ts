@@ -1,3 +1,5 @@
+import { Batch } from "./members";
+
 export interface CommitteeResponse {
   data?: [
     {
@@ -47,4 +49,23 @@ export interface CommitteeMemberPayload {
   member?: string | number;
   committee_designation?: string;
   position_order?: number;
+}
+
+export interface CommitteeMemberResponse {
+  data?: [
+    {
+      id?: string | number;
+      member?: {
+        id?: string | number;
+        name?: string;
+        email?: string;
+        phone?: string;
+        batch?: Batch;
+        student_id?: string;
+        passing_year?: number | string;
+      };
+      committee_designation?: string;
+      position_order?: number | string;
+    }
+  ];
 }

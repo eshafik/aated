@@ -1,6 +1,6 @@
 import { Button, Col, Dropdown, Row, Switch, Table, Typography } from "antd";
 import { EditOutlined, MoreOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { committeeAPI } from "../../libs/api/committee";
 import { ColumnsType } from "antd/es/table";
@@ -24,6 +24,14 @@ const Committee = () => {
 
     mutate({ id, payload });
   };
+
+  // const { data } = useQuery(
+  //   ["user-profile"],
+  //   () => profileAPI.getProfileDetails(),
+  //   {
+  //     onSuccess: () => {},
+  //   }
+  // );
 
   const columns: ColumnsType<Committee> = [
     {
@@ -57,6 +65,12 @@ const Committee = () => {
           onChange={(value) => switchHandler(String(record?.id), value)}
         />
       ),
+    },
+    {
+      title: "View Members",
+      dataIndex: "view",
+      key: "view",
+      render: (_, record) => <Link to={`members/${record?.id}`}>View</Link>,
     },
     {
       title: "Action",

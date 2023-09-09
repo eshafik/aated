@@ -15,6 +15,7 @@ import ResetPassword from "../pages/forgot-password/ResetPassword";
 import Member from "../pages/member/Member";
 import CreateCommittee from "../pages/committee/CreateCommittee";
 import EditCommittee from "../pages/committee/EditCommittee";
+import CommitteeMembers from "../pages/committeemembers/CommitteeMembers";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ export const protectedRouter = createBrowserRouter([
           { index: true, element: <Committee /> },
           { path: "createcommittee", element: <CreateCommittee /> },
           { path: ":committeeId", element: <EditCommittee /> },
+          {
+            path: "members/:committeemembersId",
+            element: <CommitteeMembers />,
+          },
         ],
       },
       { path: "profilesetting", element: <ProfileSetting /> },
