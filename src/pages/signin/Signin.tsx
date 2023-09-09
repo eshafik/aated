@@ -4,7 +4,7 @@ import { LoginPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../../libs/auth";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { UserOutlined, LockFilled } from "@ant-design/icons";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -51,11 +51,7 @@ const SignIn = () => {
                 { required: true, message: "Please input your Password!" },
               ]}
             >
-              <Input
-                prefix={<LockOutlined />}
-                type="password"
-                placeholder="Password"
-              />
+              <Input.Password prefix={<LockFilled />} placeholder="Password" />
             </Form.Item>
             <Row justify={"space-between"}>
               <Col>

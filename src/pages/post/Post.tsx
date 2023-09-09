@@ -28,7 +28,7 @@ const Post = () => {
       <Col>
         <Skeleton loading={isLoading}>
           <Card
-            className="w-full"
+            className="max-w-2xl"
             title={
               <>
                 <Avatar
@@ -79,7 +79,7 @@ const Post = () => {
               className="mt-5"
             >
               <Form.Item name="comment">
-                <TextArea rows={5} />
+                <TextArea rows={3} />
               </Form.Item>
               <Form.Item>
                 <Button

@@ -47,17 +47,13 @@ const Posts = () => {
     () => postAPI.getPostList(),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["post-list"]);
+        // queryClient.invalidateQueries(["post-list"]);
       },
     }
   );
 
-  const { data: profileData } = useQuery(
-    ["user-profile"],
-    () => profileAPI.getProfileDetails(),
-    {
-      onSuccess: () => {},
-    }
+  const { data: profileData } = useQuery(["user-profile"], () =>
+    profileAPI.getProfileDetails()
   );
 
   const { mutate: mutateDeletePost } = useMutation(
@@ -165,11 +161,11 @@ const Posts = () => {
                 <div className="mt-4 mb-4">{items.body}</div>
                 <Link to={`${items?.id}`}>
                   <Typography.Link>
-                    {" "}
                     Comment ({items?.total_comments})
                   </Typography.Link>
                 </Link>
                 <Form
+                  key={i}
                   form={commentForm}
                   onFinish={(values) =>
                     mutateComment({
@@ -178,9 +174,10 @@ const Posts = () => {
                     })
                   }
                 >
-                  <Form.Item name="comment">
-                    <TextArea rows={5} />
+                  <Form.Item name={["details", i, "comment"]}>
+                    <TextArea rows={2} />
                   </Form.Item>
+
                   <Form.Item>
                     <Button
                       loading={loadingComment}

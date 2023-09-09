@@ -14,6 +14,7 @@ import { profileAPI } from "../../libs/api/profileAPI";
 import config from "../../config";
 import { authService } from "../../libs/auth";
 import { UploadOutlined } from "@ant-design/icons";
+import TextArea from "antd/es/input/TextArea";
 
 const ProfileSetting = () => {
   const { notification } = App.useApp();
@@ -167,15 +168,15 @@ const ProfileSetting = () => {
             </Form.Item>
 
             <Form.Item name="unemployment_reason" label="Unemployment reason">
-              <Input.TextArea rows={2} placeholder="unemployment reason" />
+              <TextArea rows={2} placeholder="unemployment reason" />
             </Form.Item>
 
             <Form.Item name="expertise_area" label="Expertise area">
-              <Input.TextArea rows={2} placeholder="expertise area" />
+              <TextArea rows={2} placeholder="expertise area" />
             </Form.Item>
 
             <Form.Item name="contact_details" label="Contact details">
-              <Input.TextArea rows={2} placeholder="contact details" />
+              <TextArea rows={2} placeholder="contact details" />
             </Form.Item>
 
             <Form.Item name="password" label="Password">
