@@ -1,27 +1,11 @@
 import { Batch } from "./members";
 
 export interface CommitteeResponse {
-  data?: [
-    {
-      id?: string | number;
-      start_date?: string;
-      end_date?: string;
-      is_active?: boolean;
-      name?: string;
-      created_by?: {
-        id?: string | number;
-        name?: string;
-        username?: string;
-        email?: string;
-        profile_pic?: string;
-      };
-      updated_by?: null;
-    }
-  ];
+  data?: Committee[];
 }
 
 export interface Committee {
-  id?: string | number;
+  id: number;
   start_date?: string;
   end_date?: string;
   is_active?: boolean;

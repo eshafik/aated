@@ -59,7 +59,7 @@ const CreateCommittee = () => {
             </Form>
           </Card>
         ) : (
-          "You Do not have permission"
+          "Only Admin have permission to do this action"
         )}
       </Col>
     </Row>

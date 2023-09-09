@@ -7,6 +7,7 @@ import {
   Form,
   Input,
   Modal,
+  Popconfirm,
   Row,
   Spin,
   Typography,
@@ -142,7 +143,16 @@ const Posts = () => {
                 }
                 extra={
                   items?.user?.id == profileData?.data?.id ? (
-                    <DeleteFilled onClick={() => mutateDeletePost(items?.id)} />
+                    <Popconfirm
+                      title="Delete the Post"
+                      description="Are you sure to delete this post?"
+                      onConfirm={() => mutateDeletePost(items?.id)}
+                      okText="Yes"
+                      cancelText="No"
+                      okType="danger"
+                    >
+                      <DeleteFilled />
+                    </Popconfirm>
                   ) : (
                     ""
                   )

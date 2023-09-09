@@ -8,6 +8,7 @@ import { Committee, CommitteePayload } from "../../libs/api/@types/committee";
 
 const Committee = () => {
   const navigate = useNavigate();
+
   const { data } = useQuery(["committee-list"], () =>
     committeeAPI.getcommitteeList()
   );
@@ -99,7 +100,7 @@ const Committee = () => {
     <>
       <Row justify={"space-between"}>
         <Col>
-          <Typography.Title level={2}>Committee name</Typography.Title>
+          <Typography.Title level={2}>Committee</Typography.Title>
         </Col>
         <Col>
           <Button onClick={() => navigate("createcommittee")}>
@@ -109,7 +110,7 @@ const Committee = () => {
       </Row>
 
       <Table
-        // rowKey={(record) => record?.id}
+        rowKey={(record) => record?.id?.toString()}
         bordered
         dataSource={data?.data}
         columns={columns}
