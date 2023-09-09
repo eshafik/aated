@@ -22,6 +22,7 @@ import { searchAPI } from "../../../libs/api/searchAPI";
 import { useMemo } from "react";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
 import { MoreOutlined } from "@ant-design/icons";
+import { profileAPI } from "../../../libs/api/profileAPI";
 
 const ActiveMembers = () => {
   const { data: ActiveMemberData, isLoading } = useQuery(["members-list"], () =>
@@ -84,6 +85,10 @@ const ActiveMembers = () => {
 
     return [];
   }, [jobDeptData?.data]);
+
+  const { data: superUser } = useQuery(["user-profile"], () =>
+    profileAPI.superUserCheck()
+  );
 
   return (
     <Spin spinning={isLoading}>
@@ -158,6 +163,7 @@ const ActiveMembers = () => {
                 </Link>
                 <div className="text-end">
                   <Dropdown
+                    disabled={!superUser?.data?.is_superuser}
                     menu={{
                       items: [
                         {
