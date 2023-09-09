@@ -13,18 +13,20 @@ import {
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { Link } from "react-router-dom";
-import { SearchOutlined } from "@ant-design/icons";
+import { DeleteFilled, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { PostPayload } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
 import CreatePostModal from "./component/CreatePostModal";
 import { useForm } from "../../config/hook/formHook";
 import { CreatePostInputType } from "../../libs/api/@types/form";
 import { useComment } from "../../config/hook/usecomment";
+import { profileAPI } from "../../libs/api/profileAPI";
 
 const Posts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation(
     (payload: PostPayload) => postAPI.createPost(payload),
@@ -41,7 +43,29 @@ const Posts = () => {
 
   const { data: postsData, isLoading: loadingPostList } = useQuery(
     ["post-list"],
-    () => postAPI.getPostList()
+    () => postAPI.getPostList(),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["post-list"]);
+      },
+    }
+  );
+
+  const { data: profileData } = useQuery(
+    ["user-profile"],
+    () => profileAPI.getProfileDetails(),
+    {
+      onSuccess: () => {},
+    }
+  );
+
+  const { mutate: mutateDeletePost } = useMutation(
+    (id: string | number) => postAPI.deletePost(id),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["post-list"]);
+      },
+    }
   );
 
   const {
@@ -115,6 +139,13 @@ const Posts = () => {
                     <Avatar className="mr-2" src={items?.user?.profile_pic} />
                     {items.user?.name}
                   </>
+                }
+                extra={
+                  items?.user?.id == profileData?.data?.id ? (
+                    <DeleteFilled onClick={() => mutateDeletePost(items?.id)} />
+                  ) : (
+                    ""
+                  )
                 }
                 cover={<img alt="example" src={items.attachments} />}
               >

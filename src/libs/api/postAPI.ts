@@ -22,8 +22,7 @@ class PostAPI {
   }
 
   deletePost(ID: string | number) {
-    return this.http.delete(`api/v1/post/
-    manage-post/${ID}`);
+    return this.http.delete(`api/v1/post/manage-post/${ID}`);
   }
 
   getPostList() {

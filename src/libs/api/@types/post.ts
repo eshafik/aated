@@ -8,7 +8,7 @@ export interface PostPayload {
 export interface PostsResponse {
   data?: [
     {
-      id?: string | number;
+      id: string | number;
       category?: {
         id: number | string;
         name?: string;
