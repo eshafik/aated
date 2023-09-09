@@ -12,6 +12,9 @@ import {
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { UpdateProfilePayload } from "../../libs/api/@types/profile";
 import { profileAPI } from "../../libs/api/profileAPI";
+import config from "../../config";
+import { authService } from "../../libs/auth";
+import { UploadOutlined } from "@ant-design/icons";
 
 const ProfileSetting = () => {
   const { notification } = App.useApp();
@@ -49,6 +52,7 @@ const ProfileSetting = () => {
               batch_no: data?.data?.batch_no,
               passing_year: data?.data?.passing_year,
               student_id: data?.data?.student_id,
+              profile_pic: data?.data?.profile_pic,
             }}
             requiredMark="optional"
             layout="vertical"
@@ -61,13 +65,23 @@ const ProfileSetting = () => {
                 batch_no: values.batch_no,
                 passing_year: values.passing_year,
                 student_id: values.student_id,
-                profile_pic: values.profile_pic,
+                profile_pic:
+                  values.profile_pic.file.response.data.attachment_url,
                 password: values.password,
               });
+              console.log(values.profile_pic);
             }}
           >
             <Form.Item name="profile_pic">
-              <Upload listType="picture-circle">Upload here</Upload>
+              <Upload
+                name="photo"
+                listType="picture-card"
+                maxCount={1}
+                action={`${config?.apiURL}/api/v1/core/upload/`}
+                headers={{ Authorization: `Bearer ${authService.getToken()}` }}
+              >
+                <Button shape="circle" type="text" icon={<UploadOutlined />} />
+              </Upload>
             </Form.Item>
 
             <Form.Item

@@ -2,6 +2,8 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, FormInstance, Input, Select, Upload } from "antd";
 import { FC } from "react";
 import { CreatePostInputType } from "../../../libs/api/@types/form";
+import config from "../../../config";
+import { authService } from "../../../libs/auth";
 type CreatePostModalType = {
   onfinish?: (values: CreatePostInputType) => void;
   form?: FormInstance<CreatePostInputType>;
@@ -35,10 +37,19 @@ const CreatePostModal: FC<CreatePostModalType> = ({
       </Form.Item>
 
       <Form.Item name="attachments">
-        <Upload>
-          <Button loading={isLoading} icon={<UploadOutlined />}>
-            Click to Upload
-          </Button>
+        <Upload
+          name="photo"
+          listType="picture-card"
+          maxCount={1}
+          action={`${config?.apiURL}/api/v1/core/upload/`}
+          headers={{ Authorization: `Bearer ${authService.getToken()}` }}
+        >
+          <Button
+            loading={isLoading}
+            shape="circle"
+            type="text"
+            icon={<UploadOutlined />}
+          />
         </Upload>
       </Form.Item>
     </Form>
