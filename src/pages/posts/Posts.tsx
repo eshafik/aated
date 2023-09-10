@@ -60,6 +60,10 @@ const Posts = () => {
     }
   );
 
+  // const {mutate: search} = useMutation(
+  //   ['search-list'], (search: string)=>postAPI.searchPost()
+  // )
+
   const {
     isLoading: loadingComment,
     mutate: mutateComment,

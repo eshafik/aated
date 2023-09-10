@@ -16,6 +16,7 @@ import Member from "../pages/member/Member";
 import CreateCommittee from "../pages/committee/CreateCommittee";
 import EditCommittee from "../pages/committee/EditCommittee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
+import { Result } from "antd";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ export const publicRoute = createBrowserRouter([
       { path: "verify", element: <EmailVerify /> },
       { path: "forgot-password", element: <ForgotPassword /> },
       { path: "reset-password", element: <ResetPassword /> },
+      { path: "*", element: <Result /> },
     ],
   },
 ]);
@@ -66,6 +68,7 @@ export const protectedRouter = createBrowserRouter([
         ],
       },
       { path: "profilesetting", element: <ProfileSetting /> },
+      { path: "*", element: <Result /> },
     ],
   },
 ]);

@@ -2,6 +2,7 @@ import { RouterProvider } from "react-router-dom";
 import { App as AntApp } from "antd";
 import { protectedRouter, publicRoute } from "./route/router";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { useAuth } from "./libs/auth";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -9,12 +10,15 @@ const queryClient = new QueryClient({
   },
 });
 function App() {
-  const token = localStorage.getItem("token");
+  const { isAuthenticated } = useAuth();
+  console.log("Login", isAuthenticated);
 
   return (
     <AntApp>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={token ? protectedRouter : publicRoute} />
+        <RouterProvider
+          router={isAuthenticated ? protectedRouter : publicRoute}
+        />
       </QueryClientProvider>
     </AntApp>
   );
