@@ -1,20 +1,9 @@
-import {
-  App,
-  Button,
-  Card,
-  Form,
-  Input,
-  InputNumber,
-  Spin,
-  Upload,
-} from "antd";
+import { App, Button, Card, Form, Input, InputNumber, Spin } from "antd";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { UpdateProfilePayload } from "../../libs/api/@types/profile";
 import { profileAPI } from "../../libs/api/profileAPI";
-import config from "../../config";
-import { authService } from "../../libs/auth";
-import { UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
+import AvatarUploader from "../../container/AvaterUploader";
 
 const ProfileSetting = () => {
   const { notification } = App.useApp();
@@ -72,8 +61,7 @@ const ProfileSetting = () => {
                 batch_no: values.batch_no,
                 passing_year: values.passing_year,
                 student_id: values.student_id,
-                profile_pic:
-                  values.profile_pic.file.response.data.attachment_url,
+                profile_pic: values.profile_pic,
                 password: values.password,
                 contact_details: values.contact_details,
                 employment_status: values.employment_status,
@@ -86,7 +74,8 @@ const ProfileSetting = () => {
             }}
           >
             <Form.Item name="profile_pic">
-              <Upload
+              <AvatarUploader />
+              {/* <Upload
                 name="photo"
                 listType="picture-card"
                 maxCount={1}
@@ -94,7 +83,7 @@ const ProfileSetting = () => {
                 headers={{ Authorization: `Bearer ${authService.getToken()}` }}
               >
                 <Button shape="circle" type="text" icon={<UploadOutlined />} />
-              </Upload>
+              </Upload> */}
             </Form.Item>
 
             <Form.Item shouldUpdate name="username" label="Username">

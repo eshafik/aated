@@ -2,7 +2,7 @@ export interface PostPayload {
   category?: string | number;
   title?: string;
   body?: string;
-  attachments?: string;
+  attachments?: string[];
 }
 
 export interface PostsResponse {
@@ -15,7 +15,7 @@ export interface PostsResponse {
       };
       title?: string;
       body?: string;
-      attachments?: string;
+      attachments?: string[];
       total_comments?: number;
       user?: {
         id?: string | number;
@@ -37,7 +37,7 @@ export interface PostResponse {
     };
     title?: string;
     body?: string;
-    attachments?: [];
+    attachments?: string[];
     total_comments?: number;
     user?: {
       id?: string | number;

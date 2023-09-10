@@ -66,7 +66,7 @@ const AvatarUploader: FC<AvatarUploadProps> = ({ value, onChange }) => {
 
     if (info.file.status === "done") {
       setLoading(false);
-      onChange?.(info.file.response.data.url);
+      onChange?.(info.file.response.data.attachment_url);
     }
   };
 
@@ -101,7 +101,7 @@ const AvatarUploader: FC<AvatarUploadProps> = ({ value, onChange }) => {
       <Upload
         name="photo"
         listType="picture-card"
-        maxCount={1}
+        maxCount={2}
         action={`${config?.apiURL}/api/v1/core/upload/`}
         headers={{ Authorization: `Bearer ${authService.getToken()}` }}
         beforeUpload={beforeUpload}

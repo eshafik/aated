@@ -20,16 +20,15 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { PostPayload } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
 import CreatePostModal from "./component/CreatePostModal";
-import { useForm } from "../../config/hook/formHook";
-import { CreatePostInputType } from "../../libs/api/@types/form";
 import { useComment } from "../../config/hook/usecomment";
 import { profileAPI } from "../../libs/api/profileAPI";
 
 const Posts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
+  const [form] = Form.useForm();
 
-  const { mutate, isLoading } = useMutation(
+  const { mutate: createPostMutate, isLoading } = useMutation(
     (payload: PostPayload) => postAPI.createPost(payload),
     {
       onSuccess: () => {
@@ -37,10 +36,6 @@ const Posts = () => {
       },
     }
   );
-
-  const { form, handleFinish } = useForm<CreatePostInputType>({
-    onFinish: (values) => mutate(values),
-  });
 
   const { data: postsData, isLoading: loadingPostList } = useQuery(
     ["post-list"],
@@ -92,7 +87,17 @@ const Posts = () => {
               { key: "notice", label: "Notie" },
             ]}
           >
-            <Form form={form}>
+            <Form
+              form={form}
+              onFinish={(values) =>
+                createPostMutate({
+                  attachments: values.attachments,
+                  body: values.body,
+                  category: values.category,
+                  title: values.title,
+                })
+              }
+            >
               <Row gutter={[12, 12]}>
                 <Col span={19}>
                   <Form.Item>
@@ -118,13 +123,10 @@ const Posts = () => {
                 onCancel={handleOk}
                 okText="Submit"
                 okType="default"
+                confirmLoading={isLoading}
                 centered
               >
-                <CreatePostModal
-                  form={form}
-                  isLoading={isLoading}
-                  onfinish={handleFinish}
-                />
+                <CreatePostModal />
               </Modal>
             </Form>
             {postsData?.data?.map((items, i) => (
@@ -153,7 +155,7 @@ const Posts = () => {
                     ""
                   )
                 }
-                cover={<img alt="example" src={items.attachments} />}
+                cover={<img alt="example" />}
               >
                 <div className="text-black font-bold text-xl">
                   {items.title}

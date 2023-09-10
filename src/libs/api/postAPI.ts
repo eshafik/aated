@@ -14,7 +14,7 @@ class PostAPI {
   constructor(private http: HttpAuthService) {}
 
   createPost(payload: PostPayload) {
-    return this.http.post<PostsResponse>("api/v1/post/manage-post/", payload);
+    return this.http.post("api/v1/post/manage-post/", payload);
   }
 
   postUpdate(ID: string | number, payload: PostPayload) {
