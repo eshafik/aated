@@ -68,7 +68,7 @@ export const protectedRouter = createBrowserRouter([
         ],
       },
       { path: "profilesetting", element: <ProfileSetting /> },
-      { path: "*", element: <Result /> },
     ],
   },
+  { path: "*", element: <Result /> },
 ]);
