@@ -4,6 +4,7 @@ import { UpdateProfilePayload } from "../../libs/api/@types/profile";
 import { profileAPI } from "../../libs/api/profileAPI";
 import TextArea from "antd/es/input/TextArea";
 import AvatarUploader from "../../container/AvaterUploader";
+import Link from "antd/es/typography/Link";
 
 const ProfileSetting = () => {
   const { notification } = App.useApp();
@@ -183,6 +184,12 @@ const ProfileSetting = () => {
             </Form.Item>
           </Form>
         )}
+        <div>
+          <Link color="#0000FF" href={"/add-experiences"}>
+            Want To Add Job Experience?{" "}
+          </Link>
+          or <Link href={"/experiences"}>Want to see your experienes?</Link>
+        </div>
       </Card>
     </Spin>
   );

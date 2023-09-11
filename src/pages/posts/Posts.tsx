@@ -13,8 +13,8 @@ import {
   Typography,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { Link, createSearchParams, useSearchParams } from "react-router-dom";
-import { DeleteFilled, SearchOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import { DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { PostPayload } from "../../libs/api/@types/post";
@@ -28,9 +28,6 @@ const Posts = () => {
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
-
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [query, seQuery] = useState(searchParams.get("search"));
 
   const { mutate: createPostMutate, isLoading } = useMutation(
     (payload: PostPayload) => postAPI.createPost(payload),
@@ -64,16 +61,6 @@ const Posts = () => {
     }
   );
 
-  const { data: searchData } = useQuery(["search-list"], () =>
-    postAPI.searchPost(query)
-  );
-
-  console.log("SearchData", searchData);
-
-  // const handleSearch = (value: string) => {
-  //   postSearch(value);
-  // };
-
   const {
     isLoading: loadingComment,
     mutate: mutateComment,
@@ -94,11 +81,11 @@ const Posts = () => {
           <Card
             className="bg-transparent"
             tabList={[
-              { key: "allpost", label: "All Post" },
-              { key: "jobpost", label: "Job Post" },
-              { key: "generalpost", label: "General Post" },
-              { key: "helppost", label: "Help Post" },
-              { key: "notice", label: "Notie" },
+              { key: "0", label: "All Post" },
+              { key: "1", label: "Job Post" },
+              { key: "2", label: "Notie" },
+              { key: "3", label: "General Post" },
+              { key: "4", label: "Help Post" },
             ]}
           >
             <Form form={searchForm}>
@@ -107,11 +94,11 @@ const Posts = () => {
                   <Form.Item name="postSearch">
                     <Input
                       // value={query}
-                      onChange={(e) => {
-                        setSearchParams(
-                          createSearchParams({ search: e.target.value })
-                        );
-                      }}
+                      // onChange={(e) => {
+                      //   setSearchParams(
+                      //     createSearchParams({ search: e.target.value })
+                      //   );
+                      // }}
                       suffix={<SearchOutlined />}
                     />
                   </Form.Item>
@@ -167,7 +154,7 @@ const Posts = () => {
                       cancelText="No"
                       okType="danger"
                     >
-                      <DeleteFilled />
+                      <DeleteOutlined />
                     </Popconfirm>
                   ) : (
                     ""

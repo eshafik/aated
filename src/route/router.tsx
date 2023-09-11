@@ -17,6 +17,8 @@ import CreateCommittee from "../pages/committee/CreateCommittee";
 import EditCommittee from "../pages/committee/EditCommittee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
 import { Result } from "antd";
+import AddExperiences from "../pages/experience/AddExperiences";
+import SeeExperience from "../pages/experience/SeeExperience";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -68,6 +70,8 @@ export const protectedRouter = createBrowserRouter([
         ],
       },
       { path: "profilesetting", element: <ProfileSetting /> },
+      { path: "add-experiences", element: <AddExperiences /> },
+      { path: "experiences", element: <SeeExperience /> },
     ],
   },
   { path: "*", element: <Result /> },

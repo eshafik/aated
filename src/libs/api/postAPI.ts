@@ -26,7 +26,7 @@ class PostAPI {
   }
 
   getPostList() {
-    return this.http.get<PostsResponse>("api/v1/post/manage-post");
+    return this.http.get<PostsResponse>(`api/v1/post/manage-post/`);
   }
 
   getPostDetails(ID: string | number) {
