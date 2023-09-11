@@ -87,3 +87,7 @@ export interface DeletePostPayload {
   comment?: string | number;
   is_active?: boolean;
 }
+
+export interface PostSearchPayload {
+  value?: string;
+}

@@ -13,7 +13,7 @@ import {
   Typography,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { Link } from "react-router-dom";
+import { Link, createSearchParams, useSearchParams } from "react-router-dom";
 import { DeleteFilled, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -27,6 +27,10 @@ const Posts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
+  const [searchForm] = Form.useForm();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, seQuery] = useState(searchParams.get("search"));
 
   const { mutate: createPostMutate, isLoading } = useMutation(
     (payload: PostPayload) => postAPI.createPost(payload),
@@ -60,9 +64,15 @@ const Posts = () => {
     }
   );
 
-  // const {mutate: search} = useMutation(
-  //   ['search-list'], (search: string)=>postAPI.searchPost()
-  // )
+  const { data: searchData } = useQuery(["search-list"], () =>
+    postAPI.searchPost(query)
+  );
+
+  console.log("SearchData", searchData);
+
+  // const handleSearch = (value: string) => {
+  //   postSearch(value);
+  // };
 
   const {
     isLoading: loadingComment,
@@ -91,6 +101,28 @@ const Posts = () => {
               { key: "notice", label: "Notie" },
             ]}
           >
+            <Form form={searchForm}>
+              <Row gutter={[5, 5]}>
+                <Col span={18}>
+                  <Form.Item name="postSearch">
+                    <Input
+                      value={query}
+                      onChange={(e) => {
+                        setSearchParams(
+                          createSearchParams({ search: e.target.value })
+                        );
+                      }}
+                      suffix={<SearchOutlined />}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col>
+                  <Form.Item>
+                    <Button onClick={showModal}>create Post</Button>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Form>
             <Form
               form={form}
               onFinish={(values) =>
@@ -102,24 +134,6 @@ const Posts = () => {
                 })
               }
             >
-              <Row gutter={[12, 12]}>
-                <Col span={19}>
-                  <Form.Item>
-                    <Input
-                      suffix={
-                        <SearchOutlined
-                          onClick={() => console.log("HI There")}
-                        />
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-                <Col>
-                  <Form.Item>
-                    <Button onClick={showModal}>create Post</Button>
-                  </Form.Item>
-                </Col>
-              </Row>
               <Modal
                 title="create post"
                 open={isModalOpen}

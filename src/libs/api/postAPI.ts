@@ -41,8 +41,10 @@ class PostAPI {
     return this.http.patch("api/v1/post/comment/", payload);
   }
 
-  searchPost(postSearch: string) {
-    return this.http.get(`api/v1/post/manage-post?search=${postSearch}`);
+  searchPost(postSearch: string | null) {
+    return this.http.get<PostResponse>(
+      `api/v1/post/manage-post?search=${postSearch}`
+    );
   }
 }
 const httpAuthService = new HttpAuthService(config.apiURL, authService);
