@@ -160,11 +160,11 @@ const Posts = () => {
                     ""
                   )
                 }
-                cover={<img alt="example" src={items.attachments?.[i]} />}
               >
                 <div className="text-black font-bold text-xl">
                   {items.title}
                 </div>
+                <img alt="example" src={items.attachments?.[i]} />
                 <div className="mt-4 mb-4">{items.body}</div>
                 <Link to={`${items?.id}`}>
                   <Typography.Link>
