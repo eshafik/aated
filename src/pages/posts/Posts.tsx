@@ -20,8 +20,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { PostPayload } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
 import CreatePostModal from "./component/CreatePostModal";
-import { useComment } from "../../config/hook/usecomment";
 import { profileAPI } from "../../libs/api/profileAPI";
+import { useComment } from "../../config/hook/usecomment";
 
 const Posts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,11 +61,7 @@ const Posts = () => {
     }
   );
 
-  const {
-    isLoading: loadingComment,
-    mutate: mutateComment,
-    form: commentForm,
-  } = useComment();
+  const { mutate: mutateComment } = useComment();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -74,6 +70,7 @@ const Posts = () => {
   const handleOk = () => {
     setIsModalOpen(false);
   };
+
   return (
     <Row gutter={24} align="middle" justify="center">
       <Col>
@@ -92,15 +89,7 @@ const Posts = () => {
               <Row gutter={[5, 5]}>
                 <Col span={18}>
                   <Form.Item name="postSearch">
-                    <Input
-                      // value={query}
-                      // onChange={(e) => {
-                      //   setSearchParams(
-                      //     createSearchParams({ search: e.target.value })
-                      //   );
-                      // }}
-                      suffix={<SearchOutlined />}
-                    />
+                    <Input suffix={<Button icon={<SearchOutlined />} />} />
                   </Form.Item>
                 </Col>
                 <Col>
@@ -110,6 +99,7 @@ const Posts = () => {
                 </Col>
               </Row>
             </Form>
+
             <Form
               form={form}
               onFinish={(values) =>
@@ -164,7 +154,7 @@ const Posts = () => {
                 <div className="text-black font-bold text-xl">
                   {items.title}
                 </div>
-                <img alt="example" src={items.attachments?.[i]} />
+                <img alt="example" src={items.attachments?.[0]} />
                 <div className="mt-4 mb-4">{items.body}</div>
                 <Link to={`${items?.id}`}>
                   <Typography.Link>
@@ -172,22 +162,20 @@ const Posts = () => {
                   </Typography.Link>
                 </Link>
                 <Form
-                  key={i}
-                  form={commentForm}
                   onFinish={(values) =>
                     mutateComment({
-                      comment: values.comment,
+                      comment: values?.comment?.[0],
                       post: items?.id,
                     })
                   }
                 >
-                  <Form.Item name={["details", i, "comment"]}>
+                  <Form.Item name={["comment", i]}>
                     <TextArea rows={2} />
                   </Form.Item>
 
                   <Form.Item>
                     <Button
-                      loading={loadingComment}
+                      // loading={loadingComment}
                       className="bg-yellow-300"
                       htmlType="submit"
                     >

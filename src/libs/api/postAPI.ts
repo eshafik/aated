@@ -25,8 +25,8 @@ class PostAPI {
     return this.http.delete(`api/v1/post/manage-post/${ID}`);
   }
 
-  getPostList() {
-    return this.http.get<PostsResponse>(`api/v1/post/manage-post/`);
+  getPostList(ID?: string | number) {
+    return this.http.get<PostsResponse>(`api/v1/post/manage-post/${ID}`);
   }
 
   getPostDetails(ID: string | number) {
