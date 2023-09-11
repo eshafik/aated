@@ -106,7 +106,7 @@ const Posts = () => {
                 <Col span={18}>
                   <Form.Item name="postSearch">
                     <Input
-                      value={query}
+                      // value={query}
                       onChange={(e) => {
                         setSearchParams(
                           createSearchParams({ search: e.target.value })
@@ -173,7 +173,7 @@ const Posts = () => {
                     ""
                   )
                 }
-                cover={<img alt="example" />}
+                cover={<img alt="example" src={items.attachments?.[i]} />}
               >
                 <div className="text-black font-bold text-xl">
                   {items.title}

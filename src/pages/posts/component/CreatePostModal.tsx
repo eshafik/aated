@@ -21,7 +21,7 @@ const CreatePostModal = () => {
       <Form.Item name="body">
         <Input.TextArea rows={5} placeholder="Description" />
       </Form.Item>
-      <Form.Item name="attachments">
+      <Form.Item name={["attachments", 0]}>
         <AvatarUploader />
       </Form.Item>
     </>
