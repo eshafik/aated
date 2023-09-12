@@ -1,4 +1,13 @@
-import { App, Button, Card, Form, Input, InputNumber, Spin } from "antd";
+import {
+  App,
+  Button,
+  Card,
+  Form,
+  Input,
+  InputNumber,
+  Spin,
+  Typography,
+} from "antd";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { UpdateProfilePayload } from "../../libs/api/@types/profile";
 import { profileAPI } from "../../libs/api/profileAPI";
@@ -26,11 +35,14 @@ const ProfileSetting = () => {
       onSuccess: () => {},
     }
   );
-
   return (
     <Spin spinning={isProfileLoading}>
       <Card
-        title="Profile Setting"
+        title={
+          <Typography.Title level={4} className="text-center">
+            Profile Setting
+          </Typography.Title>
+        }
         className="shadow-2xl bg-transparent max-w-xl mx-auto"
       >
         {data?.data?.name && (
@@ -39,7 +51,7 @@ const ProfileSetting = () => {
               name: data?.data?.name,
               email: data?.data?.email,
               phone: data?.data?.phone,
-              batch_no: data?.data?.batch_no,
+              batch_no: data?.data?.batch?.name,
               passing_year: data?.data?.passing_year,
               student_id: data?.data?.student_id,
               profile_pic: data?.data?.profile_pic,

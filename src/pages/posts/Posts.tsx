@@ -59,7 +59,7 @@ const Posts = () => {
     }
   );
 
-  const { mutate: mutateComment } = useComment();
+  const { mutate: mutateComment, isLoading: loadingComment } = useComment();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -68,8 +68,6 @@ const Posts = () => {
   const handleOk = () => {
     setIsModalOpen(false);
   };
-
-  console.log("Filter", filter.filters);
 
   return (
     <Row gutter={24} align="middle" justify="center">
@@ -174,7 +172,7 @@ const Posts = () => {
                 <Form
                   onFinish={(values) =>
                     mutateComment({
-                      comment: values?.comment?.[0],
+                      comment: values?.comment?.[i],
                       post: items?.id,
                     })
                   }
@@ -185,7 +183,7 @@ const Posts = () => {
 
                   <Form.Item>
                     <Button
-                      // loading={loadingComment}
+                      loading={loadingComment}
                       className="bg-yellow-300"
                       htmlType="submit"
                     >

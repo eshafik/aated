@@ -5,7 +5,9 @@ export const useComment = () => {
   const { mutate, isLoading } = useMutation(
     (payload: CommentPayload) => postAPI.createComment(payload),
     {
-      onSuccess: () => {},
+      onSuccess: (data) => {
+        console.log(data?.data?.comment);
+      },
     }
   );
 

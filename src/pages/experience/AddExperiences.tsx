@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input } from "antd";
+import { Button, Card, Form, Input, Typography } from "antd";
 import { useMutation } from "react-query";
 import { ExperiencePayload } from "../../libs/api/@types/profile";
 import { profileAPI } from "../../libs/api/profileAPI";
@@ -18,7 +18,11 @@ const AddExperiences = () => {
 
   return (
     <Card
-      title="Add Experience"
+      title={
+        <Typography.Title level={4} className="text-center">
+          Add Experience
+        </Typography.Title>
+      }
       className="shadow-2xl bg-transparent max-w-xl mx-auto"
     >
       <Form

@@ -2,7 +2,7 @@ import { Batch } from "./members";
 
 export interface UpdateProfileResponse {
   data?: {
-    id?: number;
+    id?: number | string;
     batch?: {
       id?: number;
       name?: string;
