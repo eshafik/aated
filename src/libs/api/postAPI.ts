@@ -4,6 +4,7 @@ import {
   CommentPayload,
   CommentResponse,
   DeletePostPayload,
+  PostListParams,
   PostPayload,
   PostResponse,
   PostsResponse,
@@ -25,8 +26,13 @@ class PostAPI {
     return this.http.delete(`api/v1/post/manage-post/${ID}`);
   }
 
-  getPostList(ID?: string | number) {
-    return this.http.get<PostsResponse>(`api/v1/post/manage-post/${ID}`);
+  getPostList(params?: PostListParams) {
+    const queryParams = new URLSearchParams();
+    queryParams.append("limit", params?.limit?.toString() ?? "10");
+    queryParams.append("page", params?.page?.toString() ?? "1");
+    if (params?.search) queryParams.append("search", params.search);
+
+    return this.http.get<PostsResponse>(`api/v1/post/manage-post/?${params}`);
   }
 
   getPostDetails(ID: string | number) {

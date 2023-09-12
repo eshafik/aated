@@ -91,3 +91,9 @@ export interface DeletePostPayload {
 export interface PostSearchPayload {
   value?: string;
 }
+
+export interface PostListParams {
+  limit?: number;
+  page?: number;
+  search?: string;
+}

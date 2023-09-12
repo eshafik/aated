@@ -14,7 +14,7 @@ import {
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { Link } from "react-router-dom";
-import { DeleteOutlined, SearchOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { PostPayload } from "../../libs/api/@types/post";
@@ -22,6 +22,7 @@ import { postAPI } from "../../libs/api/postAPI";
 import CreatePostModal from "./component/CreatePostModal";
 import { profileAPI } from "../../libs/api/profileAPI";
 import { useComment } from "../../config/hook/usecomment";
+import { usePostList } from "../../config/hook/useSearch";
 
 const Posts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,19 +35,17 @@ const Posts = () => {
     {
       onSuccess: () => {
         setIsModalOpen(false);
+        refetch;
       },
     }
   );
 
-  const { data: postsData, isLoading: loadingPostList } = useQuery(
-    ["post-list"],
-    () => postAPI.getPostList(),
-    {
-      onSuccess: () => {
-        // queryClient.invalidateQueries(["post-list"]);
-      },
-    }
-  );
+  const {
+    filter,
+    posts: postsData,
+    isLoading: loadingPostList,
+    refetch,
+  } = usePostList();
 
   const { data: profileData } = useQuery(["user-profile"], () =>
     profileAPI.getProfileDetails()
@@ -88,9 +87,12 @@ const Posts = () => {
             <Form form={searchForm}>
               <Row gutter={[5, 5]}>
                 <Col span={18}>
-                  <Form.Item name="postSearch">
-                    <Input suffix={<Button icon={<SearchOutlined />} />} />
-                  </Form.Item>
+                  <Input.Search
+                    className="max-w-sm"
+                    placeholder="Search Post"
+                    allowClear
+                    onSearch={filter.handleChangePosts}
+                  />
                 </Col>
                 <Col>
                   <Form.Item>
