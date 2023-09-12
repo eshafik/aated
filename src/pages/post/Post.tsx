@@ -21,7 +21,7 @@ const Post = () => {
     postAPI.getPostDetails(slag as string)
   );
 
-  const { isLoading: loadingComment, mutate, form } = useComment();
+  const { isLoading: loadingComment, mutate } = useComment();
 
   return (
     <Row align={"middle"} justify={"center"}>
@@ -69,7 +69,6 @@ const Post = () => {
               </Row>
             ))}
             <Form
-              form={form}
               onFinish={(values) => {
                 mutate({
                   comment: values.comment,

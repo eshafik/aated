@@ -35,7 +35,7 @@ const Posts = () => {
     {
       onSuccess: () => {
         setIsModalOpen(false);
-        refetch;
+        queryClient.invalidateQueries(["post-list"]);
       },
     }
   );
@@ -44,7 +44,6 @@ const Posts = () => {
     filter,
     posts: postsData,
     isLoading: loadingPostList,
-    refetch,
   } = usePostList();
 
   const { data: profileData } = useQuery(["user-profile"], () =>
