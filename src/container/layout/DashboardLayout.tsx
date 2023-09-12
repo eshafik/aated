@@ -6,6 +6,7 @@ import { Content, Header } from "antd/es/layout/layout";
 import SideMenu from "../SideMenu/SideMenu";
 import { useQuery } from "react-query";
 import { profileAPI } from "../../libs/api/profileAPI";
+import { authService } from "../../libs/auth";
 
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -18,13 +19,7 @@ const DashboardLayout = () => {
     {
       key: "1",
       label: (
-        <a
-          onClick={() => (
-            localStorage.removeItem("token"),
-            localStorage.removeItem("refreshToken"),
-            navigation("/signin")
-          )}
-        >
+        <a onClick={() => (authService.removeTokens(), navigation("/signin"))}>
           Logout
         </a>
       ),
