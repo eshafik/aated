@@ -16,9 +16,10 @@ export const usePostList = (params?: PostsListHookParams) => {
     setFilters({ search: post });
   };
 
-  const { data, isLoading, refetch } = useQuery(["post-list", filters], () =>
-    postAPI.getPostList(filters)
-  );
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["post-list", filters],
+    queryFn: () => postAPI.getPostList(filters),
+  });
 
   return {
     posts: data,

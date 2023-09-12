@@ -70,6 +70,8 @@ const Posts = () => {
     setIsModalOpen(false);
   };
 
+  console.log("Filter", filter.filters);
+
   return (
     <Row gutter={24} align="middle" justify="center">
       <Col>

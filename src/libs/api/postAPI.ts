@@ -32,7 +32,9 @@ class PostAPI {
     queryParams.append("page", params?.page?.toString() ?? "1");
     if (params?.search) queryParams.append("search", params.search);
 
-    return this.http.get<PostsResponse>(`api/v1/post/manage-post/?${params}`);
+    return this.http.get<PostsResponse>(
+      `api/v1/post/manage-post/?${queryParams}`
+    );
   }
 
   getPostDetails(ID: string | number) {
