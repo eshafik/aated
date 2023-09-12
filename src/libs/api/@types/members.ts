@@ -83,3 +83,5 @@ export interface ApproveMembersPayload {
   user_id?: number | string;
   role?: string;
 }
+
+export interface MembersListParams {}

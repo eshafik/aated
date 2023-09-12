@@ -28,12 +28,18 @@ class PostAPI {
 
   getPostList(params?: PostListParams) {
     const queryParams = new URLSearchParams();
+    const queryParamsNumber = new URLSearchParams();
     queryParams.append("limit", params?.limit?.toString() ?? "10");
     queryParams.append("page", params?.page?.toString() ?? "1");
+
+    // if (params?.category !== undefined)
+    //   queryParams.append("status", params.status.toString());
+
     if (params?.search) queryParams.append("search", params.search);
+    if (params?.id) queryParamsNumber.append("", params?.id);
 
     return this.http.get<PostsResponse>(
-      `api/v1/post/manage-post/?${queryParams}`
+      `api/v1/post/manage-post/${queryParamsNumber}?${queryParams}`
     );
   }
 

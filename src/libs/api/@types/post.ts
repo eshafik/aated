@@ -8,7 +8,7 @@ export interface PostPayload {
 export interface PostsResponse {
   data?: [
     {
-      id: string | number;
+      id: string;
       category?: {
         id: number | string;
         name?: string;
@@ -93,7 +93,9 @@ export interface PostSearchPayload {
 }
 
 export interface PostListParams {
+  id?: string;
   limit?: number;
   page?: number;
   search?: string;
+  category?: string | number;
 }

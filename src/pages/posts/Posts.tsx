@@ -10,6 +10,7 @@ import {
   Popconfirm,
   Row,
   Spin,
+  Tabs,
   Typography,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
@@ -85,6 +86,13 @@ const Posts = () => {
               { key: "3", label: "General Post" },
               { key: "4", label: "Help Post" },
             ]}
+            onTabChange={(key) => {
+              postsData?.data?.map((items) => {
+                key == items?.category?.id
+                  ? filter?.handleChangeTabs(items?.id)
+                  : "";
+              });
+            }}
           >
             <Form form={searchForm}>
               <Row gutter={[5, 5]}>
