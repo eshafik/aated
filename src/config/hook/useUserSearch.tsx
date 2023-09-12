@@ -1,0 +1,67 @@
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { MembersListParams } from "../../libs/api/@types/members";
+import { membersAPI } from "../../libs/api/membersAPI";
+
+interface MemberListHookParams {
+  filters?: MembersListParams;
+}
+
+export const useMemberList = (params?: MemberListHookParams) => {
+  const [filters, setFilters] = useState<MembersListParams | undefined>(
+    params?.filters
+  );
+
+  const handleChangeName = (member?: string) => {
+    setFilters((prev) => ({ ...prev, name: member }));
+  };
+
+  const handleChangeOrdering = (member?: string) => {
+    setFilters((prev) => ({ ...prev, ordering: member }));
+  };
+
+  const handleChangeDesignation = (member?: string) => {
+    setFilters((prev) => ({ ...prev, designation: member }));
+  };
+
+  const handleChangeOccupation = (member?: string) => {
+    setFilters((prev) => ({ ...prev, occupation_type: member }));
+  };
+
+  const handleChangeStudentId = (member?: string) => {
+    setFilters((prev) => ({ ...prev, student_id: member }));
+  };
+
+  const handleChangeLocation = (member?: string) => {
+    setFilters((prev) => ({ ...prev, location: member }));
+  };
+  const handleChangeCompany = (member?: string) => {
+    setFilters((prev) => ({ ...prev, company_name: member }));
+  };
+
+  const handleChangeJobDepartment = (member?: string) => {
+    setFilters((prev) => ({ ...prev, job_department: member }));
+  };
+
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["members-list", filters],
+    queryFn: () => membersAPI.activeMembersList(filters),
+  });
+
+  return {
+    members: data,
+    isLoading,
+    refetch,
+    filter: {
+      filters,
+      handleChangeOrdering,
+      handleChangeName,
+      handleChangeCompany,
+      handleChangeDesignation,
+      handleChangeJobDepartment,
+      handleChangeLocation,
+      handleChangeOccupation,
+      handleChangeStudentId,
+    },
+  };
+};

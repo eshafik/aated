@@ -10,7 +10,6 @@ import {
   Popconfirm,
   Row,
   Spin,
-  Tabs,
   Typography,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
@@ -98,7 +97,7 @@ const Posts = () => {
               <Row gutter={[5, 5]}>
                 <Col span={18}>
                   <Input.Search
-                    className="max-w-sm"
+                    className="max-w-lg"
                     placeholder="Search Post"
                     allowClear
                     onSearch={filter.handleChangePosts}

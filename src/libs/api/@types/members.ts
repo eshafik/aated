@@ -84,4 +84,17 @@ export interface ApproveMembersPayload {
   role?: string;
 }
 
-export interface MembersListParams {}
+export interface MembersListParams {
+  ordering?: number | string;
+  name?: string;
+  designation?: string;
+  batch?: string;
+  occupation_type?: number | string;
+  employment_status?: string;
+  student_id?: string | number;
+  location?: string;
+  company_name?: string;
+  skills?: string;
+  limit?: number;
+  page?: number;
+}

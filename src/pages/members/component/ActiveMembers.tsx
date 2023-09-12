@@ -23,11 +23,14 @@ import { useMemo } from "react";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
 import { MoreOutlined } from "@ant-design/icons";
 import { profileAPI } from "../../../libs/api/profileAPI";
+import { useMemberList } from "../../../config/hook/useUserSearch";
 
 const ActiveMembers = () => {
-  const { data: ActiveMemberData, isLoading } = useQuery(["members-list"], () =>
-    membersAPI.activeMembersList()
-  );
+  const {
+    members: ActiveMemberData,
+    filter: memberFilter,
+    isLoading,
+  } = useMemberList();
 
   const { data: batchData } = useQuery(["batch-list"], () =>
     searchAPI.getBatchList()
@@ -94,7 +97,19 @@ const ActiveMembers = () => {
     <Spin spinning={isLoading}>
       <Row gutter={[12, 12]}>
         <Col span={24}>
-          <Form layout="inline">
+          <Form
+            onFinish={(values) => {
+              memberFilter.handleChangeName(values.name);
+              memberFilter.handleChangeCompany(values.company);
+              memberFilter.handleChangeDesignation(values.designation);
+              memberFilter.handleChangeJobDepartment(values.job_department);
+              memberFilter.handleChangeLocation(values.location);
+              memberFilter.handleChangeOccupation(values.occupation_type);
+              memberFilter.handleChangeStudentId(values.student_id);
+              memberFilter.handleChangeOrdering(values.batch);
+            }}
+            layout="inline"
+          >
             <Form.Item name="name">
               <Input placeholder="name search" />
             </Form.Item>
