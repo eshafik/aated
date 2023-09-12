@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Col,
+  Result,
   Row,
   Space,
   Spin,
@@ -13,6 +14,7 @@ import { committeeAPI } from "../../../libs/api/committee";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { profileAPI } from "../../../libs/api/profileAPI";
+import { SmileOutlined } from "@ant-design/icons";
 
 const CommitteeMembers = () => {
   const { notification } = App.useApp();
@@ -81,9 +83,10 @@ const CommitteeMembers = () => {
           ))}
         </Row>
       ) : (
-        <div className="text-center">
-          You do not have permission to do this action
-        </div>
+        <Result
+          icon={<SmileOutlined />}
+          title="No members available for this committee"
+        />
       )}
     </Spin>
   );

@@ -11,7 +11,6 @@ const queryClient = new QueryClient({
 });
 function App() {
   const { isAuthenticated } = useAuth();
-  console.log("Login", isAuthenticated);
 
   return (
     <AntApp>

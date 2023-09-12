@@ -16,7 +16,7 @@ import Member from "../pages/member/Member";
 import CreateCommittee from "../pages/committee/CreateCommittee";
 import EditCommittee from "../pages/committee/EditCommittee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
-import { Result } from "antd";
+import { Button, Result } from "antd";
 import AddExperiences from "../pages/experience/AddExperiences";
 import SeeExperience from "../pages/experience/SeeExperience";
 
@@ -32,7 +32,17 @@ export const publicRoute = createBrowserRouter([
       { path: "verify", element: <EmailVerify /> },
       { path: "forgot-password", element: <ForgotPassword /> },
       { path: "reset-password", element: <ResetPassword /> },
-      { path: "*", element: <Result /> },
+      {
+        path: "*",
+        element: (
+          <Result
+            status="404"
+            title="404"
+            subTitle="Sorry, the page you visited does not exist."
+            extra={<Button type="primary">Back Home</Button>}
+          />
+        ),
+      },
     ],
   },
 ]);
@@ -74,5 +84,15 @@ export const protectedRouter = createBrowserRouter([
       { path: "experiences", element: <SeeExperience /> },
     ],
   },
-  { path: "*", element: <Result /> },
+  {
+    path: "*",
+    element: (
+      <Result
+        status="404"
+        title="404"
+        subTitle="Sorry, the page you visited does not exist."
+        extra={<Button type="primary">Back Home</Button>}
+      />
+    ),
+  },
 ]);

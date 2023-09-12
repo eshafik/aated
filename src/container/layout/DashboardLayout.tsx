@@ -20,7 +20,9 @@ const DashboardLayout = () => {
       label: (
         <a
           onClick={() => (
-            navigation("/signin"), localStorage.removeItem("token")
+            localStorage.removeItem("token"),
+            localStorage.removeItem("refreshToken"),
+            navigation("/signin")
           )}
         >
           Logout

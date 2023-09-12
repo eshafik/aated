@@ -1,19 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { profileAPI } from "../../libs/api/profileAPI";
-import { Card, Popconfirm, Spin } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { Button, Card, Popconfirm, Result, Spin } from "antd";
+import { DeleteOutlined, SmileOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const SeeExperience = () => {
-  const queryClient = useQueryClient();
-
+  const navigate = useNavigate();
   const { data: experienceData, isLoading } = useQuery(
     ["experience-list"],
-    () => profileAPI.getExperiences(),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["experience-list"]);
-      },
-    }
+    () => profileAPI.getExperiences()
   );
 
   const { mutate: mutateDeleteExperience } = useMutation(
@@ -23,31 +18,43 @@ const SeeExperience = () => {
   return (
     <Spin spinning={isLoading}>
       <div>
-        {experienceData?.data?.map((exp, i) => (
-          <Card
-            className="shadow-2xl bg-transparent max-w-xl mx-auto"
-            key={i}
-            title={`${i + 1}. ${exp?.company_name}`}
+        {experienceData?.data?.length ? (
+          experienceData?.data?.map((exp, i) => (
+            <Card
+              className="shadow-2xl bg-transparent max-w-xl mx-auto"
+              key={i}
+              title={`${i + 1}. ${exp?.company_name}`}
+              extra={
+                <Popconfirm
+                  title="Delete the Post"
+                  description="Are you sure to delete this post?"
+                  onConfirm={() => mutateDeleteExperience(exp?.id)}
+                  okText="Yes"
+                  cancelText="No"
+                  okType="danger"
+                >
+                  <DeleteOutlined />
+                </Popconfirm>
+              }
+            >
+              <div>{exp?.designation}</div>
+              <div>{exp?.job_department?.name}</div>
+              <div>{exp?.job_location}</div>
+              <div>{exp?.responsibilities}</div>
+              <div>{exp?.working_years} Year of experience</div>
+            </Card>
+          ))
+        ) : (
+          <Result
+            icon={<SmileOutlined />}
+            title="No member available"
             extra={
-              <Popconfirm
-                title="Delete the Post"
-                description="Are you sure to delete this post?"
-                onConfirm={() => mutateDeleteExperience(exp?.id)}
-                okText="Yes"
-                cancelText="No"
-                okType="danger"
-              >
-                <DeleteOutlined />
-              </Popconfirm>
+              <Button onClick={() => navigate("/add-experiences")}>
+                Click Here
+              </Button>
             }
-          >
-            <div>{exp?.designation}</div>
-            <div>{exp?.job_department?.name}</div>
-            <div>{exp?.job_location}</div>
-            <div>{exp?.responsibilities}</div>
-            <div>{exp?.working_years} Year of experience</div>
-          </Card>
-        ))}
+          />
+        )}
       </div>
     </Spin>
   );
