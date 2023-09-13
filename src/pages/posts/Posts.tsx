@@ -193,7 +193,12 @@ const Posts = () => {
                 <div className="mt-4 mb-4">
                   {showMore ? items?.body : `${items?.body?.substring(0, 250)}`}
                   {items?.body?.length > 250 ? (
-                    <Link to={`${items?.id}`}>Show more</Link>
+                    <Link
+                      onClick={() => setShowMore(!showMore)}
+                      to={`${items?.id}`}
+                    >
+                      Show more
+                    </Link>
                   ) : (
                     ""
                   )}
