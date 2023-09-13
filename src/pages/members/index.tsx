@@ -5,6 +5,7 @@ import PendingMembers from "./component/PendingMembers";
 const Members = () => {
   return (
     <Tabs
+      className="mt-5"
       items={[
         {
           key: "active_members",

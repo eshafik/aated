@@ -4,7 +4,9 @@ import {
   Button,
   Card,
   Col,
+  Dropdown,
   Form,
+  Image,
   Input,
   Modal,
   Popconfirm,
@@ -14,7 +16,12 @@ import {
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { Link } from "react-router-dom";
-import { DeleteOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  DeleteRowOutlined,
+  EditOutlined,
+  MoreOutlined,
+} from "@ant-design/icons";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { PostPayload } from "../../libs/api/@types/post";
@@ -23,6 +30,7 @@ import CreatePostModal from "./component/CreatePostModal";
 import { profileAPI } from "../../libs/api/profileAPI";
 import { useComment } from "../../config/hook/usecomment";
 import { usePostList } from "../../config/hook/useSearch";
+import DropdownButton from "antd/es/dropdown/dropdown-button";
 
 const Posts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -144,16 +152,37 @@ const Posts = () => {
                 }
                 extra={
                   items?.user?.id == profileData?.data?.id ? (
-                    <Popconfirm
-                      title="Delete the Post"
-                      description="Are you sure to delete this post?"
-                      onConfirm={() => mutateDeletePost(items?.id)}
-                      okText="Yes"
-                      cancelText="No"
-                      okType="danger"
+                    <Dropdown
+                      menu={{
+                        items: [
+                          {
+                            key: "edit",
+                            label: (
+                              <Link to={`${items?.id}`}>
+                                <EditOutlined /> Edit
+                              </Link>
+                            ),
+                          },
+                          {
+                            key: "member",
+                            label: (
+                              <Popconfirm
+                                title="Delete Post"
+                                description="Are you sure want o delete this Post?"
+                                onConfirm={() => mutateDeletePost(items?.id)}
+                                okText="Yes"
+                                cancelText="No"
+                                okType="danger"
+                              >
+                                <DeleteOutlined /> Delete
+                              </Popconfirm>
+                            ),
+                          },
+                        ],
+                      }}
                     >
-                      <DeleteOutlined />
-                    </Popconfirm>
+                      <Button type="text" icon={<MoreOutlined />} />
+                    </Dropdown>
                   ) : (
                     ""
                   )
@@ -161,7 +190,7 @@ const Posts = () => {
               >
                 <Typography.Title level={5}>{items.title}</Typography.Title>
                 {items.attachments?.[0] ? (
-                  <img alt="example" src={items.attachments?.[0]} />
+                  <Image alt="example" src={items.attachments?.[0]} />
                 ) : (
                   ""
                 )}

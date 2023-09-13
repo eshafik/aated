@@ -7,6 +7,7 @@ import {
   Row,
   Typography,
   Skeleton,
+  Image,
 } from "antd";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -42,9 +43,9 @@ const Post = () => {
             <div className="text-black font-bold text-xl">
               {postData?.data?.title}
             </div>
-            {postData?.data?.attachments?.map((pic) => (
-              <img alt="example" src={pic} />
-            ))}
+            {postData?.data?.attachments?.map((pic) =>
+              pic ? <Image alt="example" src={pic} /> : ""
+            )}
             <div className="mt-4 mb-4">{postData?.data?.body}</div>
             <Typography.Title level={5}>
               {" "}
