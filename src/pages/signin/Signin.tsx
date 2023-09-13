@@ -24,21 +24,26 @@ const SignIn = () => {
     }
   );
   return (
-    <Row gutter={24} className="h-full" align="middle" justify="center">
-      <Col sm={10} md={10} lg={7}>
+    <Row className="h-full" align="middle" justify="center">
+      <Col xs={15} sm={12} md={10} lg={8} xl={6}>
         <Card
-          size="small"
-          title={<div className="text-center text-xl">Sign In</div>}
+          bordered
+          className="bg-slate-300"
+          title={
+            <div className="bg-transparent shadow-2xl text-center text-xl">
+              Sign In
+            </div>
+          }
         >
           <Form
-            requiredMark={"optional"}
+            labelCol={{ span: 20 }}
+            labelAlign="right"
             onFinish={(values) =>
               mutate({
                 username: values.username,
                 password: values.password,
               })
             }
-            size="middle"
             layout="vertical"
           >
             <Form.Item
@@ -70,7 +75,12 @@ const SignIn = () => {
               </Col>
             </Row>
             <Form.Item>
-              <Button className="w-full" loading={isLoading} htmlType="submit">
+              <Button
+                type="primary"
+                className="w-full"
+                loading={isLoading}
+                htmlType="submit"
+              >
                 Sign in
               </Button>
             </Form.Item>

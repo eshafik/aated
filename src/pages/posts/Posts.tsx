@@ -64,8 +64,13 @@ const Posts = () => {
 
   const { mutate: mutateComment, isLoading: loadingComment } = useComment();
 
+  // const { data: postDetailsData, handlePostId } = useGetPostDetails();
+
   const showModal = () => {
     setIsModalOpen(true);
+    // if (id) {
+    //   handlePostId(id);
+    // }
   };
 
   const handleOk = () => {
@@ -113,6 +118,9 @@ const Posts = () => {
 
             <Form
               form={form}
+              initialValues={{
+                body: "Hi there",
+              }}
               onFinish={(values) =>
                 createPostMutate({
                   attachments: values.attachments,

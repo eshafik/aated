@@ -43,7 +43,7 @@ class PostAPI {
     );
   }
 
-  getPostDetails(ID: string | number) {
+  getPostDetails(ID?: string | number) {
     return this.http.get<PostResponse>(`api/v1/post/manage-post/${ID}`);
   }
 
