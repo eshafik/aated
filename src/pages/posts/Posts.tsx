@@ -159,10 +159,13 @@ const Posts = () => {
                   )
                 }
               >
-                <div className="text-black font-bold text-xl">
-                  {items.title}
-                </div>
-                <img alt="example" src={items.attachments?.[0]} />
+                <Typography.Title level={5}>{items.title}</Typography.Title>
+                {items.attachments?.[0] ? (
+                  <img alt="example" src={items.attachments?.[0]} />
+                ) : (
+                  ""
+                )}
+
                 <div className="mt-4 mb-4">{items.body}</div>
                 <Link to={`${items?.id}`}>
                   <Typography.Link>
