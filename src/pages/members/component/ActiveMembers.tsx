@@ -183,7 +183,7 @@ const ActiveMembers = () => {
                       items: [
                         {
                           key: "admin",
-                          label: "Admin",
+                          label: "Make Admin",
                           onClick: () =>
                             mutate({
                               role: "admin",
@@ -192,7 +192,7 @@ const ActiveMembers = () => {
                         },
                         {
                           key: "member",
-                          label: "Member",
+                          label: "Make Member",
                           onClick: () =>
                             mutate({
                               role: "member",
@@ -201,7 +201,7 @@ const ActiveMembers = () => {
                         },
                         {
                           key: "moderator",
-                          label: "Moderator",
+                          label: "Make Moderator",
                           onClick: () =>
                             mutate({
                               role: "moderator",
