@@ -29,6 +29,8 @@ const DashboardLayout = () => {
     <Layout className="relative" style={{ overflow: "auto", height: "100vh" }}>
       <Sider
         theme="light"
+        breakpoint="sm"
+        collapsedWidth="0"
         className="bg-blue-400"
         collapsible
         collapsed={collapsed}
