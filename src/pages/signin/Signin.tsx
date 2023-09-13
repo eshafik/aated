@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Col, Form, Input, Row } from "antd";
+import { App, Button, Card, Checkbox, Col, Form, Input, Row } from "antd";
 import { useMutation } from "react-query";
 import { LoginPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
@@ -8,6 +8,7 @@ import { UserOutlined, LockFilled } from "@ant-design/icons";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { notification } = App.useApp();
 
   const { isLoading, mutate } = useMutation(
     (payload: LoginPayload) => authAPI.loginUser(payload),
@@ -16,6 +17,9 @@ const SignIn = () => {
         authService.setToken(access);
         authService.setRefreshToken(refresh);
         navigate("/members");
+      },
+      onError: () => {
+        notification.error({ message: "Invalid username/password message" });
       },
     }
   );

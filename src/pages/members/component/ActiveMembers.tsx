@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 import { searchAPI } from "../../../libs/api/searchAPI";
 import { useMemo } from "react";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
-import { DeleteTwoTone, MoreOutlined } from "@ant-design/icons";
+import { MoreOutlined } from "@ant-design/icons";
 import { profileAPI } from "../../../libs/api/profileAPI";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 
@@ -185,31 +185,62 @@ const ActiveMembers = () => {
                         {
                           key: "admin",
                           label: (
-                            <Popconfirm title="Are you sure?">Admin</Popconfirm>
+                            <Popconfirm
+                              title="Make Admin?"
+                              description="Are you sure to Make Admin"
+                              onConfirm={() =>
+                                mutate({
+                                  role: "admin",
+                                  user_id: item?.id,
+                                })
+                              }
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make Admin
+                            </Popconfirm>
                           ),
-                          onClick: () =>
-                            mutate({
-                              role: "admin",
-                              user_id: item?.id,
-                            }),
                         },
                         {
                           key: "member",
-                          label: "Member",
-                          onClick: () =>
-                            mutate({
-                              role: "member",
-                              user_id: item?.id,
-                            }),
+                          label: (
+                            <Popconfirm
+                              title="Make member?"
+                              description="Are you sure to Make member"
+                              onConfirm={() =>
+                                mutate({
+                                  role: "member",
+                                  user_id: item?.id,
+                                })
+                              }
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make Member
+                            </Popconfirm>
+                          ),
                         },
                         {
                           key: "moderator",
-                          label: "Moderator",
-                          onClick: () =>
-                            mutate({
-                              role: "moderator",
-                              user_id: item?.id,
-                            }),
+                          label: (
+                            <Popconfirm
+                              title="Make member?"
+                              description="Are you sure to Make member"
+                              onConfirm={() =>
+                                mutate({
+                                  role: "moderator",
+                                  user_id: item?.id,
+                                })
+                              }
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make moderator
+                            </Popconfirm>
+                          ),
                         },
                       ],
                     }}
