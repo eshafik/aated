@@ -16,12 +16,7 @@ import {
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { Link } from "react-router-dom";
-import {
-  DeleteOutlined,
-  DeleteRowOutlined,
-  EditOutlined,
-  MoreOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { PostPayload } from "../../libs/api/@types/post";
@@ -30,13 +25,13 @@ import CreatePostModal from "./component/CreatePostModal";
 import { profileAPI } from "../../libs/api/profileAPI";
 import { useComment } from "../../config/hook/usecomment";
 import { usePostList } from "../../config/hook/useSearch";
-import DropdownButton from "antd/es/dropdown/dropdown-button";
 
 const Posts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
+  const [showMore, setShowMore] = useState(false);
 
   const { mutate: createPostMutate, isLoading } = useMutation(
     (payload: PostPayload) => postAPI.createPost(payload),
@@ -195,7 +190,15 @@ const Posts = () => {
                   ""
                 )}
 
-                <div className="mt-4 mb-4">{items.body}</div>
+                <div className="mt-4 mb-4">
+                  {showMore ? items?.body : `${items?.body?.substring(0, 250)}`}
+                  {items?.body?.length > 250 ? (
+                    <Link to={`${items?.id}`}>Show more</Link>
+                  ) : (
+                    ""
+                  )}
+                </div>
+
                 <Link to={`${items?.id}`}>
                   <Typography.Link>
                     Comment ({items?.total_comments})

@@ -14,7 +14,7 @@ export interface PostsResponse {
         name?: string;
       };
       title?: string;
-      body?: string;
+      body: string;
       attachments?: string[];
       total_comments?: number;
       user?: {
