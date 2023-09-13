@@ -1,8 +1,9 @@
-import { RouterProvider } from "react-router-dom";
-import { App as AntApp } from "antd";
-import { protectedRouter, publicRoute } from "./route/router";
+import { StyleProvider } from "@ant-design/cssinjs";
+import { App as AntApp, ConfigProvider } from "antd";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { RouterProvider } from "react-router-dom";
 import { useAuth } from "./libs/auth";
+import { protectedRouter, publicRoute } from "./route/router";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,11 +15,15 @@ function App() {
 
   return (
     <AntApp>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider
-          router={isAuthenticated ? protectedRouter : publicRoute}
-        />
-      </QueryClientProvider>
+      <ConfigProvider>
+        <StyleProvider hashPriority="high">
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider
+              router={isAuthenticated ? protectedRouter : publicRoute}
+            />
+          </QueryClientProvider>
+        </StyleProvider>
+      </ConfigProvider>
     </AntApp>
   );
 }

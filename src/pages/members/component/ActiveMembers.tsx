@@ -8,6 +8,7 @@ import {
   Dropdown,
   Form,
   Input,
+  Popconfirm,
   Row,
   Select,
   SelectProps,
@@ -21,7 +22,7 @@ import { Link } from "react-router-dom";
 import { searchAPI } from "../../../libs/api/searchAPI";
 import { useMemo } from "react";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
-import { MoreOutlined } from "@ant-design/icons";
+import { DeleteTwoTone, MoreOutlined } from "@ant-design/icons";
 import { profileAPI } from "../../../libs/api/profileAPI";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 
@@ -183,7 +184,9 @@ const ActiveMembers = () => {
                       items: [
                         {
                           key: "admin",
-                          label: "Make Admin",
+                          label: (
+                            <Popconfirm title="Are you sure?">Admin</Popconfirm>
+                          ),
                           onClick: () =>
                             mutate({
                               role: "admin",
@@ -192,7 +195,7 @@ const ActiveMembers = () => {
                         },
                         {
                           key: "member",
-                          label: "Make Member",
+                          label: "Member",
                           onClick: () =>
                             mutate({
                               role: "member",
@@ -201,7 +204,7 @@ const ActiveMembers = () => {
                         },
                         {
                           key: "moderator",
-                          label: "Make Moderator",
+                          label: "Moderator",
                           onClick: () =>
                             mutate({
                               role: "moderator",
