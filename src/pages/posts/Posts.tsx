@@ -97,21 +97,21 @@ const Posts = () => {
                   : "";
               });
             }}
+            extra={
+              <Button type="primary" onClick={showModal}>
+                Create Post
+              </Button>
+            }
           >
             <Form form={searchForm}>
               <Row gutter={[5, 5]}>
-                <Col span={18}>
+                <Col span={24}>
                   <Input.Search
-                    className="max-w-lg"
+                    className="mb-3"
                     placeholder="Search Post"
                     allowClear
                     onSearch={filter.handleChangePosts}
                   />
-                </Col>
-                <Col>
-                  <Form.Item>
-                    <Button onClick={showModal}>create Post</Button>
-                  </Form.Item>
                 </Col>
               </Row>
             </Form>
@@ -136,7 +136,7 @@ const Posts = () => {
                 onOk={form.submit}
                 onCancel={handleOk}
                 okText="Submit"
-                okType="default"
+                okType="primary"
                 confirmLoading={isLoading}
                 centered
               >
@@ -231,8 +231,8 @@ const Posts = () => {
 
                   <Form.Item>
                     <Button
+                      type="primary"
                       loading={loadingComment}
-                      className="bg-yellow-300"
                       htmlType="submit"
                     >
                       Comment
