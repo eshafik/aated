@@ -103,7 +103,7 @@ const Committee = () => {
           <Typography.Title level={2}>Committee</Typography.Title>
         </Col>
         <Col>
-          <Button onClick={() => navigate("createcommittee")}>
+          <Button type="primary" onClick={() => navigate("createcommittee")}>
             Create committee
           </Button>
         </Col>
