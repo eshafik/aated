@@ -197,10 +197,7 @@ const ProfileSetting = () => {
           </Form>
         )}
         <div>
-          <Link color="#0000FF" href={"/add-experiences"}>
-            Want To Add Job Experience?{" "}
-          </Link>
-          or <Link href={"/experiences"}>Want to see your experienes?</Link>
+          <Link href={"/experiences"}>Want to see your experienes?</Link>
         </div>
       </Card>
     </Spin>

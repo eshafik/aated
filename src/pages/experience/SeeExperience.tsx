@@ -17,7 +17,14 @@ const SeeExperience = () => {
   );
   return (
     <Spin spinning={isLoading}>
-      <div>
+      <Card
+        className="bg-transparent"
+        extra={
+          <Button onClick={() => navigate("/add-experiences")}>
+            Add Experiences
+          </Button>
+        }
+      >
         {experienceData?.data?.length ? (
           experienceData?.data?.map((exp, i) => (
             <Card
@@ -47,7 +54,7 @@ const SeeExperience = () => {
         ) : (
           <Result
             icon={<SmileOutlined />}
-            title="No member available"
+            title="You have no experiences available. Want To Add?"
             extra={
               <Button onClick={() => navigate("/add-experiences")}>
                 Click Here
@@ -55,7 +62,7 @@ const SeeExperience = () => {
             }
           />
         )}
-      </div>
+      </Card>
     </Spin>
   );
 };
