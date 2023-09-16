@@ -1,5 +1,7 @@
 import { Tabs, TabsProps } from "antd";
 import ProfileSettings from "./components/ProfileSettings";
+import Security from "./components/Security";
+import SeeExperience from "../experience/SeeExperience";
 
 const ProfileContainer = () => {
   const items: TabsProps["items"] = [
@@ -9,14 +11,14 @@ const ProfileContainer = () => {
       children: <ProfileSettings />,
     },
     {
-      key: "2",
-      label: "Tab 2",
-      children: "Content of Tab Pane 2",
+      key: "security",
+      label: "Security",
+      children: <Security />,
     },
     {
-      key: "3",
-      label: "Tab 3",
-      children: "Content of Tab Pane 3",
+      key: "experience",
+      label: "Experience",
+      children: <SeeExperience />,
     },
   ];
   return <Tabs items={items} />;
