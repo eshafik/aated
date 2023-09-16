@@ -7,7 +7,6 @@ import DashboardLayout from "../container/layout/DashboardLayout";
 import HomeLayout from "../container/layout/HomeLayout";
 import Post from "../pages/post/Post";
 import Committee from "../pages/committee/Committee";
-import ProfileSetting from "../pages/profileSetting/ProfileSetting";
 import EmailVerify from "../pages/emailverify/EmailVerify";
 import ForgotPassword from "../pages/forgot-password/ForgotPassword";
 import ResetPassword from "../pages/forgot-password/ResetPassword";
@@ -19,6 +18,7 @@ import { Button, Result } from "antd";
 import AddExperiences from "../pages/experience/AddExperiences";
 import SeeExperience from "../pages/experience/SeeExperience";
 import SignUp from "../pages/signup/Signup";
+import ProfileContainer from "../pages/profileSetting";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -79,7 +79,7 @@ export const protectedRouter = createBrowserRouter([
           },
         ],
       },
-      { path: "profilesetting", element: <ProfileSetting /> },
+      { path: "profilesetting", element: <ProfileContainer /> },
       { path: "add-experiences", element: <AddExperiences /> },
       { path: "experiences", element: <SeeExperience /> },
     ],

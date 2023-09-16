@@ -1,4 +1,4 @@
-import { Avatar, Col, Dropdown, Layout, MenuProps, Row } from "antd";
+import { Avatar, Button, Col, Dropdown, Layout, MenuProps, Row } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Sider from "antd/es/layout/Sider";
@@ -7,6 +7,7 @@ import SideMenu from "../SideMenu/SideMenu";
 import { useQuery } from "react-query";
 import { profileAPI } from "../../libs/api/profileAPI";
 import { authService } from "../../libs/auth";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -28,6 +29,7 @@ const DashboardLayout = () => {
   return (
     <Layout className="relative" style={{ overflow: "auto", height: "100vh" }}>
       <Sider
+        trigger={null}
         theme="light"
         breakpoint="xl"
         collapsedWidth="0"
@@ -39,10 +41,18 @@ const DashboardLayout = () => {
         <SideMenu />
       </Sider>
       <Layout>
-        <Header className="bg-transparent">
-          <Row justify={"end"}>
+        <Header style={{ padding: 0 }} className="bg-transparent w-full">
+          <Row justify={"space-between"}>
+            <Col>
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+              />
+            </Col>
             <Col>
               <Dropdown.Button
+                className="mr-12"
                 size="large"
                 type="text"
                 icon={<Avatar src={data?.data?.profile_pic} />}

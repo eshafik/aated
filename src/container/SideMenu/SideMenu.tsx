@@ -11,7 +11,7 @@ const SideMenu = () => {
   const navigate = useNavigate();
   return (
     <Menu
-      mode="vertical"
+      mode="inline"
       theme="light"
       className="bg-slate-300 h-full"
       items={[

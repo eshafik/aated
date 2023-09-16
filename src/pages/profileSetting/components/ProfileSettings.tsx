@@ -1,12 +1,12 @@
 import { App, Button, Card, Form, Input, Select, Spin, Typography } from "antd";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { UpdateProfilePayload } from "../../libs/api/@types/profile";
-import { profileAPI } from "../../libs/api/profileAPI";
 import TextArea from "antd/es/input/TextArea";
-import AvatarUploader from "../../container/AvaterUploader";
 import Link from "antd/es/typography/Link";
+import { UpdateProfilePayload } from "../../../libs/api/@types/profile";
+import { profileAPI } from "../../../libs/api/profileAPI";
+import AvatarUploader from "../../../container/AvaterUploader";
 
-const ProfileSetting = () => {
+const ProfileSettings = () => {
   const { notification } = App.useApp();
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
@@ -36,7 +36,7 @@ const ProfileSetting = () => {
             Profile Setting
           </Typography.Title>
         }
-        className="shadow-2xl bg-transparent max-w-xl mx-auto"
+        className="shadow-2xl bg-transparent max-w-xl "
       >
         {data?.data?.name && (
           <Form
@@ -83,14 +83,14 @@ const ProfileSetting = () => {
             <Form.Item name="profile_pic">
               <AvatarUploader />
               {/* <Upload
-                name="photo"
-                listType="picture-card"
-                maxCount={1}
-                action={`${config?.apiURL}/api/v1/core/upload/`}
-                headers={{ Authorization: `Bearer ${authService.getToken()}` }}
-              >
-                <Button shape="circle" type="text" icon={<UploadOutlined />} />
-              </Upload> */}
+            name="photo"
+            listType="picture-card"
+            maxCount={1}
+            action={`${config?.apiURL}/api/v1/core/upload/`}
+            headers={{ Authorization: `Bearer ${authService.getToken()}` }}
+            >
+            <Button shape="circle" type="text" icon={<UploadOutlined />} />
+        </Upload> */}
             </Form.Item>
 
             <Form.Item shouldUpdate name="username" label="Username">
@@ -230,4 +230,4 @@ const ProfileSetting = () => {
   );
 };
 
-export default ProfileSetting;
+export default ProfileSettings;
