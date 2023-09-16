@@ -39,7 +39,7 @@ const DashboardLayout = () => {
         <SideMenu />
       </Sider>
       <Layout>
-        <Header className="bg-transparent h-15 p-px mb-0">
+        <Header className="bg-transparent">
           <Row justify={"end"}>
             <Col>
               <Dropdown.Button

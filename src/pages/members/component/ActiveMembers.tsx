@@ -166,8 +166,8 @@ const ActiveMembers = () => {
         </Col>
         {ActiveMemberData?.data?.map((item, i) => (
           <Col key={i} xs={24} md={8} lg={6}>
-            <Badge.Ribbon text={`${item?.batch_no}th batch`}>
-              <Card type="inner" hoverable className="h-full">
+            <Badge.Ribbon placement="start" text={`${item?.batch_no}th batch`}>
+              <Card type="inner" hoverable className="h-40">
                 <Link to={`${item?.id}`}>
                   <Space align="start" size="middle">
                     <Avatar
