@@ -29,25 +29,23 @@ const DashboardLayout = () => {
     <Layout className="relative" style={{ overflow: "auto", height: "100vh" }}>
       <Sider
         theme="light"
-        breakpoint="md"
+        breakpoint="lg"
         collapsedWidth="0"
-        className="bg-blue-400"
         collapsible
+        className="bg-blue-400 "
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
       >
         <SideMenu />
       </Sider>
       <Layout>
-        <Header className="bg-transparent w-full">
-          <Row className="mr-3" justify={"end"}>
+        <Header className="bg-transparent h-15 p-px mb-0">
+          <Row justify={"end"}>
             <Col>
               <Dropdown.Button
                 size="large"
                 type="text"
-                icon={
-                  <Avatar className="bottom-1" src={data?.data?.profile_pic} />
-                }
+                icon={<Avatar src={data?.data?.profile_pic} />}
                 menu={{ items }}
                 placement="bottomLeft"
               >
@@ -56,7 +54,7 @@ const DashboardLayout = () => {
             </Col>
           </Row>
         </Header>
-        <Content className="overflow-auto p-2">
+        <Content className="overflow-auto ml-5 mt-2">
           <Outlet />
         </Content>
       </Layout>

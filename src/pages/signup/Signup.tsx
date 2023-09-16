@@ -1,10 +1,10 @@
-import { App, Button, Card, Col, Form, Input, InputNumber, Row } from "antd";
+import { App, Button, Card, Col, Form, Input, Row } from "antd";
 import { useMutation, useQueryClient } from "react-query";
 import { CreateUserPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const SignUp = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { notification } = App.useApp();
@@ -23,13 +23,15 @@ const Signup = () => {
     }
   );
   return (
-    <Row gutter={24} className="h-full" align="middle" justify="center">
-      <Col span={8}>
+    <Row align="middle" justify="center">
+      <Col xs={20} sm={15} md={15} lg={12} xl={12} xxl={10}>
         <Card
-          size="small"
+          // size="small"
+          className="shadow-3xl"
           title={<div className="text-center text-xl">Sign UP</div>}
         >
           <Form
+            // className="w-96"
             form={form}
             onFinish={(values) =>
               mutate({
@@ -50,7 +52,7 @@ const Signup = () => {
               label="Name"
               rules={[{ required: true, message: "Please enter your name" }]}
             >
-              <Input placeholder="name" />
+              <Input className="h-11" placeholder="name" />
             </Form.Item>
 
             <Form.Item
@@ -60,37 +62,15 @@ const Signup = () => {
                 { required: true, message: "Please enter your StudentID" },
               ]}
             >
-              <Input placeholder="Student ID" />
+              <Input className="h-11" placeholder="Student ID" />
             </Form.Item>
-            {/* 
-            <Form.Item>
-              <Select
-                options={[
-                  { value: "jack", label: "Jack" },
-                  { value: "lucy", label: "Lucy" },
-                  { value: "Yiminghe", label: "yiminghe" },
-                  { value: "disabled", label: "Disabled", disabled: true },
-                ]}
-              />
-            </Form.Item> */}
-
-            {/* <Form.Item>
-              <Select
-                options={[
-                  { value: "jack", label: "Jack" },
-                  { value: "lucy", label: "Lucy" },
-                  { value: "Yiminghe", label: "yiminghe" },
-                  { value: "disabled", label: "Disabled", disabled: true },
-                ]}
-              />
-            </Form.Item> */}
 
             <Form.Item
               label="Email"
               name="email"
               rules={[{ required: true, message: "Please enter your email" }]}
             >
-              <Input placeholder="Email" />
+              <Input className="h-11" placeholder="Email" />
             </Form.Item>
 
             <Form.Item
@@ -98,7 +78,27 @@ const Signup = () => {
               name="phone"
               rules={[{ required: true, message: "Please enter your phone" }]}
             >
-              <Input placeholder="Phone" />
+              <Input className="h-11" placeholder="Phone" />
+            </Form.Item>
+
+            <Form.Item
+              name="passing_year"
+              label="Passing Year"
+              rules={[
+                { required: true, message: "Please enter your Password" },
+              ]}
+            >
+              <Input className="h-11" placeholder="Passing year" />
+            </Form.Item>
+
+            <Form.Item
+              name="batch"
+              label="Batch Number"
+              rules={[
+                { required: true, message: "Please enter your Batch Number" },
+              ]}
+            >
+              <Input className="h-11" placeholder="Batch" />
             </Form.Item>
 
             <Form.Item
@@ -108,20 +108,7 @@ const Signup = () => {
                 { required: true, message: "Please enter your Password" },
               ]}
             >
-              <Input.Password placeholder="Password" />
-            </Form.Item>
-
-            <Form.Item
-              name="passing_year"
-              rules={[
-                { required: true, message: "Please enter your Password" },
-              ]}
-            >
-              <Input placeholder="Passing year" />
-            </Form.Item>
-
-            <Form.Item name="batch">
-              <InputNumber placeholder="Batch" />
+              <Input.Password className="h-11" placeholder="Password" />
             </Form.Item>
 
             {/* <Form.Item
@@ -136,18 +123,20 @@ const Signup = () => {
 
             <Form.Item>
               <Button
+                type="primary"
                 loading={isLoading}
                 htmlType="submit"
-                className="bg-orange-500 w-full"
+                className="h-11 w-full"
               >
                 Sign UP
               </Button>
             </Form.Item>
           </Form>
+          <Link to={"/signin"}>Already have an account?</Link>
         </Card>
       </Col>
     </Row>
   );
 };
 
-export default Signup;
+export default SignUp;

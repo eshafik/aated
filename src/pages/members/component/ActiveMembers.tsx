@@ -112,39 +112,51 @@ const ActiveMembers = () => {
             layout="inline"
           >
             <Form.Item name="name">
-              <Input placeholder="name search" />
+              <Input placeholder="Name" />
             </Form.Item>
 
             <Form.Item name="designation">
-              <Input placeholder="designation search" />
+              <Input placeholder="Designation" />
             </Form.Item>
 
             <Form.Item name="student_id">
-              <Input placeholder="student id search" />
+              <Input placeholder="Student id" />
             </Form.Item>
 
             <Form.Item name="location">
-              <Input placeholder="location search" />
+              <Input placeholder="Location" />
             </Form.Item>
 
             <Form.Item name="company">
-              <Input placeholder="company search" />
+              <Input placeholder="Company" />
             </Form.Item>
 
             <Form.Item name="skills">
-              <Input placeholder="skills search" />
+              <Input placeholder="Skills" />
             </Form.Item>
 
             <Form.Item>
-              <Select placeholder="batch" options={batchoptions} />
+              <Select
+                style={{ width: "205px" }}
+                placeholder="Batch"
+                options={batchoptions}
+              />
             </Form.Item>
 
             <Form.Item>
-              <Select placeholder="occupation" options={occupationoptions} />
+              <Select
+                style={{ width: "205px" }}
+                placeholder="Occupation"
+                options={occupationoptions}
+              />
             </Form.Item>
 
             <Form.Item>
-              <Select placeholder="job department" options={jobDeptoptions} />
+              <Select
+                style={{ width: "205px" }}
+                placeholder="Job department"
+                options={jobDeptoptions}
+              />
             </Form.Item>
 
             <Form.Item>

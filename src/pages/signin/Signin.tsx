@@ -27,8 +27,7 @@ const SignIn = () => {
     <Row className="h-full" align="middle" justify="center">
       <Col xs={15} sm={12} md={10} lg={8} xl={6}>
         <Card
-          bordered
-          className="bg-slate-300"
+          className="bg-white shadow-2xl"
           title={
             <div className="bg-transparent shadow-2xl text-center text-xl">
               Sign In
@@ -36,8 +35,6 @@ const SignIn = () => {
           }
         >
           <Form
-            labelCol={{ span: 20 }}
-            labelAlign="right"
             onFinish={(values) =>
               mutate({
                 username: values.username,
@@ -52,7 +49,11 @@ const SignIn = () => {
                 { required: true, message: "Please input your Username!" },
               ]}
             >
-              <Input prefix={<UserOutlined />} placeholder="Username" />
+              <Input
+                className="h-11"
+                prefix={<UserOutlined />}
+                placeholder="Username"
+              />
             </Form.Item>
             <Form.Item
               name="password"
@@ -60,7 +61,11 @@ const SignIn = () => {
                 { required: true, message: "Please input your Password!" },
               ]}
             >
-              <Input.Password prefix={<LockFilled />} placeholder="Password" />
+              <Input.Password
+                className="h-11"
+                prefix={<LockFilled />}
+                placeholder="Password"
+              />
             </Form.Item>
             <Row justify={"space-between"}>
               <Col>
@@ -77,14 +82,14 @@ const SignIn = () => {
             <Form.Item>
               <Button
                 type="primary"
-                className="w-full"
+                className="w-full h-11"
                 loading={isLoading}
                 htmlType="submit"
               >
                 Sign in
               </Button>
             </Form.Item>
-            Or <a href="">register now!</a>
+            Or <a href="/signup">register now!</a>
           </Form>
         </Card>
       </Col>

@@ -1,6 +1,5 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/homepage/HomePage";
-import Signup from "../pages/signup/Signup";
 import SignIn from "../pages/signin/Signin";
 import Members from "../pages/members";
 import Posts from "../pages/posts/Posts";
@@ -19,6 +18,7 @@ import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembe
 import { Button, Result } from "antd";
 import AddExperiences from "../pages/experience/AddExperiences";
 import SeeExperience from "../pages/experience/SeeExperience";
+import SignUp from "../pages/signup/Signup";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -27,7 +27,7 @@ export const publicRoute = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/homepage" /> },
       { path: "homepage", element: <HomePage /> },
-      { path: "signup", element: <Signup /> },
+      { path: "signup", element: <SignUp /> },
       { path: "signin", element: <SignIn /> },
       { path: "verify", element: <EmailVerify /> },
       { path: "forgot-password", element: <ForgotPassword /> },
