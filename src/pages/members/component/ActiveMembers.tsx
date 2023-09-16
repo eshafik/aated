@@ -27,6 +27,7 @@ import { profileAPI } from "../../../libs/api/profileAPI";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 
 const ActiveMembers = () => {
+  const [form] = Form.useForm();
   const {
     members: ActiveMemberData,
     filter: memberFilter,
@@ -61,6 +62,21 @@ const ActiveMembers = () => {
 
     return [];
   }, [batchData?.data]);
+
+  const employeeOptions = [
+    {
+      label: "Employed",
+      value: "employed",
+    },
+    {
+      label: "Unemployed",
+      value: "unemployed",
+    },
+    {
+      label: "Student",
+      value: "student",
+    },
+  ];
 
   const occupationoptions: SelectProps["options"] = useMemo(() => {
     if (occupationData?.data && Array.isArray(occupationData?.data)) {
@@ -99,6 +115,7 @@ const ActiveMembers = () => {
       <Row gutter={[12, 12]}>
         <Col span={24}>
           <Form
+            form={form}
             onFinish={(values) => {
               memberFilter.handleChangeName(values.name);
               memberFilter.handleChangeCompany(values.company);
@@ -108,6 +125,8 @@ const ActiveMembers = () => {
               memberFilter.handleChangeOccupation(values.occupation_type);
               memberFilter.handleChangeStudentId(values.student_id);
               memberFilter.handleChangeOrdering(values.batch);
+              memberFilter.handleChangeSkills(values.skills);
+              memberFilter.handleChangeEmployeeStatus(values.employment_status);
             }}
             layout="inline"
           >
@@ -135,7 +154,15 @@ const ActiveMembers = () => {
               <Input placeholder="Skills" />
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item name="employment_status">
+              <Select
+                style={{ width: "205px" }}
+                placeholder="Employee Status"
+                options={employeeOptions}
+              />
+            </Form.Item>
+
+            <Form.Item name="batch">
               <Select
                 style={{ width: "205px" }}
                 placeholder="Batch"
@@ -143,7 +170,7 @@ const ActiveMembers = () => {
               />
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item name="occupation_type">
               <Select
                 style={{ width: "205px" }}
                 placeholder="Occupation"
@@ -151,7 +178,7 @@ const ActiveMembers = () => {
               />
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item name="job_department">
               <Select
                 style={{ width: "205px" }}
                 placeholder="Job department"
@@ -160,36 +187,25 @@ const ActiveMembers = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button htmlType="submit">Apply Filter</Button>
+              <Button type="primary" htmlType="submit">
+                Apply Filter
+              </Button>
+            </Form.Item>
+
+            <Form.Item>
+              <Button onClick={() => form.resetFields()} htmlType="reset">
+                Reset Filter
+              </Button>
             </Form.Item>
           </Form>
         </Col>
         {ActiveMemberData?.data?.map((item, i) => (
-          <Col key={i} xs={24} md={8} lg={6}>
+          <Col key={i} xs={24} sm={24} md={12} lg={12} xl={8} xxl={6}>
             <Badge.Ribbon placement="start" text={`${item?.batch_no}th batch`}>
-              <Card type="inner" hoverable className="h-40">
-                <Link to={`${item?.id}`}>
-                  <Space align="start" size="middle">
-                    <Avatar
-                      size="large"
-                      className="bg-primary/[15%] border-none dark:bg-primary flex justify-center items-center"
-                      src={item?.profile_pic}
-                    />
-                    <Space.Compact direction="vertical">
-                      <Typography.Title level={5} className="mb-1 mt-1">
-                        {item?.name}
-                      </Typography.Title>
-                      <Typography.Paragraph
-                        type="secondary"
-                        className="mb-0"
-                        ellipsis={{ rows: 2 }}
-                      >
-                        {item?.student_id}
-                      </Typography.Paragraph>
-                    </Space.Compact>
-                  </Space>
-                </Link>
-                <div className="text-end">
+              <Card
+                className="h-48"
+                hoverable
+                extra={
                   <Dropdown
                     disabled={!superUser?.data?.is_superuser}
                     menu={{
@@ -257,9 +273,34 @@ const ActiveMembers = () => {
                       ],
                     }}
                   >
-                    <Button icon={<MoreOutlined />} />
+                    <Button type="text" icon={<MoreOutlined />} />
                   </Dropdown>
-                </div>
+                }
+              >
+                <Link to={`${item?.id}`}>
+                  <Space align="start" size="middle">
+                    <Avatar
+                      size="large"
+                      className="bg-primary/[15%] border-none dark:bg-primary flex justify-center items-center"
+                      src={item?.profile_pic}
+                    />
+                    <Space.Compact direction="vertical">
+                      <Typography.Title level={5} className="mb-1 mt-1 ">
+                        {item?.name}
+                      </Typography.Title>
+                      <Typography.Paragraph
+                        type="secondary"
+                        className="mb-0"
+                        ellipsis={{ rows: 2 }}
+                      >
+                        {item?.student_id}
+                      </Typography.Paragraph>
+                      <Typography.Paragraph>
+                        {item?.professional_designation}
+                      </Typography.Paragraph>
+                    </Space.Compact>
+                  </Space>
+                </Link>
               </Card>
             </Badge.Ribbon>
           </Col>

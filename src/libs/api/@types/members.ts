@@ -94,6 +94,7 @@ export interface MembersListParams {
   student_id?: string | number;
   location?: string;
   company_name?: string;
+  job_department?: string;
   skills?: string;
   limit?: number;
   page?: number;

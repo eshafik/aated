@@ -27,8 +27,17 @@ class MembersAPI {
     if (params?.ordering)
       queryParams.append("ordering", params?.ordering.toString());
 
+    if (params?.employment_status)
+      queryParams?.append(
+        "employment_status",
+        params?.employment_status?.toString()
+      );
+    if (params?.job_department)
+      queryParams.append("job_department", params?.job_department.toString());
+    if (params?.skills) queryParams.append("skills", params?.skills.toString());
+
     return this.http.get<MembersResponse>(
-      `api/v1/users/all-members/?${queryParams}`
+      `api/v1/users/all-members?${queryParams}`
     );
   }
 

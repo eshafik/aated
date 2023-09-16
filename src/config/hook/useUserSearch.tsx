@@ -43,6 +43,14 @@ export const useMemberList = (params?: MemberListHookParams) => {
     setFilters((prev) => ({ ...prev, job_department: member }));
   };
 
+  const handleChangeSkills = (member?: string) => {
+    setFilters((prev) => ({ ...prev, skills: member }));
+  };
+
+  const handleChangeEmployeeStatus = (member?: string) => {
+    setFilters((prev) => ({ ...prev, employment_status: member }));
+  };
+
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["members-list", filters],
     queryFn: () => membersAPI.activeMembersList(filters),
@@ -62,6 +70,8 @@ export const useMemberList = (params?: MemberListHookParams) => {
       handleChangeLocation,
       handleChangeOccupation,
       handleChangeStudentId,
+      handleChangeSkills,
+      handleChangeEmployeeStatus,
     },
   };
 };
