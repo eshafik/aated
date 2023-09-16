@@ -1,13 +1,4 @@
-import {
-  App,
-  Button,
-  Card,
-  Form,
-  Input,
-  InputNumber,
-  Spin,
-  Typography,
-} from "antd";
+import { App, Button, Card, Form, Input, Select, Spin, Typography } from "antd";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { UpdateProfilePayload } from "../../libs/api/@types/profile";
 import { profileAPI } from "../../libs/api/profileAPI";
@@ -18,6 +9,8 @@ import Link from "antd/es/typography/Link";
 const ProfileSetting = () => {
   const { notification } = App.useApp();
   const queryClient = useQueryClient();
+  const [form] = Form.useForm();
+  const watchEmployedStatus = Form.useWatch("employment_status", form);
 
   const { mutate, isLoading } = useMutation(
     (payload: UpdateProfilePayload) => profileAPI.updateProfileDetails(payload),
@@ -47,6 +40,7 @@ const ProfileSetting = () => {
       >
         {data?.data?.name && (
           <Form
+            form={form}
             initialValues={{
               name: data?.data?.name,
               email: data?.data?.email,
@@ -63,7 +57,7 @@ const ProfileSetting = () => {
               unemployment_reasons: data?.data?.unemployment_reasons,
               username: data?.data?.username,
             }}
-            requiredMark="optional"
+            requiredMark
             layout="vertical"
             labelAlign="left"
             onFinish={(values) => {
@@ -117,7 +111,10 @@ const ProfileSetting = () => {
               label="Email"
               rules={[{ required: true, message: "Please enter your Email" }]}
             >
-              <Input placeholder="someone@gmail.com" />
+              <Input
+                disabled={data?.data?.email ? true : false}
+                placeholder="someone@gmail.com"
+              />
             </Form.Item>
 
             <Form.Item
@@ -133,19 +130,24 @@ const ProfileSetting = () => {
             <Form.Item
               name="batch_no"
               label="Batch Number"
-              rules={[{ required: true, message: "Please select role" }]}
+              rules={[
+                { required: true, message: "Please select Batch number" },
+              ]}
             >
-              <Input placeholder="5 Years" />
+              <Input
+                disabled={data?.data?.batch?.name ? true : false}
+                placeholder="5th"
+              />
             </Form.Item>
 
             <Form.Item
               name="student_id"
               label="Student ID"
               rules={[
-                { required: true, message: "Please enter your Company Name" },
+                { required: true, message: "Please enter your Student ID" },
               ]}
             >
-              <Input placeholder="Microsoft" />
+              <Input placeholder="2023" />
             </Form.Item>
 
             <Form.Item
@@ -155,7 +157,7 @@ const ProfileSetting = () => {
                 { required: true, message: "Please write some description" },
               ]}
             >
-              <InputNumber placeholder="passing year" />
+              <Input placeholder="passing year" />
             </Form.Item>
 
             <Form.Item
@@ -165,13 +167,37 @@ const ProfileSetting = () => {
               <Input placeholder="professional designation" />
             </Form.Item>
 
-            <Form.Item name="employment_status" label="Employment status">
-              <Input placeholder="employment status" />
+            <Form.Item
+              name="employment_status"
+              label="Employment Status"
+              rules={[
+                { required: true, message: "Please write employment status" },
+              ]}
+            >
+              <Select
+                options={[
+                  {
+                    label: "Employed",
+                    value: "employed",
+                  },
+                  {
+                    label: "Unemployed",
+                    value: "unemployed",
+                  },
+                  {
+                    label: "Student",
+                    value: "student",
+                  },
+                ]}
+                placeholder="employment status"
+              />
             </Form.Item>
 
-            <Form.Item name="unemployment_reason" label="Unemployment reason">
-              <TextArea rows={2} placeholder="unemployment reason" />
-            </Form.Item>
+            {watchEmployedStatus == "unemployed" && (
+              <Form.Item name="unemployment_reason" label="Unemployment reason">
+                <TextArea rows={2} placeholder="unemployment reason" />
+              </Form.Item>
+            )}
 
             <Form.Item name="expertise_area" label="Expertise area">
               <TextArea rows={2} placeholder="expertise area" />
