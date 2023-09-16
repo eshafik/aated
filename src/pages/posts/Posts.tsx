@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  App,
   Avatar,
   Button,
   Card,
@@ -32,6 +33,7 @@ const Posts = () => {
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
   const [showMore, setShowMore] = useState(false);
+  const { notification } = App.useApp();
 
   const { mutate: createPostMutate, isLoading } = useMutation(
     (payload: PostPayload) => postAPI.createPost(payload),
@@ -39,6 +41,7 @@ const Posts = () => {
       onSuccess: () => {
         setIsModalOpen(false);
         queryClient.invalidateQueries(["post-list"]);
+        notification.success({ message: "Post successful created" });
       },
     }
   );
@@ -107,6 +110,7 @@ const Posts = () => {
               <Row gutter={[5, 5]}>
                 <Col span={24}>
                   <Input.Search
+                    size="large"
                     className="mb-3"
                     placeholder="Search Post"
                     allowClear
@@ -118,9 +122,6 @@ const Posts = () => {
 
             <Form
               form={form}
-              initialValues={{
-                body: "Hi there",
-              }}
               onFinish={(values) =>
                 createPostMutate({
                   attachments: values.attachments,
@@ -191,21 +192,27 @@ const Posts = () => {
                   )
                 }
               >
-                <Typography.Title level={5}>{items.title}</Typography.Title>
+                <Typography.Title className="mt-0" level={5}>
+                  {items.title}
+                </Typography.Title>
                 {items.attachments?.[0] ? (
-                  <Image alt="example" src={items.attachments?.[0]} />
+                  <Image
+                    className="max-h-80"
+                    alt="example"
+                    src={items.attachments?.[0]}
+                  />
                 ) : (
                   ""
                 )}
 
-                <div className="mt-4 mb-4">
+                <div className="mb-4">
                   {showMore ? items?.body : `${items?.body?.substring(0, 250)}`}
                   {items?.body?.length > 250 ? (
                     <Link
                       onClick={() => setShowMore(!showMore)}
                       to={`${items?.id}`}
                     >
-                      Show more
+                      ...See more
                     </Link>
                   ) : (
                     ""
