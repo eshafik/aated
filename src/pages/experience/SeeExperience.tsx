@@ -28,7 +28,7 @@ const SeeExperience = () => {
         {experienceData?.data?.length ? (
           experienceData?.data?.map((exp, i) => (
             <Card
-              className="shadow-2xl bg-transparent max-w-xl mx-auto"
+              className="shadow-2xl bg-transparent mb-5 max-w-xl mx-auto"
               key={i}
               title={`${i + 1}. ${exp?.company_name}`}
               extra={
@@ -54,12 +54,7 @@ const SeeExperience = () => {
         ) : (
           <Result
             icon={<SmileOutlined />}
-            title="You have no experiences available. Want To Add?"
-            extra={
-              <Button onClick={() => navigate("/add-experiences")}>
-                Click Here
-              </Button>
-            }
+            title="You have no experiences available."
           />
         )}
       </Card>

@@ -81,15 +81,6 @@ const ProfileSettings = () => {
           >
             <Form.Item name="profile_pic">
               <AvatarUploader />
-              {/* <Upload
-            name="photo"
-            listType="picture-card"
-            maxCount={1}
-            action={`${config?.apiURL}/api/v1/core/upload/`}
-            headers={{ Authorization: `Bearer ${authService.getToken()}` }}
-            >
-            <Button shape="circle" type="text" icon={<UploadOutlined />} />
-        </Upload> */}
             </Form.Item>
 
             <Form.Item shouldUpdate name="username" label="Username">
@@ -204,10 +195,6 @@ const ProfileSettings = () => {
 
             <Form.Item name="contact_details" label="Contact details">
               <TextArea rows={2} placeholder="contact details" />
-            </Form.Item>
-
-            <Form.Item name="password" label="Password">
-              <Input.Password placeholder="Password" />
             </Form.Item>
 
             <Form.Item>
