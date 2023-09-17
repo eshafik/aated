@@ -1,7 +1,29 @@
 import { SecurityScanTwoTone } from "@ant-design/icons";
-import { Button, Card, Form, Input } from "antd";
+import { App, Button, Card, Form, Input } from "antd";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { profileAPI } from "../../../libs/api/profileAPI";
+import { UpdateProfilePayload } from "../../../libs/api/@types/profile";
 
 const Security = () => {
+  const { notification } = App.useApp();
+  const queryClient = useQueryClient();
+  const { data, isLoading: isProfileLoading } = useQuery(
+    ["user-profile"],
+    () => profileAPI.getProfileDetails(),
+    {
+      onSuccess: () => {},
+    }
+  );
+
+  const { mutate, isLoading } = useMutation(
+    (payload: UpdateProfilePayload) => profileAPI.updateProfileDetails(payload),
+    {
+      onSuccess: () => {
+        notification.success({ message: "Profile Successfully Updated" });
+        queryClient.invalidateQueries(["user-profile"]);
+      },
+    }
+  );
   return (
     <Card className="shadow-2xl bg-transparent max-w-xl">
       <Form size="large" layout="vertical">
