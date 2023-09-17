@@ -74,6 +74,7 @@ export interface CommentResponse {
   data?: {
     id?: string | number;
     comment?: string;
+    post?: string | number;
     user?: {
       id?: string | number;
       name?: string;

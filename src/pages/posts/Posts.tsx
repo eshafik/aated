@@ -66,7 +66,7 @@ const Posts = () => {
     }
   );
 
-  const { mutate: mutateComment, isLoading: loadingComment } = useComment();
+  const { mutate: mutateComment } = useComment();
 
   // const { data: postDetailsData, handlePostId } = useGetPostDetails();
 
@@ -246,11 +246,7 @@ const Posts = () => {
                   </Form.Item>
 
                   <Form.Item>
-                    <Button
-                      type="primary"
-                      loading={loadingComment}
-                      htmlType="submit"
-                    >
+                    <Button type="primary" htmlType="submit">
                       Comment
                     </Button>
                   </Form.Item>
