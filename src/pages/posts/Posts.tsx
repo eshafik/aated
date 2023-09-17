@@ -26,6 +26,7 @@ import CreatePostModal from "./component/CreatePostModal";
 import { profileAPI } from "../../libs/api/profileAPI";
 import { useComment } from "../../config/hook/usecomment";
 import { usePostList } from "../../config/hook/useSearch";
+import moment from "moment";
 
 const Posts = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -192,9 +193,17 @@ const Posts = () => {
                   )
                 }
               >
-                <Typography.Title className="mt-0" level={5}>
-                  {items.title}
-                </Typography.Title>
+                <Row justify={"space-between"}>
+                  <Typography.Title className="mt-0" level={5}>
+                    {items.title}
+                  </Typography.Title>
+                  <Typography.Paragraph>
+                    {moment(
+                      `${items?.created_at?.slice(0, 10)}`,
+                      "YYYY-MM-DD"
+                    ).fromNow()}
+                  </Typography.Paragraph>
+                </Row>
                 {items.attachments?.[0] ? (
                   <Image
                     className="max-h-80"

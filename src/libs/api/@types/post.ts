@@ -16,6 +16,7 @@ export interface PostsResponse {
       title?: string;
       body: string;
       attachments?: string[];
+      created_at?: string;
       total_comments?: number;
       user?: {
         id?: string | number;
