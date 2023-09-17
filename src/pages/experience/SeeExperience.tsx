@@ -28,7 +28,7 @@ const SeeExperience = () => {
         {experienceData?.data?.length ? (
           experienceData?.data?.map((exp, i) => (
             <Card
-              className="shadow-2xl bg-transparent mb-5 max-w-xl mx-auto"
+              className="shadow-2xl bg-transparent mb-5 max-w-xl"
               key={i}
               title={`${i + 1}. ${exp?.company_name}`}
               extra={

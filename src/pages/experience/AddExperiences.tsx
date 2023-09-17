@@ -23,7 +23,7 @@ const AddExperiences = () => {
           Add Experience
         </Typography.Title>
       }
-      className="shadow-2xl bg-transparent max-w-xl mx-auto"
+      className="shadow-2xl bg-transparent max-w-xl"
     >
       <Form
         onFinish={(values) =>

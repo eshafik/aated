@@ -23,7 +23,7 @@ const Security = () => {
     }
   );
   return (
-    <Card className="shadow-2xl bg-transparent max-w-xl">
+    <Card className="shadow-2xl mr-3 bg-transparent max-w-xl">
       <Form
         onFinish={(values) => {
           mutate({
