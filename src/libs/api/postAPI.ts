@@ -3,7 +3,7 @@ import { authService } from "../auth/auth.service";
 import {
   CommentPayload,
   CommentResponse,
-  DeletePostPayload,
+  DeleteCommentPayload,
   PostListParams,
   PostPayload,
   PostResponse,
@@ -51,7 +51,7 @@ class PostAPI {
     return this.http.post<CommentResponse>(`api/v1/post/comment/`, payload);
   }
 
-  deleteComment(payload: DeletePostPayload) {
+  deleteComment(payload: DeleteCommentPayload) {
     return this.http.patch("api/v1/post/comment/", payload);
   }
 

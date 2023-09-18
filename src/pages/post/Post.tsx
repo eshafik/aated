@@ -9,13 +9,18 @@ import {
   Skeleton,
   Image,
   message,
+  Dropdown,
+  Popconfirm,
 } from "antd";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { postAPI } from "../../libs/api/postAPI";
 import TextArea from "antd/es/input/TextArea";
-import { DeleteTwoTone } from "@ant-design/icons";
-import { CommentPayload } from "../../libs/api/@types/post";
+import { DeleteOutlined, MoreOutlined } from "@ant-design/icons";
+import {
+  CommentPayload,
+  DeleteCommentPayload,
+} from "../../libs/api/@types/post";
 
 const Post = () => {
   const { slag } = useParams();
@@ -33,6 +38,16 @@ const Post = () => {
         queryClient.invalidateQueries("post-data");
         form.resetFields();
         message.success("Comment Successful");
+      },
+    }
+  );
+
+  const { mutate: mutateDeleteComment } = useMutation(
+    ["comment-list"],
+    (payload: DeleteCommentPayload) => postAPI.deleteComment(payload),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("post-data");
       },
     }
   );
@@ -74,7 +89,36 @@ const Post = () => {
                     className="bg-slate-100 w-56 ml-2 mt-2"
                     size="small"
                     title={comments?.user?.name}
-                    extra={<DeleteTwoTone />}
+                    extra={
+                      <Dropdown
+                        menu={{
+                          items: [
+                            {
+                              key: "member",
+                              label: (
+                                <Popconfirm
+                                  title="Delete Comment"
+                                  description="Are you sure want o delete this Comment?"
+                                  onConfirm={() =>
+                                    mutateDeleteComment({
+                                      comment_id: comments?.id,
+                                      is_active: false,
+                                    })
+                                  }
+                                  okText="Yes"
+                                  cancelText="No"
+                                  okType="danger"
+                                >
+                                  <DeleteOutlined /> Delete
+                                </Popconfirm>
+                              ),
+                            },
+                          ],
+                        }}
+                      >
+                        <Button type="text" icon={<MoreOutlined />} />
+                      </Dropdown>
+                    }
                   >
                     {comments?.comment}
                   </Card>
