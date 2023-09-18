@@ -8,21 +8,34 @@ import {
   Typography,
   Skeleton,
   Image,
+  message,
 } from "antd";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { postAPI } from "../../libs/api/postAPI";
 import TextArea from "antd/es/input/TextArea";
 import { DeleteTwoTone } from "@ant-design/icons";
-import { useComment } from "../../config/hook/usecomment";
+import { CommentPayload } from "../../libs/api/@types/post";
 
 const Post = () => {
   const { slag } = useParams();
+  const queryClient = useQueryClient();
+  const [form] = Form.useForm();
+
   const { data: postData, isLoading } = useQuery(["post-data"], () =>
     postAPI.getPostDetails(slag as string)
   );
 
-  const { isLoading: loadingComment, mutate } = useComment();
+  const { mutate, isLoading: loadingComment } = useMutation(
+    (payload: CommentPayload) => postAPI.createComment(payload),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("post-data");
+        form.resetFields();
+        message.success("Comment Successful");
+      },
+    }
+  );
 
   return (
     <Row align={"middle"} justify={"center"}>
@@ -48,18 +61,17 @@ const Post = () => {
             )}
             <div className="mt-4 mb-4">{postData?.data?.body}</div>
             <Typography.Title level={5}>
-              {" "}
               Comment ({postData?.data?.total_comments})
             </Typography.Title>
 
-            {postData?.data?.comments?.map((comments) => (
-              <Row>
+            {postData?.data?.comments?.map((comments, i) => (
+              <Row key={i}>
                 <Col>
                   <Avatar src={comments?.user?.profile_pic} />
                 </Col>
                 <Col>
                   <Card
-                    className="bg-slate-100 ml-2 mt-2"
+                    className="bg-slate-100 w-56 ml-2 mt-2"
                     size="small"
                     title={comments?.user?.name}
                     extra={<DeleteTwoTone />}
@@ -70,6 +82,7 @@ const Post = () => {
               </Row>
             ))}
             <Form
+              form={form}
               onFinish={(values) => {
                 mutate({
                   comment: values.comment,

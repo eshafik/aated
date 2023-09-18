@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  App,
   Avatar,
   Button,
   Card,
@@ -14,6 +13,7 @@ import {
   Row,
   Spin,
   Typography,
+  message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { Link } from "react-router-dom";
@@ -34,7 +34,6 @@ const Posts = () => {
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
   const [showMore, setShowMore] = useState(false);
-  const { notification } = App.useApp();
 
   const { mutate: createPostMutate, isLoading } = useMutation(
     (payload: PostPayload) => postAPI.createPost(payload),
@@ -42,7 +41,7 @@ const Posts = () => {
       onSuccess: () => {
         setIsModalOpen(false);
         queryClient.invalidateQueries(["post-list"]);
-        notification.success({ message: "Post successful created" });
+        message.success("Post successful created");
       },
     }
   );
@@ -67,14 +66,8 @@ const Posts = () => {
   );
 
   const { mutate: mutateComment } = useComment();
-
-  // const { data: postDetailsData, handlePostId } = useGetPostDetails();
-
   const showModal = () => {
     setIsModalOpen(true);
-    // if (id) {
-    //   handlePostId(id);
-    // }
   };
 
   const handleOk = () => {
@@ -163,7 +156,7 @@ const Posts = () => {
                           {
                             key: "edit",
                             label: (
-                              <Link to={`${items?.id}`}>
+                              <Link to={`edit-post/${items?.id}`}>
                                 <EditOutlined /> Edit
                               </Link>
                             ),
