@@ -1,4 +1,14 @@
-import { Button, Col, Dropdown, Row, Switch, Table, Typography } from "antd";
+import {
+  App,
+  Button,
+  Col,
+  Dropdown,
+  Row,
+  Switch,
+  Table,
+  Typography,
+  notification,
+} from "antd";
 import { EditOutlined, MoreOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
@@ -15,7 +25,14 @@ const Committee = () => {
 
   const { mutate, isLoading } = useMutation(
     ({ id, payload }: { id: string | number; payload: CommitteePayload }) =>
-      committeeAPI.updateCommittee(id, payload)
+      committeeAPI.updateCommittee(id, payload),
+    {
+      onError: () => {
+        notification.error({
+          message: "You do not have permission to perform this action.",
+        });
+      },
+    }
   );
 
   const switchHandler = (id: string, is_active?: boolean) => {
@@ -25,14 +42,6 @@ const Committee = () => {
 
     mutate({ id, payload });
   };
-
-  // const { data } = useQuery(
-  //   ["user-profile"],
-  //   () => profileAPI.getProfileDetails(),
-  //   {
-  //     onSuccess: () => {},
-  //   }
-  // );
 
   const columns: ColumnsType<Committee> = [
     {
@@ -96,11 +105,11 @@ const Committee = () => {
     },
   ];
 
-  return (
-    <>
-      <Row justify={"space-between"}>
+  return data?.data?.map((items, i) => (
+    <div className="p-12" key={i}>
+      <Row align={"middle"} justify={"space-between"}>
         <Col>
-          <Typography.Title level={2}>Committee</Typography.Title>
+          <Typography.Title level={2}>{items?.name}</Typography.Title>
         </Col>
         <Col>
           <Button type="primary" onClick={() => navigate("createcommittee")}>
@@ -115,8 +124,8 @@ const Committee = () => {
         dataSource={data?.data}
         columns={columns}
       />
-    </>
-  );
+    </div>
+  ));
 };
 
 export default Committee;

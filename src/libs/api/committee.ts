@@ -39,7 +39,7 @@ class CommitteeAPI {
     return this.http.delete(`api/v1/committee/committee-member/${ID}/`);
   }
 
-  getcommitteeMembersList(ID: string | number) {
+  getcommitteeMembersList(ID?: string | number) {
     return this.http.get<CommitteeMemberResponse>(
       `api/v1/committee/committee-member?committee_id=${ID}`
     );
