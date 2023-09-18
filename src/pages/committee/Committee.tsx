@@ -1,5 +1,4 @@
 import {
-  App,
   Button,
   Col,
   Dropdown,

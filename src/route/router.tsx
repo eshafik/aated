@@ -19,6 +19,7 @@ import AddExperiences from "../pages/experience/AddExperiences";
 import SeeExperience from "../pages/experience/SeeExperience";
 import SignUp from "../pages/signup/Signup";
 import ProfileContainer from "../pages/profileSetting";
+import EditPost from "../pages/post/EditPost";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -65,6 +66,7 @@ export const protectedRouter = createBrowserRouter([
         children: [
           { index: true, element: <Posts /> },
           { path: ":slag", element: <Post /> },
+          { path: "edit-post/:postId", element: <EditPost /> },
         ],
       },
       {

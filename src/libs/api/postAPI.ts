@@ -19,7 +19,7 @@ class PostAPI {
   }
 
   postUpdate(ID: string | number, payload: PostPayload) {
-    return this.http.patch(`api/v1/post/manage-post/${ID}`, payload);
+    return this.http.patch(`api/v1/post/manage-post/${ID}/`, payload);
   }
 
   deletePost(ID: string | number) {
