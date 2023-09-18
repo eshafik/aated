@@ -119,6 +119,7 @@ const AddExperiences = () => {
 
         <Form.Item>
           <Button
+            type="primary"
             loading={isLoading}
             className="bg-blue-400 "
             htmlType="submit"

@@ -20,7 +20,7 @@ const SeeExperience = () => {
       <Card
         className="bg-transparent"
         extra={
-          <Button onClick={() => navigate("/add-experiences")}>
+          <Button type="primary" onClick={() => navigate("/add-experiences")}>
             Add Experiences
           </Button>
         }

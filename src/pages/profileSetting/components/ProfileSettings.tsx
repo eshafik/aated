@@ -199,6 +199,7 @@ const ProfileSettings = () => {
 
             <Form.Item>
               <Button
+                type="primary"
                 loading={isLoading || isProfileLoading}
                 className="bg-blue-400 "
                 htmlType="submit"

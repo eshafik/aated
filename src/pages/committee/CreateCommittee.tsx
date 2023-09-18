@@ -52,7 +52,7 @@ const CreateCommittee = () => {
               </Form.Item>
 
               <Form.Item>
-                <Button loading={isLoading} htmlType="submit">
+                <Button type="primary" loading={isLoading} htmlType="submit">
                   Save
                 </Button>
               </Form.Item>

@@ -56,7 +56,12 @@ const ForgotPassword = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button className="w-full" loading={isLoading} htmlType="submit">
+              <Button
+                type="primary"
+                className="w-full"
+                loading={isLoading}
+                htmlType="submit"
+              >
                 Send
               </Button>
             </Form.Item>

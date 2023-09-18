@@ -66,7 +66,12 @@ const EmailVerify = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button loading={isLoading} className="w-full" htmlType="submit">
+              <Button
+                type="primary"
+                loading={isLoading}
+                className="w-full"
+                htmlType="submit"
+              >
                 Submit
               </Button>
             </Form.Item>
