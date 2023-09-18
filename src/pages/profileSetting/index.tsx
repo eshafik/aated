@@ -6,19 +6,17 @@ import { Header } from "antd/es/layout/layout";
 
 const ProfileContainer = () => {
   const renderTabBar = (props: any, DefaultTabBar: any) => (
-    <Layout>
-      <Header
-        style={{
-          position: "fixed",
-          top: 0,
-          padding: 20,
-          width: "100%",
-          background: "transparent",
-        }}
-      >
-        <DefaultTabBar {...props} />
-      </Header>
-    </Layout>
+    <Header
+      style={{
+        position: "fixed",
+        top: 0,
+        padding: 20,
+        width: "100%",
+        background: "transparent",
+      }}
+    >
+      <DefaultTabBar {...props} />
+    </Header>
   );
   const items: TabsProps["items"] = [
     {
