@@ -85,8 +85,8 @@ export interface CommentResponse {
   };
 }
 
-export interface DeletePostPayload {
-  comment?: string | number;
+export interface DeleteCommentPayload {
+  comment_id?: string | number;
   is_active?: boolean;
 }
 
