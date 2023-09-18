@@ -11,6 +11,7 @@ import {
   message,
   Dropdown,
   Popconfirm,
+  App,
 } from "antd";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
@@ -26,6 +27,7 @@ const Post = () => {
   const { slag } = useParams();
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
+  const { notification } = App.useApp();
 
   const { data: postData, isLoading } = useQuery(["post-data"], () =>
     postAPI.getPostDetails(slag as string)
@@ -39,6 +41,9 @@ const Post = () => {
         form.resetFields();
         message.success("Comment Successful");
       },
+      onError: () => {
+        notification.error({ message: "Error" });
+      },
     }
   );
 
@@ -48,6 +53,9 @@ const Post = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("post-data");
+      },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
       },
     }
   );
