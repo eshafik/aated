@@ -53,3 +53,18 @@ export interface CommitteeMemberResponse {
     }
   ];
 }
+
+export interface CommitteeMembers {
+  id?: string | number;
+  member?: {
+    id?: string | number;
+    name?: string;
+    email?: string;
+    phone?: string;
+    batch?: Batch;
+    student_id?: string;
+    passing_year?: number | string;
+  };
+  committee_designation?: string;
+  position_order?: number | string;
+}

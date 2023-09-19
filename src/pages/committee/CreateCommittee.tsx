@@ -5,12 +5,8 @@ import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
 import { profileAPI } from "../../libs/api/profileAPI";
 const CreateCommittee = () => {
-  const { data } = useQuery(
-    ["user-profile"],
-    () => profileAPI.getProfileDetails(),
-    {
-      onSuccess: () => {},
-    }
+  const { data } = useQuery(["user-profile"], () =>
+    profileAPI.getProfileDetails()
   );
 
   const { mutate, isLoading } = useMutation((payload: CommitteePayload) =>

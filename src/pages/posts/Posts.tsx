@@ -83,7 +83,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
   return (
     <Spin spinning={loadingPostList}>
       <Card
-        className="bg-transparent border-transparent"
+        className="bg-transparent border-transparent max-w-3xl"
         // onTabChange={(key) => {
         //   postsData?.data?.map((items) => {
         //     key == items?.category?.id

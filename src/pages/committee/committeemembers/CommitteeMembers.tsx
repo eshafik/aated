@@ -50,38 +50,40 @@ const CommitteeMembers = () => {
   return (
     <Spin spinning={isLoading}>
       {committeeMemberData?.data?.length ? (
-        <Row gutter={[12, 12]}>
-          {committeeMemberData?.data?.map((item, i) => (
-            <Col key={i} xs={24} md={8} lg={6}>
-              <Badge.Ribbon text={`${item?.member?.batch?.name}th batch`}>
-                <Card type="inner" hoverable className="h-full">
-                  <Space align="start" size="middle">
-                    <Space.Compact direction="vertical">
-                      <Typography.Title level={5} className="mb-1 mt-1">
-                        {item?.member?.name}
-                      </Typography.Title>
-                      <Typography.Paragraph
-                        type="secondary"
-                        className="mb-0"
-                        ellipsis={{ rows: 2 }}
-                      >
-                        {item?.committee_designation}
-                      </Typography.Paragraph>
-                      <Typography.Paragraph>
-                        {item?.position_order}
-                      </Typography.Paragraph>
-                    </Space.Compact>
-                  </Space>
-                  <div className="text-end">
-                    <Button disabled={!superUser?.data?.is_superuser}>
-                      Remove
-                    </Button>
-                  </div>
-                </Card>
-              </Badge.Ribbon>
-            </Col>
-          ))}
-        </Row>
+        <div className="p-10">
+          <Row gutter={[12, 12]}>
+            {committeeMemberData?.data?.map((item, i) => (
+              <Col key={i} xs={24} md={8} lg={6}>
+                <Badge.Ribbon text={`${item?.member?.batch?.name}th batch`}>
+                  <Card type="inner" hoverable className="h-full">
+                    <Space align="start" size="middle">
+                      <Space.Compact direction="vertical">
+                        <Typography.Title level={5} className="mb-1 mt-1">
+                          {item?.member?.name}
+                        </Typography.Title>
+                        <Typography.Paragraph
+                          type="secondary"
+                          className="mb-0"
+                          ellipsis={{ rows: 2 }}
+                        >
+                          {item?.committee_designation}
+                        </Typography.Paragraph>
+                        <Typography.Paragraph>
+                          {item?.position_order}
+                        </Typography.Paragraph>
+                      </Space.Compact>
+                    </Space>
+                    <div className="text-end">
+                      <Button disabled={!superUser?.data?.is_superuser}>
+                        Remove
+                      </Button>
+                    </div>
+                  </Card>
+                </Badge.Ribbon>
+              </Col>
+            ))}
+          </Row>
+        </div>
       ) : (
         <Result
           icon={<SmileOutlined />}

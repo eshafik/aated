@@ -1,10 +1,8 @@
 import { Col, Row, Tabs } from "antd";
 import Posts from "./Posts";
 import { Header } from "antd/es/layout/layout";
-import { usePostList } from "../../config/hook/useSearch";
 
 const PostContainer = () => {
-  const { filter } = usePostList();
   const renderTabBar = (props: any, DefaultTabBar: any) => (
     <Header
       style={{

@@ -1,19 +1,11 @@
-import {
-  Button,
-  Col,
-  Dropdown,
-  Row,
-  Switch,
-  Table,
-  Typography,
-  notification,
-} from "antd";
+import { Button, Col, Dropdown, Row, Switch, Table, notification } from "antd";
 import { EditOutlined, MoreOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { committeeAPI } from "../../libs/api/committee";
 import { ColumnsType } from "antd/es/table";
 import { Committee, CommitteePayload } from "../../libs/api/@types/committee";
+import { profileAPI } from "../../libs/api/profileAPI";
 
 const Committee = () => {
   const navigate = useNavigate();
@@ -31,6 +23,9 @@ const Committee = () => {
   //     },
   //   }
   // );
+  const { data: profileData } = useQuery(["user-profile"], () =>
+    profileAPI.getProfileDetails()
+  );
 
   const { mutate, isLoading } = useMutation(
     ({ id, payload }: { id: string | number; payload: CommitteePayload }) =>
@@ -79,6 +74,7 @@ const Committee = () => {
       key: "status",
       render: (_, record) => (
         <Switch
+          disabled={!profileData?.data?.is_superuser}
           loading={isLoading}
           defaultChecked={record?.is_active ? true : false}
           onChange={(value) => switchHandler(String(record?.id), value)}
@@ -102,6 +98,7 @@ const Committee = () => {
               {
                 key: "edit",
                 label: "Edit",
+                disabled: !profileData?.data?.is_superuser,
                 icon: <EditOutlined />,
                 onClick: () => navigate(`${record?.id}`),
               },
@@ -114,14 +111,16 @@ const Committee = () => {
     },
   ];
 
-  return data?.data?.map((items, i) => (
-    <div className="p-12" key={i}>
+  return (
+    <div className="p-12">
       <Row align={"middle"} justify={"space-between"}>
+        <Col></Col>
         <Col>
-          <Typography.Title level={2}>{items?.name}</Typography.Title>
-        </Col>
-        <Col>
-          <Button type="primary" onClick={() => navigate("createcommittee")}>
+          <Button
+            className="mb-3"
+            type="primary"
+            onClick={() => navigate("createcommittee")}
+          >
             Create committee
           </Button>
         </Col>
@@ -134,7 +133,7 @@ const Committee = () => {
         columns={columns}
       />
     </div>
-  ));
+  );
 };
 
 export default Committee;
