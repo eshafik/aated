@@ -2,7 +2,6 @@ import { Navigate, createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/homepage/HomePage";
 import SignIn from "../pages/signin/Signin";
 import Members from "../pages/members";
-import Posts from "../pages/posts/Posts";
 import DashboardLayout from "../container/layout/DashboardLayout";
 import HomeLayout from "../container/layout/HomeLayout";
 import Post from "../pages/post/Post";
@@ -20,6 +19,7 @@ import SeeExperience from "../pages/experience/SeeExperience";
 import SignUp from "../pages/signup/Signup";
 import ProfileContainer from "../pages/profileSetting";
 import EditPost from "../pages/post/EditPost";
+import PostContainer from "../pages/posts";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -64,7 +64,7 @@ export const protectedRouter = createBrowserRouter([
       {
         path: "posts",
         children: [
-          { index: true, element: <Posts /> },
+          { index: true, element: <PostContainer /> },
           { path: ":slag", element: <Post /> },
           { path: "edit-post/:postId", element: <EditPost /> },
         ],

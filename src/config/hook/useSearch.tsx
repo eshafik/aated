@@ -11,14 +11,13 @@ export const usePostList = (params?: PostsListHookParams) => {
   const [filters, setFilters] = useState<PostListParams | undefined>(
     params?.filters
   );
-  const [id, setid] = useState<PostListParams | undefined>(params?.filters);
 
   const handleChangePosts = (post?: string) => {
     setFilters((prev) => ({ ...prev, search: post }));
   };
 
-  const handleChangeTabs = (post?: string) => {
-    setid({ id: post });
+  const handleChangeCategory = (post?: string) => {
+    setFilters((prev) => ({ ...prev, category: post }));
   };
 
   const handleChangeStatus = (status: boolean) => {
@@ -26,7 +25,7 @@ export const usePostList = (params?: PostsListHookParams) => {
   };
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ["post-list", filters, id],
+    queryKey: ["post-list", filters],
     queryFn: () => postAPI.getPostList(filters),
   });
 
@@ -38,7 +37,7 @@ export const usePostList = (params?: PostsListHookParams) => {
       filters,
       handleChangePosts,
       handleChangeStatus,
-      handleChangeTabs,
+      handleChangeCategory,
     },
   };
 };

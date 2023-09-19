@@ -99,5 +99,5 @@ export interface PostListParams {
   limit?: number;
   page?: number;
   search?: string;
-  category?: string | number;
+  category?: string;
 }
