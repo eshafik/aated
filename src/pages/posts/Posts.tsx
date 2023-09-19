@@ -26,6 +26,7 @@ import CreatePostModal from "./component/CreatePostModal";
 import { profileAPI } from "../../libs/api/profileAPI";
 import { useComment } from "../../config/hook/usecomment";
 import { usePostList } from "../../config/hook/useSearch";
+import styled from "styled-components";
 import moment from "moment";
 
 const Posts = () => {
@@ -73,12 +74,20 @@ const Posts = () => {
   const handleOk = () => {
     setIsModalOpen(false);
   };
+  const StyledCard = styled(Card)`
+    .ant-tabs {
+      position: fixed;
+    }
+    .ant-extra {
+      position: fixed;
+    }
+  `;
 
   return (
     <Row gutter={24} align="middle" justify="center">
       <Col>
         <Spin spinning={loadingPostList}>
-          <Card
+          <StyledCard
             className="bg-transparent"
             tabList={[
               { key: "0", label: "All Post" },
@@ -246,7 +255,7 @@ const Posts = () => {
                 </Form>
               </Card>
             ))}
-          </Card>
+          </StyledCard>
         </Spin>
       </Col>
     </Row>

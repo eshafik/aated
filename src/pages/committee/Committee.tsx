@@ -22,6 +22,16 @@ const Committee = () => {
     committeeAPI.getcommitteeList()
   );
 
+  // const { data: committeeMemberData } = useQuery(
+  //   ["members-list"],
+  //   () => committeeAPI.getcommitteeMembersList(),
+  //   {
+  //     onError: () => {
+  //       notification.error({ message: "You do not have permission" });
+  //     },
+  //   }
+  // );
+
   const { mutate, isLoading } = useMutation(
     ({ id, payload }: { id: string | number; payload: CommitteePayload }) =>
       committeeAPI.updateCommittee(id, payload),

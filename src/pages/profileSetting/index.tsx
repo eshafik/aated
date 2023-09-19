@@ -1,4 +1,5 @@
-import { Layout, Tabs, TabsProps } from "antd";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Tabs, TabsProps } from "antd";
 import ProfileSettings from "./components/ProfileSettings";
 import Security from "./components/Security";
 import SeeExperience from "../experience/SeeExperience";
