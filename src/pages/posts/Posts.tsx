@@ -3,7 +3,6 @@ import {
   Avatar,
   Button,
   Card,
-  Col,
   Dropdown,
   Form,
   Image,
@@ -11,6 +10,7 @@ import {
   Modal,
   Popconfirm,
   Row,
+  Space,
   Spin,
   Typography,
   message,
@@ -82,35 +82,25 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
 
   return (
     <Spin spinning={loadingPostList}>
-      <Card
-        className="bg-transparent border-transparent max-w-3xl"
-        // onTabChange={(key) => {
-        //   postsData?.data?.map((items) => {
-        //     key == items?.category?.id
-        //       ? filter?.handleChangeTabs(items?.id)
-        //       : "";
-        //   });
-        // }}
-      >
-        <Form form={searchForm}>
-          <Row gutter={[5, 5]}>
-            <Col span={20}>
+      <div className="max-w-3xl grid grid-cols-1 gap-4">
+        <Card
+          size="small"
+          className="self-start sticky top-11 z-10 drop-shadow"
+        >
+          <Form form={searchForm}>
+            <div className="flex gap-2">
               <Input.Search
                 size="large"
-                className="mb-3 "
                 placeholder="Search Post"
                 allowClear
                 onSearch={filter.handleChangePosts}
               />
-            </Col>
-            <Col span={4}>
               <Button size="large" type="primary" onClick={() => showModal()}>
                 Create Post
               </Button>
-            </Col>
-          </Row>
-        </Form>
-
+            </div>
+          </Form>
+        </Card>
         <Form
           form={form}
           onFinish={(values) =>
@@ -135,15 +125,15 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
             <CreatePostModal />
           </Modal>
         </Form>
+
         {postsData?.data?.map((items, i) => (
           <Card
             key={i}
-            className="max-w-2xl"
             title={
-              <>
-                <Avatar className="mr-2" src={items?.user?.profile_pic} />
+              <Space>
+                <Avatar src={items?.user?.profile_pic} />
                 {items.user?.name}
-              </>
+              </Space>
             }
             extra={
               items?.user?.id == profileData?.data?.id ? (
@@ -243,7 +233,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
             </Form>
           </Card>
         ))}
-      </Card>
+      </div>
     </Spin>
   );
 };

@@ -1,21 +1,8 @@
-import { Col, Row, Tabs } from "antd";
+import { Tabs, theme } from "antd";
 import Posts from "./Posts";
-import { Header } from "antd/es/layout/layout";
 
 const PostContainer = () => {
-  const renderTabBar = (props: any, DefaultTabBar: any) => (
-    <Header
-      style={{
-        position: "fixed",
-        top: 0,
-        padding: 20,
-        width: "100%",
-        background: "transparent",
-      }}
-    >
-      <DefaultTabBar {...props} />
-    </Header>
-  );
+  const { token } = theme.useToken();
   const items = [
     { key: "0", label: "All Post", children: <Posts /> },
     { key: "1", label: "Job Post", children: <Posts categoryId={"1"} /> },
@@ -25,11 +12,17 @@ const PostContainer = () => {
   ];
 
   return (
-    <Row align="middle" justify="center">
-      <Col>
-        <Tabs renderTabBar={renderTabBar} items={items} />
-      </Col>
-    </Row>
+    <div className="grid justify-center bg-inherit">
+      <Tabs
+        items={items}
+        tabBarStyle={{
+          backgroundColor: token.colorBgLayout,
+          position: "sticky",
+          top: 0,
+          zIndex: 100,
+        }}
+      />
+    </div>
   );
 };
 
