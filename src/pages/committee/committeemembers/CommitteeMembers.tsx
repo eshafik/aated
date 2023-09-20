@@ -13,8 +13,8 @@ import {
 import { committeeAPI } from "../../../libs/api/committee";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { profileAPI } from "../../../libs/api/profileAPI";
 import { SmileOutlined } from "@ant-design/icons";
+import { useSuperUser } from "../../../container/ProfileProvider";
 
 const CommitteeMembers = () => {
   const { notification } = App.useApp();
@@ -30,9 +30,7 @@ const CommitteeMembers = () => {
     }
   );
 
-  const { data: superUser } = useQuery(["user-profile"], () =>
-    profileAPI.superUserCheck()
-  );
+  const { isSuperUser } = useSuperUser();
 
   //   const { mutate } = useMutation(
   //     (payload: ApproveMembersPayload) => membersAPI.approveMembers(payload),
@@ -74,9 +72,7 @@ const CommitteeMembers = () => {
                       </Space.Compact>
                     </Space>
                     <div className="text-end">
-                      <Button disabled={!superUser?.data?.is_superuser}>
-                        Remove
-                      </Button>
+                      <Button disabled={!isSuperUser}>Remove</Button>
                     </div>
                   </Card>
                 </Badge.Ribbon>

@@ -3,7 +3,6 @@ import { authService } from "../auth/auth.service";
 import {
   ExperiencePayload,
   ExperienceResponse,
-  SuperUser,
   UpdateProfilePayload,
   UpdateProfileResponse,
 } from "./@types/profile";
@@ -23,10 +22,6 @@ class ProfileAPI {
     return this.http.get<UpdateProfileResponse>(
       "api/v1/profiles/personal/profile/"
     );
-  }
-
-  superUserCheck() {
-    return this.http.get<SuperUser>("api/v1/profiles/personal/profile/");
   }
 
   addExperiences(payload: ExperiencePayload) {

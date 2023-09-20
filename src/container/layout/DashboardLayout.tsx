@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import { profileAPI } from "../../libs/api/profileAPI";
 import { authService } from "../../libs/auth";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import ProfileProvider from "../ProfileProvider";
 
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -27,48 +28,55 @@ const DashboardLayout = () => {
     },
   ];
   return (
-    <Layout className="relative" style={{ overflow: "auto", height: "100vh" }}>
-      <Sider
-        trigger={null}
-        theme="light"
-        breakpoint="xl"
-        collapsedWidth="0"
-        collapsible
-        className="bg-blue-400 "
-        collapsed={collapsed}
-        onCollapse={() => setCollapsed(!collapsed)}
+    <ProfileProvider>
+      <Layout
+        className="relative"
+        style={{ overflow: "auto", height: "100vh" }}
       >
-        <SideMenu />
-      </Sider>
-      <Layout>
-        <Header style={{ padding: 0 }} className="bg-transparent w-full">
-          <Row justify={"space-between"}>
-            <Col>
-              <Button
-                type="text"
-                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                onClick={() => setCollapsed(!collapsed)}
-              />
-            </Col>
-            <Col>
-              <Dropdown.Button
-                className="mr-12"
-                size="large"
-                type="text"
-                icon={<Avatar src={data?.data?.profile_pic} />}
-                menu={{ items }}
-                placement="bottomLeft"
-              >
-                {data?.data?.name}
-              </Dropdown.Button>
-            </Col>
-          </Row>
-        </Header>
-        <Content className="overflow-auto ml-5 mt-2">
-          <Outlet />
-        </Content>
+        <Sider
+          trigger={null}
+          theme="light"
+          breakpoint="xl"
+          collapsedWidth="0"
+          collapsible
+          className="bg-blue-400 "
+          collapsed={collapsed}
+          onCollapse={() => setCollapsed(!collapsed)}
+        >
+          <SideMenu />
+        </Sider>
+        <Layout>
+          <Header style={{ padding: 0 }} className="bg-transparent w-full">
+            <Row justify={"space-between"}>
+              <Col>
+                <Button
+                  type="text"
+                  icon={
+                    collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+                  }
+                  onClick={() => setCollapsed(!collapsed)}
+                />
+              </Col>
+              <Col>
+                <Dropdown.Button
+                  className="mr-12"
+                  size="large"
+                  type="text"
+                  icon={<Avatar src={data?.data?.profile_pic} />}
+                  menu={{ items }}
+                  placement="bottomLeft"
+                >
+                  {data?.data?.name}
+                </Dropdown.Button>
+              </Col>
+            </Row>
+          </Header>
+          <Content className="overflow-auto ml-5 mt-2">
+            <Outlet />
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </ProfileProvider>
   );
 };
 

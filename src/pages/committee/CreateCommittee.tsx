@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Card, Col, DatePicker, Form, Input, Row } from "antd";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
-import { profileAPI } from "../../libs/api/profileAPI";
+import { useSuperUser } from "../../container/ProfileProvider";
 const CreateCommittee = () => {
-  const { data } = useQuery(["user-profile"], () =>
-    profileAPI.getProfileDetails()
-  );
+  const { isSuperUser } = useSuperUser();
 
   const { mutate, isLoading } = useMutation((payload: CommitteePayload) =>
     committeeAPI.createCommittee(payload)
@@ -16,7 +14,7 @@ const CreateCommittee = () => {
   return (
     <Row align="middle" justify={"center"}>
       <Col span={8}>
-        {data?.data?.is_superuser ? (
+        {isSuperUser ? (
           <Card className="shadow-2xl" title="Create Your Committee">
             <Form
               onFinish={(values) => {

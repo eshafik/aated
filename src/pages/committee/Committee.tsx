@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "react-query";
 import { committeeAPI } from "../../libs/api/committee";
 import { ColumnsType } from "antd/es/table";
 import { Committee, CommitteePayload } from "../../libs/api/@types/committee";
-import { profileAPI } from "../../libs/api/profileAPI";
+import { useSuperUser } from "../../container/ProfileProvider";
 
 const Committee = () => {
   const navigate = useNavigate();
@@ -23,9 +23,7 @@ const Committee = () => {
   //     },
   //   }
   // );
-  const { data: profileData } = useQuery(["user-profile"], () =>
-    profileAPI.getProfileDetails()
-  );
+  const { isSuperUser } = useSuperUser();
 
   const { mutate, isLoading } = useMutation(
     ({ id, payload }: { id: string | number; payload: CommitteePayload }) =>
@@ -74,7 +72,7 @@ const Committee = () => {
       key: "status",
       render: (_, record) => (
         <Switch
-          disabled={!profileData?.data?.is_superuser}
+          disabled={!isSuperUser}
           loading={isLoading}
           defaultChecked={record?.is_active ? true : false}
           onChange={(value) => switchHandler(String(record?.id), value)}
@@ -98,7 +96,7 @@ const Committee = () => {
               {
                 key: "edit",
                 label: "Edit",
-                disabled: !profileData?.data?.is_superuser,
+                disabled: !isSuperUser,
                 icon: <EditOutlined />,
                 onClick: () => navigate(`${record?.id}`),
               },

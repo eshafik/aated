@@ -23,8 +23,8 @@ import { searchAPI } from "../../../libs/api/searchAPI";
 import { useMemo } from "react";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
 import { MoreOutlined } from "@ant-design/icons";
-import { profileAPI } from "../../../libs/api/profileAPI";
 import { useMemberList } from "../../../config/hook/useUserSearch";
+import { useSuperUser } from "../../../container/ProfileProvider";
 
 const ActiveMembers = () => {
   const [form] = Form.useForm();
@@ -106,9 +106,7 @@ const ActiveMembers = () => {
     return [];
   }, [jobDeptData?.data]);
 
-  const { data: superUser } = useQuery(["user-profile"], () =>
-    profileAPI.superUserCheck()
-  );
+  const { isSuperUser } = useSuperUser();
 
   return (
     <Spin spinning={isLoading}>
@@ -207,7 +205,7 @@ const ActiveMembers = () => {
                 hoverable
                 extra={
                   <Dropdown
-                    disabled={!superUser?.data?.is_superuser}
+                    disabled={!isSuperUser}
                     menu={{
                       items: [
                         {

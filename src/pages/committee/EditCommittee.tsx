@@ -20,7 +20,7 @@ import { committeeAPI } from "../../libs/api/committee";
 import { membersAPI } from "../../libs/api/membersAPI";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { profileAPI } from "../../libs/api/profileAPI";
+import { useSuperUser } from "../../container/ProfileProvider";
 
 const EditCommittee = () => {
   const { committeeId } = useParams();
@@ -98,18 +98,12 @@ const EditCommittee = () => {
     return [];
   }, [committeeData]);
 
-  const { data } = useQuery(
-    ["user-profile"],
-    () => profileAPI.getProfileDetails(),
-    {
-      onSuccess: () => {},
-    }
-  );
+  const { isSuperUser } = useSuperUser();
 
   return (
     <Row align="middle" justify={"center"}>
       <Col span={8}>
-        {data?.data?.is_superuser ? (
+        {isSuperUser ? (
           <Card className="shadow-2xl" title="Create Your Committee">
             <Form
               form={form}
