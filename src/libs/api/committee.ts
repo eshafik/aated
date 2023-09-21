@@ -2,6 +2,7 @@ import config from "../../config";
 import { authService } from "../auth/auth.service";
 import {
   Committee,
+  CommitteeId,
   CommitteeMemberPayload,
   CommitteeMemberResponse,
   CommitteePayload,
@@ -12,7 +13,7 @@ import { HttpAuthService } from "./httpService/httpAuth.service";
 class CommitteeAPI {
   constructor(private http: HttpAuthService) {}
 
-  getcommitteeList() {
+  getCommitteeList() {
     return this.http.get<CommitteeResponse>("api/v1/committee/committee/");
   }
 
@@ -39,9 +40,11 @@ class CommitteeAPI {
     return this.http.delete(`api/v1/committee/committee-member/${ID}/`);
   }
 
-  getcommitteeMembersList(ID?: string | number) {
+  getCommitteeMembersList(params?: CommitteeId) {
+    const queryParams = new URLSearchParams();
+    if (params?.id) queryParams.append("name", params?.id);
     return this.http.get<CommitteeMemberResponse>(
-      `api/v1/committee/committee-member?committee_id=${ID}`
+      `api/v1/committee/committee-member/?committee_id=1`
     );
   }
 }

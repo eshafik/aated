@@ -36,6 +36,10 @@ export interface CommitteeMemberPayload {
 }
 
 export interface CommitteeMemberResponse {
+  meta_data: {
+    count: number;
+    page_size?: number;
+  };
   data?: [
     {
       id?: string | number;
@@ -68,3 +72,7 @@ export interface CommitteeMembers {
   committee_designation?: string;
   position_order?: number | string;
 }
+
+export type CommitteeId = {
+  id?: string;
+};

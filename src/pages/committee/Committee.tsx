@@ -6,23 +6,15 @@ import { committeeAPI } from "../../libs/api/committee";
 import { ColumnsType } from "antd/es/table";
 import { Committee, CommitteePayload } from "../../libs/api/@types/committee";
 import { useSuperUser } from "../../container/ProfileProvider";
+import { useCommitteeMembersList } from "../../config/hook/useCommitteeMembers";
 
 const Committee = () => {
   const navigate = useNavigate();
 
   const { data } = useQuery(["committee-list"], () =>
-    committeeAPI.getcommitteeList()
+    committeeAPI.getCommitteeList()
   );
-
-  // const { data: committeeMemberData } = useQuery(
-  //   ["members-list"],
-  //   () => committeeAPI.getcommitteeMembersList(),
-  //   {
-  //     onError: () => {
-  //       notification.error({ message: "You do not have permission" });
-  //     },
-  //   }
-  // );
+  const { filter, members } = useCommitteeMembersList();
   const { isSuperUser } = useSuperUser();
 
   const { mutate, isLoading } = useMutation(
