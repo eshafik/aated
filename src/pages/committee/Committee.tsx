@@ -6,7 +6,6 @@ import { committeeAPI } from "../../libs/api/committee";
 import { ColumnsType } from "antd/es/table";
 import { Committee, CommitteePayload } from "../../libs/api/@types/committee";
 import { useSuperUser } from "../../container/ProfileProvider";
-import { useCommitteeMembersList } from "../../config/hook/useCommitteeMembers";
 
 const Committee = () => {
   const navigate = useNavigate();
@@ -14,7 +13,7 @@ const Committee = () => {
   const { data } = useQuery(["committee-list"], () =>
     committeeAPI.getCommitteeList()
   );
-  const { filter, members } = useCommitteeMembersList();
+  // const { filter, members } = useCommitteeMembersList();
   const { isSuperUser } = useSuperUser();
 
   const { mutate, isLoading } = useMutation(
