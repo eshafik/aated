@@ -1,14 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Card, Col, DatePicker, Form, Input, Row } from "antd";
+import { App, Button, Card, Col, DatePicker, Form, Input, Row } from "antd";
 import { useMutation } from "react-query";
 import { useSuperUser } from "../../container/ProfileProvider";
 import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
 const CreateCommittee = () => {
   const { isSuperUser } = useSuperUser();
+  const { notification } = App.useApp();
 
-  const { mutate, isLoading } = useMutation((payload: CommitteePayload) =>
-    committeeAPI.createCommittee(payload)
+  const { mutate, isLoading } = useMutation(
+    (payload: CommitteePayload) => committeeAPI.createCommittee(payload),
+    {
+      onSuccess: () => {
+        notification.success({ message: "Committee created successful" });
+      },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
+      },
+    }
   );
 
   return (
