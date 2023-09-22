@@ -1,94 +1,107 @@
-import { SmileOutlined } from "@ant-design/icons";
-import {
-  App,
-  Badge,
-  Button,
-  Card,
-  Col,
-  Result,
-  Row,
-  Space,
-  Spin,
-  Typography,
-} from "antd";
-import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { DeleteFilled, MoreOutlined } from "@ant-design/icons";
+import { Button, Dropdown, Spin, Table, notification } from "antd";
+import { ColumnsType } from "antd/es/table";
+import { useMemo } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { Link, useParams } from "react-router-dom";
 import { useSuperUser } from "../../../container/ProfileProvider";
+import { CommitteeMembers } from "../../../libs/api/@types/committee";
 import { committeeAPI } from "../../../libs/api/committee";
+import PageHeader from "../components/PageHeader";
 
 const CommitteeMembers = () => {
-  const { notification } = App.useApp();
-  const { committeemembersId } = useParams();
+  const { slag } = useParams();
+  const queryClient = useQueryClient();
 
-  // const {filter} = useCommitteeMembersList()
+  const { data: CommitteeName } = useQuery(["committee-details"], () =>
+    committeeAPI.getCommitteeDetails(slag as string)
+  );
 
-  const { data: committeeMemberData, isLoading } = useQuery(
-    ["members-list"],
-    () => committeeAPI.getCommitteeDetails(committeemembersId),
-    {
-      onError: () => {
-        notification.error({ message: "You do not have permission" });
-      },
-    }
+  const { data, isLoading } = useQuery(["committeeMember-details"], () =>
+    committeeAPI.getCommitteeMembersList(slag as string)
   );
 
   const { isSuperUser } = useSuperUser();
 
-  //   const { mutate } = useMutation(
-  //     (payload: ApproveMembersPayload) => membersAPI.approveMembers(payload),
-  //     {
-  //       onSuccess: () => {
-  //         notification.success({ message: "User Approved" });
-  //       },
-  //     }
-  //   );
+  const { mutate } = useMutation(
+    [""],
+    (id?: string | number) => committeeAPI?.removeCommitteeMember(id),
+    {
+      onSuccess: () => {
+        notification.success({ message: "Member Delete successfully" });
+        queryClient.invalidateQueries(["committeeMember-details"]);
+      },
+    }
+  );
 
-  //   const { data: superUser } = useQuery(["user-profile"], () =>
-  //     profileAPI.getProfileDetails()
-  //   );
+  const switchHandler = (id?: string | number) => {
+    mutate(id);
+  };
+
+  const column: ColumnsType<CommitteeMembers> = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      render: (_, record) => record?.member?.name,
+    },
+    {
+      title: "Designation",
+      dataIndex: "committee_designation",
+      render: (_, record) => record?.committee_designation,
+    },
+    {
+      title: "Position",
+      dataIndex: "position",
+      render: (_, record) => record?.position_order,
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      key: "action",
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      render: (_, record) => (
+        <Dropdown
+          disabled={!isSuperUser}
+          menu={{
+            items: [
+              {
+                key: "delete",
+                label: "Delete",
+                icon: <DeleteFilled />,
+                onClick: () => switchHandler(record?.id),
+              },
+            ],
+          }}
+        >
+          <Button icon={<MoreOutlined />} />
+        </Dropdown>
+      ),
+    },
+  ];
+
+  const tableData = useMemo(() => {
+    if (Array.isArray(data?.data)) {
+      return data?.data;
+    }
+    return [];
+  }, [data?.data]);
 
   return (
     <Spin spinning={isLoading}>
-      {committeeMemberData?.data?.members?.length ? (
-        <div className="p-10">
-          <Row gutter={[12, 12]}>
-            {committeeMemberData?.data?.members?.map((item, i) => (
-              <Col key={i} xs={24} md={8} lg={6}>
-                <Badge.Ribbon text={`${item?.member?.name}th batch`}>
-                  <Card type="inner" hoverable className="h-full">
-                    <Space align="start" size="middle">
-                      <Space.Compact direction="vertical">
-                        <Typography.Title level={5} className="mb-1 mt-1">
-                          {item?.member?.student_id}
-                        </Typography.Title>
-                        <Typography.Paragraph
-                          type="secondary"
-                          className="mb-0"
-                          ellipsis={{ rows: 2 }}
-                        >
-                          {item?.member?.email}
-                        </Typography.Paragraph>
-                        <Typography.Paragraph>
-                          {item?.member.phone}
-                        </Typography.Paragraph>
-                      </Space.Compact>
-                    </Space>
-                    <div className="text-end">
-                      <Button disabled={!isSuperUser}>Remove</Button>
-                    </div>
-                  </Card>
-                </Badge.Ribbon>
-              </Col>
-            ))}
-          </Row>
-        </div>
-      ) : (
-        <Result
-          className="items-center"
-          icon={<SmileOutlined />}
-          title="No members available for this committee"
+      <div className="pr-11">
+        <PageHeader
+          title={CommitteeName?.data?.name}
+          subtitle={`Start Date: ${CommitteeName?.data?.start_date} & End Date: ${CommitteeName?.data?.end_date}`}
+          actions={
+            <Link to={`/committee/edit-committee/${CommitteeName?.data?.id}`}>
+              <Button size="large" type="primary">
+                Edit Committee
+              </Button>
+            </Link>
+          }
         />
-      )}
+        <Table bordered dataSource={tableData} columns={column} />
+      </div>
     </Spin>
   );
 };

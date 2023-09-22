@@ -1,25 +1,25 @@
+import { Button, Result } from "antd";
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import HomePage from "../pages/homepage/HomePage";
-import SignIn from "../pages/signin/Signin";
-import Members from "../pages/members";
 import DashboardLayout from "../container/layout/DashboardLayout";
 import HomeLayout from "../container/layout/HomeLayout";
-import Post from "../pages/post/Post";
 import Committee from "../pages/committee/Committee";
-import EmailVerify from "../pages/emailverify/EmailVerify";
-import ForgotPassword from "../pages/forgot-password/ForgotPassword";
-import ResetPassword from "../pages/forgot-password/ResetPassword";
-import Member from "../pages/member/Member";
 import CreateCommittee from "../pages/committee/CreateCommittee";
 import EditCommittee from "../pages/committee/EditCommittee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
-import { Button, Result } from "antd";
+import EmailVerify from "../pages/emailverify/EmailVerify";
 import AddExperiences from "../pages/experience/AddExperiences";
 import SeeExperience from "../pages/experience/SeeExperience";
-import SignUp from "../pages/signup/Signup";
-import ProfileContainer from "../pages/profileSetting";
+import ForgotPassword from "../pages/forgot-password/ForgotPassword";
+import ResetPassword from "../pages/forgot-password/ResetPassword";
+import HomePage from "../pages/homepage/HomePage";
+import Member from "../pages/member/Member";
+import Members from "../pages/members";
 import EditPost from "../pages/post/EditPost";
+import Post from "../pages/post/Post";
 import PostContainer from "../pages/posts";
+import ProfileContainer from "../pages/profileSetting";
+import SignIn from "../pages/signin/Signin";
+import SignUp from "../pages/signup/Signup";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -73,12 +73,12 @@ export const protectedRouter = createBrowserRouter([
         path: "committee",
         children: [
           { index: true, element: <Committee /> },
-          { path: "createcommittee", element: <CreateCommittee /> },
-          { path: ":committeeId", element: <EditCommittee /> },
+          { path: "create-committee", element: <CreateCommittee /> },
           {
-            path: "members/:committeemembersId",
+            path: "members/:slag",
             element: <CommitteeMembers />,
           },
+          { path: "edit-committee/:committeeId", element: <EditCommittee /> },
         ],
       },
       { path: "profilesetting", element: <ProfileContainer /> },

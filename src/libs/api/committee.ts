@@ -17,7 +17,7 @@ class CommitteeAPI {
     return this.http.get<CommitteeResponse>("api/v1/committee/committee/");
   }
 
-  getCommitteeDetails(id?: string) {
+  getCommitteeDetails(id: string) {
     return this.http.get<CommitteeDetails>(`api/v1/committee/committee/${id}/`);
   }
 
@@ -36,7 +36,7 @@ class CommitteeAPI {
     return this.http.post(`api/v1/committee/committee-member/`, payload);
   }
 
-  removeCommitteeMember(ID: string | number) {
+  removeCommitteeMember(ID?: string | number) {
     return this.http.delete(`api/v1/committee/committee-member/${ID}/`);
   }
 
@@ -44,7 +44,7 @@ class CommitteeAPI {
     // const queryParams = new URLSearchParams();
     // if (params?.id) queryParams.append("name", params?.id);
     return this.http.get<CommitteeSample>(
-      `api/v1/committee/committee-member/${id}`
+      `api/v1/committee/committee-member?committee_id=${id}`
     );
   }
 }

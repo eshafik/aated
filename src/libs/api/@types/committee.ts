@@ -45,25 +45,10 @@ export interface CommitteeMemberResponse {
 }
 
 export interface CommitteeSample {
-  data?: {
-    id?: string | number;
-    member?: [
-      {
-        id?: string | number;
-        name?: string;
-        email?: string;
-        phone?: string;
-        batch?: Batch;
-        student_id?: string;
-        passing_year?: number | string;
-      }
-    ];
-    committee_designation?: string;
-    position_order?: number | string;
-  };
+  data?: CommitteeMembers[];
 }
 
-export interface CommitteeMembers {
+export type CommitteeMembers = {
   id?: string | number;
   member?: {
     id?: string | number;
@@ -76,7 +61,7 @@ export interface CommitteeMembers {
   };
   committee_designation?: string;
   position_order?: number | string;
-}
+};
 
 export type CommitteeId = {
   id?: string;
@@ -84,19 +69,37 @@ export type CommitteeId = {
 
 export type CommitteeDetails = {
   data?: {
+    id?: string | number;
+    is_active?: boolean;
     name?: string;
     start_date?: string;
     end_date?: string;
     members?: [
-      member?: {
-        id: number;
-        member: Member2;
-        committee_designation: string;
-        position_order: number;
+      {
+        id?: number;
+        member?: Member2;
+        committee_designation?: string;
+        position_order?: number;
       }
     ];
   };
 };
+
+// export type CommitteeColumn = {
+//   id?: string | number;
+//   is_active?: boolean;
+//   name?: string;
+//   start_date?: string;
+//   end_date?: string;
+//   members?: [
+//     {
+//       id?: number;
+//       member?: Member2;
+//       committee_designation?: string;
+//       position_order?: number;
+//     }
+//   ];
+// };
 
 export interface Member2 {
   id: number;

@@ -24,6 +24,8 @@ import { membersAPI } from "../../libs/api/membersAPI";
 
 const EditCommittee = () => {
   const { committeeId } = useParams();
+  console.log(committeeId);
+
   const [form] = Form.useForm();
 
   const { mutate, isLoading } = useMutation((payload: CommitteePayload) =>
@@ -43,7 +45,7 @@ const EditCommittee = () => {
   );
 
   const { data: committeeDetailsData, isLoading: loadingCommitteeDetails } =
-    useQuery(["committee"], () =>
+    useQuery(["committee-details"], () =>
       committeeAPI.getCommitteeDetails(committeeId as string)
     );
 
@@ -68,7 +70,7 @@ const EditCommittee = () => {
       <Col span={8}>
         <Skeleton loading={loadingCommitteeDetails}>
           {isSuperUser ? (
-            <Card className="shadow-2xl" title="Create Your Committee">
+            <Card className="shadow-2xl" title="Edit Your Committee">
               <Form
                 form={form}
                 initialValues={{
@@ -94,6 +96,7 @@ const EditCommittee = () => {
                     committee_designation: values.committee_designation,
                     position_order: values.position_order,
                   });
+                  console.log(values);
                 }}
                 layout="vertical"
               >
