@@ -13,13 +13,14 @@ import {
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { ExperiencePayload } from "../../../libs/api/@types/profile";
 import { profileAPI } from "../../../libs/api/profileAPI";
 
 const SeeExperience = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [check, setCheck] = useState(false);
 
   const { data: experienceData, isLoading } = useQuery(
@@ -29,7 +30,12 @@ const SeeExperience = () => {
 
   const { mutate: mutateDeleteExperience } = useMutation(
     ["experience-list"],
-    (ID: string | number) => profileAPI.deleteExperiences(ID)
+    (ID: string | number) => profileAPI.deleteExperiences(ID),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["experience-list"]);
+      },
+    }
   );
 
   const { mutate: mutateCreateExperience, isLoading: loadingAddExp } =
