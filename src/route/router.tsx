@@ -7,8 +7,6 @@ import CreateCommittee from "../pages/committee/CreateCommittee";
 import EditCommittee from "../pages/committee/EditCommittee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
 import EmailVerify from "../pages/emailverify/EmailVerify";
-import AddExperiences from "../pages/experience/AddExperiences";
-import SeeExperience from "../pages/experience/SeeExperience";
 import ForgotPassword from "../pages/forgot-password/ForgotPassword";
 import ResetPassword from "../pages/forgot-password/ResetPassword";
 import HomePage from "../pages/homepage/HomePage";
@@ -82,8 +80,6 @@ export const protectedRouter = createBrowserRouter([
         ],
       },
       { path: "profilesetting", element: <ProfileContainer /> },
-      { path: "add-experiences", element: <AddExperiences /> },
-      { path: "experiences", element: <SeeExperience /> },
     ],
   },
   {
