@@ -12,6 +12,7 @@ import PageHeader from "../components/PageHeader";
 const CommitteeMembers = () => {
   const { slag } = useParams();
   const queryClient = useQueryClient();
+  const { isSuperUser } = useSuperUser();
 
   const { data: CommitteeName } = useQuery(["committee-details"], () =>
     committeeAPI.getCommitteeDetails(slag as string)
@@ -20,8 +21,6 @@ const CommitteeMembers = () => {
   const { data, isLoading } = useQuery(["committeeMember-details"], () =>
     committeeAPI.getCommitteeMembersList(slag as string)
   );
-
-  const { isSuperUser } = useSuperUser();
 
   const { mutate } = useMutation(
     [""],
@@ -93,11 +92,15 @@ const CommitteeMembers = () => {
           title={CommitteeName?.data?.name}
           subtitle={`Start Date: ${CommitteeName?.data?.start_date} & End Date: ${CommitteeName?.data?.end_date}`}
           actions={
-            <Link to={`/committee/edit-committee/${CommitteeName?.data?.id}`}>
-              <Button size="large" type="primary">
-                Edit Committee
-              </Button>
-            </Link>
+            isSuperUser ? (
+              <Link to={`/committee/edit-committee/${CommitteeName?.data?.id}`}>
+                <Button size="large" type="primary">
+                  Edit Committee
+                </Button>
+              </Link>
+            ) : (
+              ""
+            )
           }
         />
         <Table bordered dataSource={tableData} columns={column} />
