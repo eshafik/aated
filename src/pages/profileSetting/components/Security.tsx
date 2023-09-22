@@ -1,7 +1,7 @@
 import { App, Button, Card, Form, Input } from "antd";
 import { useMutation } from "react-query";
-import { profileAPI } from "../../../libs/api/profileAPI";
 import { UpdateProfilePayload } from "../../../libs/api/@types/profile";
+import { profileAPI } from "../../../libs/api/profileAPI";
 
 const Security = () => {
   const { notification } = App.useApp();
@@ -23,7 +23,7 @@ const Security = () => {
     }
   );
   return (
-    <Card className="shadow-2xl mr-3 bg-transparent max-w-xl">
+    <Card className="shadow-2xl  max-w-xl">
       <Form
         onFinish={(values) => {
           mutate({

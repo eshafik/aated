@@ -1,127 +1,39 @@
-import { Button, Col, Dropdown, Row, Switch, Table, notification } from "antd";
-import { EditOutlined, MoreOutlined } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "react-query";
+import { Card, Col, Row, Space, Spin, Tag, Typography } from "antd";
+import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 import { committeeAPI } from "../../libs/api/committee";
-import { ColumnsType } from "antd/es/table";
-import { Committee, CommitteePayload } from "../../libs/api/@types/committee";
-import { useSuperUser } from "../../container/ProfileProvider";
 
 const Committee = () => {
-  const navigate = useNavigate();
-
-  const { data } = useQuery(["committee-list"], () =>
+  const { data, isLoading } = useQuery(["committee-list"], () =>
     committeeAPI.getCommitteeList()
   );
-  // const { filter, members } = useCommitteeMembersList();
-  const { isSuperUser } = useSuperUser();
-
-  const { mutate, isLoading } = useMutation(
-    ({ id, payload }: { id: string | number; payload: CommitteePayload }) =>
-      committeeAPI.updateCommittee(id, payload),
-    {
-      onError: () => {
-        notification.error({
-          message: "You do not have permission to perform this action.",
-        });
-      },
-    }
-  );
-
-  const switchHandler = (id: string, is_active?: boolean) => {
-    const payload = {
-      is_active: is_active == true ? true : false,
-    };
-
-    mutate({ id, payload });
-  };
-
-  const columns: ColumnsType<Committee> = [
-    {
-      title: "Committee Name",
-      dataIndex: "name",
-      key: "name",
-      render: (_, record) => record?.name,
-    },
-    {
-      title: "Start Date",
-      dataIndex: "start_date",
-      key: "start_date",
-      render: (_, record) => record?.start_date,
-    },
-    {
-      title: "End Date",
-      dataIndex: "end_date",
-      key: "end_date",
-      render: (_, record) => record?.end_date,
-    },
-    {
-      title: "STATUS",
-      dataIndex: "status",
-      responsive: ["md", "sm", "xs"],
-      align: "center",
-      key: "status",
-      render: (_, record) => (
-        <Switch
-          disabled={!isSuperUser}
-          loading={isLoading}
-          defaultChecked={record?.is_active ? true : false}
-          onChange={(value) => switchHandler(String(record?.id), value)}
-        />
-      ),
-    },
-    {
-      title: "View Members",
-      dataIndex: "view",
-      key: "view",
-      render: (_, record) => <Link to={`members/${record?.id}`}>View</Link>,
-    },
-    {
-      title: "Action",
-      dataIndex: "action",
-      key: "action",
-      render: (_, record) => (
-        <Dropdown
-          menu={{
-            items: [
-              {
-                key: "edit",
-                label: "Edit",
-                disabled: !isSuperUser,
-                icon: <EditOutlined />,
-                onClick: () => navigate(`${record?.id}`),
-              },
-            ],
-          }}
-        >
-          <Button icon={<MoreOutlined />} />
-        </Dropdown>
-      ),
-    },
-  ];
-
   return (
-    <div className="p-12">
-      <Row align={"middle"} justify={"space-between"}>
-        <Col></Col>
-        <Col>
-          <Button
-            className="mb-3"
-            type="primary"
-            onClick={() => navigate("createcommittee")}
-          >
-            Create committee
-          </Button>
-        </Col>
-      </Row>
-
-      <Table
-        rowKey={(record) => record?.id?.toString()}
-        bordered
-        dataSource={data?.data}
-        columns={columns}
-      />
-    </div>
+    <Spin spinning={isLoading}>
+      <Typography.Title level={2}>Committee</Typography.Title>
+      <Typography.Title type="secondary" level={5}>
+        Connect with community members by joining a communities
+      </Typography.Title>
+      {data?.data?.map((items, index) => (
+        <Space key={index} size={"large"} direction="vertical">
+          <Row gutter={[48, 48]}>
+            <Col className="mt-5" span={23}>
+              <Link to={`members/${items?.id}`}>
+                <Card hoverable>
+                  <Typography.Title level={5}>{items?.name}</Typography.Title>
+                  <Typography.Paragraph type="secondary">
+                    This committee Start at {items?.start_date} and End at{" "}
+                    {items?.end_date}
+                  </Typography.Paragraph>
+                  <Tag color={items?.is_active ? "green" : "red"}>
+                    {items?.is_active ? "Active" : "Deactivate"}
+                  </Tag>
+                </Card>
+              </Link>
+            </Col>
+          </Row>
+        </Space>
+      ))}
+    </Spin>
   );
 };
 

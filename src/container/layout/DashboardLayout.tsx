@@ -1,14 +1,14 @@
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Avatar, Button, Col, Dropdown, Layout, MenuProps, Row } from "antd";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header } from "antd/es/layout/layout";
-import SideMenu from "../SideMenu/SideMenu";
+import { useState } from "react";
 import { useQuery } from "react-query";
+import { Outlet, useNavigate } from "react-router-dom";
 import { profileAPI } from "../../libs/api/profileAPI";
 import { authService } from "../../libs/auth";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import ProfileProvider from "../ProfileProvider";
+import SideMenu from "../SideMenu/SideMenu";
 
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -46,7 +46,10 @@ const DashboardLayout = () => {
           <SideMenu />
         </Sider>
         <Layout>
-          <Header style={{ padding: 0 }} className="bg-transparent w-full">
+          <Header
+            style={{ padding: 0 }}
+            className="bg-white border-2 border-sky-500 w-full"
+          >
             <Row justify={"space-between"}>
               <Col>
                 <Button

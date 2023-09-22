@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -16,17 +17,16 @@ import {
   message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { Link } from "react-router-dom";
-import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
+import moment from "moment";
 import { FC, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { Link } from "react-router-dom";
+import { usePostList } from "../../config/hook/useSearch";
+import { useComment } from "../../config/hook/usecomment";
 import { PostPayload } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
-import CreatePostModal from "./component/CreatePostModal";
 import { profileAPI } from "../../libs/api/profileAPI";
-import { useComment } from "../../config/hook/usecomment";
-import { usePostList } from "../../config/hook/useSearch";
-import moment from "moment";
+import CreatePostModal from "./component/CreatePostModal";
 type PostProps = {
   categoryId?: string;
 };

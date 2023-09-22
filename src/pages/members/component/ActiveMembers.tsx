@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { MoreOutlined } from "@ant-design/icons";
 import {
   Avatar,
   Badge,
@@ -16,15 +17,14 @@ import {
   Spin,
   Typography,
 } from "antd";
-import { useMutation, useQuery } from "react-query";
-import { membersAPI } from "../../../libs/api/membersAPI";
-import { Link } from "react-router-dom";
-import { searchAPI } from "../../../libs/api/searchAPI";
 import { useMemo } from "react";
-import { ApproveMembersPayload } from "../../../libs/api/@types/members";
-import { MoreOutlined } from "@ant-design/icons";
+import { useMutation, useQuery } from "react-query";
+import { Link } from "react-router-dom";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 import { useSuperUser } from "../../../container/ProfileProvider";
+import { ApproveMembersPayload } from "../../../libs/api/@types/members";
+import { membersAPI } from "../../../libs/api/membersAPI";
+import { searchAPI } from "../../../libs/api/searchAPI";
 
 const ActiveMembers = () => {
   const [form] = Form.useForm();
@@ -200,106 +200,108 @@ const ActiveMembers = () => {
         {ActiveMemberData?.data?.map((item, i) => (
           <Col key={i} xs={24} sm={24} md={12} lg={12} xl={8} xxl={6}>
             <Badge.Ribbon placement="start" text={`${item?.batch_no}th batch`}>
-              <Card
-                className="h-48"
-                hoverable
-                extra={
-                  <Dropdown
-                    disabled={!isSuperUser}
-                    menu={{
-                      items: [
-                        {
-                          key: "admin",
-                          label: (
-                            <Popconfirm
-                              title="Make Admin?"
-                              description="Are you sure to Make Admin"
-                              onConfirm={() =>
-                                mutate({
-                                  role: "admin",
-                                  user_id: item?.id,
-                                })
-                              }
-                              okText="Yes"
-                              cancelText="No"
-                              okType="danger"
-                            >
-                              Make Admin
-                            </Popconfirm>
-                          ),
-                        },
-                        {
-                          key: "member",
-                          label: (
-                            <Popconfirm
-                              title="Make member?"
-                              description="Are you sure to Make member"
-                              onConfirm={() =>
-                                mutate({
-                                  role: "member",
-                                  user_id: item?.id,
-                                })
-                              }
-                              okText="Yes"
-                              cancelText="No"
-                              okType="danger"
-                            >
-                              Make Member
-                            </Popconfirm>
-                          ),
-                        },
-                        {
-                          key: "moderator",
-                          label: (
-                            <Popconfirm
-                              title="Make member?"
-                              description="Are you sure to Make member"
-                              onConfirm={() =>
-                                mutate({
-                                  role: "moderator",
-                                  user_id: item?.id,
-                                })
-                              }
-                              okText="Yes"
-                              cancelText="No"
-                              okType="danger"
-                            >
-                              Make moderator
-                            </Popconfirm>
-                          ),
-                        },
-                      ],
-                    }}
-                  >
-                    <Button type="text" icon={<MoreOutlined />} />
-                  </Dropdown>
-                }
-              >
-                <Link to={`${item?.id}`}>
-                  <Space align="start" size="middle">
-                    <Avatar
-                      size="large"
-                      className="bg-primary/[15%] border-none dark:bg-primary flex justify-center items-center"
-                      src={item?.profile_pic}
-                    />
-                    <Space.Compact direction="vertical">
-                      <Typography.Title level={5} className="mb-1 mt-1 ">
-                        {item?.name}
-                      </Typography.Title>
-                      <Typography.Paragraph
-                        type="secondary"
-                        className="mb-0"
-                        ellipsis={{ rows: 2 }}
-                      >
-                        {item?.student_id}
-                      </Typography.Paragraph>
-                      <Typography.Paragraph>
-                        {item?.professional_designation}
-                      </Typography.Paragraph>
-                    </Space.Compact>
-                  </Space>
-                </Link>
-              </Card>
+              <Link to={`${item?.id}`}>
+                <Card
+                  className="h-48"
+                  hoverable
+                  extra={
+                    <Dropdown
+                      disabled={!isSuperUser}
+                      menu={{
+                        items: [
+                          {
+                            key: "admin",
+                            label: (
+                              <Popconfirm
+                                title="Make Admin?"
+                                description="Are you sure to Make Admin"
+                                onConfirm={() =>
+                                  mutate({
+                                    role: "admin",
+                                    user_id: item?.id,
+                                  })
+                                }
+                                okText="Yes"
+                                cancelText="No"
+                                okType="danger"
+                              >
+                                Make Admin
+                              </Popconfirm>
+                            ),
+                          },
+                          {
+                            key: "member",
+                            label: (
+                              <Popconfirm
+                                title="Make member?"
+                                description="Are you sure to Make member"
+                                onConfirm={() =>
+                                  mutate({
+                                    role: "member",
+                                    user_id: item?.id,
+                                  })
+                                }
+                                okText="Yes"
+                                cancelText="No"
+                                okType="danger"
+                              >
+                                Make Member
+                              </Popconfirm>
+                            ),
+                          },
+                          {
+                            key: "moderator",
+                            label: (
+                              <Popconfirm
+                                title="Make member?"
+                                description="Are you sure to Make member"
+                                onConfirm={() =>
+                                  mutate({
+                                    role: "moderator",
+                                    user_id: item?.id,
+                                  })
+                                }
+                                okText="Yes"
+                                cancelText="No"
+                                okType="danger"
+                              >
+                                Make moderator
+                              </Popconfirm>
+                            ),
+                          },
+                        ],
+                      }}
+                    >
+                      <Button type="text" icon={<MoreOutlined />} />
+                    </Dropdown>
+                  }
+                >
+                  <div>
+                    <Space align="start" size="middle">
+                      <Avatar
+                        size="large"
+                        className="bg-primary/[15%] border-none dark:bg-primary flex justify-center items-center"
+                        src={item?.profile_pic}
+                      />
+                      <Space.Compact direction="vertical">
+                        <Typography.Title level={5} className="mb-1 mt-1 ">
+                          {item?.name}
+                        </Typography.Title>
+                        <Typography.Paragraph
+                          type="secondary"
+                          className="mb-0"
+                          ellipsis={{ rows: 2 }}
+                        >
+                          {item?.student_id}
+                        </Typography.Paragraph>
+                        <Typography.Paragraph>
+                          {item?.professional_designation}
+                        </Typography.Paragraph>
+                      </Space.Compact>
+                    </Space>
+                  </div>
+                </Card>
+              </Link>
             </Badge.Ribbon>
           </Col>
         ))}

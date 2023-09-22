@@ -1,3 +1,4 @@
+import dayJs from "dayjs";
 import { Batch } from "./members";
 
 export interface CommitteeResponse {
@@ -22,8 +23,8 @@ export interface Committee {
 
 export interface CommitteePayload {
   id?: string | number;
-  start_date?: string;
-  end_date?: string;
+  start_date?: dayJs.Dayjs;
+  end_date?: dayJs.Dayjs;
   is_active?: boolean;
   name?: string;
 }
@@ -40,10 +41,14 @@ export interface CommitteeMemberResponse {
     count: number;
     page_size?: number;
   };
-  data?: [
-    {
-      id?: string | number;
-      member?: {
+  data?: [];
+}
+
+export interface CommitteeSample {
+  data?: {
+    id?: string | number;
+    member?: [
+      {
         id?: string | number;
         name?: string;
         email?: string;
@@ -51,11 +56,11 @@ export interface CommitteeMemberResponse {
         batch?: Batch;
         student_id?: string;
         passing_year?: number | string;
-      };
-      committee_designation?: string;
-      position_order?: number | string;
-    }
-  ];
+      }
+    ];
+    committee_designation?: string;
+    position_order?: number | string;
+  };
 }
 
 export interface CommitteeMembers {
@@ -76,3 +81,29 @@ export interface CommitteeMembers {
 export type CommitteeId = {
   id?: string;
 };
+
+export type CommitteeDetails = {
+  data?: {
+    name?: string;
+    start_date?: string;
+    end_date?: string;
+    members?: [
+      member?: {
+        id: number;
+        member: Member2;
+        committee_designation: string;
+        position_order: number;
+      }
+    ];
+  };
+};
+
+export interface Member2 {
+  id: number;
+  name: string;
+  email?: string;
+  phone?: string;
+  batch: Batch;
+  student_id?: string;
+  passing_year?: number;
+}

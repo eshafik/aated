@@ -99,3 +99,7 @@ export interface MembersListParams {
   limit?: number;
   page?: number;
 }
+
+export interface CommitteeID {
+  id?: string;
+}

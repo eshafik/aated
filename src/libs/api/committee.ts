@@ -2,11 +2,11 @@ import config from "../../config";
 import { authService } from "../auth/auth.service";
 import {
   Committee,
-  CommitteeId,
+  CommitteeDetails,
   CommitteeMemberPayload,
-  CommitteeMemberResponse,
   CommitteePayload,
   CommitteeResponse,
+  CommitteeSample,
 } from "./@types/committee";
 import { HttpAuthService } from "./httpService/httpAuth.service";
 
@@ -17,13 +17,13 @@ class CommitteeAPI {
     return this.http.get<CommitteeResponse>("api/v1/committee/committee/");
   }
 
-  getCommitteeDetails() {
-    return this.http.get<Committee>("api/v1/committee/committee/");
+  getCommitteeDetails(id?: string) {
+    return this.http.get<CommitteeDetails>(`api/v1/committee/committee/${id}/`);
   }
 
-  updateCommittee(ID: string | number, payload: CommitteePayload) {
+  updateCommittee(payload: CommitteePayload, id: string) {
     return this.http.patch<Committee>(
-      `api/v1/committee/committee/${ID}/`,
+      `api/v1/committee/committee/${id}/`,
       payload
     );
   }
@@ -40,11 +40,11 @@ class CommitteeAPI {
     return this.http.delete(`api/v1/committee/committee-member/${ID}/`);
   }
 
-  getCommitteeMembersList(params?: CommitteeId) {
-    const queryParams = new URLSearchParams();
-    if (params?.id) queryParams.append("name", params?.id);
-    return this.http.get<CommitteeMemberResponse>(
-      `api/v1/committee/committee-member/?committee_id=1`
+  getCommitteeMembersList(id?: string) {
+    // const queryParams = new URLSearchParams();
+    // if (params?.id) queryParams.append("name", params?.id);
+    return this.http.get<CommitteeSample>(
+      `api/v1/committee/committee-member/${id}`
     );
   }
 }

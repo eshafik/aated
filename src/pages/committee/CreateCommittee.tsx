@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Card, Col, DatePicker, Form, Input, Row } from "antd";
 import { useMutation } from "react-query";
+import { useSuperUser } from "../../container/ProfileProvider";
 import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
-import { useSuperUser } from "../../container/ProfileProvider";
 const CreateCommittee = () => {
   const { isSuperUser } = useSuperUser();
 

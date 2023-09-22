@@ -1,9 +1,9 @@
 import { App, Button, Card, Form, Input, Select, Spin, Typography } from "antd";
-import { useMutation, useQuery, useQueryClient } from "react-query";
 import TextArea from "antd/es/input/TextArea";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import AvatarUploader from "../../../container/AvaterUploader";
 import { UpdateProfilePayload } from "../../../libs/api/@types/profile";
 import { profileAPI } from "../../../libs/api/profileAPI";
-import AvatarUploader from "../../../container/AvaterUploader";
 
 const ProfileSettings = () => {
   const { notification } = App.useApp();
@@ -35,7 +35,7 @@ const ProfileSettings = () => {
             Profile Setting
           </Typography.Title>
         }
-        className="shadow-2xl bg-transparent max-w-xl"
+        className="shadow-2xl max-w-xl"
       >
         {data?.data?.name && (
           <Form
