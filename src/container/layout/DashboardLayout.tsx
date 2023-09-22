@@ -62,10 +62,15 @@ const DashboardLayout = () => {
               </Col>
               <Col>
                 <Dropdown.Button
-                  className="mr-12"
+                  className="mr-12 mt-3 text-center"
                   size="large"
-                  type="text"
-                  icon={<Avatar src={data?.data?.profile_pic} />}
+                  type="default"
+                  icon={
+                    <Avatar
+                      className="bottom-0.5"
+                      src={data?.data?.profile_pic}
+                    />
+                  }
                   menu={{ items }}
                   placement="bottomLeft"
                 >

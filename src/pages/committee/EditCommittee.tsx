@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  App,
   Button,
   Card,
   Col,
   DatePicker,
   Form,
   Input,
+  Radio,
   Row,
   Select,
   SelectProps,
@@ -25,19 +27,22 @@ import { membersAPI } from "../../libs/api/membersAPI";
 
 const EditCommittee = () => {
   const { committeeId } = useParams();
-
+  const { notification } = App.useApp();
   const [form] = Form.useForm();
 
-  const { mutate, isLoading } = useMutation((payload: CommitteePayload) =>
-    committeeAPI.updateCommittee(payload, committeeId as string)
+  const { mutate, isLoading } = useMutation(
+    (payload: CommitteePayload) =>
+      committeeAPI.updateCommittee(payload, committeeId as string),
+    {
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
+      },
+    }
   );
   const { mutate: addMemberMutate } = useMutation(
     ["committee-member"],
     (payload: CommitteeMemberPayload) =>
       committeeAPI.addCommitteeMember(payload)
-  );
-  const { mutate: deleteMemberMutate, isLoading: loadingMember } = useMutation(
-    (id: string | number) => committeeAPI.removeCommitteeMember(id)
   );
 
   const { data: allMembersData } = useQuery(["members-list"], () =>
@@ -77,6 +82,7 @@ const EditCommittee = () => {
                   name: committeeDetailsData?.data?.name,
                   start_date: dayJs(committeeDetailsData?.data?.start_date),
                   end_date: dayJs(committeeDetailsData?.data?.end_date),
+                  is_active: committeeDetailsData?.data?.is_active,
                   committee_designation:
                     committeeDetailsData?.data?.members?.[0]
                       ?.committee_designation,
@@ -90,6 +96,7 @@ const EditCommittee = () => {
                     name: values.name,
                     start_date: values.start_date.format("YYYY-MM-DD") ?? "",
                     end_date: values.end_date.format("YYYY-MM-DD"),
+                    is_active: values.is_active,
                   });
                   addMemberMutate({
                     committee: committeeId,
@@ -136,20 +143,28 @@ const EditCommittee = () => {
                 </Form.Item>
 
                 <Form.Item name="member" label="Add Member">
-                  <Select
-                    onDeselect={(val) => {
-                      deleteMemberMutate(val);
-                    }}
-                    options={memberOptions}
+                  <Select options={memberOptions} />
+                </Form.Item>
+
+                <Form.Item name="is_active" label="Committee Status">
+                  <Radio.Group
+                    buttonStyle="solid"
+                    options={[
+                      {
+                        label: "ON",
+                        value: true,
+                      },
+                      {
+                        label: "OFF",
+                        value: false,
+                      },
+                    ]}
+                    optionType="button"
                   />
                 </Form.Item>
 
                 <Form.Item>
-                  <Button
-                    type="primary"
-                    loading={isLoading || loadingMember}
-                    htmlType="submit"
-                  >
+                  <Button type="primary" loading={isLoading} htmlType="submit">
                     Save
                   </Button>
                 </Form.Item>

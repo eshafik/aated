@@ -15,9 +15,19 @@ import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { ExperiencePayload } from "../../../libs/api/@types/profile";
 import { profileAPI } from "../../../libs/api/profileAPI";
 
+const StyledCard = styled(Card)`
+  height: calc(100vh - 180px);
+  display: flex;
+  flex-direction: column;
+  .ant-card-body {
+    overflow-y: auto;
+    flex: 1 1 0%;
+  }
+`;
 const SeeExperience = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -49,8 +59,8 @@ const SeeExperience = () => {
     );
   return (
     <Spin spinning={isLoading}>
-      <Card
-        className="bg-white"
+      <StyledCard
+        className="bg-white mr-11"
         extra={
           <Button type="primary" size="large" onClick={() => setCheck(true)}>
             Add Experiences
@@ -231,7 +241,7 @@ const SeeExperience = () => {
             )}
           </Col>
         </Row>
-      </Card>
+      </StyledCard>
     </Spin>
   );
 };
