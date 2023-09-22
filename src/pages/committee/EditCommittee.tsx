@@ -11,6 +11,7 @@ import {
   SelectProps,
   Skeleton,
 } from "antd";
+import dayJs from "dayjs";
 import { useMemo } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -24,7 +25,6 @@ import { membersAPI } from "../../libs/api/membersAPI";
 
 const EditCommittee = () => {
   const { committeeId } = useParams();
-  console.log(committeeId);
 
   const [form] = Form.useForm();
 
@@ -75,7 +75,8 @@ const EditCommittee = () => {
                 form={form}
                 initialValues={{
                   name: committeeDetailsData?.data?.name,
-                  // start_date: committeeDetailsData?.data?.start_date,
+                  start_date: dayJs(committeeDetailsData?.data?.start_date),
+                  end_date: dayJs(committeeDetailsData?.data?.end_date),
                   committee_designation:
                     committeeDetailsData?.data?.members?.[0]
                       ?.committee_designation,
@@ -87,7 +88,7 @@ const EditCommittee = () => {
                 onFinish={(values) => {
                   mutate({
                     name: values.name,
-                    start_date: values.start_date.format("YYYY-MM-DD"),
+                    start_date: values.start_date.format("YYYY-MM-DD") ?? "",
                     end_date: values.end_date.format("YYYY-MM-DD"),
                   });
                   addMemberMutate({
@@ -112,6 +113,7 @@ const EditCommittee = () => {
 
                 <Form.Item name="start_date" label="Start Date">
                   <DatePicker
+                    format={"YYYY-MM-DD"}
                     showTime={false}
                     use12Hours={false}
                     className="w-full"
@@ -120,6 +122,7 @@ const EditCommittee = () => {
 
                 <Form.Item name="end_date" label="End Date">
                   <DatePicker
+                    format={"YYYY-MM-DD"}
                     showTime={false}
                     use12Hours={false}
                     className="w-full"
