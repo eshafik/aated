@@ -27,12 +27,14 @@ import { membersAPI } from "../../../libs/api/membersAPI";
 import { searchAPI } from "../../../libs/api/searchAPI";
 
 const ActiveMembers = () => {
-  const [form] = Form.useForm();
+  const { isSuperUser } = useSuperUser();
   const {
     members: ActiveMemberData,
-    filter: memberFilter,
     isLoading,
+    filter: memberFilter,
   } = useMemberList();
+
+  const [form] = Form.useForm();
 
   const { data: batchData } = useQuery(["batch-list"], () =>
     searchAPI.getBatchList()
@@ -46,9 +48,6 @@ const ActiveMembers = () => {
     searchAPI.getJobDepartment()
   );
 
-  const { mutate } = useMutation((payload: ApproveMembersPayload) =>
-    membersAPI.updateMemberRole(payload)
-  );
   const batchoptions: SelectProps["options"] = useMemo(() => {
     if (batchData?.data && Array.isArray(batchData?.data)) {
       return batchData?.data.reduce(
@@ -102,11 +101,12 @@ const ActiveMembers = () => {
         [jobDeptData?.data]
       );
     }
-
     return [];
   }, [jobDeptData?.data]);
 
-  const { isSuperUser } = useSuperUser();
+  const { mutate } = useMutation((payload: ApproveMembersPayload) =>
+    membersAPI.updateMemberRole(payload)
+  );
 
   return (
     <Spin spinning={isLoading}>
