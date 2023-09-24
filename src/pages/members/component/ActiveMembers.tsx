@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MoreOutlined } from "@ant-design/icons";
+import { BarsOutlined, MoreOutlined } from "@ant-design/icons";
 import {
   Avatar,
   Badge,
@@ -17,9 +17,10 @@ import {
   Spin,
   Typography,
 } from "antd";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 import { useSuperUser } from "../../../container/ProfileProvider";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
@@ -108,95 +109,88 @@ const ActiveMembers = () => {
     membersAPI.updateMemberRole(payload)
   );
 
+  const [isFiltersVisible, setIsFiltersVisible] = useState(false);
+
   return (
     <Spin spinning={isLoading}>
+      <Button
+        className="xl:hidden "
+        onClick={() => setIsFiltersVisible((prev) => !prev)}
+        icon={<BarsOutlined />}
+      />
+
+      <Form
+        className={twMerge("hidden xl:block", isFiltersVisible && "block")}
+        form={form}
+        onFinish={(values) => {
+          memberFilter.handleChangeName(values.name);
+          memberFilter.handleChangeCompany(values.company);
+          memberFilter.handleChangeDesignation(values.designation);
+          memberFilter.handleChangeJobDepartment(values.job_department);
+          memberFilter.handleChangeLocation(values.location);
+          memberFilter.handleChangeOccupation(values.occupation_type);
+          memberFilter.handleChangeStudentId(values.student_id);
+          memberFilter.handleChangeOrdering(values.batch);
+          memberFilter.handleChangeSkills(values.skills);
+          memberFilter.handleChangeEmployeeStatus(values.employment_status);
+        }}
+        layout="inline"
+      >
+        <div className="flex flex-wrap gap-1">
+          <Form.Item name="name">
+            <Input placeholder="Name" />
+          </Form.Item>
+
+          <Form.Item name="designation">
+            <Input placeholder="Designation" />
+          </Form.Item>
+
+          <Form.Item name="student_id">
+            <Input placeholder="Student id" />
+          </Form.Item>
+
+          <Form.Item name="location">
+            <Input placeholder="Location" />
+          </Form.Item>
+
+          <Form.Item name="company">
+            <Input placeholder="Company" />
+          </Form.Item>
+
+          <Form.Item name="skills">
+            <Input placeholder="Skills" />
+          </Form.Item>
+
+          <Form.Item name="employment_status">
+            <Select placeholder="Employee Status" options={employeeOptions} />
+          </Form.Item>
+
+          <Form.Item name="batch">
+            <Select placeholder="Batch" options={batchoptions} />
+          </Form.Item>
+
+          <Form.Item name="occupation_type">
+            <Select placeholder="Occupation" options={occupationoptions} />
+          </Form.Item>
+
+          <Form.Item name="job_department">
+            <Select placeholder="Job department" options={jobDeptoptions} />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Apply Filter
+            </Button>
+          </Form.Item>
+
+          <Form.Item>
+            <Button onClick={() => form.resetFields()} htmlType="reset">
+              Reset Filter
+            </Button>
+          </Form.Item>
+        </div>
+      </Form>
       <Row gutter={[12, 12]}>
-        <Col span={24}>
-          <Form
-            form={form}
-            onFinish={(values) => {
-              memberFilter.handleChangeName(values.name);
-              memberFilter.handleChangeCompany(values.company);
-              memberFilter.handleChangeDesignation(values.designation);
-              memberFilter.handleChangeJobDepartment(values.job_department);
-              memberFilter.handleChangeLocation(values.location);
-              memberFilter.handleChangeOccupation(values.occupation_type);
-              memberFilter.handleChangeStudentId(values.student_id);
-              memberFilter.handleChangeOrdering(values.batch);
-              memberFilter.handleChangeSkills(values.skills);
-              memberFilter.handleChangeEmployeeStatus(values.employment_status);
-            }}
-            layout="inline"
-          >
-            <Form.Item name="name">
-              <Input placeholder="Name" />
-            </Form.Item>
-
-            <Form.Item name="designation">
-              <Input placeholder="Designation" />
-            </Form.Item>
-
-            <Form.Item name="student_id">
-              <Input placeholder="Student id" />
-            </Form.Item>
-
-            <Form.Item name="location">
-              <Input placeholder="Location" />
-            </Form.Item>
-
-            <Form.Item name="company">
-              <Input placeholder="Company" />
-            </Form.Item>
-
-            <Form.Item name="skills">
-              <Input placeholder="Skills" />
-            </Form.Item>
-
-            <Form.Item name="employment_status">
-              <Select
-                style={{ width: "205px" }}
-                placeholder="Employee Status"
-                options={employeeOptions}
-              />
-            </Form.Item>
-
-            <Form.Item name="batch">
-              <Select
-                style={{ width: "205px" }}
-                placeholder="Batch"
-                options={batchoptions}
-              />
-            </Form.Item>
-
-            <Form.Item name="occupation_type">
-              <Select
-                style={{ width: "205px" }}
-                placeholder="Occupation"
-                options={occupationoptions}
-              />
-            </Form.Item>
-
-            <Form.Item name="job_department">
-              <Select
-                style={{ width: "205px" }}
-                placeholder="Job department"
-                options={jobDeptoptions}
-              />
-            </Form.Item>
-
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Apply Filter
-              </Button>
-            </Form.Item>
-
-            <Form.Item>
-              <Button onClick={() => form.resetFields()} htmlType="reset">
-                Reset Filter
-              </Button>
-            </Form.Item>
-          </Form>
-        </Col>
         {ActiveMemberData?.data?.map((item, i) => (
           <Col key={i} xs={24} sm={24} md={12} lg={12} xl={8} xxl={6}>
             <Badge.Ribbon placement="start" text={`${item?.batch_no}th batch`}>
