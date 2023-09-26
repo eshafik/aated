@@ -1,10 +1,10 @@
+import { LockFilled, UserOutlined } from "@ant-design/icons";
 import { App, Button, Card, Checkbox, Col, Form, Input, Row } from "antd";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { LoginPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
-import { useNavigate } from "react-router-dom";
 import { authService } from "../../libs/auth";
-import { UserOutlined, LockFilled } from "@ant-design/icons";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const SignIn = () => {
         navigate("/members");
       },
       onError: () => {
-        notification.error({ message: "Invalid username/password message" });
+        notification.error({ message: "Invalid username/password " });
       },
     }
   );

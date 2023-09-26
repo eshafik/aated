@@ -1,15 +1,16 @@
-import { Button, Card, Form, Input, Skeleton, message } from "antd";
+import { App, Button, Card, Form, Input, Skeleton, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import AvatarUploader from "../../container/AvaterUploader";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { postAPI } from "../../libs/api/postAPI";
 import { useNavigate, useParams } from "react-router-dom";
+import AvatarUploader from "../../container/AvaterUploader";
 import { PostPayload } from "../../libs/api/@types/post";
+import { postAPI } from "../../libs/api/postAPI";
 
 const EditPost = () => {
   const { postId } = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { notification } = App.useApp();
 
   const { data: postData, isLoading } = useQuery(["post-data"], () =>
     postAPI.getPostDetails(postId as string)
@@ -23,6 +24,9 @@ const EditPost = () => {
         queryClient.invalidateQueries("post-data");
         message.success("Post Updated");
         navigate("/posts");
+      },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
       },
     }
   );

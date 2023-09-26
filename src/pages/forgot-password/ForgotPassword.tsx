@@ -1,9 +1,9 @@
+import { UserOutlined } from "@ant-design/icons";
 import { App, Button, Card, Col, Form, Input, Row, Typography } from "antd";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { ForgotPasswordPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
-import { useNavigate } from "react-router-dom";
-import { UserOutlined } from "@ant-design/icons";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -16,8 +16,8 @@ const ForgotPassword = () => {
         notification.success;
         navigate("/reset-password");
       },
-      onError: () => {
-        notification.error;
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
       },
     }
   );

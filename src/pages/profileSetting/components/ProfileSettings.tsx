@@ -18,6 +18,9 @@ const ProfileSettings = () => {
         notification.success({ message: "Profile Successfully Updated" });
         queryClient.invalidateQueries(["user-profile"]);
       },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
+      },
     }
   );
   const { data, isLoading: isProfileLoading } = useQuery(

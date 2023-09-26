@@ -20,6 +20,9 @@ const Security = () => {
       onSuccess: () => {
         notification.success({ message: "Profile Successfully Updated" });
       },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
+      },
     }
   );
   return (

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
 import {
+  App,
   Avatar,
   Button,
   Card,
@@ -36,6 +37,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
   const [showMore, setShowMore] = useState(false);
+  const { notification } = App.useApp();
 
   const { mutate: createPostMutate, isLoading } = useMutation(
     (payload: PostPayload) => postAPI.createPost(payload),
@@ -44,6 +46,9 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
         setIsModalOpen(false);
         queryClient.invalidateQueries(["post-list"]);
         message.success("Post successful created");
+      },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
       },
     }
   );
@@ -67,6 +72,9 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["post-list"]);
+      },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
       },
     }
   );

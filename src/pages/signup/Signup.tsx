@@ -1,8 +1,8 @@
 import { App, Button, Card, Col, Form, Input, Row } from "antd";
 import { useMutation, useQueryClient } from "react-query";
+import { Link, useNavigate } from "react-router-dom";
 import { CreateUserPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
-import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [form] = Form.useForm();
@@ -19,6 +19,9 @@ const SignUp = () => {
         });
         queryClient.invalidateQueries(["sign-up"]);
         navigate("/verify");
+      },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
       },
     }
   );

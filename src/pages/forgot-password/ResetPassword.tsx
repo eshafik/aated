@@ -1,9 +1,9 @@
+import { UserOutlined } from "@ant-design/icons";
 import { App, Button, Card, Col, Form, Input, Row, Typography } from "antd";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { ResetPasswordPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
-import { useNavigate } from "react-router-dom";
-import { UserOutlined } from "@ant-design/icons";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -16,8 +16,8 @@ const ResetPassword = () => {
         notification.success({ message: "Your password has been changed" });
         navigate("/signin");
       },
-      onError: () => {
-        notification.error;
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
       },
     }
   );

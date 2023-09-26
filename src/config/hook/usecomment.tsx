@@ -1,8 +1,8 @@
+import { notification } from "antd";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { CommentPayload } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
-import { useNavigate } from "react-router-dom";
-import { notification } from "antd";
 export const useComment = () => {
   const navigate = useNavigate();
   const { mutate, isLoading } = useMutation(
@@ -11,6 +11,9 @@ export const useComment = () => {
       onSuccess: (data) => {
         navigate(`${data?.data?.post}`);
         notification.success({ message: "Comment Successful" });
+      },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
       },
     }
   );

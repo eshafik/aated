@@ -1,8 +1,8 @@
 import { App, Button, Card, Col, Form, Input, Row, Typography } from "antd";
 import { useMutation, useQueryClient } from "react-query";
-import { authAPI } from "../../libs/api/authAPI";
 import { useNavigate } from "react-router-dom";
 import { CreateUserPayload } from "../../libs/api/@types/auth";
+import { authAPI } from "../../libs/api/authAPI";
 
 const EmailVerify = () => {
   const [form] = Form.useForm();
@@ -17,6 +17,9 @@ const EmailVerify = () => {
         notification.success({ message: "Successfully" });
         queryClient.invalidateQueries(["sign-up"]);
         navigate("/signin");
+      },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
       },
     }
   );

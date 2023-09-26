@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BarsOutlined, MoreOutlined } from "@ant-design/icons";
 import {
+  App,
   Avatar,
   Badge,
   Button,
@@ -29,6 +30,7 @@ import { searchAPI } from "../../../libs/api/searchAPI";
 
 const ActiveMembers = () => {
   const { isSuperUser } = useSuperUser();
+  const { notification } = App.useApp();
   const {
     members: ActiveMemberData,
     isLoading,
@@ -105,8 +107,13 @@ const ActiveMembers = () => {
     return [];
   }, [jobDeptData?.data]);
 
-  const { mutate } = useMutation((payload: ApproveMembersPayload) =>
-    membersAPI.updateMemberRole(payload)
+  const { mutate } = useMutation(
+    (payload: ApproveMembersPayload) => membersAPI.updateMemberRole(payload),
+    {
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
+      },
+    }
   );
 
   const [isFiltersVisible, setIsFiltersVisible] = useState(false);

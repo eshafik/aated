@@ -42,7 +42,16 @@ const EditCommittee = () => {
   const { mutate: addMemberMutate } = useMutation(
     ["committee-member"],
     (payload: CommitteeMemberPayload) =>
-      committeeAPI.addCommitteeMember(payload)
+      committeeAPI.addCommitteeMember(payload),
+    {
+      onSuccess: () => {
+        notification.success({ message: "Success" });
+      },
+      onError: (error: Error) => {
+        notification.error({ message: error.name });
+        console.log(error);
+      },
+    }
   );
 
   const { data: allMembersData } = useQuery(["members-list"], () =>
@@ -101,10 +110,13 @@ const EditCommittee = () => {
                   addMemberMutate({
                     committee: committeeId,
                     member: values.member,
-                    committee_designation: values.committee_designation,
+                    committee_designation: committeeDetailsData?.data
+                      ?.members?.[0]?.committee_designation
+                      ? committeeDetailsData?.data?.members?.[0]
+                          ?.committee_designation
+                      : values.committee_designation,
                     position_order: values.position_order,
                   });
-                  console.log(values);
                 }}
                 layout="vertical"
               >

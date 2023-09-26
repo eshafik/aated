@@ -1,5 +1,6 @@
 import { DeleteOutlined, SmileOutlined } from "@ant-design/icons";
 import {
+  App,
   Button,
   Card,
   Col,
@@ -32,6 +33,7 @@ const SeeExperience = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [check, setCheck] = useState(false);
+  const { notification } = App.useApp();
 
   const { data: experienceData, isLoading } = useQuery(
     ["experience-list"],
@@ -45,6 +47,9 @@ const SeeExperience = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(["experience-list"]);
       },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
+      },
     }
   );
 
@@ -54,6 +59,9 @@ const SeeExperience = () => {
       {
         onSuccess: () => {
           navigate("/");
+        },
+        onError: (error: Error) => {
+          notification.error({ message: error.message });
         },
       }
     );

@@ -30,6 +30,9 @@ const CommitteeMembers = () => {
         notification.success({ message: "Member Delete successfully" });
         queryClient.invalidateQueries(["committeeMember-details"]);
       },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
+      },
     }
   );
 
