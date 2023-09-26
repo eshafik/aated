@@ -1,29 +1,19 @@
 import { Button, Col, Row, Typography } from "antd";
-import Header from "../../components/header/Header";
 import { useNavigate } from "react-router-dom";
+import Header from "../../components/header/Header";
 
 const HomePage = () => {
   const navigate = useNavigate();
   return (
-    <>
+    <div>
       <Header />
       <div
         style={{
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100%",
           background: "LightGray",
         }}
       >
-        <Row
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          gutter={24}
-        >
+        <Row align={"middle"} justify={"center"} gutter={24}>
           <Col span={24}>
             <Typography.Title className="text-center">
               Lorem ipsum dolor sit amet, consectetur adipis elit.
@@ -42,7 +32,6 @@ const HomePage = () => {
             <Button
               type="primary"
               size="large"
-              className="bg-orange-400"
               onClick={() => navigate("/signin")}
             >
               Sign In
@@ -50,7 +39,7 @@ const HomePage = () => {
           </Col>
         </Row>
       </div>
-    </>
+    </div>
   );
 };
 

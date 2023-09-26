@@ -1,10 +1,8 @@
 import { Button, Col, Layout, Row, Typography } from "antd";
 import { Header as AntHeader } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
-// type HeaderProps = {
-//   isSignButton: boolean;
-// };
-const Header = ( ) => {
+
+const Header = () => {
   const navigate = useNavigate();
   const HEADER_LINK = [
     {
@@ -17,11 +15,11 @@ const Header = ( ) => {
     },
     {
       name: "Committee",
-      path: "",
+      path: "signin",
     },
     {
       name: "Sign in",
-      path: "",
+      path: "/signin",
     },
   ];
 
@@ -39,14 +37,13 @@ const Header = ( ) => {
             ))}
           </Col>
           <Col>
-          <Button
-                size="large"
-                type="text"
-                className="bg-orange-400"
-                onClick={() => navigate("/signup")}
-              >
-                Sign Up
-              </Button>
+            <Button
+              size="large"
+              type="primary"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up
+            </Button>
           </Col>
         </Row>
       </AntHeader>
