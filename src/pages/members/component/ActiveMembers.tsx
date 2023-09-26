@@ -137,43 +137,43 @@ const ActiveMembers = () => {
         layout="inline"
       >
         <div className="flex flex-wrap gap-1">
-          <Form.Item name="name">
+          <Form.Item name="name" className="w-36 sm:w-36">
             <Input placeholder="Name" />
           </Form.Item>
 
-          <Form.Item name="designation">
+          <Form.Item name="designation" className="w-36 sm:w-36">
             <Input placeholder="Designation" />
           </Form.Item>
 
-          <Form.Item name="student_id">
+          <Form.Item name="student_id" className="w-36 sm:w-36">
             <Input placeholder="Student id" />
           </Form.Item>
 
-          <Form.Item name="location">
+          <Form.Item name="location" className="w-36 sm:w-36">
             <Input placeholder="Location" />
           </Form.Item>
 
-          <Form.Item name="company">
+          <Form.Item name="company" className="w-36 sm:w-36">
             <Input placeholder="Company" />
           </Form.Item>
 
-          <Form.Item name="skills">
+          <Form.Item name="skills" className="w-36 sm:w-36">
             <Input placeholder="Skills" />
           </Form.Item>
 
-          <Form.Item name="employment_status">
+          <Form.Item name="employment_status" className="w-34 sm:w-36">
             <Select placeholder="Employee Status" options={employeeOptions} />
           </Form.Item>
 
-          <Form.Item name="batch">
+          <Form.Item name="batch" className="w-36 sm:w-36">
             <Select placeholder="Batch" options={batchoptions} />
           </Form.Item>
 
-          <Form.Item name="occupation_type">
+          <Form.Item name="occupation_type" className="w-36 sm:w-36">
             <Select placeholder="Occupation" options={occupationoptions} />
           </Form.Item>
 
-          <Form.Item name="job_department">
+          <Form.Item name="job_department" className="w-36 sm:w-36">
             <Select placeholder="Job department" options={jobDeptoptions} />
           </Form.Item>
 
