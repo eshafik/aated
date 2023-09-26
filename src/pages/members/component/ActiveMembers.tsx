@@ -120,6 +120,7 @@ const ActiveMembers = () => {
       />
 
       <Form
+        size="large"
         className={twMerge("hidden xl:block", isFiltersVisible && "block")}
         form={form}
         onFinish={(values) => {
@@ -161,7 +162,7 @@ const ActiveMembers = () => {
             <Input placeholder="Skills" />
           </Form.Item>
 
-          <Form.Item name="employment_status" className="w-34 sm:w-36">
+          <Form.Item name="employment_status" className="w-36 sm:w-36">
             <Select placeholder="Employee Status" options={employeeOptions} />
           </Form.Item>
 
@@ -169,11 +170,11 @@ const ActiveMembers = () => {
             <Select placeholder="Batch" options={batchoptions} />
           </Form.Item>
 
-          <Form.Item name="occupation_type" className="w-36 sm:w-36">
+          <Form.Item name="occupation_type" className="w-38 sm:w-36">
             <Select placeholder="Occupation" options={occupationoptions} />
           </Form.Item>
 
-          <Form.Item name="job_department" className="w-36 sm:w-36">
+          <Form.Item name="job_department" className="w-38 sm:w-36">
             <Select placeholder="Job department" options={jobDeptoptions} />
           </Form.Item>
 
