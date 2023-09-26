@@ -49,7 +49,6 @@ const EditCommittee = () => {
       },
       onError: (error: Error) => {
         notification.error({ message: error.name });
-        console.log(error);
       },
     }
   );
