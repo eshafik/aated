@@ -10,6 +10,7 @@ import {
   Dropdown,
   Form,
   Input,
+  Pagination,
   Popconfirm,
   Row,
   Select,
@@ -289,6 +290,9 @@ const ActiveMembers = () => {
           </Col>
         ))}
       </Row>
+      <div style={{ float: "right" }} className="mt-3">
+        <Pagination total={ActiveMemberData?.meta_data?.page_size} />
+      </div>
     </Spin>
   );
 };

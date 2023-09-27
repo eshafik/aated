@@ -25,6 +25,9 @@ export interface MembersResponse {
       user_id?: string;
     }
   ];
+  meta_data?: {
+    page_size?: number;
+  };
 }
 
 export interface MemberResponse {
