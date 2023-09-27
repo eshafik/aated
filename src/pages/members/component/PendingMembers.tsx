@@ -1,3 +1,4 @@
+import { ThunderboltOutlined } from "@ant-design/icons";
 import {
   App,
   Avatar,
@@ -11,14 +12,14 @@ import {
   Tooltip,
   Typography,
 } from "antd";
-import { ThunderboltOutlined } from "@ant-design/icons";
-import { useMutation, useQuery } from "react-query";
-import { membersAPI } from "../../../libs/api/membersAPI";
-import { ApproveMembersPayload } from "../../../libs/api/@types/members";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useSuperUser } from "../../../container/ProfileProvider";
+import { ApproveMembersPayload } from "../../../libs/api/@types/members";
+import { membersAPI } from "../../../libs/api/membersAPI";
 
 const PendingMembers = () => {
   const { notification } = App.useApp();
+  const queryClient = useQueryClient();
   const { data: pendingMemberData, isLoading } = useQuery(
     ["members-list"],
     () => membersAPI.pendingMembersList(),
@@ -34,6 +35,7 @@ const PendingMembers = () => {
     {
       onSuccess: () => {
         notification.success({ message: "User Approved" });
+        queryClient.invalidateQueries(["members-list"]);
       },
     }
   );
@@ -46,7 +48,7 @@ const PendingMembers = () => {
         <Row gutter={[12, 12]}>
           {pendingMemberData?.data?.map((item, i) => (
             <Col key={i} xs={24} md={8} lg={6}>
-              <Badge.Ribbon text={`${item?.batch_no}th batch`}>
+              <Badge.Ribbon text={`${item?.batch?.name} batch`}>
                 <Card type="inner" hoverable className="h-full">
                   <Space align="start" size="middle">
                     <Avatar

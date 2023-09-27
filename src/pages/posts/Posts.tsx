@@ -61,7 +61,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
 
   useEffect(() => {
     filter.handleChangeCategory(categoryId);
-  }, [categoryId]);
+  }, [filter, categoryId]);
 
   const { data: profileData } = useQuery(["user-profile"], () =>
     profileAPI.getProfileDetails()
