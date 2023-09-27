@@ -13,12 +13,11 @@ import {
   Popconfirm,
   Row,
   Select,
-  SelectProps,
   Space,
   Spin,
   Typography,
 } from "antd";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
@@ -51,20 +50,6 @@ const ActiveMembers = () => {
     searchAPI.getJobDepartment()
   );
 
-  const batchoptions: SelectProps["options"] = useMemo(() => {
-    if (batchData?.data && Array.isArray(batchData?.data)) {
-      return batchData?.data.reduce(
-        (acc: any, curr: any) => {
-          acc.push({ value: curr.id.toString(), label: curr.name });
-          return acc;
-        },
-        [batchData?.data]
-      );
-    }
-
-    return [];
-  }, [batchData?.data]);
-
   const employeeOptions = [
     {
       label: "Employed",
@@ -79,33 +64,6 @@ const ActiveMembers = () => {
       value: "student",
     },
   ];
-
-  const occupationoptions: SelectProps["options"] = useMemo(() => {
-    if (occupationData?.data && Array.isArray(occupationData?.data)) {
-      return occupationData?.data.reduce(
-        (acc: any, curr: any) => {
-          acc.push({ value: curr.id.toString(), label: curr.name });
-          return acc;
-        },
-        [occupationData?.data]
-      );
-    }
-
-    return [];
-  }, [occupationData?.data]);
-
-  const jobDeptoptions: SelectProps["options"] = useMemo(() => {
-    if (jobDeptData?.data && Array.isArray(jobDeptData?.data)) {
-      return jobDeptData?.data.reduce(
-        (acc: any, curr: any) => {
-          acc.push({ value: curr.id.toString(), label: curr.name });
-          return acc;
-        },
-        [jobDeptData?.data]
-      );
-    }
-    return [];
-  }, [jobDeptData?.data]);
 
   const { mutate } = useMutation(
     (payload: ApproveMembersPayload) => membersAPI.updateMemberRole(payload),
@@ -128,7 +86,10 @@ const ActiveMembers = () => {
 
       <Form
         size="large"
-        className={twMerge("hidden xl:block", isFiltersVisible && "block")}
+        className={twMerge(
+          "hidden xl:block mb-3 ml-auto",
+          isFiltersVisible && "block"
+        )}
         form={form}
         onFinish={(values) => {
           memberFilter.handleChangeName(values.name);
@@ -144,58 +105,78 @@ const ActiveMembers = () => {
         }}
         layout="inline"
       >
-        <div className="flex flex-wrap gap-1">
-          <Form.Item name="name" className="w-36 sm:w-36">
+        <div className="flex flex-wrap gap-2">
+          <Form.Item name="name" className="w-36 sm:w-40">
             <Input placeholder="Name" />
           </Form.Item>
 
-          <Form.Item name="designation" className="w-36 sm:w-36">
+          <Form.Item name="designation" className="w-36 sm:w-40">
             <Input placeholder="Designation" />
           </Form.Item>
 
-          <Form.Item name="student_id" className="w-36 sm:w-36">
+          <Form.Item name="student_id" className="w-36 sm:w-40">
             <Input placeholder="Student id" />
           </Form.Item>
 
-          <Form.Item name="location" className="w-36 sm:w-36">
+          <Form.Item name="location" className="w-36 sm:w-40">
             <Input placeholder="Location" />
           </Form.Item>
 
-          <Form.Item name="company" className="w-36 sm:w-36">
+          <Form.Item name="company" className="w-36 sm:w-40">
             <Input placeholder="Company" />
           </Form.Item>
 
-          <Form.Item name="skills" className="w-36 sm:w-36">
+          <Form.Item name="skills" className="w-36 sm:w-40">
             <Input placeholder="Skills" />
           </Form.Item>
 
-          <Form.Item name="employment_status" className="w-36 sm:w-36">
+          <Form.Item name="employment_status" className="w-36 sm:w-40">
             <Select placeholder="Employee Status" options={employeeOptions} />
           </Form.Item>
 
-          <Form.Item name="batch" className="w-36 sm:w-36">
-            <Select placeholder="Batch" options={batchoptions} />
+          <Form.Item name="batch" className="w-36 sm:w-40">
+            <Select
+              placeholder="Batch"
+              options={batchData?.data?.map(({ id, name }) => ({
+                value: id?.toString(),
+                label: name,
+              }))}
+            />
           </Form.Item>
 
-          <Form.Item name="occupation_type" className="w-38 sm:w-36">
-            <Select placeholder="Occupation" options={occupationoptions} />
+          <Form.Item name="occupation_type" className="w-38 sm:w-40">
+            <Select
+              placeholder="Occupation"
+              options={occupationData?.data?.map(({ id, name }) => ({
+                value: id?.toString(),
+                label: name,
+              }))}
+            />
           </Form.Item>
 
-          <Form.Item name="job_department" className="w-38 sm:w-36">
-            <Select placeholder="Job department" options={jobDeptoptions} />
+          <Form.Item name="job_department" className="w-38 sm:w-40">
+            <Select
+              placeholder="Job department"
+              options={jobDeptData?.data?.map(({ id, name }) => ({
+                value: id?.toString(),
+                label: name,
+              }))}
+            />
           </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Apply Filter
-            </Button>
-          </Form.Item>
+          <div className="flex ml-auto">
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Apply Filter
+              </Button>
+            </Form.Item>
 
-          <Form.Item>
-            <Button onClick={() => form.resetFields()} htmlType="reset">
-              Reset Filter
-            </Button>
-          </Form.Item>
+            <Form.Item>
+              <Button onClick={() => form.resetFields()} htmlType="reset">
+                Reset Filter
+              </Button>
+            </Form.Item>
+          </div>
         </div>
       </Form>
       <Row gutter={[12, 12]}>

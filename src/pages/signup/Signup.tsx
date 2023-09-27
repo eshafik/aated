@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { CreateUserPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
-import { profileAPI } from "../../libs/api/profileAPI";
+import { searchAPI } from "../../libs/api/searchAPI";
 
 type SignUPForm = {
   name?: string;
@@ -40,7 +40,7 @@ const SignUp = () => {
     }
   );
 
-  const { data } = useQuery(["batch-list"], () => profileAPI.getBatchList());
+  const { data } = useQuery(["batch-list"], () => searchAPI.getBatchList());
 
   const serialize = useCallback((values: SignUPForm) => {
     const payload = {

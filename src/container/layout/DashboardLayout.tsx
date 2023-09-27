@@ -48,7 +48,7 @@ const DashboardLayout = () => {
         <Layout>
           <Header
             style={{ padding: 0 }}
-            className="bg-white border-2 border-sky-500 w-full"
+            className="bg-white  border-sky-500 w-full"
           >
             <Row justify={"space-between"}>
               <Col>
@@ -62,7 +62,7 @@ const DashboardLayout = () => {
               </Col>
               <Col>
                 <Dropdown.Button
-                  className="mr-12 mt-3 text-center"
+                  className="mr-14 mt-3 text-center"
                   size="large"
                   type="default"
                   icon={

@@ -1,7 +1,9 @@
-export interface SearchResponse {
-  data?: {
-    id?: string | number;
-    name?: string;
-    batch_number?: string;
-  };
+export interface GetLists {
+  data?: [
+    {
+      id?: string | number;
+      name?: string;
+      batch_number?: string;
+    }
+  ];
 }
