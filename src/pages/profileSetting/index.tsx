@@ -27,6 +27,7 @@ const ProfileContainer = () => {
   return (
     <div className="grid justify-center bg-inherit">
       <Tabs
+        size="large"
         tabBarStyle={{
           backgroundColor: token.colorBgLayout,
           position: "sticky",

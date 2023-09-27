@@ -38,7 +38,7 @@ const ProfileSettings = () => {
             Profile Setting
           </Typography.Title>
         }
-        className="shadow-2xl sm: w-[450px]"
+        className="shadow-2xl w-[450px]"
       >
         {data?.data?.name && (
           <Form
