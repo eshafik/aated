@@ -6,9 +6,11 @@ import {
   Col,
   Form,
   Input,
+  InputNumber,
   Popconfirm,
   Result,
   Row,
+  Select,
   Spin,
   Typography,
 } from "antd";
@@ -18,6 +20,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { ExperiencePayload } from "../../../libs/api/@types/profile";
 import { profileAPI } from "../../../libs/api/profileAPI";
+import { searchAPI } from "../../../libs/api/searchAPI";
 
 const StyledCard = styled(Card)`
   height: calc(100vh - 180px);
@@ -51,6 +54,10 @@ const SeeExperience = () => {
     }
   );
 
+  const { data: jobDeptData } = useQuery(["jobDept-list"], () =>
+    searchAPI.getJobDepartment()
+  );
+
   const { mutate: mutateCreateExperience, isLoading: loadingAddExp } =
     useMutation(
       (payload: ExperiencePayload) => profileAPI.addExperiences(payload),
@@ -68,7 +75,8 @@ const SeeExperience = () => {
   return (
     <Spin spinning={isLoading}>
       <StyledCard
-        className="bg-white mr-11"
+        style={{ width: 800 }}
+        className="bg-white mr-11 sm:w-[400px]"
         extra={
           <Button type="primary" size="large" onClick={() => setCheck(true)}>
             Add Experiences
@@ -121,6 +129,7 @@ const SeeExperience = () => {
                 className="shadow-2xl bg-white max-w-xl"
               >
                 <Form
+                  size="middle"
                   onFinish={(values) =>
                     mutateCreateExperience({
                       company_name: values.company_name,
@@ -190,7 +199,7 @@ const SeeExperience = () => {
                       },
                     ]}
                   >
-                    <Input placeholder="1 years" />
+                    <InputNumber placeholder="1 years" />
                   </Form.Item>
 
                   <Form.Item
@@ -229,14 +238,20 @@ const SeeExperience = () => {
                       },
                     ]}
                   >
-                    <Input placeholder="Job Department" />
+                    <Select
+                      options={jobDeptData?.data?.map(({ id, name }) => ({
+                        value: id?.toString(),
+                        label: name,
+                      }))}
+                      placeholder="Job Department"
+                    />
                   </Form.Item>
 
                   <Form.Item>
                     <Button
                       type="primary"
                       loading={loadingAddExp}
-                      className="bg-blue-400 "
+                      className="bg-blue-400 flex ml-auto"
                       htmlType="submit"
                     >
                       Save

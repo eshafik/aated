@@ -26,7 +26,7 @@ const Security = () => {
     }
   );
   return (
-    <Card className="shadow-2xl  max-w-xl">
+    <Card className="shadow-2xl sm: w-[450px]">
       <Form
         onFinish={(values) => {
           mutate({
@@ -84,7 +84,12 @@ const Security = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button loading={isLoading} type="primary" htmlType="submit">
+          <Button
+            className="flex ml-auto"
+            loading={isLoading}
+            type="primary"
+            htmlType="submit"
+          >
             Save
           </Button>
         </Form.Item>

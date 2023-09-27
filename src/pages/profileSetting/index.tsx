@@ -25,15 +25,17 @@ const ProfileContainer = () => {
     },
   ];
   return (
-    <Tabs
-      tabBarStyle={{
-        backgroundColor: token.colorBgLayout,
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
-      }}
-      items={items}
-    />
+    <div className="grid justify-center bg-inherit">
+      <Tabs
+        tabBarStyle={{
+          backgroundColor: token.colorBgLayout,
+          position: "sticky",
+          top: 0,
+          zIndex: 100,
+        }}
+        items={items}
+      />
+    </div>
   );
 };
 

@@ -38,7 +38,7 @@ const ProfileSettings = () => {
             Profile Setting
           </Typography.Title>
         }
-        className="shadow-2xl max-w-xl"
+        className="shadow-2xl sm: w-[450px]"
       >
         {data?.data?.name && (
           <Form
@@ -202,6 +202,7 @@ const ProfileSettings = () => {
 
             <Form.Item>
               <Button
+                className="flex ml-auto"
                 type="primary"
                 loading={isLoading || isProfileLoading}
                 htmlType="submit"
