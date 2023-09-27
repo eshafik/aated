@@ -107,3 +107,7 @@ export interface ExperiencePayload {
   user?: number;
   job_department?: string;
 }
+
+export type BatchList = {
+  data?: [{ id?: number; name?: string }];
+};

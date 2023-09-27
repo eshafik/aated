@@ -1,6 +1,7 @@
 import config from "../../config";
 import { authService } from "../auth/auth.service";
 import {
+  BatchList,
   ExperiencePayload,
   ExperienceResponse,
   UpdateProfilePayload,
@@ -16,6 +17,10 @@ class ProfileAPI {
       "api/v1/profiles/personal/profile/",
       payload
     );
+  }
+
+  getBatchList() {
+    return this.http.get<BatchList>("api/v1/core/public/batches?limit=200");
   }
 
   getProfileDetails() {

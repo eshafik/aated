@@ -1,8 +1,9 @@
-import { App, Button, Card, Col, Form, Input, Row } from "antd";
-import { useMutation, useQueryClient } from "react-query";
+import { App, Button, Card, Col, Form, Input, Row, Select } from "antd";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { CreateUserPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
+import { profileAPI } from "../../libs/api/profileAPI";
 
 const SignUp = () => {
   const [form] = Form.useForm();
@@ -25,6 +26,10 @@ const SignUp = () => {
       },
     }
   );
+
+  const { data } = useQuery(["batch-list"], () => profileAPI.getBatchList());
+  console.log(data);
+
   return (
     <Row align="middle" justify="center">
       <Col xs={20} sm={15} md={15} lg={12} xl={12} xxl={10}>
@@ -96,17 +101,26 @@ const SignUp = () => {
 
             <Form.Item
               name="batch"
-              label="Batch Number"
+              label="Batch"
+              hasFeedback
               rules={[
                 { required: true, message: "Please enter your Batch Number" },
               ]}
             >
-              <Input className="h-11" placeholder="Batch" />
+              <Select
+                size="large"
+                options={data?.data?.map(({ id, name }) => ({
+                  value: id?.toString(),
+                  label: name,
+                }))}
+                placeholder="Batch"
+              />
             </Form.Item>
 
             <Form.Item
               label="Password"
               name="password"
+              hasFeedback
               rules={[
                 { required: true, message: "Please enter your Password" },
               ]}
@@ -114,15 +128,31 @@ const SignUp = () => {
               <Input.Password className="h-11" placeholder="Password" />
             </Form.Item>
 
-            {/* <Form.Item
+            <Form.Item
               label="Confirm Password"
               name="confirmPassword"
+              dependencies={["password"]}
               rules={[
-                { required: true, message: "Please enter Confirm Password" },
+                {
+                  required: true,
+                  message: "Please confirm your password!",
+                },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error(
+                        "The new password that you entered do not match!"
+                      )
+                    );
+                  },
+                }),
               ]}
             >
-              <Input.Password placeholder="Confirm Password" />
-            </Form.Item> */}
+              <Input.Password className="h-11" placeholder="Confirm Password" />
+            </Form.Item>
 
             <Form.Item>
               <Button
