@@ -15,7 +15,6 @@ import {
 import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ExperiencePayload } from "../../../libs/api/@types/profile";
 import { profileAPI } from "../../../libs/api/profileAPI";
@@ -30,7 +29,6 @@ const StyledCard = styled(Card)`
   }
 `;
 const SeeExperience = () => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [check, setCheck] = useState(false);
   const { notification } = App.useApp();
@@ -58,7 +56,9 @@ const SeeExperience = () => {
       (payload: ExperiencePayload) => profileAPI.addExperiences(payload),
       {
         onSuccess: () => {
-          navigate("/");
+          setCheck(false);
+          notification.success({ message: "Successfully added Experiences" });
+          queryClient.invalidateQueries(["experience-list"]);
         },
         onError: (error: Error) => {
           notification.error({ message: error.message });
@@ -182,7 +182,7 @@ const SeeExperience = () => {
 
                   <Form.Item
                     name="working_year"
-                    label="Working Year"
+                    label="Working Years"
                     rules={[
                       {
                         required: true,
@@ -229,7 +229,7 @@ const SeeExperience = () => {
                       },
                     ]}
                   >
-                    <Input placeholder="passing year" />
+                    <Input placeholder="Job Department" />
                   </Form.Item>
 
                   <Form.Item>
