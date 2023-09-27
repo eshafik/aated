@@ -52,6 +52,7 @@ export interface PostResponse {
         id: number;
         comment: string;
         user: User;
+        created_at?: string;
       }
     ];
   };

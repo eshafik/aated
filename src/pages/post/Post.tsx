@@ -1,27 +1,28 @@
+import { DeleteOutlined, MoreOutlined } from "@ant-design/icons";
 import {
+  App,
   Avatar,
   Button,
   Card,
-  Form,
   Col,
-  Row,
-  Typography,
-  Skeleton,
-  Image,
-  message,
   Dropdown,
+  Form,
+  Image,
   Popconfirm,
-  App,
+  Row,
+  Skeleton,
+  Typography,
+  message,
 } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import moment from "moment";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import { postAPI } from "../../libs/api/postAPI";
-import TextArea from "antd/es/input/TextArea";
-import { DeleteOutlined, MoreOutlined } from "@ant-design/icons";
 import {
   CommentPayload,
   DeleteCommentPayload,
 } from "../../libs/api/@types/post";
+import { postAPI } from "../../libs/api/postAPI";
 
 const Post = () => {
   const { slag } = useParams();
@@ -96,7 +97,22 @@ const Post = () => {
                   <Card
                     className="bg-slate-100 w-56 ml-2 mt-2"
                     size="small"
-                    title={comments?.user?.name}
+                    title={
+                      <>
+                        <Typography.Text>
+                          {comments?.user?.name}
+                        </Typography.Text>
+                        <Typography.Paragraph>
+                          {
+                            <Typography.Paragraph type="secondary">
+                              {moment(`${comments?.created_at}`)
+                                .startOf("hours")
+                                .fromNow()}
+                            </Typography.Paragraph>
+                          }
+                        </Typography.Paragraph>
+                      </>
+                    }
                     extra={
                       <Dropdown
                         menu={{
