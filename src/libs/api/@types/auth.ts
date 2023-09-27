@@ -1,8 +1,8 @@
 export interface CreateUserPayload {
-  email?: string;
+  email: string | null;
   name?: string;
   phone?: string;
-  password?: number;
+  password?: string;
   batch?: string;
   student_id?: string;
   passing_year?: string;

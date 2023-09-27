@@ -31,27 +31,14 @@ const EmailVerify = () => {
             form={form}
             onFinish={(values) =>
               mutate({
-                email: values.email,
+                email: localStorage.getItem("user-email"),
                 otp: values.otp,
               })
             }
           >
             <Typography.Title level={4} className="text-center">
-              Enter The OTP and The Email You Entered <br />
-              Before To Verify Your Account
+              Enter otp that sent to your email
             </Typography.Title>
-
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "You have to enter",
-                },
-              ]}
-            >
-              <Input placeholder="someone@domail.com" className="text-center" />
-            </Form.Item>
 
             <Form.Item
               name="otp"

@@ -1,15 +1,28 @@
 import { App, Button, Card, Col, Form, Input, Row, Select } from "antd";
+import { useCallback, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { CreateUserPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
 import { profileAPI } from "../../libs/api/profileAPI";
 
+type SignUPForm = {
+  name?: string;
+  student_id?: string;
+  phone?: string;
+  email: string;
+  passing_year?: string;
+  password?: string;
+  batch?: string;
+};
+
 const SignUp = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { notification } = App.useApp();
   const queryClient = useQueryClient();
+  const [emailStore, setEmailStore] = useState("");
+  localStorage.setItem("user-email", emailStore);
 
   const { mutate, isLoading } = useMutation(
     (payload: CreateUserPayload) => authAPI.createUser(payload),
@@ -19,7 +32,7 @@ const SignUp = () => {
           message: "A Verification Code has been sent to you email",
         });
         queryClient.invalidateQueries(["sign-up"]);
-        navigate("/verify");
+        navigate("/verify", { state: { emailStore } });
       },
       onError: (error: Error) => {
         notification.error({ message: error.message });
@@ -28,7 +41,19 @@ const SignUp = () => {
   );
 
   const { data } = useQuery(["batch-list"], () => profileAPI.getBatchList());
-  console.log(data);
+
+  const serialize = useCallback((values: SignUPForm) => {
+    const payload = {
+      name: values.name,
+      student_id: values.student_id,
+      phone: values.phone,
+      email: values.email,
+      passing_year: values.passing_year,
+      password: values.password,
+      batch: values.batch,
+    };
+    return payload;
+  }, []);
 
   return (
     <Row align="middle" justify="center">
@@ -41,17 +66,11 @@ const SignUp = () => {
           <Form
             // className="w-96"
             form={form}
-            onFinish={(values) =>
-              mutate({
-                name: values.name,
-                student_id: values.student_id,
-                phone: values.phone,
-                email: values.email,
-                passing_year: values.passing_year,
-                password: values.password,
-                batch: values.batch,
-              })
-            }
+            onFinish={(values) => {
+              const payload = serialize(values);
+              mutate(payload);
+              setEmailStore(values.email);
+            }}
             size="middle"
             layout="vertical"
           >
@@ -102,7 +121,6 @@ const SignUp = () => {
             <Form.Item
               name="batch"
               label="Batch"
-              hasFeedback
               rules={[
                 { required: true, message: "Please enter your Batch Number" },
               ]}
