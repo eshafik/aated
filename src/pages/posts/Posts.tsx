@@ -113,7 +113,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
           form={form}
           onFinish={(values) =>
             createPostMutate({
-              attachments: values.attachments,
+              attachments: values.attachments ? values.attachments : null,
               body: values.body,
               category: values.category,
               title: values.title,
@@ -186,10 +186,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
                 {items.title}
               </Typography.Title>
               <Typography.Paragraph>
-                {moment(
-                  `${items?.created_at?.slice(0, 10)}`,
-                  "YYYY-MM-DD"
-                ).fromNow()}
+                {moment(`${items?.created_at}`).startOf("hours").fromNow()}
               </Typography.Paragraph>
             </Row>
             {items.attachments?.[0] ? (
