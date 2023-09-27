@@ -98,7 +98,7 @@ const Post = () => {
                     className="bg-slate-100 w-56 ml-2 mt-2"
                     size="small"
                     title={
-                      <>
+                      <div className="mt-4">
                         <Typography.Text>
                           {comments?.user?.name}
                         </Typography.Text>
@@ -111,7 +111,7 @@ const Post = () => {
                             </Typography.Paragraph>
                           }
                         </Typography.Paragraph>
-                      </>
+                      </div>
                     }
                     extra={
                       <Dropdown

@@ -10,18 +10,18 @@ const ProfileContainer = () => {
   const items: TabsProps["items"] = [
     {
       key: "profile",
-      label: "Profile Setting",
+      label: "Basic Profile",
       children: <ProfileSettings />,
     },
     {
-      key: "security",
-      label: "Security",
-      children: <Security />,
+      key: "experience",
+      label: "Experiences",
+      children: <SeeExperience />,
     },
     {
-      key: "experience",
-      label: "Experience",
-      children: <SeeExperience />,
+      key: "security",
+      label: "Change Password",
+      children: <Security />,
     },
   ];
   return (
