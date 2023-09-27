@@ -1,5 +1,5 @@
 import { Button, Result } from "antd";
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { Link, Navigate, createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../container/layout/DashboardLayout";
 import HomeLayout from "../container/layout/HomeLayout";
 import Committee from "../pages/committee/Committee";
@@ -89,7 +89,11 @@ export const protectedRouter = createBrowserRouter([
         status="404"
         title="404"
         subTitle="Sorry, the page you visited does not exist."
-        extra={<Button type="primary">Back Home</Button>}
+        extra={
+          <Link to={"/signin"}>
+            <Button type="primary">Back Home</Button>
+          </Link>
+        }
       />
     ),
   },
