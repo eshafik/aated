@@ -10,10 +10,11 @@ import {
   Radio,
   Row,
   Skeleton,
+  Space,
 } from "antd";
 import dayJs from "dayjs";
 import { useMutation, useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSuperUser } from "../../container/ProfileProvider";
 import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
@@ -22,6 +23,7 @@ const EditCommittee = () => {
   const { committeeId } = useParams();
   const { notification } = App.useApp();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const { mutate, isLoading } = useMutation(
     (payload: CommitteePayload) =>
@@ -101,6 +103,7 @@ const EditCommittee = () => {
 
                 <Form.Item name="is_active" label="Committee Status">
                   <Radio.Group
+                    size="small"
                     buttonStyle="solid"
                     options={[
                       {
@@ -116,16 +119,18 @@ const EditCommittee = () => {
                   />
                 </Form.Item>
 
-                <Form.Item>
+                <Space className="absolute right-3 bottom-3">
                   <Button
-                    type="primary"
-                    loading={isLoading}
-                    htmlType="submit"
-                    className="flex ml-auto"
+                    onClick={() =>
+                      navigate(`/committee/members/${committeeId}`)
+                    }
                   >
+                    Cancel
+                  </Button>
+                  <Button type="primary" loading={isLoading} htmlType="submit">
                     Save
                   </Button>
-                </Form.Item>
+                </Space>
               </Form>
             </Card>
           ) : (

@@ -28,15 +28,16 @@ import { PostPayload } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
 import { profileAPI } from "../../libs/api/profileAPI";
 import CreatePostModal from "./component/CreatePostModal";
+
 type PostProps = {
   categoryId?: string;
 };
 const Posts: FC<PostProps> = ({ categoryId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
-  const [showMore, setShowMore] = useState(false);
   const { notification } = App.useApp();
 
   const { mutate: createPostMutate, isLoading } = useMutation(
@@ -80,6 +81,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
   );
 
   const { mutate: mutateComment } = useComment();
+
   const showModal = () => {
     setIsModalOpen(true);
   };

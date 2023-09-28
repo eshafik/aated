@@ -76,17 +76,15 @@ const Post = () => {
                 {postData?.data?.user?.name}
               </>
             }
-            extra={
-              <Typography.Paragraph>
-                {moment(`${postData?.data?.created_at}`)
-                  .startOf("hours")
-                  .fromNow()}
-              </Typography.Paragraph>
-            }
           >
-            <div className="text-black font-bold text-xl">
-              {postData?.data?.title}
-            </div>
+            <Row justify={"space-between"}>
+              <Typography.Title className="mt-0" level={5}>
+                {postData?.data?.title}
+              </Typography.Title>
+              {moment(`${postData?.data?.created_at}`)
+                .startOf("hour")
+                .fromNow()}
+            </Row>
             {postData?.data?.attachments?.map((pic) =>
               pic ? <Image alt="example" src={pic} /> : ""
             )}
