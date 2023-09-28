@@ -106,6 +106,7 @@ const CommitteeMembers = () => {
 
   const { members: ActiveMemberData, isLoading: loadingMembers } =
     useMemberList();
+
   const showModal = () => {
     setIsModalOpen(true);
   };

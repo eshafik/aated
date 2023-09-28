@@ -117,7 +117,12 @@ const EditCommittee = () => {
                 </Form.Item>
 
                 <Form.Item>
-                  <Button type="primary" loading={isLoading} htmlType="submit">
+                  <Button
+                    type="primary"
+                    loading={isLoading}
+                    htmlType="submit"
+                    className="flex ml-auto"
+                  >
                     Save
                   </Button>
                 </Form.Item>

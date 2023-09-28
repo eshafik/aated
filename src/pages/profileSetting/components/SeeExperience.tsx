@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Col,
+  DatePicker,
   Form,
   Input,
   InputNumber,
@@ -137,8 +138,8 @@ const SeeExperience = () => {
                       job_department: values.job_department,
                       job_location: values.job_location,
                       responsibilities: values.responsibilities,
-                      start: values.start,
-                      end: values.end,
+                      start: values.start_date.format("YYYY-MM-DD"),
+                      end: values.end_date.format("YYYY-MM-DD"),
                       working_years: values.working_year,
                     })
                   }
@@ -173,7 +174,7 @@ const SeeExperience = () => {
                   </Form.Item>
 
                   <Form.Item
-                    name="start"
+                    name="start_date"
                     label="Start Date"
                     rules={[
                       {
@@ -182,11 +183,14 @@ const SeeExperience = () => {
                       },
                     ]}
                   >
-                    <Input placeholder="2021-05-25" />
+                    <DatePicker className="w-full" placeholder="2021-05-25" />
                   </Form.Item>
 
-                  <Form.Item name="end" label="End Date">
-                    <Input placeholder="2020-05-25 or Present" />
+                  <Form.Item name="end_date" label="End Date">
+                    <DatePicker
+                      className="w-full"
+                      placeholder="2020-05-25 or Present"
+                    />
                   </Form.Item>
 
                   <Form.Item

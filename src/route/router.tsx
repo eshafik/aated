@@ -3,7 +3,6 @@ import { Link, Navigate, createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../container/layout/DashboardLayout";
 import HomeLayout from "../container/layout/HomeLayout";
 import Committee from "../pages/committee/Committee";
-import CreateCommittee from "../pages/committee/CreateCommittee";
 import EditCommittee from "../pages/committee/EditCommittee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
 import EmailVerify from "../pages/emailverify/EmailVerify";
@@ -71,7 +70,6 @@ export const protectedRouter = createBrowserRouter([
         path: "committee",
         children: [
           { index: true, element: <Committee /> },
-          { path: "create-committee", element: <CreateCommittee /> },
           {
             path: "members/:slag",
             element: <CommitteeMembers />,
