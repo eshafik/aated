@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, Row, Skeleton, Typography } from "antd";
+import { Card, Col, Image, Row, Skeleton, Typography } from "antd";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { membersAPI } from "../../libs/api/membersAPI";
@@ -10,14 +10,13 @@ const Member = () => {
   );
   return (
     <Skeleton loading={isLoading}>
-      <Row align={"middle"} justify={"center"}>
+      <Row justify={"center"}>
         <Col span={12}>
-          <Card className="text-center shadow-2xl bg-transparent ">
+          <Card className="shadow-2xl bg-transparent ">
             <div>
-              <Avatar
+              <Image
                 src={memberData?.data?.profile_pic}
-                size="large"
-                className="h-40 w-40"
+                className="h-32 w-24 rounded-lg"
               />
               <Typography.Title level={3}>
                 {memberData?.data?.name}
@@ -34,13 +33,15 @@ const Member = () => {
                 Experiences
               </Typography.Title>
               {memberData?.data?.experiences?.map((exp, i) => (
-                <Card key={i} title={`${i + 1}. ${exp?.company_name}`}>
-                  <div>{exp?.designation}</div>
-                  <div>{exp?.job_department?.name}</div>
-                  <div>{exp?.job_location}</div>
-                  <div>{exp?.responsibilities}</div>
-                  <div>{exp?.working_years} Year of experience</div>
-                </Card>
+                <div key={i} className="mb-8">
+                  <Typography.Title className="mt-0" level={5}>
+                    {exp?.designation}
+                  </Typography.Title>
+                  <div>
+                    {exp?.company_name} - {exp?.responsibilities}
+                  </div>
+                  <div>{exp?.working_years} Years of experience</div>
+                </div>
               ))}
             </div>
           </Card>
