@@ -64,8 +64,8 @@ const EditCommittee = () => {
                 onFinish={(values) => {
                   mutate({
                     name: values.name,
-                    start_date: values.start_date.format("YYYY-MM-DD") ?? "",
-                    end_date: values.end_date.format("YYYY-MM-DD"),
+                    start_date: values.start_date.format("YYYY-MM-DD"),
+                    end_date: values.end_date.format("YYYY-MM-DD") ?? "",
                     is_active: values.is_active,
                   });
                 }}

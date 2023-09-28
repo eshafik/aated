@@ -95,7 +95,9 @@ const SeeExperience = () => {
               job_location: values.job_location,
               responsibilities: values.responsibilities,
               start: values.start_date.format("YYYY-MM-DD"),
-              end: values.end_date.format("YYYY-MM-DD"),
+              end: values.end_date
+                ? values.end_date.format("YYYY-MM-DD")
+                : null,
               working_years: values.working_year,
             })
           }
@@ -120,14 +122,12 @@ const SeeExperience = () => {
                 },
               ]}
               name="company_name"
-              label="Company Name"
             >
               <Input placeholder="X LTD" />
             </Form.Item>
 
             <Form.Item
               name="designation"
-              label="Professional Designation"
               rules={[
                 {
                   required: true,
@@ -135,12 +135,11 @@ const SeeExperience = () => {
                 },
               ]}
             >
-              <Input placeholder="professional designation" />
+              <Input placeholder="Professional designation" />
             </Form.Item>
 
             <Form.Item
               name="start_date"
-              label="Start Date"
               rules={[
                 {
                   required: true,
@@ -148,19 +147,23 @@ const SeeExperience = () => {
                 },
               ]}
             >
-              <DatePicker className="w-full" placeholder="2021-05-25" />
+              <DatePicker
+                format={"YYYY-MM-DD"}
+                className="w-full"
+                placeholder="Job Start Date"
+              />
             </Form.Item>
 
-            <Form.Item name="end_date" label="End Date">
+            <Form.Item name="end_date">
               <DatePicker
+                format={"YYYY-MM-DD"}
                 className="w-full"
-                placeholder="2020-05-25 or Present"
+                placeholder="Job End Date"
               />
             </Form.Item>
 
             <Form.Item
               name="working_year"
-              label="Working Years"
               rules={[
                 {
                   required: true,
@@ -168,12 +171,11 @@ const SeeExperience = () => {
                 },
               ]}
             >
-              <InputNumber placeholder="1 years" />
+              <InputNumber className="w-full" placeholder="1 years" />
             </Form.Item>
 
             <Form.Item
               name="job_location"
-              label="Job Location"
               rules={[
                 {
                   required: true,
@@ -186,7 +188,6 @@ const SeeExperience = () => {
 
             <Form.Item
               name="responsibilities"
-              label="Responsibilities"
               rules={[
                 {
                   required: true,
@@ -199,7 +200,6 @@ const SeeExperience = () => {
 
             <Form.Item
               name="job_department"
-              label="Job Department"
               rules={[
                 {
                   required: true,
