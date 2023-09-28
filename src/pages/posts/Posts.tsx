@@ -22,6 +22,7 @@ import moment from "moment";
 import { FC, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
+import { useMatchMedia } from "../../components/useMatchMedia";
 import { usePostList } from "../../config/hook/useSearch";
 import { useComment } from "../../config/hook/usecomment";
 import { PostPayload } from "../../libs/api/@types/post";
@@ -90,12 +91,15 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
     setIsModalOpen(false);
   };
 
+  const isDesktopResolution = useMatchMedia("(min-width:600px)", true);
+
   return (
     <Spin spinning={loadingPostList}>
       <div className="max-w-3xl grid grid-cols-1 gap-4">
         <Card
           size="small"
-          className="self-start sticky top-11 z-10 drop-shadow"
+          className="sticky top-11 z-10 drop-shadow"
+          style={{ width: isDesktopResolution ? 770 : 490 }}
         >
           <Form form={searchForm}>
             <div className="flex gap-2">

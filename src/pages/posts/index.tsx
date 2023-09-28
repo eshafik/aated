@@ -12,7 +12,7 @@ const PostContainer = () => {
   ];
 
   return (
-    <div className="grid justify-center bg-inherit">
+    <div className="grid justify-center bg-inherit ">
       <Tabs
         items={items}
         tabBarStyle={{
