@@ -32,6 +32,7 @@ export interface PostsResponse {
 export interface PostResponse {
   data?: {
     id?: string | number;
+    created_at?: string;
     category?: {
       id: number | string;
       name?: string;

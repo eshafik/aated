@@ -40,7 +40,7 @@ const EditPost = () => {
             mutate({
               title: values.title,
               body: values.description,
-              attachments: values.attachment,
+              attachments: values.attachment ? values.attachment : null,
             });
           }}
           initialValues={{

@@ -76,6 +76,13 @@ const Post = () => {
                 {postData?.data?.user?.name}
               </>
             }
+            extra={
+              <Typography.Paragraph>
+                {moment(`${postData?.data?.created_at}`)
+                  .startOf("hours")
+                  .fromNow()}
+              </Typography.Paragraph>
+            }
           >
             <div className="text-black font-bold text-xl">
               {postData?.data?.title}
