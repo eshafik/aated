@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BarsOutlined, MoreOutlined } from "@ant-design/icons";
+import { MoreOutlined } from "@ant-design/icons";
 import {
   App,
   Avatar,
@@ -18,6 +18,7 @@ import {
   Spin,
   Typography,
 } from "antd";
+import { SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { Link } from "react-router-dom";
@@ -80,9 +81,10 @@ const ActiveMembers = () => {
   return (
     <Spin spinning={isLoading}>
       <Button
-        className="xl:hidden "
+        type="text"
+        className="xl:hidden mb-3"
         onClick={() => setIsFiltersVisible((prev) => !prev)}
-        icon={<BarsOutlined />}
+        icon={<SlidersHorizontal />}
       />
 
       <Form
