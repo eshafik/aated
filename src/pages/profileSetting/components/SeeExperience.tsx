@@ -1,41 +1,33 @@
-import { DeleteOutlined, SmileOutlined } from "@ant-design/icons";
+import { EditOutlined, SmileOutlined } from "@ant-design/icons";
 import {
   App,
   Button,
-  Card,
-  Col,
   DatePicker,
   Form,
   Input,
   InputNumber,
+  Modal,
   Popconfirm,
   Result,
-  Row,
   Select,
   Spin,
+  Tooltip,
   Typography,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import styled from "styled-components";
+import { StyledCard } from "../../../components/StyleCard";
 import { ExperiencePayload } from "../../../libs/api/@types/profile";
 import { profileAPI } from "../../../libs/api/profileAPI";
 import { searchAPI } from "../../../libs/api/searchAPI";
 
-const StyledCard = styled(Card)`
-  height: calc(100vh - 180px);
-  display: flex;
-  flex-direction: column;
-  .ant-card-body {
-    overflow-y: auto;
-    flex: 1 1 0%;
-  }
-`;
 const SeeExperience = () => {
   const queryClient = useQueryClient();
-  const [check, setCheck] = useState(false);
   const { notification } = App.useApp();
+  const [form] = Form.useForm();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   const { data: experienceData, isLoading } = useQuery(
     ["experience-list"],
@@ -64,210 +56,211 @@ const SeeExperience = () => {
       (payload: ExperiencePayload) => profileAPI.addExperiences(payload),
       {
         onSuccess: () => {
-          setCheck(false);
           notification.success({ message: "Successfully added Experiences" });
           queryClient.invalidateQueries(["experience-list"]);
+          setIsModalOpen(false);
         },
         onError: (error: Error) => {
           notification.error({ message: error.message });
         },
       }
     );
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <Spin spinning={isLoading}>
       <StyledCard
-        style={{ width: 800 }}
-        className="bg-white mr-11 sm:w-[400px]"
+        className="bg-white"
+        title={"Experience"}
         extra={
-          <Button type="primary" size="large" onClick={() => setCheck(true)}>
+          <Button type="primary" onClick={() => showModal()}>
             Add Experiences
           </Button>
         }
       >
-        <Row>
-          <Col span={12}>
-            {experienceData?.data?.length ? (
-              experienceData?.data?.map((exp, i) => (
-                <Card
-                  className="shadow-2xl bg-transparent mb-5 max-w-xl"
-                  key={i}
-                  title={`${i + 1}. ${exp?.company_name}`}
-                  extra={
-                    <Popconfirm
-                      title="Delete this Experience"
-                      description="Are you sure to delete this experience?"
-                      onConfirm={() => mutateDeleteExperience(exp?.id)}
-                      okText="Yes"
-                      cancelText="No"
-                      okType="danger"
-                    >
-                      <DeleteOutlined />
-                    </Popconfirm>
-                  }
-                >
-                  <div>{exp?.designation}</div>
-                  <div>{exp?.job_department?.name}</div>
-                  <div>{exp?.job_location}</div>
-                  <div>{exp?.responsibilities}</div>
-                  <div>{exp?.working_years} Year of experience</div>
-                </Card>
-              ))
-            ) : (
-              <Result
-                icon={<SmileOutlined />}
-                title="You have no experiences available."
+        <Form
+          form={form}
+          onFinish={(values) =>
+            mutateCreateExperience({
+              company_name: values.company_name,
+              designation: values.designation,
+              job_department: values.job_department,
+              job_location: values.job_location,
+              responsibilities: values.responsibilities,
+              start: values.start_date.format("YYYY-MM-DD"),
+              end: values.end_date.format("YYYY-MM-DD"),
+              working_years: values.working_year,
+            })
+          }
+          requiredMark="optional"
+          layout="vertical"
+        >
+          <Modal
+            title="Add Experience"
+            open={isModalOpen}
+            onOk={form.submit}
+            onCancel={handleOk}
+            okText="Save"
+            okType="primary"
+            confirmLoading={loadingAddExp}
+            centered
+          >
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your Company Name",
+                },
+              ]}
+              name="company_name"
+              label="Company Name"
+            >
+              <Input placeholder="X LTD" />
+            </Form.Item>
+
+            <Form.Item
+              name="designation"
+              label="Professional Designation"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your Designation",
+                },
+              ]}
+            >
+              <Input placeholder="professional designation" />
+            </Form.Item>
+
+            <Form.Item
+              name="start_date"
+              label="Start Date"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your Job Start Date",
+                },
+              ]}
+            >
+              <DatePicker className="w-full" placeholder="2021-05-25" />
+            </Form.Item>
+
+            <Form.Item name="end_date" label="End Date">
+              <DatePicker
+                className="w-full"
+                placeholder="2020-05-25 or Present"
               />
-            )}
-          </Col>
-          <Col span={12}>
-            {check ? (
-              <Card
-                title={
-                  <Typography.Title level={4} className="text-center">
-                    Add Experience
-                  </Typography.Title>
-                }
-                className="shadow-2xl bg-white max-w-xl"
-              >
-                <Form
-                  size="middle"
-                  onFinish={(values) =>
-                    mutateCreateExperience({
-                      company_name: values.company_name,
-                      designation: values.designation,
-                      job_department: values.job_department,
-                      job_location: values.job_location,
-                      responsibilities: values.responsibilities,
-                      start: values.start_date.format("YYYY-MM-DD"),
-                      end: values.end_date.format("YYYY-MM-DD"),
-                      working_years: values.working_year,
-                    })
-                  }
-                  requiredMark="optional"
-                  layout="vertical"
-                  labelAlign="left"
+            </Form.Item>
+
+            <Form.Item
+              name="working_year"
+              label="Working Years"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your Working Year",
+                },
+              ]}
+            >
+              <InputNumber placeholder="1 years" />
+            </Form.Item>
+
+            <Form.Item
+              name="job_location"
+              label="Job Location"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your Job Location",
+                },
+              ]}
+            >
+              <Input placeholder="Dhanmondi" />
+            </Form.Item>
+
+            <Form.Item
+              name="responsibilities"
+              label="Responsibilities"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your Job responsibilities",
+                },
+              ]}
+            >
+              <TextArea placeholder="Project Manager" />
+            </Form.Item>
+
+            <Form.Item
+              name="job_department"
+              label="Job Department"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter you department name",
+                },
+              ]}
+            >
+              <Select
+                options={jobDeptData?.data?.map(({ id, name }) => ({
+                  value: id?.toString(),
+                  label: name,
+                }))}
+                placeholder="Job Department"
+              />
+            </Form.Item>
+          </Modal>
+        </Form>
+        <Tooltip title="Edit Mode">
+          <EditOutlined
+            onClick={() => setEditMode((prev) => !prev)}
+            className="absolute right-7"
+          />
+        </Tooltip>
+        {experienceData?.data?.length ? (
+          experienceData?.data?.map((exp, i) => (
+            <div key={i} className="mb-8">
+              <Typography.Title className="mt-0" level={5}>
+                {exp?.designation}
+              </Typography.Title>
+              <div>
+                {exp?.company_name}-{exp?.responsibilities}
+              </div>
+              <div>
+                {exp?.start}-{exp?.end}
+              </div>
+              <div>{exp?.working_years} Years of experience</div>
+
+              {editMode ? (
+                <Popconfirm
+                  title="Delete this Experience"
+                  description="Are you sure to delete this experience?"
+                  onConfirm={() => mutateDeleteExperience(exp?.id)}
+                  okText="Yes"
+                  cancelText="No"
+                  okType="danger"
                 >
-                  <Form.Item
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your Company Name",
-                      },
-                    ]}
-                    name="company_name"
-                    label="Company Name"
-                  >
-                    <Input placeholder="X LTD" />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="designation"
-                    label="Professional Designation"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your Designation",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="professional designation" />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="start_date"
-                    label="Start Date"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your Job Start Date",
-                      },
-                    ]}
-                  >
-                    <DatePicker className="w-full" placeholder="2021-05-25" />
-                  </Form.Item>
-
-                  <Form.Item name="end_date" label="End Date">
-                    <DatePicker
-                      className="w-full"
-                      placeholder="2020-05-25 or Present"
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="working_year"
-                    label="Working Years"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your Working Year",
-                      },
-                    ]}
-                  >
-                    <InputNumber placeholder="1 years" />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="job_location"
-                    label="Job Location"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your Job Location",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="Dhanmondi" />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="responsibilities"
-                    label="Responsibilities"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your Job responsibilities",
-                      },
-                    ]}
-                  >
-                    <TextArea placeholder="Project Manager" />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="job_department"
-                    label="Job Department"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter you department name",
-                      },
-                    ]}
-                  >
-                    <Select
-                      options={jobDeptData?.data?.map(({ id, name }) => ({
-                        value: id?.toString(),
-                        label: name,
-                      }))}
-                      placeholder="Job Department"
-                    />
-                  </Form.Item>
-
-                  <Form.Item>
-                    <Button
-                      type="primary"
-                      loading={loadingAddExp}
-                      className="bg-blue-400 flex ml-auto"
-                      htmlType="submit"
-                    >
-                      Save
-                    </Button>
-                  </Form.Item>
-                </Form>
-              </Card>
-            ) : (
-              ""
-            )}
-          </Col>
-        </Row>
+                  <Button className="mt-2" type="dashed" size="small">
+                    Delete Experience
+                  </Button>
+                </Popconfirm>
+              ) : (
+                ""
+              )}
+            </div>
+          ))
+        ) : (
+          <Result
+            icon={<SmileOutlined />}
+            title="You have no experiences available."
+          />
+        )}
       </StyledCard>
     </Spin>
   );

@@ -1,6 +1,7 @@
-import { App, Button, Card, Form, Input, Select, Spin, Typography } from "antd";
+import { App, Button, Form, Input, Select, Spin } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { StyledCard } from "../../../components/StyleCard";
 import AvatarUploader from "../../../container/AvaterUploader";
 import { UpdateProfilePayload } from "../../../libs/api/@types/profile";
 import { profileAPI } from "../../../libs/api/profileAPI";
@@ -32,14 +33,7 @@ const ProfileSettings = () => {
   );
   return (
     <Spin spinning={isProfileLoading}>
-      <Card
-        title={
-          <Typography.Title level={4} className="text-center">
-            Profile Setting
-          </Typography.Title>
-        }
-        className="shadow-2xl w-[450px]"
-      >
+      <StyledCard title="Profile">
         {data?.data?.name && (
           <Form
             form={form}
@@ -61,7 +55,6 @@ const ProfileSettings = () => {
             }}
             requiredMark
             layout="vertical"
-            labelAlign="left"
             onFinish={(values) => {
               mutate({
                 name: values.name,
@@ -212,7 +205,7 @@ const ProfileSettings = () => {
             </Form.Item>
           </Form>
         )}
-      </Card>
+      </StyledCard>
     </Spin>
   );
 };

@@ -1,5 +1,6 @@
-import { App, Button, Card, Form, Input } from "antd";
+import { App, Button, Form, Input } from "antd";
 import { useMutation } from "react-query";
+import { StyledCard } from "../../../components/StyleCard";
 import { UpdateProfilePayload } from "../../../libs/api/@types/profile";
 import { profileAPI } from "../../../libs/api/profileAPI";
 
@@ -26,7 +27,7 @@ const Security = () => {
     }
   );
   return (
-    <Card className="shadow-2xl sm: w-[450px]">
+    <StyledCard title="Password Change">
       <Form
         onFinish={(values) => {
           mutate({
@@ -94,7 +95,7 @@ const Security = () => {
           </Button>
         </Form.Item>
       </Form>
-    </Card>
+    </StyledCard>
   );
 };
 
