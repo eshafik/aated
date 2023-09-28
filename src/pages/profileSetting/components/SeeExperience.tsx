@@ -7,7 +7,6 @@ import {
   Input,
   InputNumber,
   Modal,
-  Popconfirm,
   Result,
   Select,
   Spin,
@@ -27,25 +26,25 @@ const SeeExperience = () => {
   const { notification } = App.useApp();
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editMode, setEditMode] = useState(false);
+  // const [editMode, setEditMode] = useState(false);
 
   const { data: experienceData, isLoading } = useQuery(
     ["experience-list"],
     () => profileAPI.getExperiences()
   );
 
-  const { mutate: mutateDeleteExperience } = useMutation(
-    ["experience-list"],
-    (ID: string | number) => profileAPI.deleteExperiences(ID),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["experience-list"]);
-      },
-      onError: (error: Error) => {
-        notification.error({ message: error.message });
-      },
-    }
-  );
+  // const { mutate: mutateDeleteExperience } = useMutation(
+  //   ["experience-list"],
+  //   (ID: string | number) => profileAPI.deleteExperiences(ID),
+  //   {
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries(["experience-list"]);
+  //     },
+  //     onError: (error: Error) => {
+  //       notification.error({ message: error.message });
+  //     },
+  //   }
+  // );
 
   const { jobDept: jobDeptData, filter } = useJobDeptSearch();
 
@@ -217,15 +216,16 @@ const SeeExperience = () => {
             </Form.Item>
           </Modal>
         </Form>
-        <Tooltip title="Edit Mode">
-          <EditOutlined
-            onClick={() => setEditMode((prev) => !prev)}
-            className="absolute right-7"
-          />
-        </Tooltip>
+
         {experienceData?.data?.length ? (
           experienceData?.data?.map((exp, i) => (
             <div key={i} className="mb-8">
+              <Tooltip title="Edit Mode">
+                <EditOutlined
+                  onClick={() => showModal()}
+                  className="absolute right-7"
+                />
+              </Tooltip>
               <Typography.Title className="mt-0" level={5}>
                 {exp?.designation}
               </Typography.Title>
@@ -237,7 +237,7 @@ const SeeExperience = () => {
               </div>
               <div>{exp?.working_years} Years of experience</div>
 
-              {editMode ? (
+              {/* {editMode ? (
                 <Popconfirm
                   title="Delete this Experience"
                   description="Are you sure to delete this experience?"
@@ -252,7 +252,7 @@ const SeeExperience = () => {
                 </Popconfirm>
               ) : (
                 ""
-              )}
+              )} */}
             </div>
           ))
         ) : (

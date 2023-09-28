@@ -182,22 +182,24 @@ const CommitteeMembers = () => {
             confirmLoading={isLoading}
             centered
           >
-            <Form.Item name="committee_designation">
-              <Input placeholder="Committee Designation" />
-            </Form.Item>
-            <Form.Item name="position_order">
-              <Input placeholder="Position" />
-            </Form.Item>
             <Form.Item name="member">
               <Select
                 onSearch={filter.handleChangeName}
                 showSearch
+                loading={loadingMembers}
                 options={ActiveMemberData?.data?.map(({ id, name }) => ({
                   value: id?.toString(),
                   label: name,
                 }))}
                 placeholder="Members"
               />
+            </Form.Item>
+
+            <Form.Item name="committee_designation">
+              <Input placeholder="Committee Designation" />
+            </Form.Item>
+            <Form.Item name="position_order">
+              <Input placeholder="Position Order" />
             </Form.Item>
           </Modal>
         </Form>
