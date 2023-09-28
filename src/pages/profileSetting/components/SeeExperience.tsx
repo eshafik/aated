@@ -18,9 +18,9 @@ import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { StyledCard } from "../../../components/StyleCard";
+import { useJobDeptSearch } from "../../../config/hook/useJobDeptSearch";
 import { ExperiencePayload } from "../../../libs/api/@types/profile";
 import { profileAPI } from "../../../libs/api/profileAPI";
-import { searchAPI } from "../../../libs/api/searchAPI";
 
 const SeeExperience = () => {
   const queryClient = useQueryClient();
@@ -47,9 +47,7 @@ const SeeExperience = () => {
     }
   );
 
-  const { data: jobDeptData } = useQuery(["jobDept-list"], () =>
-    searchAPI.getJobDepartment()
-  );
+  const { jobDept: jobDeptData, filter } = useJobDeptSearch();
 
   const { mutate: mutateCreateExperience, isLoading: loadingAddExp } =
     useMutation(
@@ -208,6 +206,8 @@ const SeeExperience = () => {
               ]}
             >
               <Select
+                showSearch
+                onSearch={filter.handleChangeJobDept}
                 options={jobDeptData?.data?.map(({ id, name }) => ({
                   value: id?.toString(),
                   label: name,

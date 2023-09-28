@@ -23,6 +23,7 @@ import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
+import { useJobDeptSearch } from "../../../config/hook/useJobDeptSearch";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 import { useSuperUser } from "../../../container/ProfileProvider";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
@@ -48,9 +49,7 @@ const ActiveMembers = () => {
     searchAPI.getOccupationList()
   );
 
-  const { data: jobDeptData } = useQuery(["jobDept-list"], () =>
-    searchAPI.getJobDepartment()
-  );
+  const { filter, jobDept: jobDeptData } = useJobDeptSearch();
 
   const employeeOptions = [
     {
@@ -159,6 +158,9 @@ const ActiveMembers = () => {
 
           <Form.Item name="job_department" className="w-38 sm:w-40">
             <Select
+              onSearch={filter.handleChangeJobDept}
+              showSearch
+              allowClear
               placeholder="Job department"
               options={jobDeptData?.data?.map(({ id, name }) => ({
                 value: id?.toString(),

@@ -104,8 +104,11 @@ const CommitteeMembers = () => {
     return [];
   }, [data?.data]);
 
-  const { members: ActiveMemberData, isLoading: loadingMembers } =
-    useMemberList();
+  const {
+    members: ActiveMemberData,
+    filter,
+    isLoading: loadingMembers,
+  } = useMemberList();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -187,6 +190,8 @@ const CommitteeMembers = () => {
             </Form.Item>
             <Form.Item name="member">
               <Select
+                onSearch={filter.handleChangeName}
+                showSearch
                 options={ActiveMemberData?.data?.map(({ id, name }) => ({
                   value: id?.toString(),
                   label: name,

@@ -1,6 +1,6 @@
 import config from "../../config";
 import { authService } from "../auth/auth.service";
-import { GetLists } from "./@types/search";
+import { GetLists, SearchQuery } from "./@types/search";
 import { HttpAuthService } from "./httpService/httpAuth.service";
 
 class BatchAPI {
@@ -13,8 +13,12 @@ class BatchAPI {
     return this.http.get<GetLists>("api/v1/core/public/occupations/");
   }
 
-  getJobDepartment() {
-    return this.http.get<GetLists>("api/v1/core/public/job-departments/");
+  getJobDepartment(params?: SearchQuery) {
+    const queryParams = new URLSearchParams();
+    if (params?.search) queryParams.append("search", params?.search.toString());
+    return this.http.get<GetLists>(
+      `api/v1/core/public/job-departments/?${queryParams}`
+    );
   }
 }
 const httpAuthService = new HttpAuthService(config.apiURL, authService);

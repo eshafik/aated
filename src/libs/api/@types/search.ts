@@ -7,3 +7,7 @@ export interface GetLists {
     }
   ];
 }
+
+export type SearchQuery = {
+  search?: string;
+};
