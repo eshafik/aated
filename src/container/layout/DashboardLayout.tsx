@@ -20,6 +20,10 @@ const DashboardLayout = () => {
   const items: MenuProps["items"] = [
     {
       key: "1",
+      label: <a onClick={() => navigation("/profile")}>Personal Profile</a>,
+    },
+    {
+      key: "2",
       label: (
         <a onClick={() => (authService.removeTokens(), navigation("/signin"))}>
           Logout

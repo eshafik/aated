@@ -11,6 +11,7 @@ import ResetPassword from "../pages/forgot-password/ResetPassword";
 import HomePage from "../pages/homepage/HomePage";
 import Member from "../pages/member/Member";
 import Members from "../pages/members";
+import PersonalProfile from "../pages/personalProfile/PersonalProfile";
 import EditPost from "../pages/post/EditPost";
 import Post from "../pages/post/Post";
 import PostContainer from "../pages/posts";
@@ -51,6 +52,7 @@ export const protectedRouter = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       { index: true, element: <Navigate to="/members" /> },
+      { path: "profile", element: <PersonalProfile /> },
       {
         path: "members",
         children: [

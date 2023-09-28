@@ -24,12 +24,8 @@ const ProfileSettings = () => {
       },
     }
   );
-  const { data, isLoading: isProfileLoading } = useQuery(
-    ["user-profile"],
-    () => profileAPI.getProfileDetails(),
-    {
-      onSuccess: () => {},
-    }
+  const { data, isLoading: isProfileLoading } = useQuery(["user-profile"], () =>
+    profileAPI.getProfileDetails()
   );
   return (
     <Spin spinning={isProfileLoading}>
