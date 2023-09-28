@@ -9,21 +9,14 @@ import {
   Input,
   Radio,
   Row,
-  Select,
-  SelectProps,
   Skeleton,
 } from "antd";
 import dayJs from "dayjs";
-import { useMemo } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { useSuperUser } from "../../container/ProfileProvider";
-import {
-  CommitteeMemberPayload,
-  CommitteePayload,
-} from "../../libs/api/@types/committee";
+import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
-import { membersAPI } from "../../libs/api/membersAPI";
 
 const EditCommittee = () => {
   const { committeeId } = useParams();
@@ -39,42 +32,11 @@ const EditCommittee = () => {
       },
     }
   );
-  const { mutate: addMemberMutate } = useMutation(
-    ["committee-member"],
-    (payload: CommitteeMemberPayload) =>
-      committeeAPI.addCommitteeMember(payload),
-    {
-      onSuccess: () => {
-        notification.success({ message: "Success" });
-      },
-      onError: (error: Error) => {
-        notification.error({ message: error.name });
-      },
-    }
-  );
-
-  const { data: allMembersData } = useQuery(["members-list"], () =>
-    membersAPI.activeMembersList()
-  );
 
   const { data: committeeDetailsData, isLoading: loadingCommitteeDetails } =
     useQuery(["committee-details"], () =>
       committeeAPI.getCommitteeDetails(committeeId as string)
     );
-
-  const memberOptions: SelectProps["options"] = useMemo(() => {
-    if (allMembersData?.data && Array.isArray(allMembersData?.data)) {
-      return allMembersData?.data.reduce(
-        (acc: any, curr: any) => {
-          acc.push({ value: curr.id, label: curr.name });
-          return acc;
-        },
-        [allMembersData?.data]
-      );
-    }
-
-    return [];
-  }, [allMembersData?.data]);
 
   const { isSuperUser } = useSuperUser();
 
@@ -106,16 +68,6 @@ const EditCommittee = () => {
                     end_date: values.end_date.format("YYYY-MM-DD"),
                     is_active: values.is_active,
                   });
-                  addMemberMutate({
-                    committee: committeeId,
-                    member: values.member,
-                    committee_designation: committeeDetailsData?.data
-                      ?.members?.[0]?.committee_designation
-                      ? committeeDetailsData?.data?.members?.[0]
-                          ?.committee_designation
-                      : values.committee_designation,
-                    position_order: values.position_order,
-                  });
                 }}
                 layout="vertical"
               >
@@ -145,16 +97,6 @@ const EditCommittee = () => {
                     use12Hours={false}
                     className="w-full"
                   />
-                </Form.Item>
-                <Form.Item
-                  name="committee_designation"
-                  label="Committee Designation"
-                >
-                  <Input placeholder="committee designation" />
-                </Form.Item>
-
-                <Form.Item name="member" label="Add Member">
-                  <Select options={memberOptions} />
                 </Form.Item>
 
                 <Form.Item name="is_active" label="Committee Status">

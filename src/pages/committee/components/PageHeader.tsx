@@ -6,6 +6,7 @@ type PageHeaderProps = {
   title: string | React.ReactNode;
   subtitle: string | React.ReactNode;
   actions?: React.ReactNode;
+  subActions?: React.ReactNode;
   style?: boolean;
 };
 
@@ -15,6 +16,7 @@ const PageHeader = ({
   subtitle,
   actions,
   style,
+  subActions,
 }: PageHeaderProps) => {
   if (loading) {
     return (
@@ -38,7 +40,7 @@ const PageHeader = ({
         <Space size="middle">
           <Space.Compact direction="vertical">
             <Typography.Title level={3} className="mb-0">
-              {title}
+              {title} {subActions}
             </Typography.Title>
             <Typography.Text className="text-base" type="secondary">
               {subtitle}
