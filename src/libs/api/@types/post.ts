@@ -32,7 +32,7 @@ export interface PostsResponse {
 export interface PostResponse {
   data?: {
     id?: string | number;
-    created_at?: string;
+    created_at: Date | string;
     category?: {
       id: number | string;
       name?: string;
@@ -53,7 +53,7 @@ export interface PostResponse {
         id: number;
         comment: string;
         user: User;
-        created_at?: string;
+        created_at: Date | string;
       }
     ];
   };

@@ -19,7 +19,7 @@ export const timer = (date: Date) => {
   return `${hr}:${min}:${sec}.${milliSec}`;
 };
 
-export function formatDate(timestamp: Date | string): string {
+export function formatDate(timestamp?: Date | string): string {
   return moment(timestamp).fromNow();
 }
 

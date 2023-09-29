@@ -15,7 +15,6 @@ import {
   message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import moment from "moment";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import {
@@ -23,6 +22,7 @@ import {
   DeleteCommentPayload,
 } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
+import { formatDate } from "../../utils/date.helpers";
 
 const Post = () => {
   const { slag } = useParams();
@@ -81,9 +81,7 @@ const Post = () => {
               <Typography.Title className="mt-0" level={5}>
                 {postData?.data?.title}
               </Typography.Title>
-              {moment(`${postData?.data?.created_at}`)
-                .startOf("hour")
-                .fromNow()}
+              {formatDate(postData?.data?.created_at)}
             </Row>
             {postData?.data?.attachments?.map((pic) =>
               pic ? <Image alt="example" src={pic} /> : ""
@@ -110,9 +108,7 @@ const Post = () => {
                         <Typography.Paragraph>
                           {
                             <Typography.Paragraph type="secondary">
-                              {moment(`${comments?.created_at}`)
-                                .startOf("hours")
-                                .fromNow()}
+                              {formatDate(comments.created_at)}
                             </Typography.Paragraph>
                           }
                         </Typography.Paragraph>
