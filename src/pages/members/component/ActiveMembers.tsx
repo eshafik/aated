@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MoreOutlined } from "@ant-design/icons";
+import { EyeFilled, MoreOutlined } from "@ant-design/icons";
 import {
   App,
   Avatar,
@@ -14,10 +14,9 @@ import {
   Popconfirm,
   Row,
   Select,
-  Space,
   Spin,
-  Typography,
 } from "antd";
+import Meta from "antd/es/card/Meta";
 import { SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
@@ -33,6 +32,7 @@ import { searchAPI } from "../../../libs/api/searchAPI";
 const ActiveMembers = () => {
   const { isSuperUser } = useSuperUser();
   const { notification } = App.useApp();
+
   const {
     members: ActiveMemberData,
     isLoading,
@@ -108,7 +108,7 @@ const ActiveMembers = () => {
         layout="inline"
       >
         <div className="flex flex-wrap gap-2">
-          <Form.Item name="name" className="w-36 sm:w-40">
+          <Form.Item name="name" className="w-36 sm:w-36">
             <Input placeholder="Name" />
           </Form.Item>
 
@@ -162,8 +162,8 @@ const ActiveMembers = () => {
               showSearch
               allowClear
               placeholder="Job department"
-              options={jobDeptData?.data?.map(({ id, name }) => ({
-                value: id?.toString(),
+              options={jobDeptData?.data?.map(({ name }) => ({
+                value: name?.toLowerCase(),
                 label: name,
               }))}
             />
@@ -188,11 +188,21 @@ const ActiveMembers = () => {
         {ActiveMemberData?.data?.map((item, i) => (
           <Col key={i} xs={24} sm={24} md={12} lg={12} xl={8} xxl={6}>
             <Badge.Ribbon placement="start" text={`${item?.batch_no}th batch`}>
-              <Link to={`${item?.id}`}>
-                <Card
-                  className="h-48"
-                  hoverable
-                  extra={
+              {/* <Link to={`${item?.id}`}> */}
+              <Card
+                type="inner"
+                className="h-full"
+                style={{ width: 370 }}
+                cover={
+                  <Avatar
+                    shape="square"
+                    src={item?.profile_pic}
+                    style={{ height: 300 }}
+                  />
+                }
+                hoverable
+                actions={[
+                  isSuperUser ? (
                     <Dropdown
                       disabled={!isSuperUser}
                       menu={{
@@ -262,34 +272,22 @@ const ActiveMembers = () => {
                     >
                       <Button type="text" icon={<MoreOutlined />} />
                     </Dropdown>
-                  }
-                >
-                  <div>
-                    <Space align="start" size="middle">
-                      <Avatar
-                        size="large"
-                        className="bg-primary/[15%] border-none dark:bg-primary flex justify-center items-center"
-                        src={item?.profile_pic}
-                      />
-                      <Space.Compact direction="vertical">
-                        <Typography.Title level={5} className="mb-1 mt-1 ">
-                          {item?.name}
-                        </Typography.Title>
-                        <Typography.Paragraph
-                          type="secondary"
-                          className="mb-0"
-                          ellipsis={{ rows: 2 }}
-                        >
-                          {item?.student_id}
-                        </Typography.Paragraph>
-                        <Typography.Paragraph>
-                          {item?.professional_designation}
-                        </Typography.Paragraph>
-                      </Space.Compact>
-                    </Space>
-                  </div>
-                </Card>
-              </Link>
+                  ) : (
+                    ""
+                  ),
+                  <Link to={`${item?.id}`}>
+                    <Button type="text" icon={<EyeFilled />}>
+                      View
+                    </Button>
+                  </Link>,
+                ]}
+              >
+                <Meta
+                  avatar={<Avatar src={item?.profile_pic} />}
+                  title={item?.name}
+                  description={item?.professional_designation ?? "Null"}
+                />
+              </Card>
             </Badge.Ribbon>
           </Col>
         ))}

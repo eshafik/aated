@@ -186,9 +186,10 @@ const CommitteeMembers = () => {
               <Select
                 onSearch={filter.handleChangeName}
                 showSearch
+                allowClear
                 loading={loadingMembers}
-                options={ActiveMemberData?.data?.map(({ id, name }) => ({
-                  value: id?.toString(),
+                options={ActiveMemberData?.data?.map(({ name }) => ({
+                  value: name?.toLowerCase(),
                   label: name,
                 }))}
                 placeholder="Members"

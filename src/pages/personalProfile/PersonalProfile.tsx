@@ -1,10 +1,18 @@
 import { EditOutlined } from "@ant-design/icons";
-import { Avatar, Button, Col, Divider, Row, Skeleton, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Row,
+  Skeleton,
+  Typography,
+} from "antd";
 import { Briefcase, Info, Mail, MapPin, Phone } from "lucide-react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Cover from "../../assets/cover.jpg";
-import { StyledCard } from "../../components/StyleCard";
 import { profileAPI } from "../../libs/api/profileAPI";
 
 const PersonalProfile = () => {
@@ -21,9 +29,9 @@ const PersonalProfile = () => {
     <Skeleton loading={isLoading}>
       <Row justify={"center"}>
         <Col span={12}>
-          <StyledCard
-            className="shadow-2xl bg-white"
-            cover={<img className="absolute" src={Cover} />}
+          <Card
+            className="shadow-2xl bg-white w-[500px] sm:w-[500px] md:w-[500px] lg:w-[650px]"
+            cover={<img className="absolute top-0" src={Cover} />}
           >
             <div>
               <Row justify={"space-between"}>
@@ -33,7 +41,7 @@ const PersonalProfile = () => {
                       shape="circle"
                       size={"large"}
                       src={memberData?.data?.profile_pic}
-                      className="h-32 w-32 top-20"
+                      className="h-32 w-32 top-28"
                     />
                   ) : (
                     <Avatar className="h-32 w-24 rounded-lg" />
@@ -46,7 +54,7 @@ const PersonalProfile = () => {
                   <EditOutlined />
                 </Button>
               </Row>
-              <div className="mt-20">
+              <div className="mt-28">
                 <Typography.Title level={3}>
                   {memberData?.data?.name}
                 </Typography.Title>
@@ -89,7 +97,7 @@ const PersonalProfile = () => {
                 </div>
               ))}
             </div>
-          </StyledCard>
+          </Card>
         </Col>
       </Row>
     </Skeleton>

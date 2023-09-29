@@ -207,8 +207,8 @@ const SeeExperience = () => {
               <Select
                 showSearch
                 onSearch={filter.handleChangeJobDept}
-                options={jobDeptData?.data?.map(({ id, name }) => ({
-                  value: id?.toString(),
+                options={jobDeptData?.data?.map(({ name }) => ({
+                  value: name?.toLowerCase(),
                   label: name,
                 }))}
                 placeholder="Job Department"
