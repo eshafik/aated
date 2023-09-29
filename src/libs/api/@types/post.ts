@@ -2,7 +2,7 @@ export interface PostPayload {
   category?: string | number;
   title?: string;
   body?: string;
-  attachments?: string;
+  attachments?: string[];
 }
 
 export interface PostsResponse {
