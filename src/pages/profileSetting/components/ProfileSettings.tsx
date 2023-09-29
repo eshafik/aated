@@ -195,7 +195,7 @@ const ProfileSettings = () => {
                 loading={isLoading || isProfileLoading}
                 htmlType="submit"
               >
-                Save
+                Update
               </Button>
             </Form.Item>
           </Form>

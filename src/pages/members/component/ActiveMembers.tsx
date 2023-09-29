@@ -199,7 +199,7 @@ const ActiveMembers = () => {
                     shape="square"
                     src={
                       item?.profile_pic ??
-                      "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                      "https://t3.ftcdn.net/jpg/05/79/68/24/360_F_579682479_j4jRfx0nl3C8vMrTYVapFnGP8EgNHgfk.jpg"
                     }
                     style={{ height: 300 }}
                   />
