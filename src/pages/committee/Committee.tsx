@@ -75,43 +75,57 @@ const Committee = () => {
           )
         }
       />
-      <Form
-        form={form}
-        onFinish={(values) => {
-          mutate({
-            name: values.name,
-            start_date: values.start_date.format("YYYY-MM-DD"),
-            end_date: values.end_date.format("YYYY-MM-DD"),
-          });
-        }}
-        layout="vertical"
+      <Modal
+        title="Create Committee"
+        open={isModalOpen}
+        onOk={form.submit}
+        onCancel={handleOk}
+        okText="Save"
+        okType="primary"
+        confirmLoading={loadingCreateCommittee}
+        centered
       >
-        <Modal
-          title="Create Committee"
-          open={isModalOpen}
-          onOk={form.submit}
-          onCancel={handleOk}
-          okText="Save"
-          okType="primary"
-          confirmLoading={loadingCreateCommittee}
-          centered
+        <Form
+          form={form}
+          requiredMark={"optional"}
+          onFinish={(values) => {
+            mutate({
+              name: values.name,
+              start_date: values.start_date.format("YYYY-MM-DD"),
+              end_date: values.end_date.format("YYYY-MM-DD"),
+            });
+          }}
+          layout="vertical"
         >
           <Form.Item
+            label="Name"
             name="name"
             rules={[{ required: true, message: "Please Enter Committee Name" }]}
           >
             <Input placeholder="Committee Name" />
           </Form.Item>
 
-          <Form.Item name="start_date">
+          <Form.Item
+            label="Start Date"
+            name="start_date"
+            rules={[
+              { required: true, message: "Please Enter Committee Start Date" },
+            ]}
+          >
             <DatePicker className="w-full" placeholder="Start Date" />
           </Form.Item>
 
-          <Form.Item name="end_date">
+          <Form.Item
+            label="End Date"
+            name="end_date"
+            rules={[
+              { required: true, message: "Please Enter Committee End Date" },
+            ]}
+          >
             <DatePicker className="w-full" placeholder="End Date" />
           </Form.Item>
-        </Modal>
-      </Form>
+        </Form>
+      </Modal>
       {data?.data?.map((items, index) => (
         <Space key={index} size={"large"} direction="vertical">
           <Row gutter={[48, 48]}>

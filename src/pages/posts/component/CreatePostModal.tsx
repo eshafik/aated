@@ -4,10 +4,18 @@ import AvatarUploader from "../../../container/AvaterUploader";
 const CreatePostModal = () => {
   return (
     <>
-      <Form.Item name="title">
+      <Form.Item
+        label="Post Title"
+        name="title"
+        rules={[{ required: true, message: "Please Write title of your post" }]}
+      >
         <Input placeholder="Title" />
       </Form.Item>
-      <Form.Item name="category">
+      <Form.Item
+        label="Post Category"
+        name="category"
+        rules={[{ required: true, message: "Please Select Category" }]}
+      >
         <Select
           placeholder="Post category"
           options={[
@@ -18,10 +26,14 @@ const CreatePostModal = () => {
           ]}
         />
       </Form.Item>
-      <Form.Item name="body">
+      <Form.Item
+        label="Post Description"
+        name="body"
+        rules={[{ required: true, message: "Please write some description" }]}
+      >
         <Input.TextArea rows={5} placeholder="Description" />
       </Form.Item>
-      <Form.Item name={["attachments", 0]}>
+      <Form.Item label="Attachments" name={["attachments", 0]}>
         <AvatarUploader />
       </Form.Item>
     </>

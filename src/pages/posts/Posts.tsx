@@ -115,31 +115,34 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
             </div>
           </Form>
         </Card>
-        <Form
-          form={form}
-          onFinish={(values) =>
-            createPostMutate({
-              attachments:
-                values.attachments[0] == null ? null : values.attachments,
-              body: values.body,
-              category: values.category,
-              title: values.title,
-            })
-          }
+
+        <Modal
+          title="create post"
+          open={isModalOpen}
+          onOk={form.submit}
+          onCancel={handleOk}
+          okText="Submit"
+          okType="primary"
+          confirmLoading={isLoading}
+          centered
         >
-          <Modal
-            title="create post"
-            open={isModalOpen}
-            onOk={form.submit}
-            onCancel={handleOk}
-            okText="Submit"
-            okType="primary"
-            confirmLoading={isLoading}
-            centered
+          <Form
+            layout="vertical"
+            requiredMark={"optional"}
+            form={form}
+            onFinish={(values) =>
+              createPostMutate({
+                attachments:
+                  values.attachments[0] == null ? null : values.attachments,
+                body: values.body,
+                category: values.category,
+                title: values.title,
+              })
+            }
           >
             <CreatePostModal />
-          </Modal>
-        </Form>
+          </Form>
+        </Modal>
 
         {postsData?.data?.map((items, i) => (
           <Card

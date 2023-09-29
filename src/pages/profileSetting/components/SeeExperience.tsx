@@ -91,39 +91,40 @@ const SeeExperience = () => {
         }
       >
         <Skeleton loading={experienceLoading}>
-          <Form
-            form={form}
-            initialValues={{
-              company_name: experienceData?.company_name,
-            }}
-            onFinish={(values) =>
-              mutateCreateExperience({
-                company_name: values.company_name,
-                designation: values.designation,
-                job_department: values.job_department,
-                job_location: values.job_location,
-                responsibilities: values.responsibilities,
-                start: values.start_date.format("YYYY-MM-DD"),
-                end: values.end_date
-                  ? values.end_date.format("YYYY-MM-DD")
-                  : null,
-                working_years: values.working_year,
-              })
-            }
-            requiredMark="optional"
-            layout="vertical"
+          <Modal
+            title="Add Experience"
+            open={isModalOpen}
+            onOk={form.submit}
+            onCancel={handleOk}
+            okText="Save"
+            okType="primary"
+            confirmLoading={loadingAddExp}
+            centered
           >
-            <Modal
-              title="Add Experience"
-              open={isModalOpen}
-              onOk={form.submit}
-              onCancel={handleOk}
-              okText="Save"
-              okType="primary"
-              confirmLoading={loadingAddExp}
-              centered
+            <Form
+              form={form}
+              initialValues={{
+                company_name: experienceData?.company_name,
+              }}
+              onFinish={(values) =>
+                mutateCreateExperience({
+                  company_name: values.company_name,
+                  designation: values.designation,
+                  job_department: values.job_department,
+                  job_location: values.job_location,
+                  responsibilities: values.responsibilities,
+                  start: values.start_date.format("YYYY-MM-DD"),
+                  end: values.end_date
+                    ? values.end_date.format("YYYY-MM-DD")
+                    : null,
+                  working_years: values.working_year,
+                })
+              }
+              requiredMark="optional"
+              layout="vertical"
             >
               <Form.Item
+                label="Company Name"
                 rules={[
                   {
                     required: true,
@@ -136,6 +137,7 @@ const SeeExperience = () => {
               </Form.Item>
 
               <Form.Item
+                label="Designation"
                 name="designation"
                 rules={[
                   {
@@ -148,6 +150,7 @@ const SeeExperience = () => {
               </Form.Item>
 
               <Form.Item
+                label="Start Date"
                 name="start_date"
                 rules={[
                   {
@@ -163,7 +166,7 @@ const SeeExperience = () => {
                 />
               </Form.Item>
 
-              <Form.Item name="end_date">
+              <Form.Item label="End Date" name="end_date">
                 <DatePicker
                   format={"YYYY-MM-DD"}
                   className="w-full"
@@ -172,6 +175,7 @@ const SeeExperience = () => {
               </Form.Item>
 
               <Form.Item
+                label="Working Year"
                 name="working_year"
                 rules={[
                   {
@@ -184,6 +188,7 @@ const SeeExperience = () => {
               </Form.Item>
 
               <Form.Item
+                label="Job Location"
                 name="job_location"
                 rules={[
                   {
@@ -196,6 +201,7 @@ const SeeExperience = () => {
               </Form.Item>
 
               <Form.Item
+                label="Responsibilities"
                 name="responsibilities"
                 rules={[
                   {
@@ -208,6 +214,7 @@ const SeeExperience = () => {
               </Form.Item>
 
               <Form.Item
+                label="Job Department"
                 name="job_department"
                 rules={[
                   {
@@ -226,8 +233,8 @@ const SeeExperience = () => {
                   placeholder="Job Department"
                 />
               </Form.Item>
-            </Modal>
-          </Form>
+            </Form>
+          </Modal>
         </Skeleton>
 
         {experiencesData?.data?.length ? (

@@ -9,30 +9,28 @@ import {
   Col,
   Dropdown,
   Form,
-  Input,
   Pagination,
   Popconfirm,
   Row,
-  Select,
   Spin,
 } from "antd";
 import Meta from "antd/es/card/Meta";
 import { SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
-import { useJobDeptSearch } from "../../../config/hook/useJobDeptSearch";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 import { useSuperUser } from "../../../container/ProfileProvider";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
 import { membersAPI } from "../../../libs/api/membersAPI";
-import { searchAPI } from "../../../libs/api/searchAPI";
+import MemberSearch from "../containers/MemberSearch";
 
 const ActiveMembers = () => {
   const { isSuperUser } = useSuperUser();
   const { notification } = App.useApp();
   const [page, setPage] = useState(0);
+  const [form] = Form.useForm();
 
   const {
     members: ActiveMemberData,
@@ -40,36 +38,12 @@ const ActiveMembers = () => {
     filter: memberFilter,
   } = useMemberList();
 
-  const [form] = Form.useForm();
-
-  const { data: batchData } = useQuery(["batch-list"], () =>
-    searchAPI.getBatchList()
-  );
-
-  const { data: occupationData } = useQuery(["occupation-list"], () =>
-    searchAPI.getOccupationList()
-  );
-
-  const { filter, jobDept: jobDeptData } = useJobDeptSearch();
-
-  const employeeOptions = [
-    {
-      label: "Employed",
-      value: "employed",
-    },
-    {
-      label: "Unemployed",
-      value: "unemployed",
-    },
-    {
-      label: "Student",
-      value: "student",
-    },
-  ];
-
   const { mutate } = useMutation(
     (payload: ApproveMembersPayload) => membersAPI.updateMemberRole(payload),
     {
+      onSuccess: () => {
+        notification.success({ message: "Role Updated" });
+      },
       onError: (error: Error) => {
         notification.error({ message: error.message });
       },
@@ -86,7 +60,6 @@ const ActiveMembers = () => {
         onClick={() => setIsFiltersVisible((prev) => !prev)}
         icon={<SlidersHorizontal />}
       />
-
       <Form
         size="large"
         className={twMerge(
@@ -108,88 +81,12 @@ const ActiveMembers = () => {
         }}
         layout="inline"
       >
-        <div className="flex flex-wrap gap-2">
-          <Form.Item name="name" className="w-36 sm:w-40">
-            <Input placeholder="Name" />
-          </Form.Item>
-
-          <Form.Item name="designation" className="w-36 sm:w-40">
-            <Input placeholder="Designation" />
-          </Form.Item>
-
-          <Form.Item name="student_id" className="w-36 sm:w-40">
-            <Input placeholder="Student id" />
-          </Form.Item>
-
-          <Form.Item name="location" className="w-36 sm:w-40">
-            <Input placeholder="Location" />
-          </Form.Item>
-
-          <Form.Item name="company" className="w-36 sm:w-40">
-            <Input placeholder="Company" />
-          </Form.Item>
-
-          <Form.Item name="skills" className="w-36 sm:w-40">
-            <Input placeholder="Skills" />
-          </Form.Item>
-
-          <Form.Item name="employment_status" className="w-36 sm:w-40">
-            <Select placeholder="Employee Status" options={employeeOptions} />
-          </Form.Item>
-
-          <Form.Item name="batch" className="w-36 sm:w-40">
-            <Select
-              placeholder="Batch"
-              options={batchData?.data?.map(({ id, name }) => ({
-                value: id?.toString(),
-                label: name,
-              }))}
-            />
-          </Form.Item>
-
-          <Form.Item name="occupation_type" className="w-38 sm:w-40">
-            <Select
-              placeholder="Occupation"
-              options={occupationData?.data?.map(({ id, name }) => ({
-                value: id?.toString(),
-                label: name,
-              }))}
-            />
-          </Form.Item>
-
-          <Form.Item name="job_department" className="w-38 sm:w-40">
-            <Select
-              onSearch={filter.handleChangeJobDept}
-              showSearch
-              allowClear
-              placeholder="Job department"
-              options={jobDeptData?.data?.map(({ name }) => ({
-                value: name?.toLowerCase(),
-                label: name,
-              }))}
-            />
-          </Form.Item>
-
-          <div className="flex ml-auto">
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Apply Filter
-              </Button>
-            </Form.Item>
-
-            <Form.Item>
-              <Button onClick={() => form.resetFields()} htmlType="reset">
-                Reset Filter
-              </Button>
-            </Form.Item>
-          </div>
-        </div>
+        <MemberSearch form={form} />
       </Form>
       <Row gutter={[12, 12]}>
         {ActiveMemberData?.data?.map((item, i) => (
           <Col key={i} xs={24} sm={24} md={12} lg={12} xl={8} xxl={6}>
             <Badge.Ribbon placement="start" text={`${item?.batch_no}th batch`}>
-              {/* <Link to={`${item?.id}`}> */}
               <Card
                 type="inner"
                 className="h-full"
@@ -206,79 +103,75 @@ const ActiveMembers = () => {
                 }
                 hoverable
                 actions={[
-                  isSuperUser ? (
-                    <Dropdown
-                      disabled={!isSuperUser}
-                      menu={{
-                        items: [
-                          {
-                            key: "admin",
-                            label: (
-                              <Popconfirm
-                                title="Make Admin?"
-                                description="Are you sure to Make Admin"
-                                onConfirm={() =>
-                                  mutate({
-                                    role: "admin",
-                                    user_id: item?.id,
-                                  })
-                                }
-                                okText="Yes"
-                                cancelText="No"
-                                okType="danger"
-                              >
-                                Make Admin
-                              </Popconfirm>
-                            ),
-                          },
-                          {
-                            key: "member",
-                            label: (
-                              <Popconfirm
-                                title="Make member?"
-                                description="Are you sure to Make member"
-                                onConfirm={() =>
-                                  mutate({
-                                    role: "member",
-                                    user_id: item?.id,
-                                  })
-                                }
-                                okText="Yes"
-                                cancelText="No"
-                                okType="danger"
-                              >
-                                Make Member
-                              </Popconfirm>
-                            ),
-                          },
-                          {
-                            key: "moderator",
-                            label: (
-                              <Popconfirm
-                                title="Make member?"
-                                description="Are you sure to Make member"
-                                onConfirm={() =>
-                                  mutate({
-                                    role: "moderator",
-                                    user_id: item?.id,
-                                  })
-                                }
-                                okText="Yes"
-                                cancelText="No"
-                                okType="danger"
-                              >
-                                Make moderator
-                              </Popconfirm>
-                            ),
-                          },
-                        ],
-                      }}
-                    >
-                      <Button type="text" icon={<SettingOutlined />} />
-                    </Dropdown>
-                  ) : (
-                    ""
-                  ),
+                  <Dropdown
+                    disabled={!isSuperUser}
+                    menu={{
+                      items: [
+                        {
+                          key: "admin",
+                          label: (
+                            <Popconfirm
+                              title="Make Admin?"
+                              description="Are you sure to Make Admin"
+                              onConfirm={() =>
+                                mutate({
+                                  role: "admin",
+                                  user_id: item?.id,
+                                })
+                              }
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make Admin
+                            </Popconfirm>
+                          ),
+                        },
+                        {
+                          key: "member",
+                          label: (
+                            <Popconfirm
+                              title="Make member?"
+                              description="Are you sure to Make member"
+                              onConfirm={() =>
+                                mutate({
+                                  role: "member",
+                                  user_id: item?.id,
+                                })
+                              }
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make Member
+                            </Popconfirm>
+                          ),
+                        },
+                        {
+                          key: "moderator",
+                          label: (
+                            <Popconfirm
+                              title="Make member?"
+                              description="Are you sure to Make member"
+                              onConfirm={() =>
+                                mutate({
+                                  role: "moderator",
+                                  user_id: item?.id,
+                                })
+                              }
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make moderator
+                            </Popconfirm>
+                          ),
+                        },
+                      ],
+                    }}
+                  >
+                    <Button type="text" icon={<SettingOutlined />} />
+                  </Dropdown>,
                   <Link to={`${item?.id}`}>
                     <Button type="text" icon={<EyeOutlined />}>
                       View
@@ -289,7 +182,7 @@ const ActiveMembers = () => {
                 <Meta
                   avatar={<Avatar src={item?.profile_pic} />}
                   title={item?.name}
-                  description={item?.professional_designation ?? "Null"}
+                  description={item?.professional_designation ?? "null"}
                 />
               </Card>
             </Badge.Ribbon>
