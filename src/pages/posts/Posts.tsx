@@ -119,7 +119,8 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
           form={form}
           onFinish={(values) =>
             createPostMutate({
-              attachments: values.attachments ? values.attachments : null,
+              attachments:
+                values.attachments[0] == null ? null : values.attachments,
               body: values.body,
               category: values.category,
               title: values.title,
