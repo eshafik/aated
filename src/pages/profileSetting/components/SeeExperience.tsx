@@ -9,6 +9,7 @@ import {
   Modal,
   Result,
   Select,
+  Skeleton,
   Spin,
   Tooltip,
   Typography,
@@ -27,11 +28,17 @@ const SeeExperience = () => {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [editMode, setEditMode] = useState(false);
+  const [getId, setId] = useState("");
 
-  const { data: experienceData, isLoading } = useQuery(
+  const { data: experiencesData, isLoading } = useQuery(
     ["experience-list"],
     () => profileAPI.getExperiences()
   );
+  const { data: experienceData, isLoading: experienceLoading } = useQuery(
+    ["experience-list"],
+    () => profileAPI.getExperience(getId)
+  );
+  console.log(experienceData);
 
   // const { mutate: mutateDeleteExperience } = useMutation(
   //   ["experience-list"],
@@ -63,8 +70,9 @@ const SeeExperience = () => {
       }
     );
 
-  const showModal = () => {
+  const showModal = (id?: string) => {
     setIsModalOpen(true);
+    setId(id as string);
   };
 
   const handleOk = () => {
@@ -82,147 +90,152 @@ const SeeExperience = () => {
           </Button>
         }
       >
-        <Form
-          form={form}
-          onFinish={(values) =>
-            mutateCreateExperience({
-              company_name: values.company_name,
-              designation: values.designation,
-              job_department: values.job_department,
-              job_location: values.job_location,
-              responsibilities: values.responsibilities,
-              start: values.start_date.format("YYYY-MM-DD"),
-              end: values.end_date
-                ? values.end_date.format("YYYY-MM-DD")
-                : null,
-              working_years: values.working_year,
-            })
-          }
-          requiredMark="optional"
-          layout="vertical"
-        >
-          <Modal
-            title="Add Experience"
-            open={isModalOpen}
-            onOk={form.submit}
-            onCancel={handleOk}
-            okText="Save"
-            okType="primary"
-            confirmLoading={loadingAddExp}
-            centered
+        <Skeleton loading={experienceLoading}>
+          <Form
+            form={form}
+            initialValues={{
+              company_name: experienceData?.company_name,
+            }}
+            onFinish={(values) =>
+              mutateCreateExperience({
+                company_name: values.company_name,
+                designation: values.designation,
+                job_department: values.job_department,
+                job_location: values.job_location,
+                responsibilities: values.responsibilities,
+                start: values.start_date.format("YYYY-MM-DD"),
+                end: values.end_date
+                  ? values.end_date.format("YYYY-MM-DD")
+                  : null,
+                working_years: values.working_year,
+              })
+            }
+            requiredMark="optional"
+            layout="vertical"
           >
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter your Company Name",
-                },
-              ]}
-              name="company_name"
+            <Modal
+              title="Add Experience"
+              open={isModalOpen}
+              onOk={form.submit}
+              onCancel={handleOk}
+              okText="Save"
+              okType="primary"
+              confirmLoading={loadingAddExp}
+              centered
             >
-              <Input placeholder="X LTD" />
-            </Form.Item>
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your Company Name",
+                  },
+                ]}
+                name="company_name"
+              >
+                <Input placeholder="X LTD" />
+              </Form.Item>
 
-            <Form.Item
-              name="designation"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter your Designation",
-                },
-              ]}
-            >
-              <Input placeholder="Professional designation" />
-            </Form.Item>
+              <Form.Item
+                name="designation"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your Designation",
+                  },
+                ]}
+              >
+                <Input placeholder="Professional designation" />
+              </Form.Item>
 
-            <Form.Item
-              name="start_date"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter your Job Start Date",
-                },
-              ]}
-            >
-              <DatePicker
-                format={"YYYY-MM-DD"}
-                className="w-full"
-                placeholder="Job Start Date"
-              />
-            </Form.Item>
+              <Form.Item
+                name="start_date"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your Job Start Date",
+                  },
+                ]}
+              >
+                <DatePicker
+                  format={"YYYY-MM-DD"}
+                  className="w-full"
+                  placeholder="Job Start Date"
+                />
+              </Form.Item>
 
-            <Form.Item name="end_date">
-              <DatePicker
-                format={"YYYY-MM-DD"}
-                className="w-full"
-                placeholder="Job End Date"
-              />
-            </Form.Item>
+              <Form.Item name="end_date">
+                <DatePicker
+                  format={"YYYY-MM-DD"}
+                  className="w-full"
+                  placeholder="Job End Date"
+                />
+              </Form.Item>
 
-            <Form.Item
-              name="working_year"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter your Working Year",
-                },
-              ]}
-            >
-              <InputNumber className="w-full" placeholder="1 years" />
-            </Form.Item>
+              <Form.Item
+                name="working_year"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your Working Year",
+                  },
+                ]}
+              >
+                <InputNumber className="w-full" placeholder="1 years" />
+              </Form.Item>
 
-            <Form.Item
-              name="job_location"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter your Job Location",
-                },
-              ]}
-            >
-              <Input placeholder="Dhanmondi" />
-            </Form.Item>
+              <Form.Item
+                name="job_location"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your Job Location",
+                  },
+                ]}
+              >
+                <Input placeholder="Dhanmondi" />
+              </Form.Item>
 
-            <Form.Item
-              name="responsibilities"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter your Job responsibilities",
-                },
-              ]}
-            >
-              <TextArea placeholder="Project Manager" />
-            </Form.Item>
+              <Form.Item
+                name="responsibilities"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your Job responsibilities",
+                  },
+                ]}
+              >
+                <TextArea placeholder="Project Manager" />
+              </Form.Item>
 
-            <Form.Item
-              name="job_department"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter you department name",
-                },
-              ]}
-            >
-              <Select
-                showSearch
-                onSearch={filter.handleChangeJobDept}
-                options={jobDeptData?.data?.map(({ name }) => ({
-                  value: name?.toLowerCase(),
-                  label: name,
-                }))}
-                placeholder="Job Department"
-              />
-            </Form.Item>
-          </Modal>
-        </Form>
+              <Form.Item
+                name="job_department"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter you department name",
+                  },
+                ]}
+              >
+                <Select
+                  showSearch
+                  onSearch={filter.handleChangeJobDept}
+                  options={jobDeptData?.data?.map(({ name }) => ({
+                    value: name?.toLowerCase(),
+                    label: name,
+                  }))}
+                  placeholder="Job Department"
+                />
+              </Form.Item>
+            </Modal>
+          </Form>
+        </Skeleton>
 
-        {experienceData?.data?.length ? (
-          experienceData?.data?.map((exp, i) => (
+        {experiencesData?.data?.length ? (
+          experiencesData?.data?.map((exp, i) => (
             <div key={i} className="mb-8">
               <Tooltip title="Edit Mode">
                 <EditOutlined
-                  onClick={() => showModal()}
+                  onClick={() => showModal(exp?.id.toString())}
                   className="absolute right-7"
                 />
               </Tooltip>

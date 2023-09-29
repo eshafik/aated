@@ -29,6 +29,10 @@ const EditCommittee = () => {
     (payload: CommitteePayload) =>
       committeeAPI.updateCommittee(payload, committeeId as string),
     {
+      onSuccess: () => {
+        notification.success({ message: "Successfully updated" }),
+          navigate(`/committee/members/${committeeDetailsData?.data?.id}`);
+      },
       onError: (error: Error) => {
         notification.error({ message: error.message });
       },

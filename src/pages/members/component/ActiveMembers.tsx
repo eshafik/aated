@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EyeFilled, MoreOutlined } from "@ant-design/icons";
+import { EyeOutlined, SettingOutlined } from "@ant-design/icons";
 import {
   App,
   Avatar,
@@ -89,7 +89,7 @@ const ActiveMembers = () => {
       <Form
         size="large"
         className={twMerge(
-          "hidden xl:block mb-3 ml-auto",
+          "hidden xl:block mb-3 mr-7",
           isFiltersVisible && "block"
         )}
         form={form}
@@ -108,7 +108,7 @@ const ActiveMembers = () => {
         layout="inline"
       >
         <div className="flex flex-wrap gap-2">
-          <Form.Item name="name" className="w-36 sm:w-36">
+          <Form.Item name="name" className="w-36 sm:w-40">
             <Input placeholder="Name" />
           </Form.Item>
 
@@ -196,7 +196,10 @@ const ActiveMembers = () => {
                 cover={
                   <Avatar
                     shape="square"
-                    src={item?.profile_pic}
+                    src={
+                      item?.profile_pic ??
+                      "https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg"
+                    }
                     style={{ height: 300 }}
                   />
                 }
@@ -270,13 +273,13 @@ const ActiveMembers = () => {
                         ],
                       }}
                     >
-                      <Button type="text" icon={<MoreOutlined />} />
+                      <Button type="text" icon={<SettingOutlined />} />
                     </Dropdown>
                   ) : (
                     ""
                   ),
                   <Link to={`${item?.id}`}>
-                    <Button type="text" icon={<EyeFilled />}>
+                    <Button type="text" icon={<EyeOutlined />}>
                       View
                     </Button>
                   </Link>,

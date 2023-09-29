@@ -7,7 +7,7 @@ const Members = () => {
 
   return (
     <Tabs
-      className="mt-5 pr-12"
+      className="mt-5"
       tabBarStyle={{
         backgroundColor: token.colorBgLayout,
         position: "sticky",

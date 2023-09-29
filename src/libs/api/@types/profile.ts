@@ -65,7 +65,7 @@ export interface UpdateProfilePayload {
 
 export interface OccupationType {}
 
-export interface ExperienceResponse {
+export interface ExperiencesResponse {
   data?: [
     {
       id: number;
@@ -89,6 +89,27 @@ export interface ExperienceResponse {
     }
   ];
 }
+
+export type ExperienceResponse = {
+  id: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  created_by: string[];
+  updated_by: string[];
+  designation: string;
+  company_name: string;
+  start: string;
+  end: string;
+  working_years: number;
+  job_location: string;
+  responsibilities: string;
+  user: number;
+  job_department: {
+    id?: number | string;
+    name?: string;
+  };
+};
 
 export interface ExperiencePayload {
   id?: number | string;

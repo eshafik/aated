@@ -3,6 +3,7 @@ import { authService } from "../auth/auth.service";
 import {
   ExperiencePayload,
   ExperienceResponse,
+  ExperiencesResponse,
   UpdateProfilePayload,
   UpdateProfileResponse,
 } from "./@types/profile";
@@ -29,8 +30,21 @@ class ProfileAPI {
   }
 
   getExperiences() {
+    return this.http.get<ExperiencesResponse>(
+      `api/v1/profiles/personal/experiences/`
+    );
+  }
+
+  getExperience(id: string | number) {
     return this.http.get<ExperienceResponse>(
-      "api/v1/profiles/personal/experiences/"
+      `api/v1/profiles/personal/experiences/${id}/`
+    );
+  }
+
+  updateExperience(payload: ExperiencePayload, id?: string | number) {
+    return this.http.patch(
+      `api/v1/profiles/personal/experiences/${id}/`,
+      payload
     );
   }
 
