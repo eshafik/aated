@@ -32,6 +32,7 @@ import { searchAPI } from "../../../libs/api/searchAPI";
 const ActiveMembers = () => {
   const { isSuperUser } = useSuperUser();
   const { notification } = App.useApp();
+  const [page, setPage] = useState(0);
 
   const {
     members: ActiveMemberData,
@@ -295,8 +296,16 @@ const ActiveMembers = () => {
           </Col>
         ))}
       </Row>
-      <div style={{ float: "right" }} className="mt-3">
-        <Pagination total={ActiveMemberData?.meta_data?.page_size} />
+      <div style={{ float: "right" }} className="sticky bottom-10">
+        <Pagination
+          className="px-4"
+          size="default"
+          total={ActiveMemberData?.meta_data?.page_size}
+          pageSize={10}
+          current={page}
+          onChange={(page) => setPage(page)}
+          showQuickJumper={true}
+        />
       </div>
     </Spin>
   );
