@@ -18,7 +18,6 @@ import {
   message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import moment from "moment";
 import { FC, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
@@ -28,6 +27,7 @@ import { useComment } from "../../config/hook/usecomment";
 import { PostPayload } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
 import { profileAPI } from "../../libs/api/profileAPI";
+import { formatDate } from "../../utils/date.helpers";
 import CreatePostModal from "./component/CreatePostModal";
 
 type PostProps = {
@@ -192,7 +192,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
                 {items.title}
               </Typography.Title>
               <Typography.Paragraph>
-                {moment(`${items?.created_at}`).startOf("hours").fromNow()}
+                {formatDate(items?.created_at)}
               </Typography.Paragraph>
             </Row>
             {items.attachments?.[0] ? (
