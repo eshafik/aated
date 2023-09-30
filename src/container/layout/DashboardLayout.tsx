@@ -43,17 +43,14 @@ const DashboardLayout = () => {
           breakpoint="xl"
           collapsedWidth="0"
           collapsible
-          className="bg-blue-400 "
+          className="bg-blue-400"
           collapsed={collapsed}
           onCollapse={() => setCollapsed(!collapsed)}
         >
           <SideMenu />
         </Sider>
         <Layout>
-          <Header
-            style={{ padding: 0 }}
-            className="bg-white  border-sky-500 w-full"
-          >
+          <Header style={{ padding: 0 }} className="bg-white w-full">
             <Row justify={"space-between"}>
               <Col>
                 <Button

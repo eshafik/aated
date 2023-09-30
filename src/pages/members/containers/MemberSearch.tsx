@@ -1,5 +1,4 @@
-import { Button, Form, FormInstance, Input, Select } from "antd";
-import { FC } from "react";
+import { Form, Input, Select } from "antd";
 import { useQuery } from "react-query";
 import { useJobDeptSearch } from "../../../config/hook/useJobDeptSearch";
 import { searchAPI } from "../../../libs/api/searchAPI";
@@ -19,11 +18,11 @@ const employeeOptions = [
   },
 ];
 
-type MemberSearchProps = {
-  form: FormInstance;
-};
+// type MemberSearchProps = {
+//   form: FormInstance;
+// };
 
-const MemberSearch: FC<MemberSearchProps> = ({ form }) => {
+const MemberSearch = () => {
   const { data: batchData } = useQuery(["batch-list"], () =>
     searchAPI.getBatchList()
   );
@@ -36,35 +35,35 @@ const MemberSearch: FC<MemberSearchProps> = ({ form }) => {
 
   return (
     <div className="flex flex-wrap gap-2">
-      <Form.Item name="name" className="w-36 sm:w-40">
+      <Form.Item name="name" className="w-48 sm:w-52">
         <Input placeholder="Name" />
       </Form.Item>
 
-      <Form.Item name="designation" className="w-36 sm:w-40">
+      <Form.Item name="designation" className="w-48 sm:w-52">
         <Input placeholder="Designation" />
       </Form.Item>
 
-      <Form.Item name="student_id" className="w-36 sm:w-40">
+      <Form.Item name="student_id" className="w-48 sm:w-52">
         <Input placeholder="Student id" />
       </Form.Item>
 
-      <Form.Item name="location" className="w-36 sm:w-40">
+      <Form.Item name="location" className="w-48 sm:w-52">
         <Input placeholder="Location" />
       </Form.Item>
 
-      <Form.Item name="company" className="w-36 sm:w-40">
+      <Form.Item name="company" className="w-48 sm:w-52">
         <Input placeholder="Company" />
       </Form.Item>
 
-      <Form.Item name="skills" className="w-36 sm:w-40">
+      <Form.Item name="skills" className="w-48 sm:w-52">
         <Input placeholder="Skills" />
       </Form.Item>
 
-      <Form.Item name="employment_status" className="w-36 sm:w-40">
+      <Form.Item name="employment_status" className="w-48 sm:w-52">
         <Select placeholder="Employee Status" options={employeeOptions} />
       </Form.Item>
 
-      <Form.Item name="batch" className="w-36 sm:w-40">
+      <Form.Item name="batch" className="w-48 sm:w-52">
         <Select
           placeholder="Batch"
           options={batchData?.data?.map(({ id, name }) => ({
@@ -74,7 +73,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ form }) => {
         />
       </Form.Item>
 
-      <Form.Item name="occupation_type" className="w-38 sm:w-40">
+      <Form.Item name="occupation_type" className="w-48 sm:w-52">
         <Select
           placeholder="Occupation"
           options={occupationData?.data?.map(({ id, name }) => ({
@@ -84,7 +83,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ form }) => {
         />
       </Form.Item>
 
-      <Form.Item name="job_department" className="w-38 sm:w-40">
+      <Form.Item name="job_department" className="w-48 sm:w-52">
         <Select
           onSearch={filter.handleChangeJobDept}
           showSearch
@@ -97,7 +96,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ form }) => {
         />
       </Form.Item>
 
-      <div className="flex ml-auto">
+      {/* <div className="flex ml-auto">
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Apply Filter
@@ -109,7 +108,7 @@ const MemberSearch: FC<MemberSearchProps> = ({ form }) => {
             Reset Filter
           </Button>
         </Form.Item>
-      </div>
+      </div> */}
     </div>
   );
 };

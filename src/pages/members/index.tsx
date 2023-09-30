@@ -1,11 +1,13 @@
 import { Tabs, theme } from "antd";
+import { useSuperUser } from "../../container/ProfileProvider";
 import ActiveMembers from "./component/ActiveMembers";
 import PendingMembers from "./component/PendingMembers";
 
 const Members = () => {
   const { token } = theme.useToken();
+  const { isSuperUser } = useSuperUser();
 
-  return (
+  return isSuperUser ? (
     <Tabs
       className="mt-5"
       tabBarStyle={{
@@ -27,6 +29,8 @@ const Members = () => {
         },
       ]}
     />
+  ) : (
+    <ActiveMembers />
   );
 };
 

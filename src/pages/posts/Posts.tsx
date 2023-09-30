@@ -59,6 +59,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
     filter,
     posts: postsData,
     isLoading: loadingPostList,
+    refetch,
   } = usePostList();
 
   useEffect(() => {
@@ -117,7 +118,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
         </Card>
 
         <Modal
-          title="create post"
+          title="Create post"
           open={isModalOpen}
           onOk={form.submit}
           onCancel={handleOk}
@@ -146,6 +147,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
 
         {postsData?.data?.map((items, i) => (
           <Card
+            onScroll={() => refetch()}
             key={i}
             title={
               <Space>
