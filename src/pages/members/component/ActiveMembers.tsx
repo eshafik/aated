@@ -52,14 +52,10 @@ const ActiveMembers = () => {
     }
   );
 
-  // const [isFiltersVisible, setIsFiltersVisible] = useState(false);
-
-  const showModal = () => {
+  const [isFiltersVisible, setIsFiltersVisible] = useState(false);
+  const handelOk = () => {
     setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
+    setIsFiltersVisible(true);
   };
 
   return (
@@ -74,15 +70,19 @@ const ActiveMembers = () => {
         <Button
           title="Member Filter"
           icon={<SlidersHorizontal />}
-          onClick={() => showModal()}
+          onClick={() => handelOk()}
           type="text"
         />
-        <Button
-          title="Reload"
-          type="text"
-          icon={<RotateCw />}
-          onClick={() => window.location.reload()}
-        />
+        {isFiltersVisible ? (
+          <Button
+            title="Reload"
+            type="text"
+            icon={<RotateCw />}
+            onClick={() => window.location.reload()}
+          />
+        ) : (
+          ""
+        )}
       </Space>
       <Form
         size="large"
@@ -108,7 +108,7 @@ const ActiveMembers = () => {
         <Modal
           title="Member Search"
           open={isModalOpen}
-          onCancel={handleOk}
+          onCancel={() => setIsModalOpen(false)}
           confirmLoading={isLoading}
           centered
           footer={[
