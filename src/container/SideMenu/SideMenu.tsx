@@ -1,8 +1,8 @@
 import {
-  UsergroupAddOutlined,
-  SettingOutlined,
   ApartmentOutlined,
   ReadOutlined,
+  SettingOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -43,7 +43,7 @@ const SideMenu = () => {
           label: "Committee",
         },
         {
-          key: "profilesetting",
+          key: "profile-setting",
           title: "Setting",
           icon: <SettingOutlined />,
           onClick: () => navigate("profilesetting"),

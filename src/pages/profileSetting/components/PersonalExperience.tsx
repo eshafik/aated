@@ -2,58 +2,34 @@ import { EditOutlined, SmileOutlined } from "@ant-design/icons";
 import {
   App,
   Button,
-  DatePicker,
   Form,
-  Input,
-  InputNumber,
   Modal,
   Result,
-  Select,
-  Skeleton,
   Spin,
   Tooltip,
   Typography,
 } from "antd";
-import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { StyledCard } from "../../../components/StyleCard";
-import { useJobDeptSearch } from "../../../config/hook/useJobDeptSearch";
-import { ExperiencePayload } from "../../../libs/api/@types/profile";
+import {
+  Experience,
+  ExperiencePayload,
+} from "../../../libs/api/@types/profile";
 import { profileAPI } from "../../../libs/api/profileAPI";
+import ExperienceForm from "../container/ExperienceForm";
+import UpdateExperienceForm from "../container/UpdateExperienceForm";
 
 const SeeExperience = () => {
-  const queryClient = useQueryClient();
   const { notification } = App.useApp();
-  const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [editMode, setEditMode] = useState(false);
-  const [getId, setId] = useState("");
+  const [form] = Form.useForm();
+  const queryClient = useQueryClient();
 
   const { data: experiencesData, isLoading } = useQuery(
     ["experience-list"],
     () => profileAPI.getExperiences()
   );
-  const { data: experienceData, isLoading: experienceLoading } = useQuery(
-    ["experience-list"],
-    () => profileAPI.getExperience(getId)
-  );
-  console.log(experienceData);
-
-  // const { mutate: mutateDeleteExperience } = useMutation(
-  //   ["experience-list"],
-  //   (ID: string | number) => profileAPI.deleteExperiences(ID),
-  //   {
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries(["experience-list"]);
-  //     },
-  //     onError: (error: Error) => {
-  //       notification.error({ message: error.message });
-  //     },
-  //   }
-  // );
-
-  const { jobDept: jobDeptData, filter } = useJobDeptSearch();
 
   const { mutate: mutateCreateExperience, isLoading: loadingAddExp } =
     useMutation(
@@ -70,13 +46,8 @@ const SeeExperience = () => {
       }
     );
 
-  const showModal = (id?: string) => {
+  const showModal = () => {
     setIsModalOpen(true);
-    setId(id as string);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
   };
 
   return (
@@ -90,190 +61,42 @@ const SeeExperience = () => {
           </Button>
         }
       >
-        <Skeleton loading={experienceLoading}>
-          <Modal
-            title="Add Experience"
-            open={isModalOpen}
-            onOk={form.submit}
-            onCancel={handleOk}
-            okText="Save"
-            okType="primary"
-            confirmLoading={loadingAddExp}
-            centered
+        <Modal
+          title="Add Experience"
+          open={isModalOpen}
+          onOk={form.submit}
+          onCancel={() => setIsModalOpen(false)}
+          okText="Save"
+          okType="primary"
+          confirmLoading={loadingAddExp}
+          centered
+        >
+          <Form
+            form={form}
+            onFinish={(values) =>
+              mutateCreateExperience({
+                company_name: values.company_name,
+                designation: values.designation,
+                job_department: values.job_department,
+                job_location: values.job_location,
+                responsibilities: values.responsibilities,
+                start: values.start_date.format("YYYY-MM-DD"),
+                end: values.end_date
+                  ? values.end_date.format("YYYY-MM-DD")
+                  : null,
+                working_years: values.working_year,
+              })
+            }
+            requiredMark="optional"
+            layout="vertical"
           >
-            <Form
-              form={form}
-              initialValues={{
-                company_name: experienceData?.company_name,
-              }}
-              onFinish={(values) =>
-                mutateCreateExperience({
-                  company_name: values.company_name,
-                  designation: values.designation,
-                  job_department: values.job_department,
-                  job_location: values.job_location,
-                  responsibilities: values.responsibilities,
-                  start: values.start_date.format("YYYY-MM-DD"),
-                  end: values.end_date
-                    ? values.end_date.format("YYYY-MM-DD")
-                    : null,
-                  working_years: values.working_year,
-                })
-              }
-              requiredMark="optional"
-              layout="vertical"
-            >
-              <Form.Item
-                label="Company Name"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter your Company Name",
-                  },
-                ]}
-                name="company_name"
-              >
-                <Input placeholder="X LTD" />
-              </Form.Item>
-
-              <Form.Item
-                label="Designation"
-                name="designation"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter your Designation",
-                  },
-                ]}
-              >
-                <Input placeholder="Professional designation" />
-              </Form.Item>
-
-              <Form.Item
-                label="Start Date"
-                name="start_date"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter your Job Start Date",
-                  },
-                ]}
-              >
-                <DatePicker
-                  format={"YYYY-MM-DD"}
-                  className="w-full"
-                  placeholder="Job Start Date"
-                />
-              </Form.Item>
-
-              <Form.Item label="End Date" name="end_date">
-                <DatePicker
-                  format={"YYYY-MM-DD"}
-                  className="w-full"
-                  placeholder="Job End Date"
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="Working Year"
-                name="working_year"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter your Working Year",
-                  },
-                ]}
-              >
-                <InputNumber className="w-full" placeholder="1 years" />
-              </Form.Item>
-
-              <Form.Item
-                label="Job Location"
-                name="job_location"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter your Job Location",
-                  },
-                ]}
-              >
-                <Input placeholder="Dhanmondi" />
-              </Form.Item>
-
-              <Form.Item
-                label="Responsibilities"
-                name="responsibilities"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter your Job responsibilities",
-                  },
-                ]}
-              >
-                <TextArea placeholder="Project Manager" />
-              </Form.Item>
-
-              <Form.Item
-                label="Job Department"
-                name="job_department"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter you department name",
-                  },
-                ]}
-              >
-                <Select
-                  showSearch
-                  onSearch={filter.handleChangeJobDept}
-                  options={jobDeptData?.data?.map(({ name }) => ({
-                    value: name?.toLowerCase(),
-                    label: name,
-                  }))}
-                  placeholder="Job Department"
-                />
-              </Form.Item>
-            </Form>
-          </Modal>
-        </Skeleton>
+            <ExperienceForm />
+          </Form>
+        </Modal>
 
         {experiencesData?.data?.length ? (
           experiencesData?.data?.map((exp, i) => (
-            <div key={i} className="mb-8">
-              <Tooltip title="Edit Mode">
-                <EditOutlined
-                  onClick={() => showModal(exp?.id.toString())}
-                  className="absolute right-7"
-                />
-              </Tooltip>
-              <Typography.Title className="mt-0" level={5}>
-                {exp?.designation}
-              </Typography.Title>
-              <div>
-                {exp?.company_name}-{exp?.responsibilities}
-              </div>
-              <div>
-                {exp?.start}-{exp?.end}
-              </div>
-              <div>{exp?.working_years} Years of experience</div>
-
-              {/* {editMode ? (
-                <Popconfirm
-                  title="Delete this Experience"
-                  description="Are you sure to delete this experience?"
-                  onConfirm={() => mutateDeleteExperience(exp?.id)}
-                  okText="Yes"
-                  cancelText="No"
-                  okType="danger"
-                >
-                  <Button className="mt-2" type="dashed" size="small">
-                    Delete Experience
-                  </Button>
-                </Popconfirm>
-              ) : (
-                ""
-              )} */}
-            </div>
+            <ExperienceItem key={i} exp={exp} />
           ))
         ) : (
           <Result
@@ -287,3 +110,34 @@ const SeeExperience = () => {
 };
 
 export default SeeExperience;
+
+const ExperienceItem = ({ exp }: { exp: Experience }) => {
+  const [visible, setVisible] = useState(false);
+  return (
+    <>
+      <UpdateExperienceForm
+        slug={exp.id.toString()}
+        open={visible}
+        onCancel={() => setVisible(false)}
+      />
+      <div className="mb-8">
+        <Tooltip title="Edit Mode">
+          <EditOutlined
+            onClick={() => setVisible(true)}
+            className="absolute right-7"
+          />
+        </Tooltip>
+        <Typography.Title className="mt-0" level={5}>
+          {exp?.designation}
+        </Typography.Title>
+        <div>
+          {exp?.company_name}-{exp?.responsibilities}
+        </div>
+        <div>
+          {exp?.start}-{exp?.end}
+        </div>
+        <div>{exp?.working_years} Years of experience</div>
+      </div>
+    </>
+  );
+};

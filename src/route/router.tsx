@@ -52,7 +52,10 @@ export const protectedRouter = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       { index: true, element: <Navigate to="/members" /> },
-      { path: "profile", element: <PersonalProfile /> },
+      {
+        path: "profile",
+        element: <PersonalProfile />,
+      },
       {
         path: "members",
         children: [
@@ -79,7 +82,10 @@ export const protectedRouter = createBrowserRouter([
           { path: "edit-committee/:committeeId", element: <EditCommittee /> },
         ],
       },
-      { path: "profilesetting", element: <ProfileContainer /> },
+      {
+        path: "profile-setting",
+        children: [{ index: true, element: <ProfileContainer /> }],
+      },
     ],
   },
   {

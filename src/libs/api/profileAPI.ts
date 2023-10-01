@@ -48,7 +48,7 @@ class ProfileAPI {
     );
   }
 
-  deleteExperiences(ID: string | number) {
+  deleteExperiences(ID?: string) {
     return this.http.delete(`api/v1/profiles/personal/experiences/${ID}`);
   }
 }
