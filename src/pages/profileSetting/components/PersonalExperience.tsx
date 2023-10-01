@@ -38,6 +38,8 @@ const SeeExperience = () => {
         onSuccess: () => {
           notification.success({ message: "Successfully added Experiences" });
           queryClient.invalidateQueries(["experience-list"]);
+          Modal.destroyAll();
+          form.resetFields();
           setIsModalOpen(false);
         },
         onError: (error: Error) => {

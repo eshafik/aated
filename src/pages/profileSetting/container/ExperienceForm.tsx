@@ -5,6 +5,8 @@ import {
   Form,
   Input,
   InputNumber,
+  Modal,
+  Popconfirm,
   Select,
   Skeleton,
 } from "antd";
@@ -36,8 +38,8 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
       (ID?: string) => profileAPI.deleteExperiences(ID),
       {
         onSuccess: () => {
-          notification.success({ message: "Delete" }),
-            queryClient.invalidateQueries(["experience-list"]);
+          notification.success({ message: "Delete" }), Modal.destroyAll();
+          queryClient.invalidateQueries(["experience-list"]);
         },
         onError: (error: Error) => {
           notification.error({ message: error.message });
@@ -161,13 +163,15 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
 
       {isDisabled ? (
         <div className="flex justify-between gap-2">
-          <Button
-            danger
-            loading={deleteExperienceLoading}
-            onClick={() => mutateDeleteExperience(deleteExperience)}
+          <Popconfirm
+            title="Delete this Experience"
+            description="Are you sure to delete this experience?"
+            onConfirm={() => mutateDeleteExperience(deleteExperience)}
           >
-            Delete
-          </Button>
+            <Button danger loading={deleteExperienceLoading}>
+              Delete
+            </Button>
+          </Popconfirm>
           <Button loading={updateLoading} type="primary" htmlType="submit">
             Update
           </Button>

@@ -46,7 +46,7 @@ const SideMenu = () => {
           key: "profile-setting",
           title: "Setting",
           icon: <SettingOutlined />,
-          onClick: () => navigate("profilesetting"),
+          onClick: () => navigate("profile-setting"),
           label: "Profile Setting",
         },
       ]}

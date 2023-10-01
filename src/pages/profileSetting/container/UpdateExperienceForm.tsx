@@ -33,7 +33,8 @@ const UpdateExperienceForm = ({
       onSuccess: () => {
         notification.success({ message: "Updated" });
         queryClient.invalidateQueries(["experience-list"]);
-        onCancel;
+        Modal.destroyAll();
+        onCancel();
       },
     });
 
@@ -43,22 +44,7 @@ const UpdateExperienceForm = ({
       open={open}
       onCancel={onCancel}
       centered
-      footer={[
-        null,
-        // <Popconfirm
-        //   title="Delete this Experience"
-        //   description="Are you sure to delete this experience?"
-        //   onConfirm={() =>
-        //     mutateDeleteExperience(experienceData?.data?.id.toString())
-        //   }
-        //   okText="Yes"
-        //   cancelText="No"
-        // >
-        //   <Button className="mt-2" size="small">
-        //     Delete Experience
-        //   </Button>
-        // </Popconfirm>,
-      ]}
+      footer={[null]}
     >
       <Skeleton loading={isLoading}>
         <Form
