@@ -15,7 +15,7 @@ import {
 import dayJs from "dayjs";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSuperUser } from "../../container/ProfileProvider";
+import { useSuperUser } from "../../container/RoleProvider";
 import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
 

@@ -1,5 +1,5 @@
 import { Tabs, theme } from "antd";
-import { useSuperUser } from "../../container/ProfileProvider";
+import { useSuperUser } from "../../container/RoleProvider";
 import ActiveMembers from "./component/ActiveMembers";
 import PendingMembers from "./component/PendingMembers";
 

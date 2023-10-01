@@ -15,7 +15,7 @@ import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useParams } from "react-router-dom";
 import { useMemberList } from "../../../config/hook/useUserSearch";
-import { useSuperUser } from "../../../container/ProfileProvider";
+import { useSuperUser } from "../../../container/RoleProvider";
 import {
   CommitteeMemberPayload,
   CommitteeMembers,

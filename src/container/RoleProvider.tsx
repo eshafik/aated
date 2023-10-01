@@ -1,7 +1,7 @@
 import { createContext, FC, ReactNode, useContext } from "react";
-import { profileAPI } from "../libs/api/profileAPI";
 import { useQuery } from "react-query";
 import { UpdateProfileResponse } from "../libs/api/@types/profile";
+import { profileAPI } from "../libs/api/profileAPI";
 
 interface SuperUserContext {
   isSuperUser?: boolean;
@@ -9,12 +9,12 @@ interface SuperUserContext {
   data?: UpdateProfileResponse;
 }
 
-const ProfileContext = createContext<SuperUserContext>({
+const RoleContext = createContext<SuperUserContext>({
   isSuperUser: false,
   isLoading: false,
   data: undefined,
 });
-export const useSuperUser = () => useContext(ProfileContext);
+export const useSuperUser = () => useContext(RoleContext);
 
 type FeaturesProviderProps = {
   children: ReactNode;
@@ -26,7 +26,7 @@ const ProfileProvider: FC<FeaturesProviderProps> = (props) => {
   );
 
   return (
-    <ProfileContext.Provider
+    <RoleContext.Provider
       value={{
         data: data,
         isSuperUser: data?.data?.is_superuser,
@@ -34,7 +34,7 @@ const ProfileProvider: FC<FeaturesProviderProps> = (props) => {
       }}
     >
       {props.children}
-    </ProfileContext.Provider>
+    </RoleContext.Provider>
   );
 };
 

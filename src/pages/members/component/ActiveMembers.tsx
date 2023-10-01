@@ -22,7 +22,7 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import { Link } from "react-router-dom";
 import { useMemberList } from "../../../config/hook/useUserSearch";
-import { useSuperUser } from "../../../container/ProfileProvider";
+import { useSuperUser } from "../../../container/RoleProvider";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
 import { membersAPI } from "../../../libs/api/membersAPI";
 import MemberSearch from "../containers/MemberSearch";

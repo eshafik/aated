@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
-import { useSuperUser } from "../../container/ProfileProvider";
+import { useSuperUser } from "../../container/RoleProvider";
 import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
 import PageHeader from "./components/PageHeader";

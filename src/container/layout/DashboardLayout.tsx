@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 import { Outlet, useNavigate } from "react-router-dom";
 import { profileAPI } from "../../libs/api/profileAPI";
 import { authService } from "../../libs/auth";
-import ProfileProvider from "../ProfileProvider";
+import RoleProvider from "../RoleProvider";
 import SideMenu from "../SideMenu/SideMenu";
 
 const DashboardLayout = () => {
@@ -32,7 +32,7 @@ const DashboardLayout = () => {
     },
   ];
   return (
-    <ProfileProvider>
+    <RoleProvider>
       <Layout
         className="relative"
         style={{ overflow: "auto", height: "100vh" }}
@@ -85,7 +85,7 @@ const DashboardLayout = () => {
           </Content>
         </Layout>
       </Layout>
-    </ProfileProvider>
+    </RoleProvider>
   );
 };
 

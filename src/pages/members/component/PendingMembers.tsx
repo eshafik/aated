@@ -13,7 +13,7 @@ import {
   Typography,
 } from "antd";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useSuperUser } from "../../../container/ProfileProvider";
+import { useSuperUser } from "../../../container/RoleProvider";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
 import { membersAPI } from "../../../libs/api/membersAPI";
 
