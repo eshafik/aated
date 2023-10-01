@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Tabs, TabsProps, theme } from "antd";
+import SeeExperience from "./components/PersonalExperience";
 import ProfileSettings from "./components/ProfileSettings";
 import Security from "./components/Security";
-import SeeExperience from "./components/SeeExperience";
 
 const ProfileContainer = () => {
   const { token } = theme.useToken();
