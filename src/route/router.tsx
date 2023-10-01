@@ -3,7 +3,6 @@ import { Link, Navigate, createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../container/layout/DashboardLayout";
 import HomeLayout from "../container/layout/HomeLayout";
 import Committee from "../pages/committee/Committee";
-import EditCommittee from "../pages/committee/EditCommittee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
 import EmailVerify from "../pages/emailverify/EmailVerify";
 import ForgotPassword from "../pages/forgot-password/ForgotPassword";
@@ -12,7 +11,6 @@ import HomePage from "../pages/homepage/HomePage";
 import Member from "../pages/member/Member";
 import Members from "../pages/members";
 import PersonalProfile from "../pages/personalProfile/PersonalProfile";
-import EditPost from "../pages/post/EditPost";
 import Post from "../pages/post/Post";
 import PostContainer from "../pages/posts";
 import ProfileContainer from "../pages/profileSetting";
@@ -68,7 +66,6 @@ export const protectedRouter = createBrowserRouter([
         children: [
           { index: true, element: <PostContainer /> },
           { path: ":slag", element: <Post /> },
-          { path: "edit-post/:postId", element: <EditPost /> },
         ],
       },
       {
@@ -79,7 +76,6 @@ export const protectedRouter = createBrowserRouter([
             path: "members/:slag",
             element: <CommitteeMembers />,
           },
-          { path: "edit-committee/:committeeId", element: <EditCommittee /> },
         ],
       },
       {

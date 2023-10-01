@@ -28,6 +28,7 @@ import { PostPayload } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
 import { profileAPI } from "../../libs/api/profileAPI";
 import { formatDate } from "../../utils/date.helpers";
+import EditPost from "../post/EditPost";
 import CreatePostModal from "./component/CreatePostModal";
 
 type PostProps = {
@@ -40,6 +41,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
   const { notification } = App.useApp();
+  const [isEditPostOpen, setIsEditPostOpen] = useState(false);
 
   const { mutate: createPostMutate, isLoading } = useMutation(
     (payload: PostPayload) => postAPI.createPost(payload),
@@ -95,163 +97,172 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
   const isDesktopResolution = useMatchMedia("(min-width:600px)", true);
 
   return (
-    <Spin spinning={loadingPostList}>
-      <div className="max-w-3xl grid grid-cols-1 gap-4">
-        <Card
-          size="small"
-          className="sticky top-11 z-10 drop-shadow"
-          style={{ width: isDesktopResolution ? 770 : 490 }}
-        >
-          <Form form={searchForm}>
-            <div className="flex gap-2">
-              <Input.Search
-                size="large"
-                placeholder="Search Post"
-                allowClear
-                onSearch={filter.handleChangePosts}
-              />
-              <Button size="large" type="primary" onClick={() => showModal()}>
-                Create Post
-              </Button>
-            </div>
-          </Form>
-        </Card>
-
-        <Modal
-          title="Create post"
-          open={isModalOpen}
-          onOk={form.submit}
-          onCancel={handleOk}
-          okText="Submit"
-          okType="primary"
-          confirmLoading={isLoading}
-          centered
-        >
-          <Form
-            layout="vertical"
-            requiredMark={"optional"}
-            form={form}
-            onFinish={(values) =>
-              createPostMutate({
-                attachments:
-                  values.attachments[0] == null ? null : values.attachments,
-                body: values.body,
-                category: values.category,
-                title: values.title,
-              })
-            }
-          >
-            <CreatePostModal />
-          </Form>
-        </Modal>
-
-        {postsData?.data?.map((items, i) => (
+    <>
+      <Spin spinning={loadingPostList}>
+        <div className="max-w-3xl grid grid-cols-1 gap-4">
           <Card
-            onScroll={() => refetch()}
-            key={i}
-            title={
-              <Space>
-                <Avatar src={items?.user?.profile_pic} />
-                {items.user?.name}
-              </Space>
-            }
-            extra={
-              items?.user?.id == profileData?.data?.id ? (
-                <Dropdown
-                  menu={{
-                    items: [
-                      {
-                        key: "edit",
-                        label: (
-                          <Link to={`edit-post/${items?.id}`}>
-                            <EditOutlined /> Edit
-                          </Link>
-                        ),
-                      },
-                      {
-                        key: "member",
-                        label: (
-                          <Popconfirm
-                            title="Delete Post"
-                            description="Are you sure want o delete this Post?"
-                            onConfirm={() => mutateDeletePost(items?.id)}
-                            okText="Yes"
-                            cancelText="No"
-                            okType="danger"
-                          >
-                            <DeleteOutlined /> Delete
-                          </Popconfirm>
-                        ),
-                      },
-                    ],
-                  }}
-                >
-                  <Button type="text" icon={<MoreOutlined />} />
-                </Dropdown>
-              ) : (
-                ""
-              )
-            }
+            size="small"
+            className="sticky top-11 z-10 drop-shadow"
+            style={{ width: isDesktopResolution ? 770 : 490 }}
           >
-            <Row justify={"space-between"}>
-              <Typography.Title className="mt-0" level={5}>
-                {items.title}
-              </Typography.Title>
-              <Typography.Paragraph>
-                {formatDate(items?.created_at)}
-              </Typography.Paragraph>
-            </Row>
-            {items.attachments?.[0] ? (
-              <Image
-                className="max-h-80"
-                alt="example"
-                src={items.attachments?.[0]}
-              />
-            ) : (
-              ""
-            )}
+            <Form form={searchForm}>
+              <div className="flex gap-2">
+                <Input.Search
+                  size="large"
+                  placeholder="Search Post"
+                  allowClear
+                  onSearch={filter.handleChangePosts}
+                />
+                <Button size="large" type="primary" onClick={() => showModal()}>
+                  Create Post
+                </Button>
+              </div>
+            </Form>
+          </Card>
 
-            <div className="mb-4">
-              {showMore ? items?.body : `${items?.body?.substring(0, 250)}`}
-              {items?.body?.length > 250 ? (
-                <Link
-                  onClick={() => setShowMore(!showMore)}
-                  to={`${items?.id}`}
-                >
-                  ...See more
-                </Link>
-              ) : (
-                ""
-              )}
-            </div>
-
-            <Link to={`${items?.id}`}>
-              <Typography.Link>
-                Comment ({items?.total_comments})
-              </Typography.Link>
-            </Link>
+          <Modal
+            title="Create post"
+            open={isModalOpen}
+            onOk={form.submit}
+            onCancel={handleOk}
+            okText="Submit"
+            okType="primary"
+            confirmLoading={isLoading}
+            centered
+          >
             <Form
+              layout="vertical"
+              requiredMark={"optional"}
+              form={form}
               onFinish={(values) =>
-                mutateComment({
-                  comment: values?.comment?.[i],
-                  post: items?.id,
+                createPostMutate({
+                  attachments:
+                    values.attachments[0] == null ? null : values.attachments,
+                  body: values.body,
+                  category: values.category,
+                  title: values.title,
                 })
               }
             >
-              <Form.Item name={["comment", i]}>
-                <TextArea rows={2} />
-              </Form.Item>
-
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Comment
-                </Button>
-              </Form.Item>
+              <CreatePostModal />
             </Form>
-          </Card>
-        ))}
-      </div>
-    </Spin>
+          </Modal>
+
+          {postsData?.data?.map((items, i) => (
+            <>
+              <EditPost
+                postId={items?.id}
+                isOpen={isEditPostOpen}
+                onCancel={() => setIsEditPostOpen(false)}
+              />
+              <Card
+                onScroll={() => refetch()}
+                key={i}
+                title={
+                  <Space>
+                    <Avatar src={items?.user?.profile_pic} />
+                    {items.user?.name}
+                  </Space>
+                }
+                extra={
+                  items?.user?.id == profileData?.data?.id ? (
+                    <Dropdown
+                      menu={{
+                        items: [
+                          {
+                            key: "edit",
+                            label: (
+                              <div onClick={() => setIsEditPostOpen(true)}>
+                                <EditOutlined /> Edit
+                              </div>
+                            ),
+                          },
+                          {
+                            key: "member",
+                            label: (
+                              <Popconfirm
+                                title="Delete Post"
+                                description="Are you sure want o delete this Post?"
+                                onConfirm={() => mutateDeletePost(items?.id)}
+                                okText="Yes"
+                                cancelText="No"
+                                okType="danger"
+                              >
+                                <DeleteOutlined /> Delete
+                              </Popconfirm>
+                            ),
+                          },
+                        ],
+                      }}
+                    >
+                      <Button type="text" icon={<MoreOutlined />} />
+                    </Dropdown>
+                  ) : (
+                    ""
+                  )
+                }
+              >
+                <Row justify={"space-between"}>
+                  <Typography.Title className="mt-0" level={5}>
+                    {items.title}
+                  </Typography.Title>
+                  <Typography.Paragraph>
+                    {formatDate(items?.created_at)}
+                  </Typography.Paragraph>
+                </Row>
+                {items.attachments?.[0] ? (
+                  <Image
+                    className="max-h-80"
+                    alt="example"
+                    src={items.attachments?.[0]}
+                  />
+                ) : (
+                  ""
+                )}
+
+                <div className="mb-4">
+                  {showMore ? items?.body : `${items?.body?.substring(0, 250)}`}
+                  {items?.body?.length > 250 ? (
+                    <Link
+                      onClick={() => setShowMore(!showMore)}
+                      to={`${items?.id}`}
+                    >
+                      ...See more
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+                </div>
+
+                <Link to={`${items?.id}`}>
+                  <Typography.Link>
+                    Comment ({items?.total_comments})
+                  </Typography.Link>
+                </Link>
+                <Form
+                  onFinish={(values) =>
+                    mutateComment({
+                      comment: values?.comment?.[i],
+                      post: items?.id,
+                    })
+                  }
+                >
+                  <Form.Item name={["comment", i]}>
+                    <TextArea rows={2} />
+                  </Form.Item>
+
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                      Comment
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Card>
+            </>
+          ))}
+        </div>
+      </Spin>
+    </>
   );
 };
 

@@ -13,7 +13,7 @@ import {
 import { ColumnsType } from "antd/es/table";
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 import { useSuperUser } from "../../../container/RoleProvider";
 import {
@@ -21,6 +21,7 @@ import {
   CommitteeMembers,
 } from "../../../libs/api/@types/committee";
 import { committeeAPI } from "../../../libs/api/committee";
+import EditCommittee from "../EditCommittee";
 import PageHeader from "../components/PageHeader";
 
 const CommitteeMembers = () => {
@@ -29,6 +30,7 @@ const CommitteeMembers = () => {
   const { slag } = useParams();
   const queryClient = useQueryClient();
   const { isSuperUser } = useSuperUser();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const { data: CommitteeName } = useQuery(["committee-details"], () =>
     committeeAPI.getCommitteeDetails(slag as string)
@@ -135,78 +137,87 @@ const CommitteeMembers = () => {
   );
 
   return (
-    <Spin spinning={isLoading || loadingMembers}>
-      <div className="pr-11">
-        <PageHeader
-          title={CommitteeName?.data?.name}
-          subActions={
-            isSuperUser ? (
-              <Link to={`/committee/edit-committee/${CommitteeName?.data?.id}`}>
-                <Button type="dashed" icon={<EditTwoTone />} />
-              </Link>
-            ) : (
-              ""
-            )
-          }
-          subtitle={`Start Date: ${CommitteeName?.data?.start_date} & End Date: ${CommitteeName?.data?.end_date}`}
-          actions={
-            isSuperUser ? (
-              <Button size="large" type="primary" onClick={() => showModal()}>
-                Add Members
-              </Button>
-            ) : (
-              // </Link>
-              ""
-            )
-          }
-        />
-        <Form
-          onFinish={(values) =>
-            addMemberMutate({
-              committee: slag,
-              member: values.member,
-              committee_designation: values.committee_designation,
-              position_order: values.position_order,
-            })
-          }
-          layout="inline"
-          form={form}
-        >
-          <Modal
-            title="Add Members"
-            open={isModalOpen}
-            onOk={form.submit}
-            onCancel={handleOk}
-            okText="Save"
-            okType="primary"
-            confirmLoading={isLoading}
-            centered
+    <>
+      <EditCommittee
+        isOpen={isEditModalOpen}
+        committeeId={slag?.toString()}
+        onCancel={() => setIsEditModalOpen(false)}
+      />
+      <Spin spinning={isLoading || loadingMembers}>
+        <div className="pr-11">
+          <PageHeader
+            title={CommitteeName?.data?.name}
+            subActions={
+              isSuperUser ? (
+                <Button
+                  type="dashed"
+                  icon={<EditTwoTone />}
+                  onClick={() => setIsEditModalOpen(true)}
+                />
+              ) : (
+                ""
+              )
+            }
+            subtitle={`Start Date: ${CommitteeName?.data?.start_date} & End Date: ${CommitteeName?.data?.end_date}`}
+            actions={
+              isSuperUser ? (
+                <Button size="large" type="primary" onClick={() => showModal()}>
+                  Add Members
+                </Button>
+              ) : (
+                // </Link>
+                ""
+              )
+            }
+          />
+          <Form
+            onFinish={(values) =>
+              addMemberMutate({
+                committee: slag,
+                member: values.member,
+                committee_designation: values.committee_designation,
+                position_order: values.position_order,
+              })
+            }
+            layout="inline"
+            form={form}
           >
-            <Form.Item name="member">
-              <Select
-                onSearch={filter.handleChangeName}
-                showSearch
-                allowClear
-                loading={loadingMembers}
-                options={ActiveMemberData?.data?.map(({ name }) => ({
-                  value: name?.toLowerCase(),
-                  label: name,
-                }))}
-                placeholder="Members"
-              />
-            </Form.Item>
+            <Modal
+              title="Add Members"
+              open={isModalOpen}
+              onOk={form.submit}
+              onCancel={handleOk}
+              okText="Save"
+              okType="primary"
+              confirmLoading={isLoading}
+              centered
+            >
+              <Form.Item name="member">
+                <Select
+                  onSearch={filter.handleChangeName}
+                  showSearch
+                  allowClear
+                  loading={loadingMembers}
+                  options={ActiveMemberData?.data?.map(({ name }) => ({
+                    value: name?.toLowerCase(),
+                    label: name,
+                  }))}
+                  placeholder="Members"
+                />
+              </Form.Item>
 
-            <Form.Item name="committee_designation">
-              <Input placeholder="Committee Designation" />
-            </Form.Item>
-            <Form.Item name="position_order">
-              <Input placeholder="Position Order" />
-            </Form.Item>
-          </Modal>
-        </Form>
-        <Table bordered dataSource={tableData} columns={column} />
-      </div>
-    </Spin>
+              <Form.Item name="committee_designation">
+                <Input placeholder="Committee Designation" />
+              </Form.Item>
+              <Form.Item name="position_order">
+                <Input placeholder="Position Order" />
+              </Form.Item>
+            </Modal>
+          </Form>
+          <Table bordered dataSource={tableData} columns={column} />
+        </div>
+      </Spin>
+    </>
   );
 };
 

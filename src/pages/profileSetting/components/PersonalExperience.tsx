@@ -133,10 +133,10 @@ const ExperienceItem = ({ exp }: { exp: Experience }) => {
           {exp?.designation}
         </Typography.Title>
         <div>
-          {exp?.company_name}-{exp?.responsibilities}
+          {exp?.company_name} | {exp?.responsibilities}
         </div>
         <div>
-          {exp?.start}-{exp?.end}
+          {exp?.start} To {exp?.end}
         </div>
         <div>{exp?.working_years} Years of experience</div>
       </div>

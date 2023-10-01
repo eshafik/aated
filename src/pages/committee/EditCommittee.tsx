@@ -1,37 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  App,
-  Button,
-  Card,
-  Col,
-  DatePicker,
-  Form,
-  Input,
-  Radio,
-  Row,
-  Skeleton,
-  Space,
-} from "antd";
+import { App, DatePicker, Form, Input, Modal, Radio, Skeleton } from "antd";
 import dayJs from "dayjs";
-import { useMutation, useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSuperUser } from "../../container/RoleProvider";
+import { FC } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
 
-const EditCommittee = () => {
-  const { committeeId } = useParams();
+type EditCommitteeProps = {
+  isOpen?: boolean;
+  committeeId?: string;
+  onCancel: () => void;
+};
+const EditCommittee: FC<EditCommitteeProps> = ({
+  isOpen,
+  committeeId,
+  onCancel,
+}) => {
   const { notification } = App.useApp();
   const [form] = Form.useForm();
-  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation(
     (payload: CommitteePayload) =>
       committeeAPI.updateCommittee(payload, committeeId as string),
     {
       onSuccess: () => {
-        notification.success({ message: "Successfully updated" }),
-          navigate(`/committee/members/${committeeDetailsData?.data?.id}`);
+        notification.success({ message: "Successfully updated" }), onCancel();
+        queryClient.invalidateQueries(["committee-details"]);
       },
       onError: (error: Error) => {
         notification.error({ message: error.message });
@@ -44,105 +39,88 @@ const EditCommittee = () => {
       committeeAPI.getCommitteeDetails(committeeId as string)
     );
 
-  const { isSuperUser } = useSuperUser();
+  // const { isSuperUser } = useSuperUser();
 
   return (
-    <Row align="middle" justify={"center"}>
-      <Col span={8}>
-        <Skeleton loading={loadingCommitteeDetails}>
-          {isSuperUser ? (
-            <Card className="shadow-2xl" title="Edit Your Committee">
-              <Form
-                form={form}
-                initialValues={{
-                  name: committeeDetailsData?.data?.name,
-                  start_date: dayJs(committeeDetailsData?.data?.start_date),
-                  end_date: dayJs(committeeDetailsData?.data?.end_date),
-                  is_active: committeeDetailsData?.data?.is_active,
-                  committee_designation:
-                    committeeDetailsData?.data?.members?.[0]
-                      ?.committee_designation,
+    <Modal
+      open={isOpen}
+      okText="Update"
+      okType="primary"
+      onOk={form.submit}
+      confirmLoading={isLoading}
+      onCancel={onCancel}
+    >
+      <Skeleton loading={loadingCommitteeDetails}>
+        <Form
+          form={form}
+          initialValues={{
+            name: committeeDetailsData?.data?.name,
+            start_date: dayJs(committeeDetailsData?.data?.start_date),
+            end_date: dayJs(committeeDetailsData?.data?.end_date),
+            is_active: committeeDetailsData?.data?.is_active,
+            committee_designation:
+              committeeDetailsData?.data?.members?.[0]?.committee_designation,
 
-                  member: committeeDetailsData?.data?.members?.map(
-                    (items) => items?.member?.name
-                  ),
-                }}
-                onFinish={(values) => {
-                  mutate({
-                    name: values.name,
-                    start_date: values.start_date.format("YYYY-MM-DD"),
-                    end_date: values.end_date.format("YYYY-MM-DD") ?? "",
-                    is_active: values.is_active,
-                  });
-                }}
-                layout="vertical"
-              >
-                <Form.Item
-                  label="Committee Name"
-                  name="name"
-                  rules={[
-                    { required: true, message: "Please Enter Committee Name" },
-                  ]}
-                >
-                  <Input placeholder="Committee Name" />
-                </Form.Item>
+            member: committeeDetailsData?.data?.members?.map(
+              (items) => items?.member?.name
+            ),
+          }}
+          onFinish={(values) => {
+            mutate({
+              name: values.name,
+              start_date: values.start_date.format("YYYY-MM-DD"),
+              end_date: values.end_date.format("YYYY-MM-DD") ?? "",
+              is_active: values.is_active,
+            });
+          }}
+          layout="vertical"
+        >
+          <Form.Item
+            label="Committee Name"
+            name="name"
+            rules={[{ required: true, message: "Please Enter Committee Name" }]}
+          >
+            <Input placeholder="Committee Name" />
+          </Form.Item>
 
-                <Form.Item name="start_date" label="Start Date">
-                  <DatePicker
-                    format={"YYYY-MM-DD"}
-                    showTime={false}
-                    use12Hours={false}
-                    className="w-full"
-                  />
-                </Form.Item>
+          <Form.Item name="start_date" label="Start Date">
+            <DatePicker
+              format={"YYYY-MM-DD"}
+              showTime={false}
+              use12Hours={false}
+              className="w-full"
+            />
+          </Form.Item>
 
-                <Form.Item name="end_date" label="End Date">
-                  <DatePicker
-                    format={"YYYY-MM-DD"}
-                    showTime={false}
-                    use12Hours={false}
-                    className="w-full"
-                  />
-                </Form.Item>
+          <Form.Item name="end_date" label="End Date">
+            <DatePicker
+              format={"YYYY-MM-DD"}
+              showTime={false}
+              use12Hours={false}
+              className="w-full"
+            />
+          </Form.Item>
 
-                <Form.Item name="is_active" label="Committee Status">
-                  <Radio.Group
-                    size="small"
-                    buttonStyle="solid"
-                    options={[
-                      {
-                        label: "ON",
-                        value: true,
-                      },
-                      {
-                        label: "OFF",
-                        value: false,
-                      },
-                    ]}
-                    optionType="button"
-                  />
-                </Form.Item>
-
-                <Space className="absolute right-3 bottom-3">
-                  <Button
-                    onClick={() =>
-                      navigate(`/committee/members/${committeeId}`)
-                    }
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="primary" loading={isLoading} htmlType="submit">
-                    Save
-                  </Button>
-                </Space>
-              </Form>
-            </Card>
-          ) : (
-            "You do not have permission to do this action"
-          )}
-        </Skeleton>
-      </Col>
-    </Row>
+          <Form.Item name="is_active" label="Committee Status">
+            <Radio.Group
+              size="small"
+              buttonStyle="solid"
+              options={[
+                {
+                  label: "ON",
+                  value: true,
+                },
+                {
+                  label: "OFF",
+                  value: false,
+                },
+              ]}
+              optionType="button"
+            />
+          </Form.Item>
+        </Form>
+      </Skeleton>
+    </Modal>
   );
 };
 
