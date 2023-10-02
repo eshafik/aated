@@ -12,7 +12,7 @@ import {
 import { Briefcase, Info, Mail, MapPin, Phone } from "lucide-react";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-// import Cover from "../../assets/cover.jpg";
+// import cover from "../../assets/cover.jpg";
 import { Experience } from "../libs/api/@types/members";
 import { ExperiencesResponse } from "../libs/api/@types/profile";
 
@@ -55,7 +55,7 @@ const ProfileLayout: FC<ProfileLayoutProps> = ({
         <Col span={12}>
           <Card
             className="shadow-2xl bg-white w-[500px] sm:w-[500px] md:w-[500px] lg:w-[650px]"
-            // cover={<img className="absolute top-0" src={Cover} />}
+            // cover={<img className="absolute top-0" src={cover} />}
           >
             <div>
               <Row justify={"space-between"}>
@@ -65,7 +65,7 @@ const ProfileLayout: FC<ProfileLayoutProps> = ({
                       shape="circle"
                       size={"large"}
                       src={profile_pic}
-                      className="h-32 w-32 top-28"
+                      className="h-32 w-32 top-28 shadow-lg"
                     />
                   ) : (
                     <Avatar className="h-32 w-24 rounded-lg" />

@@ -18,7 +18,11 @@ const Member = () => {
       passing_year={memberData?.data?.passing_year}
       phone={memberData?.data?.phone}
       professional_designation={memberData?.data?.professional_designation}
-      profile_pic={memberData?.data?.profile_pic}
+      profile_pic={
+        memberData?.data?.profile_pic
+          ? memberData?.data?.profile_pic
+          : "https://t3.ftcdn.net/jpg/05/79/68/24/360_F_579682479_j4jRfx0nl3C8vMrTYVapFnGP8EgNHgfk.jpg"
+      }
       student_id={memberData?.data?.student_id}
       isMemberEnable={true}
       memberExperience={memberData?.data?.experiences}

@@ -15,7 +15,7 @@ const Header = () => {
     },
     {
       name: "Committee",
-      path: "signin",
+      path: "committee",
     },
     {
       name: "Sign in",

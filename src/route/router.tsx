@@ -7,15 +7,16 @@ import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembe
 import EmailVerify from "../pages/emailverify/EmailVerify";
 import ForgotPassword from "../pages/forgot-password/ForgotPassword";
 import ResetPassword from "../pages/forgot-password/ResetPassword";
-import HomePage from "../pages/homepage/HomePage";
 import Member from "../pages/member/Member";
 import Members from "../pages/members";
+import HomePage from "../pages/onboard/HomePage";
+import PublicCommitteeMembers from "../pages/onboard/PublicCommitteeMembers";
+import SignIn from "../pages/onboard/Signin";
+import SignUp from "../pages/onboard/Signup";
 import PersonalProfile from "../pages/personalProfile/PersonalProfile";
 import Post from "../pages/post/Post";
 import PostContainer from "../pages/posts";
 import ProfileContainer from "../pages/profileSetting";
-import SignIn from "../pages/signin/Signin";
-import SignUp from "../pages/signup/Signup";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ export const publicRoute = createBrowserRouter([
       { path: "signup", element: <SignUp /> },
       { path: "signin", element: <SignIn /> },
       { path: "verify", element: <EmailVerify /> },
+      { path: "committee", element: <PublicCommitteeMembers /> },
       { path: "forgot-password", element: <ForgotPassword /> },
       { path: "reset-password", element: <ResetPassword /> },
       {
