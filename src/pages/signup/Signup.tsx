@@ -127,6 +127,11 @@ const SignUp = () => {
             >
               <Select
                 size="large"
+                showSearch
+                allowClear
+                filterOption={(input, option) =>
+                  (option?.label?.toLowerCase() ?? "").includes(input)
+                }
                 options={data?.data?.map(({ id, name }) => ({
                   value: id?.toString(),
                   label: name,

@@ -195,11 +195,15 @@ const CommitteeMembers = () => {
               <Form.Item name="member">
                 <Select
                   onSearch={filter.handleChangeName}
+                  optionFilterProp="children"
                   showSearch
                   allowClear
+                  filterOption={(input, option) =>
+                    (option?.label?.toLowerCase() ?? "").includes(input)
+                  }
                   loading={loadingMembers}
-                  options={ActiveMemberData?.data?.map(({ name }) => ({
-                    value: name?.toLowerCase(),
+                  options={ActiveMemberData?.data?.map(({ id, name }) => ({
+                    value: id,
                     label: name,
                   }))}
                   placeholder="Members"

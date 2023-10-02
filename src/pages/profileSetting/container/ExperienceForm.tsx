@@ -153,8 +153,11 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
         <Select
           showSearch
           onSearch={filter.handleChangeJobDept}
-          options={jobDeptData?.data?.map(({ name }) => ({
-            value: name?.toLowerCase(),
+          filterOption={(input, option) =>
+            (option?.label?.toLowerCase() ?? "").includes(input)
+          }
+          options={jobDeptData?.data?.map(({ id, name }) => ({
+            value: id,
             label: name,
           }))}
           placeholder="Job Department"
