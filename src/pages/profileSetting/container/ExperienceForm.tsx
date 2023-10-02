@@ -21,12 +21,14 @@ type ExperienceFormProps = {
   isDisabled?: boolean;
   deleteExperience?: string;
   updateLoading?: boolean;
+  onCancel: () => void;
 };
 const ExperienceForm: FC<ExperienceFormProps> = ({
   isloading,
   isDisabled,
   deleteExperience,
   updateLoading,
+  onCancel,
 }) => {
   const { jobDept: jobDeptData, filter } = useJobDeptSearch();
   const { notification } = App.useApp();
@@ -40,6 +42,7 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
         onSuccess: () => {
           notification.success({ message: "Delete" }), Modal.destroyAll();
           queryClient.invalidateQueries(["experience-list"]);
+          onCancel();
         },
         onError: (error: Error) => {
           notification.error({ message: error.message });
@@ -156,8 +159,8 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
           filterOption={(input, option) =>
             (option?.label?.toLowerCase() ?? "").includes(input)
           }
-          options={jobDeptData?.data?.map(({ id, name }) => ({
-            value: id,
+          options={jobDeptData?.data?.map(({ name }) => ({
+            value: name,
             label: name,
           }))}
           placeholder="Job Department"

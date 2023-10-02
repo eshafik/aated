@@ -21,7 +21,7 @@ const UpdateExperienceForm = ({
   const { notification } = App.useApp();
 
   const { data: experienceData, isLoading } = useQuery({
-    queryKey: ["experience-list", slug],
+    queryKey: ["experience-list", slug ? slug : ""],
     queryFn: () => profileAPI.getExperience(slug),
     onSuccess: () => {},
   });
@@ -83,6 +83,7 @@ const UpdateExperienceForm = ({
             isDisabled={true}
             deleteExperience={experienceData?.data?.id.toString()}
             updateLoading={updateExperienceLoading}
+            onCancel={onCancel}
           />
         </Form>
       </Skeleton>

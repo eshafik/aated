@@ -56,10 +56,11 @@ const SignUp = () => {
   }, []);
 
   return (
-    <Row align="middle" justify="center">
-      <Col xs={20} sm={15} md={15} lg={12} xl={12} xxl={10}>
+    <Row className="h-full" align="middle" justify="center">
+      <Col xs={20} sm={15} md={12} lg={10} xl={10} xxl={7}>
         <Card
-          // size="small"
+          type="inner"
+          size="small"
           className="shadow-3xl"
           title={<div className="text-center text-xl">Sign UP</div>}
         >
@@ -71,7 +72,6 @@ const SignUp = () => {
               mutate(payload);
               setEmailStore(values.email);
             }}
-            size="middle"
             layout="vertical"
           >
             <Form.Item
@@ -79,17 +79,7 @@ const SignUp = () => {
               label="Name"
               rules={[{ required: true, message: "Please enter your name" }]}
             >
-              <Input className="h-11" placeholder="name" />
-            </Form.Item>
-
-            <Form.Item
-              label="Student ID"
-              name="student_id"
-              rules={[
-                { required: true, message: "Please enter your StudentID" },
-              ]}
-            >
-              <Input className="h-11" placeholder="Student ID" />
+              <Input className="h-11 " placeholder="name" />
             </Form.Item>
 
             <Form.Item
@@ -108,25 +98,44 @@ const SignUp = () => {
               <Input className="h-11" placeholder="Phone" />
             </Form.Item>
 
-            <Form.Item
-              name="passing_year"
-              label="Passing Year"
-              rules={[
-                { required: true, message: "Please enter your Password" },
-              ]}
-            >
-              <Input className="h-11" placeholder="Passing year" />
-            </Form.Item>
+            <Row justify={"space-between"} gutter={24}>
+              <Col span={12}>
+                <Form.Item
+                  label="Student ID"
+                  name="student_id"
+                  rules={[
+                    { required: true, message: "Please enter your StudentID" },
+                  ]}
+                >
+                  <Input className="h-11" placeholder="Student ID" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="passing_year"
+                  label="Passing Year"
+                  rules={[
+                    { required: true, message: "Please enter your Password" },
+                  ]}
+                >
+                  <Input className="h-11 " placeholder="Passing year" />
+                </Form.Item>
+              </Col>
+            </Row>
 
             <Form.Item
               name="batch"
               label="Batch"
               rules={[
-                { required: true, message: "Please enter your Batch Number" },
+                {
+                  required: true,
+                  message: "Please enter your Batch Number",
+                },
               ]}
             >
               <Select
                 size="large"
+                className="w-full rounded-none"
                 showSearch
                 allowClear
                 filterOption={(input, option) =>
@@ -139,7 +148,6 @@ const SignUp = () => {
                 placeholder="Batch"
               />
             </Form.Item>
-
             <Form.Item
               label="Password"
               name="password"

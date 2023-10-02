@@ -92,7 +92,7 @@ const SeeExperience = () => {
             requiredMark="optional"
             layout="vertical"
           >
-            <ExperienceForm />
+            <ExperienceForm onCancel={() => setIsModalOpen(false)} />
           </Form>
         </Modal>
 

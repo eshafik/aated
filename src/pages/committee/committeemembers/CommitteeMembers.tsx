@@ -1,9 +1,10 @@
-import { DeleteFilled, EditTwoTone, MoreOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditTwoTone, MoreOutlined } from "@ant-design/icons";
 import {
   Button,
   Dropdown,
   Form,
   Input,
+  InputNumber,
   Modal,
   Select,
   Spin,
@@ -87,7 +88,7 @@ const CommitteeMembers = () => {
               {
                 key: "delete",
                 label: "Delete",
-                icon: <DeleteFilled />,
+                icon: <DeleteOutlined />,
                 onClick: () => switchHandler(record?.id),
               },
             ],
@@ -170,29 +171,29 @@ const CommitteeMembers = () => {
               )
             }
           />
-          <Form
-            onFinish={(values) =>
-              addMemberMutate({
-                committee: slag,
-                member: values.member,
-                committee_designation: values.committee_designation,
-                position_order: values.position_order,
-              })
-            }
-            layout="inline"
-            form={form}
+          <Modal
+            title="Add Members"
+            open={isModalOpen}
+            onOk={form.submit}
+            onCancel={handleOk}
+            okText="Save"
+            okType="primary"
+            confirmLoading={isLoading}
+            centered
           >
-            <Modal
-              title="Add Members"
-              open={isModalOpen}
-              onOk={form.submit}
-              onCancel={handleOk}
-              okText="Save"
-              okType="primary"
-              confirmLoading={isLoading}
-              centered
+            <Form
+              onFinish={(values) =>
+                addMemberMutate({
+                  committee: slag,
+                  member: values.member,
+                  committee_designation: values.committee_designation,
+                  position_order: values.position_order,
+                })
+              }
+              layout="vertical"
+              form={form}
             >
-              <Form.Item name="member">
+              <Form.Item name="member" label="Members">
                 <Select
                   onSearch={filter.handleChangeName}
                   optionFilterProp="children"
@@ -210,14 +211,18 @@ const CommitteeMembers = () => {
                 />
               </Form.Item>
 
-              <Form.Item name="committee_designation">
+              <Form.Item
+                name="committee_designation"
+                label="Committee Designation"
+              >
                 <Input placeholder="Committee Designation" />
               </Form.Item>
-              <Form.Item name="position_order">
-                <Input placeholder="Position Order" />
+
+              <Form.Item name="position_order" label="Position Order">
+                <InputNumber className="w-full" placeholder="Position Order" />
               </Form.Item>
-            </Modal>
-          </Form>
+            </Form>
+          </Modal>
           <Table bordered dataSource={tableData} columns={column} />
         </div>
       </Spin>
