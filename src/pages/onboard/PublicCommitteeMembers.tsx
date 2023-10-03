@@ -1,11 +1,22 @@
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { Avatar, Button, Card, Col, Row, Space, Typography } from "antd";
-import { FC } from "react";
+import {
+  Avatar,
+  Button,
+  Card,
+  Carousel,
+  Col,
+  Row,
+  Space,
+  Typography,
+} from "antd";
+import { CarouselRef } from "antd/es/carousel";
+import { FC, useRef } from "react";
 import { useQuery } from "react-query";
 import { publicCommitteeMemberAPI } from "../../libs/api/publicMember";
 
 const PublicCommitteeMembers = () => {
   // const [currentSlide, setCurrentSlide] = useState(0);
+  const caroselref = useRef<CarouselRef>(null);
 
   const { data } = useQuery({
     queryKey: ["publicCommitteeMembers-list"],
@@ -63,25 +74,27 @@ const PublicCommitteeMembers = () => {
       </Col>
       <Col span={24}>
         {data?.data?.map((members, i) => (
-          <Space direction="vertical" key={i}>
-            <Card key={i} className="bg-slate-200 text-center w-64 ml-5">
-              <Avatar
-                className="h-16 w-16"
-                src={`http://api.aated.smartlivestocksystem.com/${members?.profile_pic}`}
-              />
-              <Typography.Title level={4}>{members?.name}</Typography.Title>
-              <Typography.Paragraph type="secondary">
-                {members?.committee_designation}
-              </Typography.Paragraph>
-            </Card>
-          </Space>
+          <Carousel ref={caroselref}>
+            <Space direction="vertical" key={i}>
+              <Card key={i} className="bg-slate-200 text-center w-64 ml-5">
+                <Avatar
+                  className="h-16 w-16"
+                  src={`http://api.aated.smartlivestocksystem.com/${members?.profile_pic}`}
+                />
+                <Typography.Title level={4}>{members?.name}</Typography.Title>
+                <Typography.Paragraph type="secondary">
+                  {members?.committee_designation}
+                </Typography.Paragraph>
+              </Card>
+            </Space>
+          </Carousel>
         ))}
       </Col>
 
       <Col span={24}>
         <Space className="text-center">
-          <SamplePrevArrow />
-          <SampleNextArrow />
+          <SamplePrevArrow onClick={() => caroselref?.current?.next()} />
+          <SampleNextArrow onClick={() => caroselref?.current?.prev()} />
         </Space>
       </Col>
     </Row>
