@@ -16,7 +16,7 @@ const PublicCommitteeMembers = () => {
     <Row
       className="text-center bg-slate-300"
       justify={"space-between"}
-      gutter={[96, 96]}
+      gutter={[48, 48]}
     >
       <Col span={24}>
         <Typography.Title>Our Leadership Team</Typography.Title>
@@ -57,6 +57,11 @@ const PublicCommitteeMembers = () => {
         ))}
       </Col>
       <Col span={24}>
+        "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
+        consectetur, adipisci velit..." "There is no one who loves pain itself,
+        who seeks after it and wants to have it, simply because it is pain..."
+      </Col>
+      <Col span={24}>
         {data?.data?.map((members, i) => (
           <Space direction="vertical" key={i}>
             <Card key={i} className="bg-slate-200 text-center w-64 ml-5">
@@ -72,8 +77,9 @@ const PublicCommitteeMembers = () => {
           </Space>
         ))}
       </Col>
+
       <Col span={24}>
-        <Space className="mt-5 text-center">
+        <Space className="text-center">
           <SamplePrevArrow />
           <SampleNextArrow />
         </Space>
@@ -81,13 +87,11 @@ const PublicCommitteeMembers = () => {
     </Row>
   );
 };
-
 export default PublicCommitteeMembers;
 
 type NextPrevButton = {
   onClick?: () => void;
 };
-
 const SampleNextArrow: FC<NextPrevButton> = ({ onClick }) => {
   return (
     <Button
@@ -104,7 +108,6 @@ const SampleNextArrow: FC<NextPrevButton> = ({ onClick }) => {
     </Button>
   );
 };
-
 const SamplePrevArrow: FC<NextPrevButton> = ({ onClick }) => {
   return (
     <Button
