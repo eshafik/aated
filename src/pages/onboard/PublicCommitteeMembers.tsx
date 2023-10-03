@@ -73,8 +73,8 @@ const PublicCommitteeMembers = () => {
         who seeks after it and wants to have it, simply because it is pain..."
       </Col>
       <Col span={24}>
-        {data?.data?.map((members, i) => (
-          <Carousel ref={caroselref}>
+        <Carousel autoplay ref={caroselref}>
+          {data?.data?.map((members, i) => (
             <Space direction="vertical" key={i}>
               <Card key={i} className="bg-slate-200 text-center w-64 ml-5">
                 <Avatar
@@ -87,8 +87,8 @@ const PublicCommitteeMembers = () => {
                 </Typography.Paragraph>
               </Card>
             </Space>
-          </Carousel>
-        ))}
+          ))}
+        </Carousel>
       </Col>
 
       <Col span={24}>
