@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 const HomeLayout = () => {
   return (
     <Layout className="h-screen w-screen">
-      <Layout.Content style={{ background: "LightGray" }}>
+      <Layout.Content className="bg-slate-300">
         <Outlet />
       </Layout.Content>
     </Layout>

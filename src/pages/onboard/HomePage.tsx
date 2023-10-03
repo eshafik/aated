@@ -7,13 +7,8 @@ const HomePage = () => {
   return (
     <div>
       <Header />
-      <div
-        style={{
-          display: "flex",
-          background: "LightGray",
-        }}
-      >
-        <Row align={"middle"} justify={"center"} gutter={24}>
+      <div className="bg-slate-300">
+        <Row justify={"center"}>
           <Col span={24}>
             <Typography.Title className="text-center">
               Lorem ipsum dolor sit amet, consectetur adipis elit.
