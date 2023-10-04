@@ -1,27 +1,55 @@
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import {
-  Avatar,
-  Button,
-  Card,
-  Carousel,
-  Col,
-  Row,
-  Space,
-  Typography,
-} from "antd";
-import { CarouselRef } from "antd/es/carousel";
-import { FC, useRef } from "react";
+import { Avatar, Card, Col, Row, Space, Typography } from "antd";
 import { useQuery } from "react-query";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import { publicCommitteeMemberAPI } from "../../libs/api/publicMember";
-
 const PublicCommitteeMembers = () => {
   // const [currentSlide, setCurrentSlide] = useState(0);
-  const caroselref = useRef<CarouselRef>(null);
+  // const caroselref = useRef<Slider>();
 
   const { data } = useQuery({
     queryKey: ["publicCommitteeMembers-list"],
     queryFn: () => publicCommitteeMemberAPI.getPublicCommitteeMembers(),
   });
+
+  const settings = {
+    className: "center",
+    centerMode: true,
+    infinite: true,
+    slidesToShow: 3,
+    arrows: true,
+    speed: 500,
+    // responsive: [
+    //   {
+    //     breakpoint: 1024,
+    //     settings: {
+    //       slidesToShow: 3,
+    //       slidesToScroll: 3,
+    //       infinite: true,
+    //       dots: true,
+    //     },
+    //   },
+    //   {
+    //     breakpoint: 600,
+    //     settings: {
+    //       slidesToShow: 2,
+    //       slidesToScroll: 2,
+    //       infinite: true,
+    //       dots: true,
+    //     },
+    //   },
+    //   {
+    //     breakpoint: 480,
+    //     settings: {
+    //       slidesToShow: 1,
+    //       slidesToScroll: 1,
+    //       infinite: true,
+    //       dots: true,
+    //     },
+    //   },
+    // ],
+  };
 
   return (
     <Row
@@ -67,16 +95,21 @@ const PublicCommitteeMembers = () => {
           </Space>
         ))}
       </Col>
+
       <Col span={24}>
         "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
         consectetur, adipisci velit..." "There is no one who loves pain itself,
         who seeks after it and wants to have it, simply because it is pain..."
       </Col>
-      <Col span={24}>
-        <Carousel autoplay ref={caroselref}>
+
+      <Col className="mx-auto" sm={9} xl={12}>
+        <Slider {...settings}>
           {data?.data?.map((members, i) => (
-            <Space direction="vertical" key={i}>
-              <Card key={i} className="bg-slate-200 text-center w-64 ml-5">
+            <Space direction="vertical">
+              <Card
+                key={i}
+                className="bg-slate-200 text-center w-64 ml-5 m-auto"
+              >
                 <Avatar
                   className="h-16 w-16"
                   src={`http://api.aated.smartlivestocksystem.com/${members?.profile_pic}`}
@@ -88,52 +121,9 @@ const PublicCommitteeMembers = () => {
               </Card>
             </Space>
           ))}
-        </Carousel>
-      </Col>
-
-      <Col span={24}>
-        <Space className="text-center">
-          <SamplePrevArrow onClick={() => caroselref?.current?.next()} />
-          <SampleNextArrow onClick={() => caroselref?.current?.prev()} />
-        </Space>
+        </Slider>
       </Col>
     </Row>
   );
 };
 export default PublicCommitteeMembers;
-
-type NextPrevButton = {
-  onClick?: () => void;
-};
-const SampleNextArrow: FC<NextPrevButton> = ({ onClick }) => {
-  return (
-    <Button
-      shape="circle"
-      className=""
-      style={{
-        color: "black",
-        fontSize: "15px",
-        lineHeight: "1.5715",
-      }}
-      onClick={onClick}
-    >
-      <RightOutlined />
-    </Button>
-  );
-};
-const SamplePrevArrow: FC<NextPrevButton> = ({ onClick }) => {
-  return (
-    <Button
-      shape="circle"
-      className=""
-      style={{
-        color: "black",
-        fontSize: "15px",
-        lineHeight: "1.5715",
-      }}
-      onClick={onClick}
-    >
-      <LeftOutlined />
-    </Button>
-  );
-};
