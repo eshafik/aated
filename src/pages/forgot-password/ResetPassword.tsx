@@ -1,4 +1,4 @@
-import { UserOutlined } from "@ant-design/icons";
+import { SecurityScanOutlined } from "@ant-design/icons";
 import { App, Button, Card, Col, Form, Input, Row, Typography } from "antd";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,8 @@ const ResetPassword = () => {
                 Forgot Password
               </Typography.Title>
               <Typography.Paragraph type="secondary">
-                Enter your email to send a verification code
+                Enter verification code that send to your email and confirm your
+                password
               </Typography.Paragraph>
             </>
           }
@@ -42,33 +43,64 @@ const ResetPassword = () => {
             requiredMark={"optional"}
             onFinish={(values) =>
               mutate({
-                email: values.email,
+                email: localStorage.getItem("signup-email"),
                 otp: values.otp,
                 password: values.password,
               })
             }
-            size="middle"
+            size="large"
             layout="vertical"
           >
             <Form.Item
-              name="email"
-              rules={[{ required: true, message: "Please input your Email!" }]}
-            >
-              <Input prefix={<UserOutlined />} placeholder="Email" />
-            </Form.Item>
-
-            <Form.Item
               name="otp"
-              rules={[{ required: true, message: "Please input your Email!" }]}
+              rules={[
+                { required: true, message: "Please enter verification code!" },
+              ]}
             >
-              <Input prefix={<UserOutlined />} placeholder="OTP" />
+              <Input prefix={<SecurityScanOutlined />} placeholder="OTP" />
             </Form.Item>
 
             <Form.Item
               name="password"
-              rules={[{ required: true, message: "Please input your Email!" }]}
+              hasFeedback
+              rules={[
+                { required: true, message: "Please enter your Password" },
+              ]}
             >
-              <Input prefix={<UserOutlined />} placeholder="Password" />
+              <Input.Password
+                prefix={<SecurityScanOutlined />}
+                className="h-11"
+                placeholder="Password"
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="confirmPassword"
+              dependencies={["password"]}
+              rules={[
+                {
+                  required: true,
+                  message: "Please confirm your password!",
+                },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error(
+                        "The new password that you entered do not match!"
+                      )
+                    );
+                  },
+                }),
+              ]}
+            >
+              <Input.Password
+                prefix={<SecurityScanOutlined />}
+                className="h-11"
+                placeholder="Confirm Password"
+              />
             </Form.Item>
 
             <Form.Item>

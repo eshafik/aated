@@ -1,5 +1,6 @@
 import { UserOutlined } from "@ant-design/icons";
 import { App, Button, Card, Col, Form, Input, Row, Typography } from "antd";
+import { useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { ForgotPasswordPayload } from "../../libs/api/@types/auth";
@@ -8,13 +9,15 @@ import { authAPI } from "../../libs/api/authAPI";
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const { notification } = App.useApp();
+  const [emailStore, setEmailStore] = useState("");
+  localStorage.setItem("signup-email", emailStore);
 
   const { isLoading, mutate } = useMutation(
     (payload: ForgotPasswordPayload) => authAPI.forgotPassword(payload),
     {
       onSuccess: () => {
         notification.success;
-        navigate("/reset-password");
+        navigate("/reset-password", { state: { emailStore } });
       },
       onError: (error: Error) => {
         notification.error({ message: error.message });
@@ -40,12 +43,13 @@ const ForgotPassword = () => {
         >
           <Form
             requiredMark={"optional"}
-            onFinish={(values) =>
+            onFinish={(values) => {
               mutate({
                 email: values.email,
-              })
-            }
-            size="middle"
+              });
+              setEmailStore(values.email);
+            }}
+            size="large"
             layout="vertical"
           >
             <Form.Item

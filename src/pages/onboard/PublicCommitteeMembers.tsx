@@ -1,5 +1,6 @@
 import { Avatar, Card, Col, Row, Space, Typography } from "antd";
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -55,7 +56,7 @@ const PublicCommitteeMembers = () => {
     <Row
       className="text-center bg-slate-300 h-screen w-screen"
       justify={"space-between"}
-      gutter={[24, 24]}
+      gutter={[16, 16]}
     >
       <Col span={24}>
         <Typography.Title>Our Leadership Team</Typography.Title>
@@ -71,10 +72,14 @@ const PublicCommitteeMembers = () => {
             {members?.committee_designation == "President" && (
               <div className="w-56 text-center mt-14">
                 <Avatar
-                  className="h-44 w-44"
+                  className="h-40 w-40"
                   src={`http://api.aated.smartlivestocksystem.com/${members?.profile_pic}`}
                 />
-                <Typography.Title level={4}>{members?.name}</Typography.Title>
+                <Link to={"/signin"}>
+                  <Typography.Title level={4} className="hover:font-bold">
+                    {members?.name}
+                  </Typography.Title>
+                </Link>
                 <Typography.Paragraph type="secondary">
                   {members?.committee_designation}
                 </Typography.Paragraph>
@@ -83,10 +88,14 @@ const PublicCommitteeMembers = () => {
             {members?.committee_designation == "Secretary" && (
               <div className="w-56 text-center">
                 <Avatar
-                  className="h-44 w-44"
+                  className="h-40 w-40"
                   src={`http://api.aated.smartlivestocksystem.com/${members?.profile_pic}`}
                 />
-                <Typography.Title level={4}>{members?.name}</Typography.Title>
+                <Link to={"/signin"}>
+                  <Typography.Title level={4} className="hover:font-bold">
+                    {members?.name}
+                  </Typography.Title>
+                </Link>
                 <Typography.Paragraph type="secondary">
                   {members?.committee_designation}
                 </Typography.Paragraph>
@@ -105,20 +114,19 @@ const PublicCommitteeMembers = () => {
       <Col className="mx-auto" sm={9} xl={12}>
         <Slider {...settings}>
           {data?.data?.map((members, i) => (
-            <Space direction="vertical">
-              <Card
-                key={i}
-                className="bg-slate-200 text-center w-64 ml-5 m-auto"
-              >
-                <Avatar
-                  className="h-16 w-16"
-                  src={`http://api.aated.smartlivestocksystem.com/${members?.profile_pic}`}
-                />
-                <Typography.Title level={4}>{members?.name}</Typography.Title>
-                <Typography.Paragraph type="secondary">
-                  {members?.committee_designation}
-                </Typography.Paragraph>
-              </Card>
+            <Space direction="vertical" key={i}>
+              <Link to={"/signin"}>
+                <Card className="w-64">
+                  <Avatar
+                    className="h-20 w-20"
+                    src={`http://api.aated.smartlivestocksystem.com/${members?.profile_pic}`}
+                  />
+                  <Typography.Title level={4}>{members?.name}</Typography.Title>
+                  <Typography.Paragraph type="secondary">
+                    {members?.committee_designation}
+                  </Typography.Paragraph>
+                </Card>
+              </Link>
             </Space>
           ))}
         </Slider>

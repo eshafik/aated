@@ -14,7 +14,7 @@ export interface CreateUserResponse {
 }
 
 export interface VerifyOTP {
-  email?: string;
+  email: string | null;
   otp?: string;
   password?: string;
 }
