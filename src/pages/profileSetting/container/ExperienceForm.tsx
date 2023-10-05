@@ -89,7 +89,6 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
         ]}
       >
         <DatePicker
-          disabled={isDisabled}
           format={"YYYY-MM-DD"}
           className="w-full"
           placeholder="Job Start Date"

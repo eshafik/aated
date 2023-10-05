@@ -37,8 +37,12 @@ export const publicRoute = createBrowserRouter([
           <Result
             status="404"
             title="404"
-            subTitle="Sorry, the page you visited does not exist."
-            extra={<Button type="primary">Back Home</Button>}
+            subTitle="You have to signin to access this page"
+            extra={
+              <Link to={"/signin"}>
+                <Button type="primary">Back Home</Button>
+              </Link>
+            }
           />
         ),
       },
@@ -94,7 +98,7 @@ export const protectedRouter = createBrowserRouter([
         title="404"
         subTitle="Sorry, the page you visited does not exist."
         extra={
-          <Link to={"/signin"}>
+          <Link to={"/"}>
             <Button type="primary">Back Home</Button>
           </Link>
         }

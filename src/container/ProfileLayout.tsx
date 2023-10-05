@@ -55,7 +55,14 @@ const ProfileLayout: FC<ProfileLayoutProps> = ({
         <Col span={12}>
           <Card
             className="shadow-2xl bg-white w-[500px] sm:w-[500px] md:w-[500px] lg:w-[650px]"
-            // cover={<img className="absolute top-0" src={cover} />}
+            cover={
+              <img
+                className="absolute top-0"
+                src={
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy0ZTQnFP_ELXRncIVb1zAOPaXfPkbo9mQig&usqp=CAU"
+                }
+              />
+            }
           >
             <div>
               <Row justify={"space-between"}>

@@ -50,7 +50,7 @@ const DashboardLayout = () => {
           <SideMenu />
         </Sider>
         <Layout>
-          <Header style={{ padding: 0 }} className="bg-white w-full">
+          <Header style={{ padding: 0 }} className="bg-white w-full h-14">
             <Row justify={"space-between"}>
               <Col>
                 <Button
@@ -63,7 +63,7 @@ const DashboardLayout = () => {
               </Col>
               <Col>
                 <Dropdown.Button
-                  className="mr-14 mt-3 text-center"
+                  className="mr-14 mt-1.5 text-center"
                   size="large"
                   type="default"
                   icon={

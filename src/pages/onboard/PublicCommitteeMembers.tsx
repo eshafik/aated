@@ -53,9 +53,9 @@ const PublicCommitteeMembers = () => {
 
   return (
     <Row
-      className="text-center bg-slate-300"
+      className="text-center bg-slate-300 h-screen w-screen"
       justify={"space-between"}
-      gutter={[48, 48]}
+      gutter={[24, 24]}
     >
       <Col span={24}>
         <Typography.Title>Our Leadership Team</Typography.Title>
