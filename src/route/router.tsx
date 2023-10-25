@@ -8,6 +8,7 @@ import ForgotPassword from "../pages/forgot-password/ForgotPassword";
 import ResetPassword from "../pages/forgot-password/ResetPassword";
 import Member from "../pages/member/Member";
 import Members from "../pages/members";
+import Contributor from "../pages/onboard/Contributor";
 import EmailVerify from "../pages/onboard/EmailVerify";
 import HomePage from "../pages/onboard/HomePage";
 import PublicCommitteeMembers from "../pages/onboard/PublicCommitteeMembers";
@@ -31,6 +32,7 @@ export const publicRoute = createBrowserRouter([
       { path: "committee", element: <PublicCommitteeMembers /> },
       { path: "forgot-password", element: <ForgotPassword /> },
       { path: "reset-password", element: <ResetPassword /> },
+      { path: "contributor", element: <Contributor /> },
       {
         path: "*",
         element: (

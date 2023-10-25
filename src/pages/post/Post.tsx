@@ -165,8 +165,8 @@ const Post = () => {
               </Form.Item>
               <Form.Item>
                 <Button
+                  type="primary"
                   loading={loadingComment}
-                  className="bg-yellow-300"
                   htmlType="submit"
                 >
                   Comment

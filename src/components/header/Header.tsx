@@ -1,8 +1,12 @@
 import { Button, Col, Layout, Row, Typography } from "antd";
 import { Header as AntHeader } from "antd/es/layout/layout";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+type HeaderProps = {
+  isDisable?: boolean;
+};
+const Header: FC<HeaderProps> = ({ isDisable }) => {
   const navigate = useNavigate();
   const HEADER_LINK = [
     {
@@ -16,6 +20,10 @@ const Header = () => {
     {
       name: "Committee",
       path: "committee",
+    },
+    {
+      name: "Contributor",
+      path: "contributor",
     },
     {
       name: "Sign in",
@@ -37,13 +45,17 @@ const Header = () => {
             ))}
           </Col>
           <Col>
-            <Button
-              size="large"
-              type="primary"
-              onClick={() => navigate("/signup")}
-            >
-              Sign Up
-            </Button>
+            {isDisable ? (
+              ""
+            ) : (
+              <Button
+                size="large"
+                type="primary"
+                onClick={() => navigate("/signup")}
+              >
+                Sign Up
+              </Button>
+            )}
           </Col>
         </Row>
       </AntHeader>
