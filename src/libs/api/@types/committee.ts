@@ -2,6 +2,12 @@ import dayJs from "dayjs";
 import { Batch } from "./members";
 
 export interface CommitteeResponse {
+  meta_data?: {
+    count?: number;
+    page_size?: number;
+    next?: string;
+    previous?: string;
+  };
   data?: Committee[];
 }
 
@@ -20,6 +26,11 @@ export interface Committee {
   };
   updated_by?: null;
 }
+
+export type CommitteeListParams = {
+  limit?: number;
+  page?: number;
+};
 
 export interface CommitteePayload {
   id?: string | number;

@@ -27,6 +27,8 @@ export interface MembersResponse {
   ];
   meta_data?: {
     page_size?: number;
+    next?: string;
+    count?: number;
   };
 }
 

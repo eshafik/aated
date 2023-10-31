@@ -30,7 +30,6 @@ import MemberSearch from "../containers/MemberSearch";
 const ActiveMembers = () => {
   const { isSuperUser } = useSuperUser();
   const { notification } = App.useApp();
-  const [page, setPage] = useState(0);
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -254,11 +253,10 @@ const ActiveMembers = () => {
         <Pagination
           className="px-4"
           size="default"
-          total={ActiveMemberData?.meta_data?.page_size}
-          pageSize={10}
-          current={page}
-          onChange={(page) => setPage(page)}
+          total={ActiveMemberData?.meta_data?.count}
+          onChange={memberFilter.handleChangePage}
           showQuickJumper={true}
+          showSizeChanger={true}
         />
       </div>
     </Spin>

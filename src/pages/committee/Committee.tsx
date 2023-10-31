@@ -7,6 +7,7 @@ import {
   Form,
   Input,
   Modal,
+  Pagination,
   Row,
   Space,
   Spin,
@@ -14,8 +15,9 @@ import {
   Typography,
 } from "antd";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
+import { useCommitteeList } from "../../config/hook/useCommittee";
 import { useSuperUser } from "../../container/RoleProvider";
 import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
@@ -24,13 +26,11 @@ import PageHeader from "./components/PageHeader";
 const Committee = () => {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isSuperUser } = useSuperUser();
   const queryClient = useQueryClient();
-
-  const { data, isLoading } = useQuery(["committee-list"], () =>
-    committeeAPI.getCommitteeList()
-  );
-
   const { notification } = App.useApp();
+
+  const { committeeData, isLoading, filter } = useCommitteeList();
 
   const { mutate, isLoading: loadingCreateCommittee } = useMutation(
     (payload: CommitteePayload) => committeeAPI.createCommittee(payload),
@@ -45,8 +45,6 @@ const Committee = () => {
       },
     }
   );
-
-  const { isSuperUser } = useSuperUser();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -126,7 +124,7 @@ const Committee = () => {
           </Form.Item>
         </Form>
       </Modal>
-      {data?.data?.map((items, index) => (
+      {committeeData?.data?.map((items, index) => (
         <Space key={index} size={"large"} direction="vertical">
           <Row gutter={[48, 48]}>
             <Col className="mt-5" span={23}>
@@ -147,6 +145,16 @@ const Committee = () => {
           </Row>
         </Space>
       ))}
+      <div style={{ float: "right" }} className="sticky bottom-10">
+        <Pagination
+          className="px-4"
+          size="default"
+          total={committeeData?.meta_data?.page_size}
+          onChange={filter.handleChangePage}
+          showQuickJumper={true}
+          showSizeChanger={true}
+        />
+      </div>
     </Spin>
   );
 };
