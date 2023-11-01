@@ -13,6 +13,8 @@ class MembersAPI {
 
   activeMembersList(params?: MembersListParams) {
     const queryParams = new URLSearchParams();
+    queryParams.append("limit", params?.limit?.toString() ?? "10");
+    queryParams.append("page", params?.page?.toString() ?? "1");
     if (params?.name) queryParams.append("name", params?.name);
     if (params?.batch) queryParams.append("batch", params?.batch);
     if (params?.company_name)
@@ -41,8 +43,13 @@ class MembersAPI {
     );
   }
 
-  pendingMembersList() {
-    return this.http.get<MembersResponse>("api/v1/users/pending-members/");
+  pendingMembersList(params?: MembersListParams) {
+    const queryParams = new URLSearchParams();
+    queryParams.append("limit", params?.limit?.toString() ?? "10");
+    queryParams.append("page", params?.page?.toString() ?? "1");
+    return this.http.get<MembersResponse>(
+      `api/v1/users/pending-members?${queryParams}`
+    );
   }
 
   getMemberDetails(ID: string | number) {

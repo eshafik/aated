@@ -3,6 +3,7 @@ import { authService } from "../auth/auth.service";
 import {
   Committee,
   CommitteeDetails,
+  CommitteeListParams,
   CommitteeMemberPayload,
   CommitteePayload,
   CommitteeResponse,
@@ -13,8 +14,13 @@ import { HttpAuthService } from "./httpService/httpAuth.service";
 class CommitteeAPI {
   constructor(private http: HttpAuthService) {}
 
-  getCommitteeList() {
-    return this.http.get<CommitteeResponse>("api/v1/committee/committee/");
+  getCommitteeList(params?: CommitteeListParams) {
+    const queryParams = new URLSearchParams();
+    queryParams.append("limit", params?.limit?.toString() ?? "10");
+    queryParams.append("page", params?.page?.toString() ?? "1");
+    return this.http.get<CommitteeResponse>(
+      `api/v1/committee/committee?${queryParams}`
+    );
   }
 
   getCommitteeDetails(id: string) {

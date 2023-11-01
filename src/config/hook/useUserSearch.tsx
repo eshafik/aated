@@ -3,14 +3,12 @@ import { useQuery } from "react-query";
 import { MembersListParams } from "../../libs/api/@types/members";
 import { membersAPI } from "../../libs/api/membersAPI";
 
-interface MemberListHookParams {
-  filters?: MembersListParams;
-}
+export const useMemberList = () => {
+  const [filters, setFilters] = useState<MembersListParams>();
 
-export const useMemberList = (params?: MemberListHookParams) => {
-  const [filters, setFilters] = useState<MembersListParams | undefined>(
-    params?.filters
-  );
+  const handleChangePage = (page: number, limit: number) => {
+    setFilters((prev) => ({ ...prev, page, limit }));
+  };
 
   const handleChangeName = (member?: string) => {
     setFilters((prev) => ({ ...prev, name: member }));
@@ -54,10 +52,14 @@ export const useMemberList = (params?: MemberListHookParams) => {
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["members-list", filters],
     queryFn: () => membersAPI.activeMembersList(filters),
+    // getNextPageParam: (lastPage) => {
+    //   if (lastPage.meta_data?.next) return lastPage.meta_data.next;
+    //   return undefined;
+    // },
   });
 
   return {
-    members: data,
+    data,
     isLoading,
     refetch,
     filter: {
@@ -72,6 +74,7 @@ export const useMemberList = (params?: MemberListHookParams) => {
       handleChangeStudentId,
       handleChangeSkills,
       handleChangeEmployeeStatus,
+      handleChangePage,
     },
   };
 };
