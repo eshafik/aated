@@ -145,16 +145,16 @@ const Committee = () => {
           </Row>
         </Space>
       ))}
-      <div style={{ float: "right" }} className="sticky bottom-10">
-        <Pagination
-          className="px-4"
-          size="default"
-          total={committeeData?.meta_data?.page_size}
-          onChange={filter.handleChangePage}
-          showQuickJumper={true}
-          showSizeChanger={true}
-        />
-      </div>
+
+      <Pagination
+        style={{ textAlign: "right", marginTop: "10px" }}
+        defaultCurrent={1}
+        total={committeeData?.meta_data?.count}
+        defaultPageSize={committeeData?.meta_data?.page_size ?? 10}
+        onChange={filter.handleChangePage}
+        // showQuickJumper={true}
+        // showSizeChanger={true}
+      />
     </Spin>
   );
 };

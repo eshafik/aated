@@ -6,7 +6,7 @@ import { membersAPI } from "../../libs/api/membersAPI";
 export const useMemberList = () => {
   const [filters, setFilters] = useState<MembersListParams>();
 
-  const handleChangePage = (page?: number, limit?: number) => {
+  const handleChangePage = (page: number, limit: number) => {
     setFilters((prev) => ({ ...prev, page, limit }));
   };
 
@@ -52,14 +52,14 @@ export const useMemberList = () => {
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["members-list", filters],
     queryFn: () => membersAPI.activeMembersList(filters),
-    getNextPageParam: (lastPage) => {
-      if (lastPage.meta_data?.next) return lastPage.meta_data.next;
-      return undefined;
-    },
+    // getNextPageParam: (lastPage) => {
+    //   if (lastPage.meta_data?.next) return lastPage.meta_data.next;
+    //   return undefined;
+    // },
   });
 
   return {
-    members: data,
+    data,
     isLoading,
     refetch,
     filter: {

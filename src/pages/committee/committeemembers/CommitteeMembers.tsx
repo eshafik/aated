@@ -108,7 +108,7 @@ const CommitteeMembers = () => {
   }, [data?.data]);
 
   const {
-    members: ActiveMemberData,
+    data: ActiveMemberData,
     filter,
     isLoading: loadingMembers,
   } = useMemberList();
@@ -223,7 +223,17 @@ const CommitteeMembers = () => {
               </Form.Item>
             </Form>
           </Modal>
-          <Table bordered dataSource={tableData} columns={column} />
+          <Table
+            bordered
+            dataSource={tableData}
+            columns={column}
+            pagination={{
+              size: "default",
+              total: ActiveMemberData?.meta_data?.count,
+              pageSize: filter?.filters?.limit,
+              onChange: filter.handleChangePage,
+            }}
+          />
         </div>
       </Spin>
     </>

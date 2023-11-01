@@ -31,10 +31,11 @@ const ActiveMembers = () => {
   const { isSuperUser } = useSuperUser();
   const { notification } = App.useApp();
   const [form] = Form.useForm();
+  const [isFiltersVisible, setIsFiltersVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
-    members: ActiveMemberData,
+    data: ActiveMemberData,
     isLoading,
     filter: memberFilter,
   } = useMemberList();
@@ -51,7 +52,6 @@ const ActiveMembers = () => {
     }
   );
 
-  const [isFiltersVisible, setIsFiltersVisible] = useState(false);
   const handelOk = () => {
     setIsModalOpen(true);
     setIsFiltersVisible(true);
@@ -59,12 +59,6 @@ const ActiveMembers = () => {
 
   return (
     <Spin spinning={isLoading}>
-      {/* <Button
-        type="text"
-        className="xl:hidden mb-3"
-        onClick={() => setIsFiltersVisible((prev) => !prev)}
-        icon={<SlidersHorizontal />}
-      /> */}
       <Space className="mb-3">
         <Button
           title="Member Filter"
@@ -85,10 +79,6 @@ const ActiveMembers = () => {
       </Space>
       <Form
         size="large"
-        // className={twMerge(
-        //   "hidden xl:block mb-3 mr-8 sticky top-0 z-10 bg-transparent",
-        //   isFiltersVisible && "block"
-        // )}
         form={form}
         onFinish={(values) => {
           memberFilter.handleChangeName(values.name);
@@ -134,17 +124,6 @@ const ActiveMembers = () => {
                 className="h-full"
                 hoverable
                 style={{ width: 370 }}
-                // cover={
-                //   <Avatar
-                //     size={"small"}
-                //     shape="square"
-                //     src={
-                //       item?.profile_pic ??
-                //       "https://t3.ftcdn.net/jpg/05/79/68/24/360_F_579682479_j4jRfx0nl3C8vMrTYVapFnGP8EgNHgfk.jpg"
-                //     }
-                //     style={{ height: 300 }}
-                //   />
-                // }
                 actions={[
                   <Link to={`${item?.id}`}>
                     <Button type="text" icon={<EyeOutlined />}>
@@ -249,16 +228,15 @@ const ActiveMembers = () => {
           </Col>
         ))}
       </Row>
-      <div style={{ float: "right" }} className="sticky bottom-10">
-        <Pagination
-          className="px-4"
-          size="default"
-          total={ActiveMemberData?.meta_data?.count}
-          onChange={memberFilter.handleChangePage}
-          showQuickJumper={true}
-          showSizeChanger={true}
-        />
-      </div>
+      <Pagination
+        style={{ textAlign: "right", marginTop: "10px" }}
+        defaultCurrent={1}
+        total={ActiveMemberData?.meta_data?.count}
+        defaultPageSize={ActiveMemberData?.meta_data?.page_size ?? 10}
+        onChange={memberFilter.handleChangePage}
+        // showQuickJumper={true}
+        // showSizeChanger={true}
+      />
     </Spin>
   );
 };
