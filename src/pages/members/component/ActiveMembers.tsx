@@ -234,8 +234,6 @@ const ActiveMembers = () => {
         total={ActiveMemberData?.meta_data?.count}
         defaultPageSize={ActiveMemberData?.meta_data?.page_size ?? 10}
         onChange={memberFilter.handleChangePage}
-        // showQuickJumper={true}
-        // showSizeChanger={true}
       />
     </Spin>
   );
