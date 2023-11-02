@@ -151,6 +151,9 @@ const Committee = () => {
         defaultCurrent={1}
         total={committeeData?.meta_data?.count}
         defaultPageSize={committeeData?.meta_data?.page_size ?? 10}
+        showTotal={(total) =>
+          `Total: ${total} out of ${committeeData?.meta_data?.count}`
+        }
         onChange={filter.handleChangePage}
         // showQuickJumper={true}
         // showSizeChanger={true}
