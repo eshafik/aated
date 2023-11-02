@@ -25,9 +25,8 @@ const PublicCommitteeMembers = () => {
 
   return (
     <Row
-      className="text-center bg-slate-300 h-screen w-screen"
+      className="text-center bg-slate-300 h-[calc(100vh-100px)] w-screen"
       justify={"space-between"}
-      gutter={[16, 16]}
     >
       <Col span={24}>
         <Typography.Title>Our Leadership Team</Typography.Title>
@@ -41,7 +40,7 @@ const PublicCommitteeMembers = () => {
         {data?.data?.map((members, i) => (
           <Space direction="vertical" key={i}>
             {members?.committee_designation == "President" && (
-              <div className="w-56 text-center mt-14">
+              <div className="w-56 text-center">
                 <Avatar
                   className="h-40 w-40"
                   src={`http://api.aated.smartlivestocksystem.com/${members?.profile_pic}`}

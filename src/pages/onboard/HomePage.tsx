@@ -1,14 +1,13 @@
-import { Button, Col, Row, Typography } from "antd";
-import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
+import PublicCommitteeMembers from "./PublicCommitteeMembers";
 
 const HomePage = () => {
-  const navigate = useNavigate();
   return (
     <div>
       <Header />
       <div className="bg-slate-300">
-        <Row justify={"center"}>
+        <PublicCommitteeMembers />
+        {/* <Row justify={"center"}>
           <Col span={24}>
             <Typography.Title className="text-center">
               Lorem ipsum dolor sit amet, consectetur adipis elit.
@@ -32,7 +31,7 @@ const HomePage = () => {
               Sign In
             </Button>
           </Col>
-        </Row>
+        </Row> */}
       </div>
     </div>
   );
