@@ -1,5 +1,6 @@
 import {
   App,
+  Badge,
   Button,
   Card,
   Col,
@@ -56,8 +57,13 @@ const Committee = () => {
   return (
     <Spin spinning={isLoading}>
       <PageHeader
-        title="Committee"
-        subtitle="Connect with community members by joining a communities"
+        title={
+          <>
+            Committee
+            <Badge count={committeeData?.meta_data?.count} />
+          </>
+        }
+        subtitle="Connect with committee members by joining a Committee"
         actions={
           isSuperUser ? (
             <Button
@@ -151,9 +157,6 @@ const Committee = () => {
         defaultCurrent={1}
         total={committeeData?.meta_data?.count}
         defaultPageSize={committeeData?.meta_data?.page_size ?? 10}
-        showTotal={(total) =>
-          `Total: ${total} out of ${committeeData?.meta_data?.count}`
-        }
         onChange={filter.handleChangePage}
         // showQuickJumper={true}
         // showSizeChanger={true}

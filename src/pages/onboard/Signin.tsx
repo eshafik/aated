@@ -26,7 +26,7 @@ const SignIn = () => {
   );
   return (
     <>
-      <Header />
+      <Header isDisable={true} />
       <Row className="h-[calc(100vh-120px)]" align="middle" justify="center">
         <Col xs={15} sm={12} md={10} lg={8} xl={6}>
           <Card

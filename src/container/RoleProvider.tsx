@@ -7,10 +7,12 @@ interface SuperUserContext {
   isSuperUser?: boolean;
   isLoading?: boolean;
   data?: UpdateProfileResponse;
+  isModarator?: boolean;
 }
 
 const RoleContext = createContext<SuperUserContext>({
   isSuperUser: false,
+  isModarator: false,
   isLoading: false,
   data: undefined,
 });

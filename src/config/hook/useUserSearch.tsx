@@ -5,6 +5,7 @@ import { membersAPI } from "../../libs/api/membersAPI";
 
 export const useMemberList = () => {
   const [filters, setFilters] = useState<MembersListParams>();
+  const [isModalDisable, setModalDisable] = useState(false);
 
   const handleChangePage = (page: number, limit: number) => {
     setFilters((prev) => ({ ...prev, page, limit }));
@@ -52,16 +53,16 @@ export const useMemberList = () => {
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["members-list", filters],
     queryFn: () => membersAPI.activeMembersList(filters),
-    // getNextPageParam: (lastPage) => {
-    //   if (lastPage.meta_data?.next) return lastPage.meta_data.next;
-    //   return undefined;
-    // },
+    onSuccess: () => {
+      setModalDisable(true);
+    },
   });
 
   return {
     data,
     isLoading,
     refetch,
+    isModalDisable,
     filter: {
       filters,
       handleChangeOrdering,

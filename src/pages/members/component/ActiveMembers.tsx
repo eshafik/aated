@@ -141,8 +141,8 @@ const ActiveMembers = () => {
                             key: "admin",
                             label: (
                               <Popconfirm
-                                title="Make Admin?"
-                                description="Are you sure to Make Admin"
+                                title="Make Admin"
+                                description="Are you sure you want to change member role as admin?"
                                 onConfirm={() =>
                                   mutate({
                                     role: "admin",
@@ -161,8 +161,8 @@ const ActiveMembers = () => {
                             key: "member",
                             label: (
                               <Popconfirm
-                                title="Make member?"
-                                description="Are you sure to Make member"
+                                title="Member"
+                                description="Are you sure you want to change member role as member?"
                                 onConfirm={() =>
                                   mutate({
                                     role: "member",
@@ -181,8 +181,8 @@ const ActiveMembers = () => {
                             key: "moderator",
                             label: (
                               <Popconfirm
-                                title="Make member?"
-                                description="Are you sure to Make member"
+                                title="Moderator"
+                                description="Are you sure you want to change member role as moderator?"
                                 onConfirm={() =>
                                   mutate({
                                     role: "moderator",
@@ -193,7 +193,7 @@ const ActiveMembers = () => {
                                 cancelText="No"
                                 okType="danger"
                               >
-                                Make moderator
+                                Make Moderator
                               </Popconfirm>
                             ),
                           },

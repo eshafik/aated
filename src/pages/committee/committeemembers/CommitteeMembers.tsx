@@ -162,7 +162,12 @@ const CommitteeMembers = () => {
             subtitle={`Start Date: ${CommitteeName?.data?.start_date} & End Date: ${CommitteeName?.data?.end_date}`}
             actions={
               isSuperUser ? (
-                <Button size="large" type="primary" onClick={() => showModal()}>
+                <Button
+                  size="large"
+                  type="primary"
+                  className="ml-5"
+                  onClick={() => showModal()}
+                >
                   Add Members
                 </Button>
               ) : (
@@ -232,6 +237,7 @@ const CommitteeMembers = () => {
               total: ActiveMemberData?.meta_data?.count,
               pageSize: filter?.filters?.limit,
               onChange: filter.handleChangePage,
+              showTotal: () => `Total: ${data?.meta_data?.count} User`,
             }}
           />
         </div>

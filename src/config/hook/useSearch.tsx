@@ -1,16 +1,10 @@
 import { useState } from "react";
+import { useQuery } from "react-query";
 import { PostListParams } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
-import { useQuery } from "react-query";
 
-interface PostsListHookParams {
-  filters?: PostListParams;
-}
-
-export const usePostList = (params?: PostsListHookParams) => {
-  const [filters, setFilters] = useState<PostListParams | undefined>(
-    params?.filters
-  );
+export const usePostList = () => {
+  const [filters, setFilters] = useState<PostListParams | undefined>();
 
   const handleChangePosts = (post?: string) => {
     setFilters((prev) => ({ ...prev, search: post }));

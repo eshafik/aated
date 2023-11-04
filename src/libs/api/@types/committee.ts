@@ -56,6 +56,12 @@ export interface CommitteeMemberResponse {
 }
 
 export interface CommitteeSample {
+  meta_data?: {
+    count?: number;
+    page_size?: number;
+    next?: string;
+    previous?: string;
+  };
   data?: CommitteeMembers[];
 }
 
