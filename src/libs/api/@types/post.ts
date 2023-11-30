@@ -6,28 +6,28 @@ export interface PostPayload {
 }
 
 export interface PostsResponse {
-  data?: [
-    {
-      id: string;
-      category?: {
-        id: number | string;
-        name?: string;
-      };
-      title?: string;
-      body: string;
-      attachments?: string[];
-      created_at: Date | string;
-      total_comments?: number;
-      user?: {
-        id?: string | number;
-        name?: string;
-        user?: string;
-        email?: string;
-        profile_pic?: string;
-      };
-    }
-  ];
+  data?: PostsDetails[];
 }
+
+export type PostsDetails = {
+  id: string;
+  category?: {
+    id: number | string;
+    name?: string;
+  };
+  title?: string;
+  body: string;
+  attachments?: string[];
+  created_at: Date | string;
+  total_comments?: number;
+  user?: {
+    id?: string | number;
+    name?: string;
+    user?: string;
+    email?: string;
+    profile_pic?: string;
+  };
+};
 
 export interface PostResponse {
   data?: {

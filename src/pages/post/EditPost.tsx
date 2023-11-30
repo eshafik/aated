@@ -1,32 +1,51 @@
-import { App, Form, Input, Modal, Skeleton, message } from "antd";
+import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
+import {
+  App,
+  Button,
+  Dropdown,
+  Form,
+  Input,
+  Modal,
+  Popconfirm,
+  message,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { FC } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { FC, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import AvatarUploader from "../../container/AvaterUploader";
-import { PostPayload } from "../../libs/api/@types/post";
+import { PostPayload, PostsDetails } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
 
 type EditPostProps = {
-  postId?: string;
-  isOpen?: boolean;
-  onCancel: () => void;
+  postsDetails: PostsDetails;
 };
-const EditPost: FC<EditPostProps> = ({ postId, isOpen, onCancel }) => {
+const EditPost: FC<EditPostProps> = ({ postsDetails }) => {
   const queryClient = useQueryClient();
   const { notification } = App.useApp();
   const [form] = Form.useForm();
+  const [isEditPostOpen, setIsEditPostOpen] = useState(false);
 
-  const { data: postData, isLoading } = useQuery(["post-data"], () =>
-    postAPI.getPostDetails(postId as string)
-  );
+  const id = postsDetails?.id;
 
   const { mutate, isLoading: loadingUpdatePost } = useMutation(
-    (payload: PostPayload) => postAPI.postUpdate(postId as string, payload),
+    (payload: PostPayload) => postAPI.postUpdate(id, payload),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("post-list");
         message.success("Post Updated");
-        onCancel();
+        setIsEditPostOpen(false);
+      },
+      onError: (error: Error) => {
+        notification.error({ message: error.message });
+      },
+    }
+  );
+
+  const { mutate: mutateDeletePost } = useMutation(
+    (id: string | number) => postAPI.deletePost(id),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["post-list"]);
       },
       onError: (error: Error) => {
         notification.error({ message: error.message });
@@ -35,11 +54,11 @@ const EditPost: FC<EditPostProps> = ({ postId, isOpen, onCancel }) => {
   );
 
   return (
-    <Skeleton loading={isLoading}>
+    <>
       <Modal
         title="Edit Post"
-        open={isOpen}
-        onCancel={onCancel}
+        open={isEditPostOpen}
+        onCancel={() => setIsEditPostOpen(false)}
         onOk={form.submit}
         okText="Update"
         confirmLoading={loadingUpdatePost}
@@ -47,17 +66,17 @@ const EditPost: FC<EditPostProps> = ({ postId, isOpen, onCancel }) => {
         <Form
           form={form}
           layout="vertical"
+          initialValues={{
+            title: postsDetails?.title,
+            description: postsDetails?.body,
+            attachment: postsDetails?.attachments?.[0],
+          }}
           onFinish={(values) => {
             mutate({
               title: values.title,
               body: values.description,
               attachments: values.attachment ? values.attachment : null,
             });
-          }}
-          initialValues={{
-            title: postData?.data?.title,
-            description: postData?.data?.body,
-            attachment: postData?.data?.attachments?.[0],
           }}
         >
           <Form.Item name="title" label="Post Title">
@@ -73,7 +92,38 @@ const EditPost: FC<EditPostProps> = ({ postId, isOpen, onCancel }) => {
           </Form.Item>
         </Form>
       </Modal>
-    </Skeleton>
+      <Dropdown
+        menu={{
+          items: [
+            {
+              key: "edit",
+              label: (
+                <div onClick={() => setIsEditPostOpen(true)}>
+                  <EditOutlined /> Edit
+                </div>
+              ),
+            },
+            {
+              key: "member",
+              label: (
+                <Popconfirm
+                  title="Delete Post"
+                  description="Are you sure want o delete this Post?"
+                  onConfirm={() => mutateDeletePost(id)}
+                  okText="Yes"
+                  cancelText="No"
+                  okType="danger"
+                >
+                  <DeleteOutlined /> Delete
+                </Popconfirm>
+              ),
+            },
+          ],
+        }}
+      >
+        <Button type="text" icon={<MoreOutlined />} />
+      </Dropdown>
+    </>
   );
 };
 
