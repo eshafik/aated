@@ -10,6 +10,10 @@ export const usePostList = () => {
     setFilters((prev) => ({ ...prev, search: post }));
   };
 
+  const handleChangePage = (page?: number, limit?: number) => {
+    setFilters((prev) => ({ ...prev, page, limit }));
+  };
+
   const handleChangeCategory = (post?: string) => {
     setFilters((prev) => ({ ...prev, category: post }));
   };
@@ -29,6 +33,7 @@ export const usePostList = () => {
     refetch,
     filter: {
       filters,
+      handleChangePage,
       handleChangePosts,
       handleChangeStatus,
       handleChangeCategory,
