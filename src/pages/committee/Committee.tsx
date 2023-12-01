@@ -131,7 +131,7 @@ const Committee = () => {
         </Form>
       </Modal>
       {committeeData?.data?.map((items, index) => (
-        <Space key={index} size={"large"} direction="vertical">
+        <Space key={index}  direction="vertical">
           <Row gutter={[48, 48]}>
             <Col className="mt-5" span={23}>
               <Link to={`members/${items?.id}`}>
