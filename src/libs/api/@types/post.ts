@@ -6,6 +6,13 @@ export interface PostPayload {
 }
 
 export interface PostsResponse {
+  meta_data: {
+    count?: number;
+    page_size: number;
+    next: number;
+    previous: number
+    page:number
+  }
   data?: PostsDetails[];
 }
 

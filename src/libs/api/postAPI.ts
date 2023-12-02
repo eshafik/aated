@@ -31,7 +31,8 @@ class PostAPI {
 
     // if (params?.category !== undefined)
     //   queryParams.append("status", params.status.toString());
-
+    queryParams.append("limit", params?.limit?.toString() ?? "10");
+    queryParams.append("page", params?.page?.toString() ?? "1");
     if (params?.search) queryParams.append("search", params.search);
     if (params?.category) queryParams.append("category", params.category);
 

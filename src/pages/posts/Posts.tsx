@@ -8,6 +8,7 @@ import {
   Image,
   Input,
   Modal,
+  Pagination,
   Row,
   Space,
   Spin,
@@ -58,6 +59,8 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
     posts: postsData,
     isLoading: loadingPostList,
   } = usePostList();
+
+  
 
   useEffect(() => {
     filter.handleChangeCategory(categoryId);
@@ -206,6 +209,15 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
             </Card>
           ))}
         </Spin>
+            <Pagination
+            defaultCurrent={1}
+            current={postsData?.meta_data?.page}
+            total={postsData?.meta_data?.count}
+            onChange={filter.handleChangePage}
+            // showSizeChanger
+            showTitle={true}
+            showTotal={(total)=>`Total ${total} Post`}
+/>
       </div>
     </>
   );

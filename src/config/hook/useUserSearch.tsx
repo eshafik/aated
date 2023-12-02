@@ -15,8 +15,8 @@ export const useMemberList = () => {
     setFilters((prev) => ({ ...prev, name: member }));
   };
 
-  const handleChangeOrdering = (member?: string) => {
-    setFilters((prev) => ({ ...prev, ordering: member }));
+  const handleChangeOrdering = (batch?: string) => {
+    setFilters((prev) => ({ ...prev, batch: batch }));
   };
 
   const handleChangeDesignation = (member?: string) => {
