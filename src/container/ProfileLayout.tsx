@@ -59,7 +59,8 @@ const ProfileLayout: FC<ProfileLayoutProps> = ({
               <img
                 className="absolute top-0"
                 src={
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy0ZTQnFP_ELXRncIVb1zAOPaXfPkbo9mQig&usqp=CAU"
+                  "https://timelinecovers.pro/facebook-cover/download/Best-Covers-For-Facebook-Timeline-sunflower.jpg"
+                  // "https://i.pinimg.com/736x/be/d1/f2/bed1f2fa5028d5f818ec727a134df8e3.jpg"
                 }
               />
             }
@@ -83,10 +84,9 @@ const ProfileLayout: FC<ProfileLayoutProps> = ({
                 ) : (
                   <Button
                     onClick={() => navigate({ pathname: path })}
-                    type="dashed"
-                  >
-                    <EditOutlined />
-                  </Button>
+                    type="primary"
+                    icon={<EditOutlined className="text-white" />}
+                  />
                 )}
               </Row>
               <div className="mt-28">
