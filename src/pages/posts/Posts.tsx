@@ -176,11 +176,8 @@ const Posts: FC<PostProps> = ({ loadingPostList, postsData, filter }) => {
                 )}
               </div>
 
-              <Link to={`${items?.id}`}>
-                <Typography.Link>
-                  Comment ({items?.total_comments})
-                </Typography.Link>
-              </Link>
+              <Link to={`${items?.id}`}>Comment ({items?.total_comments})</Link>
+
               <Form
                 onFinish={(values) =>
                   mutateComment({

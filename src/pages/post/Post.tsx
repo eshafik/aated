@@ -83,8 +83,8 @@ const Post = () => {
               </Typography.Title>
               {formatDate(postData?.data?.created_at)}
             </Row>
-            {postData?.data?.attachments?.map((pic) =>
-              pic ? <Image alt="example" src={pic} /> : ""
+            {postData?.data?.attachments?.map((pic, i) =>
+              pic ? <Image key={i} alt="example" src={pic} /> : ""
             )}
             <div className="mt-4 mb-4">{postData?.data?.body}</div>
             <Typography.Title level={5}>
