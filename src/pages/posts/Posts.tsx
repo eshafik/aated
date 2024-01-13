@@ -16,23 +16,30 @@ import {
   message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
 import { useMatchMedia } from "../../components/useMatchMedia";
-import { usePostList } from "../../config/hook/useSearch";
 import { useComment } from "../../config/hook/usecomment";
 import { useUserDetails } from "../../container/RoleProvider";
-import { PostPayload } from "../../libs/api/@types/post";
+import { PostPayload, PostsResponse } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
 import { formatDate } from "../../utils/date.helpers";
 import EditPost from "../post/EditPost";
 import CreatePostModal from "./component/CreatePostModal";
 
 type PostProps = {
-  categoryId?: string;
+  postsData?: PostsResponse;
+  loadingPostList?: boolean;
+  filter: {
+    handleChangePage: (
+      page?: number | undefined,
+      limit?: number | undefined
+    ) => void;
+    handleChangePosts: (post?: string | undefined) => void;
+  };
 };
-const Posts: FC<PostProps> = ({ categoryId }) => {
+const Posts: FC<PostProps> = ({ loadingPostList, postsData, filter }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const queryClient = useQueryClient();
@@ -54,19 +61,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
     }
   );
 
-  const {
-    filter,
-    posts: postsData,
-    isLoading: loadingPostList,
-  } = usePostList();
-
-  useEffect(() => {
-    filter.handleChangeCategory(categoryId);
-  }, [categoryId]);
-
   const { userID } = useUserDetails();
-
-  console.log(userID);
 
   const { mutate: mutateComment } = useComment();
 
