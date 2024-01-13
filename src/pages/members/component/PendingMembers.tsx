@@ -15,7 +15,7 @@ import {
 } from "antd";
 import { useMutation, useQueryClient } from "react-query";
 import { usePendingMemberList } from "../../../config/hook/usePendingMembers";
-import { useSuperUser } from "../../../container/RoleProvider";
+import { useUserDetails } from "../../../container/RoleProvider";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
 import { membersAPI } from "../../../libs/api/membersAPI";
 
@@ -35,7 +35,7 @@ const PendingMembers = () => {
     }
   );
 
-  const { isSuperUser } = useSuperUser();
+  const { isSuperUser } = useUserDetails();
 
   return (
     <Spin spinning={isLoading}>

@@ -1,11 +1,11 @@
 import { Tabs, theme } from "antd";
-import { useSuperUser } from "../../container/RoleProvider";
+import { useUserDetails } from "../../container/RoleProvider";
 import ActiveMembers from "./component/ActiveMembers";
 import PendingMembers from "./component/PendingMembers";
 
 const Members = () => {
   const { token } = theme.useToken();
-  const { isSuperUser } = useSuperUser();
+  const { isSuperUser } = useUserDetails();
 
   return isSuperUser ? (
     <Tabs

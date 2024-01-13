@@ -1,22 +1,21 @@
 import { createContext, FC, ReactNode, useContext } from "react";
 import { useQuery } from "react-query";
-import { UserProfileResponse } from "../libs/api/@types/profile";
 import { profileAPI } from "../libs/api/profileAPI";
 
 interface SuperUserContext {
   isSuperUser?: boolean;
   isLoading?: boolean;
-  data?: UserProfileResponse;
   isModarator?: boolean;
+  userID?: string | number;
 }
 
 const RoleContext = createContext<SuperUserContext>({
   isSuperUser: false,
   isModarator: false,
   isLoading: false,
-  data: undefined,
+  userID: "",
 });
-export const useSuperUser = () => useContext(RoleContext);
+export const useUserDetails = () => useContext(RoleContext);
 
 type FeaturesProviderProps = {
   children: ReactNode;
@@ -30,7 +29,7 @@ const ProfileProvider: FC<FeaturesProviderProps> = (props) => {
   return (
     <RoleContext.Provider
       value={{
-        data: data,
+        userID: data?.data?.id,
         isSuperUser: data?.data?.is_superuser,
         isLoading: isLoading,
       }}

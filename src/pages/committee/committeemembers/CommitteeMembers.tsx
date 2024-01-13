@@ -16,7 +16,7 @@ import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { useMemberList } from "../../../config/hook/useUserSearch";
-import { useSuperUser } from "../../../container/RoleProvider";
+import { useUserDetails } from "../../../container/RoleProvider";
 import {
   CommitteeMemberPayload,
   CommitteeMembers,
@@ -30,7 +30,7 @@ const CommitteeMembers = () => {
   const [form] = Form.useForm();
   const { slag } = useParams();
   const queryClient = useQueryClient();
-  const { isSuperUser } = useSuperUser();
+  const { isSuperUser } = useUserDetails();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const { data: CommitteeName } = useQuery(["committee-details"], () =>

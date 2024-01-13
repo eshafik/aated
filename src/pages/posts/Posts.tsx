@@ -17,14 +17,14 @@ import {
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { FC, useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
 import { useMatchMedia } from "../../components/useMatchMedia";
 import { usePostList } from "../../config/hook/useSearch";
 import { useComment } from "../../config/hook/usecomment";
+import { useUserDetails } from "../../container/RoleProvider";
 import { PostPayload } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
-import { profileAPI } from "../../libs/api/profileAPI";
 import { formatDate } from "../../utils/date.helpers";
 import EditPost from "../post/EditPost";
 import CreatePostModal from "./component/CreatePostModal";
@@ -64,9 +64,9 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
     filter.handleChangeCategory(categoryId);
   }, [categoryId]);
 
-  const { data: profileData } = useQuery(["user-profile"], () =>
-    profileAPI.getProfileDetails()
-  );
+  const { userID } = useUserDetails();
+
+  console.log(userID);
 
   const { mutate: mutateComment } = useComment();
 
@@ -142,7 +142,7 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
                 </Space>
               }
               extra={
-                items?.user?.id == profileData?.data?.id ? (
+                items?.user?.id == userID ? (
                   <EditPost postsDetails={items} />
                 ) : (
                   ""

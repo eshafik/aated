@@ -19,7 +19,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
 import { useCommitteeList } from "../../config/hook/useCommittee";
-import { useSuperUser } from "../../container/RoleProvider";
+import { useUserDetails } from "../../container/RoleProvider";
 import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
 import PageHeader from "./components/PageHeader";
@@ -27,7 +27,7 @@ import PageHeader from "./components/PageHeader";
 const Committee = () => {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isSuperUser } = useSuperUser();
+  const { isSuperUser } = useUserDetails();
   const queryClient = useQueryClient();
   const { notification } = App.useApp();
 
@@ -131,7 +131,7 @@ const Committee = () => {
         </Form>
       </Modal>
       {committeeData?.data?.map((items, index) => (
-        <Space key={index}  direction="vertical">
+        <Space key={index} direction="vertical">
           <Row gutter={[48, 48]}>
             <Col className="mt-5" span={23}>
               <Link to={`members/${items?.id}`}>
