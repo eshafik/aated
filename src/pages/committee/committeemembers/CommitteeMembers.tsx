@@ -12,7 +12,7 @@ import {
   notification,
 } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { useMemberList } from "../../../config/hook/useUserSearch";
@@ -99,13 +99,6 @@ const CommitteeMembers = () => {
       ),
     },
   ];
-
-  const tableData = useMemo(() => {
-    if (Array.isArray(data?.data)) {
-      return data?.data;
-    }
-    return [];
-  }, [data?.data]);
 
   const {
     data: ActiveMemberData,
@@ -230,7 +223,8 @@ const CommitteeMembers = () => {
           </Modal>
           <Table
             bordered
-            dataSource={tableData}
+            rowKey={(key) => key.id?.toString() ?? ""}
+            dataSource={data?.data || []}
             columns={column}
             pagination={{
               size: "default",

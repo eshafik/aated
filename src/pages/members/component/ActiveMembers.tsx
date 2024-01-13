@@ -101,10 +101,15 @@ const ActiveMembers = () => {
           confirmLoading={isLoading}
           centered
           footer={[
-            <Button htmlType="reset" onClick={() => form.resetFields()}>
+            <Button
+              key="reset"
+              htmlType="reset"
+              onClick={() => form.resetFields()}
+            >
               Reset Field
             </Button>,
             <Button
+              key="apply_filter"
               type="primary"
               htmlType="submit"
               onClick={() => form.submit()}
