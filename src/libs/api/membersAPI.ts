@@ -39,7 +39,7 @@ class MembersAPI {
     if (params?.skills) queryParams.append("skills", params?.skills.toString());
 
     return this.http.get<MembersResponse>(
-      `api/v1/users/all-members?${queryParams}`
+      `api/v1/users/all-members?${queryParams}/S`
     );
   }
 
@@ -53,7 +53,7 @@ class MembersAPI {
   }
 
   getMemberDetails(ID: string | number) {
-    return this.http.get<MemberResponse>(`api/v1/users/all-members/${ID}`);
+    return this.http.get<MemberResponse>(`api/v1/users/all-members/${ID}/`);
   }
 
   approveMembers(payload: ApproveMembersPayload) {

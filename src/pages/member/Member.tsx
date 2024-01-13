@@ -5,9 +5,10 @@ import { membersAPI } from "../../libs/api/membersAPI";
 
 const Member = () => {
   const { memberId } = useParams();
-  const { data: memberData, isLoading } = useQuery(["member-list"], () =>
-    membersAPI.getMemberDetails(memberId as string)
-  );
+  const { data: memberData, isLoading } = useQuery({
+    queryKey: ["member-list", memberId],
+    queryFn: () => membersAPI.getMemberDetails(memberId ?? ""),
+  });
   return (
     <ProfileLayout
       isLoading={isLoading}
