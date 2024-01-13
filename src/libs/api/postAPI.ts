@@ -23,7 +23,7 @@ class PostAPI {
   }
 
   deletePost(ID: string | number) {
-    return this.http.delete(`api/v1/post/manage-post/${ID}`);
+    return this.http.delete(`api/v1/post/manage-post/${ID}/`);
   }
 
   getPostList(params?: PostListParams) {
@@ -37,12 +37,12 @@ class PostAPI {
     if (params?.category) queryParams.append("category", params.category);
 
     return this.http.get<PostsResponse>(
-      `api/v1/post/manage-post?${queryParams}`
+      `api/v1/post/manage-post/?${queryParams}`
     );
   }
 
   getPostDetails(ID?: string | number) {
-    return this.http.get<PostResponse>(`api/v1/post/manage-post/${ID}`);
+    return this.http.get<PostResponse>(`api/v1/post/manage-post/${ID}/`);
   }
 
   createComment(payload: CommentPayload) {
@@ -55,7 +55,7 @@ class PostAPI {
 
   searchPost(postSearch: string | null) {
     return this.http.get<PostResponse>(
-      `api/v1/post/manage-post?search=${postSearch}`
+      `api/v1/post/manage-post/?search=${postSearch}`
     );
   }
 }

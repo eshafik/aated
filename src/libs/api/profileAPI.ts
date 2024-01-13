@@ -5,7 +5,7 @@ import {
   ExperienceResponse,
   ExperiencesResponse,
   UpdateProfilePayload,
-  UpdateProfileResponse,
+  UserProfileResponse,
 } from "./@types/profile";
 import { HttpAuthService } from "./httpService/httpAuth.service";
 
@@ -13,14 +13,14 @@ class ProfileAPI {
   constructor(private http: HttpAuthService) {}
 
   updateProfileDetails(payload: UpdateProfilePayload) {
-    return this.http.patch<UpdateProfileResponse>(
+    return this.http.patch<UserProfileResponse>(
       "api/v1/profiles/personal/profile/",
       payload
     );
   }
 
   getProfileDetails() {
-    return this.http.get<UpdateProfileResponse>(
+    return this.http.get<UserProfileResponse>(
       "api/v1/profiles/personal/profile/"
     );
   }

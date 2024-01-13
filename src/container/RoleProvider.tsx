@@ -1,12 +1,12 @@
 import { createContext, FC, ReactNode, useContext } from "react";
 import { useQuery } from "react-query";
-import { UpdateProfileResponse } from "../libs/api/@types/profile";
+import { UserProfileResponse } from "../libs/api/@types/profile";
 import { profileAPI } from "../libs/api/profileAPI";
 
 interface SuperUserContext {
   isSuperUser?: boolean;
   isLoading?: boolean;
-  data?: UpdateProfileResponse;
+  data?: UserProfileResponse;
   isModarator?: boolean;
 }
 

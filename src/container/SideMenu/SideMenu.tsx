@@ -6,11 +6,18 @@ import {
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useActiveItems } from "./utils";
 
 const SideMenu = () => {
   const navigate = useNavigate();
+
+  const { activeKeys } = useActiveItems();
+
   return (
     <Menu
+      selectedKeys={activeKeys}
+      defaultSelectedKeys={activeKeys}
+      defaultOpenKeys={activeKeys}
       mode="inline"
       theme="light"
       className="bg-slate-300 h-full"
@@ -29,8 +36,8 @@ const SideMenu = () => {
           onClick: () => navigate("/members"),
         },
         {
-          key: "post",
-          title: "post",
+          key: "posts",
+          title: "posts",
           icon: <ReadOutlined />,
           onClick: () => navigate("/posts"),
           label: "Post",

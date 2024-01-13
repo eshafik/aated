@@ -1,6 +1,6 @@
 import { Batch } from "./members";
 
-export interface UpdateProfileResponse {
+export interface UserProfileResponse {
   data?: {
     id?: number | string;
     batch?: {

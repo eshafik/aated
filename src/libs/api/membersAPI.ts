@@ -39,7 +39,7 @@ class MembersAPI {
     if (params?.skills) queryParams.append("skills", params?.skills.toString());
 
     return this.http.get<MembersResponse>(
-      `api/v1/users/all-members?${queryParams}/S`
+      `api/v1/users/all-members/?${queryParams}`
     );
   }
 
@@ -48,7 +48,7 @@ class MembersAPI {
     queryParams.append("limit", params?.limit?.toString() ?? "10");
     queryParams.append("page", params?.page?.toString() ?? "1");
     return this.http.get<MembersResponse>(
-      `api/v1/users/pending-members?${queryParams}`
+      `api/v1/users/pending-members/?${queryParams}`
     );
   }
 

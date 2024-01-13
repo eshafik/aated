@@ -60,8 +60,6 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
     isLoading: loadingPostList,
   } = usePostList();
 
-  
-
   useEffect(() => {
     filter.handleChangeCategory(categoryId);
   }, [categoryId]);
@@ -209,15 +207,15 @@ const Posts: FC<PostProps> = ({ categoryId }) => {
             </Card>
           ))}
         </Spin>
-            <Pagination
-            defaultCurrent={1}
-            current={postsData?.meta_data?.page}
-            total={postsData?.meta_data?.count}
-            onChange={filter.handleChangePage}
-            // showSizeChanger
-            showTitle={true}
-            showTotal={(total)=>`Total ${total} Post`}
-/>
+        <Pagination
+          defaultCurrent={1}
+          current={postsData?.meta_data?.page}
+          total={postsData?.meta_data?.count}
+          onChange={filter.handleChangePage}
+          // showSizeChanger
+          showTitle={true}
+          showTotal={(total) => `Total ${total} Post`}
+        />
       </div>
     </>
   );

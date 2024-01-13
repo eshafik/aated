@@ -19,7 +19,7 @@ class CommitteeAPI {
     queryParams.append("limit", params?.limit?.toString() ?? "10");
     queryParams.append("page", params?.page?.toString() ?? "1");
     return this.http.get<CommitteeResponse>(
-      `api/v1/committee/committee?${queryParams}`
+      `api/v1/committee/committee/?${queryParams}`
     );
   }
 
@@ -50,7 +50,7 @@ class CommitteeAPI {
     // const queryParams = new URLSearchParams();
     // if (params?.id) queryParams.append("name", params?.id);
     return this.http.get<CommitteeSample>(
-      `api/v1/committee/committee-member?committee_id=${id}`
+      `api/v1/committee/committee-member/?committee_id=${id}`
     );
   }
 }
