@@ -6,13 +6,11 @@ import {
   Badge,
   Button,
   Card,
-  Col,
   Dropdown,
   Form,
   Modal,
   Pagination,
   Popconfirm,
-  Row,
   Space,
   Spin,
   Typography,
@@ -121,118 +119,119 @@ const ActiveMembers = () => {
           <MemberSearch />
         </Modal>
       </Form>
-      <Row gutter={[12, 12]}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {ActiveMemberData?.data?.map((item, i) => (
-          <Col key={i} xs={24} sm={24} md={12} lg={12} xl={8} xxl={6}>
-            <Badge.Ribbon placement="start" text={`${item?.batch_no}th batch`}>
-              <Card
-                className="h-full"
-                hoverable
-                style={{ width: 370 }}
-                actions={[
-                  <Link to={`${item?.id}`}>
-                    <Button type="text" icon={<EyeOutlined />}>
-                      View
-                    </Button>
-                  </Link>,
-                ]}
-              >
-                {isSuperUser ? (
-                  <div className="absolute top-0 right-0">
-                    <Dropdown
-                      menu={{
-                        items: [
-                          {
-                            key: "admin",
-                            label: (
-                              <Popconfirm
-                                title="Make Admin"
-                                description="Are you sure you want to change member role as admin?"
-                                onConfirm={() =>
-                                  mutate({
-                                    role: "admin",
-                                    user_id: item?.id,
-                                  })
-                                }
-                                okText="Yes"
-                                cancelText="No"
-                                okType="danger"
-                              >
-                                Make Admin
-                              </Popconfirm>
-                            ),
-                          },
-                          {
-                            key: "member",
-                            label: (
-                              <Popconfirm
-                                title="Member"
-                                description="Are you sure you want to change member role as member?"
-                                onConfirm={() =>
-                                  mutate({
-                                    role: "member",
-                                    user_id: item?.id,
-                                  })
-                                }
-                                okText="Yes"
-                                cancelText="No"
-                                okType="danger"
-                              >
-                                Make Member
-                              </Popconfirm>
-                            ),
-                          },
-                          {
-                            key: "moderator",
-                            label: (
-                              <Popconfirm
-                                title="Moderator"
-                                description="Are you sure you want to change member role as moderator?"
-                                onConfirm={() =>
-                                  mutate({
-                                    role: "moderator",
-                                    user_id: item?.id,
-                                  })
-                                }
-                                okText="Yes"
-                                cancelText="No"
-                                okType="danger"
-                              >
-                                Make Moderator
-                              </Popconfirm>
-                            ),
-                          },
-                        ],
-                      }}
-                    >
-                      <Button type="text" icon={<SettingOutlined />} />
-                    </Dropdown>
-                    ,
-                  </div>
-                ) : (
-                  ""
-                )}
-                <div className="text-center">
-                  <Avatar
-                    className="h-32 w-32 shadow-2xl"
-                    src={
-                      item?.profile_pic ??
-                      "https://t3.ftcdn.net/jpg/05/79/68/24/360_F_579682479_j4jRfx0nl3C8vMrTYVapFnGP8EgNHgfk.jpg"
-                    }
-                  />
-                  <br />
-                  <Typography.Title level={4} className="shadow-2xl">
-                    {item?.name}
-                  </Typography.Title>
-                  <Typography.Paragraph className="shadow-2xl">
-                    {item?.professional_designation ?? "null"}
-                  </Typography.Paragraph>
+          <Badge.Ribbon
+            placement="start"
+            text={`${item?.batch_no}th batch`}
+            key={i}
+          >
+            <Card
+              hoverable
+              className="rounded-2xl"
+              actions={[
+                <Link to={`${item?.id}`}>
+                  <Button type="text" icon={<EyeOutlined />}>
+                    View
+                  </Button>
+                </Link>,
+              ]}
+            >
+              {isSuperUser ? (
+                <div className="absolute top-0 right-0">
+                  <Dropdown
+                    menu={{
+                      items: [
+                        {
+                          key: "admin",
+                          label: (
+                            <Popconfirm
+                              title="Make Admin"
+                              description="Are you sure you want to change member role as admin?"
+                              onConfirm={() =>
+                                mutate({
+                                  role: "admin",
+                                  user_id: item?.id,
+                                })
+                              }
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make Admin
+                            </Popconfirm>
+                          ),
+                        },
+                        {
+                          key: "member",
+                          label: (
+                            <Popconfirm
+                              title="Member"
+                              description="Are you sure you want to change member role as member?"
+                              onConfirm={() =>
+                                mutate({
+                                  role: "member",
+                                  user_id: item?.id,
+                                })
+                              }
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make Member
+                            </Popconfirm>
+                          ),
+                        },
+                        {
+                          key: "moderator",
+                          label: (
+                            <Popconfirm
+                              title="Moderator"
+                              description="Are you sure you want to change member role as moderator?"
+                              onConfirm={() =>
+                                mutate({
+                                  role: "moderator",
+                                  user_id: item?.id,
+                                })
+                              }
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make Moderator
+                            </Popconfirm>
+                          ),
+                        },
+                      ],
+                    }}
+                  >
+                    <Button type="text" icon={<SettingOutlined />} />
+                  </Dropdown>
+                  ,
                 </div>
-              </Card>
-            </Badge.Ribbon>
-          </Col>
+              ) : (
+                ""
+              )}
+              <div className="text-center">
+                <Avatar
+                  className="h-32 w-32 shadow-2xl"
+                  src={
+                    item?.profile_pic ??
+                    "https://t3.ftcdn.net/jpg/05/79/68/24/360_F_579682479_j4jRfx0nl3C8vMrTYVapFnGP8EgNHgfk.jpg"
+                  }
+                />
+                <br />
+                <Typography.Title level={4} className="shadow-2xl">
+                  {item?.name}
+                </Typography.Title>
+                <Typography.Paragraph className="shadow-2xl">
+                  {item?.professional_designation ?? "null"}
+                </Typography.Paragraph>
+              </div>
+            </Card>
+          </Badge.Ribbon>
         ))}
-      </Row>
+      </div>
       <Pagination
         style={{ textAlign: "right", marginTop: "10px" }}
         defaultCurrent={1}

@@ -103,7 +103,6 @@ const EditCommittee: FC<EditCommitteeProps> = ({
 
           <Form.Item name="is_active" label="Committee Status">
             <Radio.Group
-              size="small"
               buttonStyle="solid"
               options={[
                 {

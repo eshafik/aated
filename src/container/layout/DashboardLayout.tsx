@@ -1,5 +1,5 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Avatar, Button, Col, Dropdown, Layout, MenuProps, Row } from "antd";
+import { Avatar, Button, Dropdown, Layout, MenuProps } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header } from "antd/es/layout/layout";
 import { useState } from "react";
@@ -50,37 +50,32 @@ const DashboardLayout = () => {
           <SideMenu />
         </Sider>
         <Layout>
-          <Header style={{ padding: 0 }} className="bg-white w-full h-14">
-            <Row justify={"space-between"}>
-              <Col>
-                <Button
-                  type="text"
-                  icon={
-                    collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
-                  }
-                  onClick={() => setCollapsed(!collapsed)}
-                />
-              </Col>
-              <Col>
-                <Dropdown.Button
-                  className="mr-14 mt-1.5 text-center"
-                  size="large"
-                  type="default"
-                  icon={
-                    <Avatar
-                      className="bottom-0.5"
-                      src={data?.data?.profile_pic}
-                    />
-                  }
-                  menu={{ items }}
-                  placement="bottomLeft"
-                >
-                  {data?.data?.name}
-                </Dropdown.Button>
-              </Col>
-            </Row>
+          <Header
+            style={{ padding: 0 }}
+            className="bg-white w-full h-14 flex justify-between items-center"
+          >
+            <div className="w-full grid grid-cols-2 ">
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+              />
+              <Dropdown.Button
+                className="pr-3 justify-end"
+                size="large"
+                icon={
+                  <Avatar
+                    className="bottom-0.5"
+                    src={data?.data?.profile_pic}
+                  />
+                }
+                menu={{ items }}
+              >
+                {data?.data?.name}
+              </Dropdown.Button>
+            </div>
           </Header>
-          <Content className="overflow-auto ml-5 mt-2">
+          <Content className="overflow-auto h-[calc(100vh)] pl-5 pr-3">
             <Outlet />
           </Content>
         </Layout>
