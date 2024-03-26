@@ -17,7 +17,7 @@ import { PostPayload, PostsDetails } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
 
 type EditPostProps = {
-  postsDetails: PostsDetails;
+  postsDetails?: PostsDetails;
 };
 const EditPost: FC<EditPostProps> = ({ postsDetails }) => {
   const queryClient = useQueryClient();
@@ -42,7 +42,7 @@ const EditPost: FC<EditPostProps> = ({ postsDetails }) => {
   );
 
   const { mutate: mutateDeletePost } = useMutation(
-    (id: string | number) => postAPI.deletePost(id),
+    (id?: string | number) => postAPI.deletePost(id),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["post-list"]);

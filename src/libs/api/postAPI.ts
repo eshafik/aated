@@ -18,11 +18,11 @@ class PostAPI {
     return this.http.post("api/v1/post/manage-post/", payload);
   }
 
-  postUpdate(ID: string | number, payload: PostPayload) {
+  postUpdate(ID?: string | number, payload?: PostPayload) {
     return this.http.patch(`api/v1/post/manage-post/${ID}/`, payload);
   }
 
-  deletePost(ID: string | number) {
+  deletePost(ID?: string | number) {
     return this.http.delete(`api/v1/post/manage-post/${ID}/`);
   }
 

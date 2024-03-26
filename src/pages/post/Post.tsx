@@ -17,18 +17,21 @@ import {
 import TextArea from "antd/es/input/TextArea";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
+import { useUserDetails } from "../../container/RoleProvider";
 import {
   CommentPayload,
   DeleteCommentPayload,
 } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
 import { formatDate } from "../../utils/date.helpers";
+import EditPost from "./EditPost";
 
 const Post = () => {
   const { slag } = useParams();
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
   const { notification } = App.useApp();
+  const { userID } = useUserDetails();
 
   const { data: postData, isLoading } = useQuery(["post-data"], () =>
     postAPI.getPostDetails(slag as string)
@@ -75,6 +78,13 @@ const Post = () => {
                 />
                 {postData?.data?.user?.name}
               </>
+            }
+            extra={
+              postData?.data?.user?.id === userID ? (
+                <EditPost postsDetails={postData?.data} />
+              ) : (
+                ""
+              )
             }
           >
             <Row justify={"space-between"}>

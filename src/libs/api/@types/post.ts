@@ -10,14 +10,15 @@ export interface PostsResponse {
     count?: number;
     page_size: number;
     next: number;
-    previous: number
-    page:number
-  }
+    previous: number;
+    page: number;
+  };
   data?: PostsDetails[];
 }
 
 export type PostsDetails = {
-  id: string;
+  id?: string | number;
+  created_at: Date | string;
   category?: {
     id: number | string;
     name?: string;
@@ -25,7 +26,6 @@ export type PostsDetails = {
   title?: string;
   body: string;
   attachments?: string[];
-  created_at: Date | string;
   total_comments?: number;
   user?: {
     id?: string | number;
@@ -34,36 +34,18 @@ export type PostsDetails = {
     email?: string;
     profile_pic?: string;
   };
+  comments?: [
+    {
+      id: number;
+      comment: string;
+      user: User;
+      created_at: Date | string;
+    }
+  ];
 };
 
 export interface PostResponse {
-  data?: {
-    id?: string | number;
-    created_at: Date | string;
-    category?: {
-      id: number | string;
-      name?: string;
-    };
-    title?: string;
-    body?: string;
-    attachments?: string[];
-    total_comments?: number;
-    user?: {
-      id?: string | number;
-      name?: string;
-      user?: string;
-      email?: string;
-      profile_pic?: string;
-    };
-    comments?: [
-      {
-        id: number;
-        comment: string;
-        user: User;
-        created_at: Date | string;
-      }
-    ];
-  };
+  data: PostsDetails;
 }
 
 export interface User {
