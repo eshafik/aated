@@ -28,7 +28,13 @@ const HomeLayout = () => {
     {
       key: "2",
       label: (
-        <a onClick={() => (authService.removeTokens(), navigation("/signin"))}>
+        <a
+          onClick={() => (
+            authService.removeTokens(),
+            localStorage.removeItem("user-profile"),
+            navigation("/signin")
+          )}
+        >
           Logout
         </a>
       ),
