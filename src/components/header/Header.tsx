@@ -37,7 +37,7 @@ const Header: FC<HeaderProps> = ({ isDisable }) => {
         <Row className="justify-between">
           <Col>
             {HEADER_LINK.map((item, i) => (
-              <a key={i} className="mr-5 " href={item.path}>
+              <a key={i} className="mr-5" href={item.path}>
                 <Typography.Text className="hover:text-sky-700 hover:font-bold">
                   {item.name}
                 </Typography.Text>

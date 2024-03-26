@@ -25,8 +25,12 @@ const ProfileContainer = () => {
     },
   ];
   return (
-    <div className="grid justify-center bg-inherit">
+    <div
+      className="w-full h-full"
+      style={{ display: "flex", justifyContent: "center" }}
+    >
       <Tabs
+        className="w-[500px] sm:w-[700px]"
         size="large"
         tabBarStyle={{
           backgroundColor: token.colorBgLayout,

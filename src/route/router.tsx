@@ -1,6 +1,5 @@
 import { Button, Result } from "antd";
 import { Link, Navigate, createBrowserRouter } from "react-router-dom";
-import DashboardLayout from "../container/layout/DashboardLayout";
 import HomeLayout from "../container/layout/HomeLayout";
 import Committee from "../pages/committee/Committee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
@@ -17,7 +16,7 @@ import SignUp from "../pages/onboard/Signup";
 import PersonalProfile from "../pages/personalProfile/PersonalProfile";
 import Post from "../pages/post/Post";
 import PostContainer from "../pages/posts";
-import ProfileContainer from "../pages/profileSetting";
+import SettingsContainer from "../pages/profileSetting";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -55,7 +54,7 @@ export const publicRoute = createBrowserRouter([
 export const protectedRouter = createBrowserRouter([
   {
     path: "/",
-    element: <DashboardLayout />,
+    element: <HomeLayout />,
     children: [
       { index: true, element: <Navigate to="/members" /> },
       {
@@ -88,7 +87,7 @@ export const protectedRouter = createBrowserRouter([
       },
       {
         path: "profile-setting",
-        children: [{ index: true, element: <ProfileContainer /> }],
+        element: <SettingsContainer />,
       },
     ],
   },
