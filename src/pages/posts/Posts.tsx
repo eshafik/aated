@@ -144,7 +144,7 @@ const Posts: FC<PostProps> = ({ loadingPostList, postsData, filter }) => {
                 )
               }
             >
-              <Row justify={"space-between"}>
+              <Row justify="space-between">
                 <Typography.Title className="mt-0" level={5}>
                   {items.title}
                 </Typography.Title>
@@ -152,14 +152,10 @@ const Posts: FC<PostProps> = ({ loadingPostList, postsData, filter }) => {
                   {formatDate(items?.created_at)}
                 </Typography.Paragraph>
               </Row>
-              {items.attachments?.[0] ? (
-                <Image
-                  className="max-h-80"
-                  alt="post_picture"
-                  src={items.attachments?.[0]}
-                />
-              ) : (
-                ""
+              {items.attachments?.[0] && (
+                <div className="text-center">
+                  <Image className="max-h-80" src={items?.attachments?.[0]} />
+                </div>
               )}
 
               <div className="mb-4">
