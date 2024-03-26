@@ -1,6 +1,7 @@
 import { Button, Result } from "antd";
 import { Link, Navigate, createBrowserRouter } from "react-router-dom";
 import HomeLayout from "../container/layout/HomeLayout";
+import OnboardLayout from "../container/layout/OnboardLayout";
 import Committee from "../pages/committee/Committee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
 import ForgotPassword from "../pages/forgot-password/ForgotPassword";
@@ -21,7 +22,7 @@ import SettingsContainer from "../pages/profileSetting";
 export const publicRoute = createBrowserRouter([
   {
     path: "/",
-    element: <HomeLayout />,
+    element: <OnboardLayout />,
     children: [
       { index: true, element: <Navigate to="/homepage" /> },
       { path: "homepage", element: <HomePage /> },
