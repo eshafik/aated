@@ -17,14 +17,14 @@ const Header: FC<HeaderProps> = ({ isDisable }) => {
       name: "About us",
       path: "",
     },
-    // {
-    //   name: "Committee",
-    //   path: "committee",
-    // },
     {
-      name: "Contributor",
-      path: "contributor",
+      name: "Committee",
+      path: "committee",
     },
+    // {
+    //   name: "Contributor",
+    //   path: "contributor",
+    // },
     {
       name: "Sign in",
       path: "/signin",

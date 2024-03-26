@@ -11,6 +11,7 @@ import Members from "../pages/members";
 import Contributor from "../pages/onboard/Contributor";
 import EmailVerify from "../pages/onboard/EmailVerify";
 import HomePage from "../pages/onboard/HomePage";
+import PublicCommitteeMembers from "../pages/onboard/PublicCommitteeMembers";
 import SignIn from "../pages/onboard/Signin";
 import SignUp from "../pages/onboard/Signup";
 import PersonalProfile from "../pages/personalProfile/PersonalProfile";
@@ -29,7 +30,7 @@ export const publicRoute = createBrowserRouter([
       { path: "signin", element: <SignIn /> },
       { path: "verify", element: <EmailVerify /> },
       { path: "contributor", element: <Contributor /> },
-      // { path: "committee", element: <PublicCommitteeMembers /> },
+      { path: "committee", element: <PublicCommitteeMembers /> },
       { path: "forgot-password", element: <ForgotPassword /> },
       { path: "reset-password", element: <ResetPassword /> },
       {

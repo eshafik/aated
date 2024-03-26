@@ -60,7 +60,6 @@ const ProfileLayout: FC<ProfileLayoutProps> = ({
                 className="absolute top-0"
                 src={
                   "https://timelinecovers.pro/facebook-cover/download/Best-Covers-For-Facebook-Timeline-sunflower.jpg"
-                  // "https://i.pinimg.com/736x/be/d1/f2/bed1f2fa5028d5f818ec727a134df8e3.jpg"
                 }
               />
             }

@@ -1,6 +1,7 @@
 import { App, Button, Form, Input, Select, Spin } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { StyledCard } from "../../../components/StyleCard";
 import AvatarUploader from "../../../container/AvaterUploader";
 import { UpdateProfilePayload } from "../../../libs/api/@types/profile";
@@ -10,6 +11,7 @@ const ProfileSettings = () => {
   const { notification } = App.useApp();
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const watchEmployedStatus = Form.useWatch("employment_status", form);
 
   const { mutate, isLoading } = useMutation(
@@ -18,6 +20,7 @@ const ProfileSettings = () => {
       onSuccess: () => {
         notification.success({ message: "Profile Successfully Updated" });
         queryClient.invalidateQueries(["user-profile"]);
+        navigate("/profile");
       },
       onError: (error: Error) => {
         notification.error({ message: error.message });

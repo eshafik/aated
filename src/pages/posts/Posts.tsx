@@ -155,7 +155,7 @@ const Posts: FC<PostProps> = ({ loadingPostList, postsData, filter }) => {
               {items.attachments?.[0] ? (
                 <Image
                   className="max-h-80"
-                  alt="example"
+                  alt="post_picture"
                   src={items.attachments?.[0]}
                 />
               ) : (
