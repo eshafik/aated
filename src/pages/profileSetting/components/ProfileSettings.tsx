@@ -1,5 +1,6 @@
-import { App, Button, Form, Input, Select, Spin } from "antd";
+import { App, Button, DatePicker, Form, Input, Select, Spin } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import dayJs from "dayjs";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { StyledCard } from "../../../components/StyleCard";
@@ -30,6 +31,7 @@ const ProfileSettings = () => {
   const { data, isLoading: isProfileLoading } = useQuery(["user-profile"], () =>
     profileAPI.getProfileDetails()
   );
+
   return (
     <Spin spinning={isProfileLoading}>
       <StyledCard title="Profile">
@@ -41,7 +43,7 @@ const ProfileSettings = () => {
               email: data?.data?.email,
               phone: data?.data?.phone,
               batch_no: data?.data?.batch?.name,
-              passing_year: data?.data?.passing_year,
+              passing_year: dayJs(`${data?.data?.passing_year}`),
               student_id: data?.data?.student_id,
               profile_pic: data?.data?.profile_pic,
               contact_details: data?.data?.contact_details,
@@ -59,7 +61,7 @@ const ProfileSettings = () => {
                 name: values.name,
                 email: values.email,
                 phone: values.phone,
-                passing_year: values.passing_year,
+                passing_year: values.passing_year.format("YYYY"),
                 student_id: values.student_id,
                 profile_pic: values.profile_pic ? values.profile_pic : null,
                 password: values.password,
@@ -137,11 +139,13 @@ const ProfileSettings = () => {
             <Form.Item
               name="passing_year"
               label="Passing Year"
-              rules={[
-                { required: true, message: "Please write some description" },
-              ]}
+              rules={[{ required: true, message: "Please write Passing Year" }]}
             >
-              <Input placeholder="passing year" />
+              <DatePicker
+                picker="year"
+                className="w-full"
+                placeholder="passing year"
+              />
             </Form.Item>
 
             <Form.Item
