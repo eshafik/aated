@@ -7,14 +7,6 @@ import { profileAPI } from "../../../libs/api/profileAPI";
 const Security = () => {
   const { notification } = App.useApp();
   const [form] = Form.useForm();
-  // const queryClient = useQueryClient();
-  // const { data, isLoading: isProfileLoading } = useQuery(
-  //   ["user-profile"],
-  //   () => profileAPI.getProfileDetails(),
-  //   {
-  //     onSuccess: () => {},
-  //   }
-  // );
 
   const { mutate, isLoading } = useMutation(
     (payload: UpdateProfilePayload) => profileAPI.updateProfileDetails(payload),

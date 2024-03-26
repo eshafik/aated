@@ -13,9 +13,12 @@ import SideMenu from "../SideMenu/SideMenu";
 const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigation = useNavigate();
-  const { data } = useQuery(["user-profile", "profile"], () =>
-    profileAPI.getProfileDetails()
-  );
+  const { data } = useQuery({
+    queryFn: () => profileAPI.getProfileDetails(),
+    onSuccess: (data) => {
+      localStorage.setItem("user-profile", JSON.stringify(data?.data));
+    },
+  });
 
   const items: MenuProps["items"] = [
     {
