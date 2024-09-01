@@ -6,8 +6,8 @@ import { profileAPI } from "../../../libs/api/profileAPI";
 import ExperienceForm from "./ExperienceForm";
 
 type UpdateExperienceFormProps = {
-  slug: string;
-  open: boolean;
+  slug?: string;
+  open?: boolean;
   onCancel: () => void;
 };
 
@@ -21,8 +21,8 @@ const UpdateExperienceForm = ({
   const { notification } = App.useApp();
 
   const { data: experienceData, isLoading } = useQuery({
-    queryKey: ["experience-list", slug ? slug : ""],
-    queryFn: () => profileAPI.getExperience(slug),
+    queryKey: ["experience-list", slug],
+    queryFn: () => profileAPI.getExperience(slug ?? ""),
     onSuccess: () => {},
   });
 
@@ -79,7 +79,6 @@ const UpdateExperienceForm = ({
           }}
         >
           <ExperienceForm
-            isloading={isLoading}
             isDisabled={true}
             deleteExperience={experienceData?.data?.id.toString()}
             updateLoading={updateExperienceLoading}

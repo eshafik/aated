@@ -1,6 +1,5 @@
 import { App, Button, Form, Input } from "antd";
 import { useMutation } from "react-query";
-import { StyledCard } from "../../../components/StyleCard";
 import { UpdateProfilePayload } from "../../../libs/api/@types/profile";
 import { profileAPI } from "../../../libs/api/profileAPI";
 
@@ -21,76 +20,68 @@ const Security = () => {
     }
   );
   return (
-    <StyledCard title="Password Change">
-      <Form
-        form={form}
-        onFinish={(values) => {
-          mutate({
-            password: values.password,
-          });
-        }}
-        requiredMark
-        size="large"
-        layout="vertical"
+    <Form
+      form={form}
+      onFinish={(values) => {
+        mutate({
+          password: values.password,
+        });
+      }}
+      requiredMark
+      size="large"
+      layout="vertical"
+      className="max-w-xl p-3"
+    >
+      <Form.Item
+        name="password"
+        label="New Password"
+        rules={[
+          {
+            required: true,
+            message: "Please input your password!",
+          },
+        ]}
+        hasFeedback
       >
-        {/* <Form.Item label="Old Password" name="old_password">
-          <Input.Password
-            placeholder="old password"
-            suffix={<SecurityScanTwoTone />}
-          />
-        </Form.Item> */}
+        <Input.Password />
+      </Form.Item>
 
-        <Form.Item
-          name="password"
-          label="New Password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
+      <Form.Item
+        name="confirm"
+        label="Confirm Password"
+        dependencies={["password"]}
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: "Please confirm your password!",
+          },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue("password") === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                new Error("The new password that you entered do not match!")
+              );
             },
-          ]}
-          hasFeedback
-        >
-          <Input.Password />
-        </Form.Item>
+          }),
+        ]}
+      >
+        <Input.Password />
+      </Form.Item>
 
-        <Form.Item
-          name="confirm"
-          label="Confirm Password"
-          dependencies={["password"]}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: "Please confirm your password!",
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("password") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error("The new password that you entered do not match!")
-                );
-              },
-            }),
-          ]}
+      <Form.Item>
+        <Button
+          className="flex ml-auto"
+          loading={isLoading}
+          type="primary"
+          htmlType="submit"
         >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item>
-          <Button
-            className="flex ml-auto"
-            loading={isLoading}
-            type="primary"
-            htmlType="submit"
-          >
-            Save
-          </Button>
-        </Form.Item>
-      </Form>
-    </StyledCard>
+          Change Password
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

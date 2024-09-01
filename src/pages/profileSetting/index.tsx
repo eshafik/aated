@@ -1,45 +1,82 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Tabs, TabsProps, theme } from "antd";
+import { Button, Card, Typography } from "antd";
+import { Brain, Lock, Settings } from "lucide-react";
+import { useState } from "react";
+import styled from "styled-components";
+import { twMerge } from "tailwind-merge";
+import ExperienceAddModal from "./components/ExperieceAddModal";
 import SeeExperience from "./components/PersonalExperience";
 import ProfileSettings from "./components/ProfileSettings";
 import Security from "./components/Security";
 
-const ProfileContainer = () => {
-  const { token } = theme.useToken();
+export const StyledCard = styled(Card)`
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
 
-  const items: TabsProps["items"] = [
-    {
-      key: "profile",
-      label: "Basic Profile",
-      children: <ProfileSettings />,
-    },
-    {
-      key: "experience",
-      label: "Experiences",
-      children: <SeeExperience />,
-    },
-    {
-      key: "security",
-      label: "Change Password",
-      children: <Security />,
-    },
-  ];
+  .ant-card-body {
+    padding: 0 !important;
+    flex: 1 1 0%;
+    overflow-y: auto;
+  }
+`;
+const ProfileContainer = () => {
+  const [settingItem, setSettingItem] = useState("basic_profile");
+
+  const settingsItems: { icon: React.ReactNode; title: string; key: string }[] =
+    [
+      {
+        icon: <Settings size={16} />,
+        title: "Basic Profile",
+        key: "basic_profile",
+      },
+      {
+        icon: <Lock size={16} />,
+        title: "Security",
+        key: "security",
+      },
+      {
+        icon: <Brain size={16} />,
+        title: "Experience",
+        key: "experience",
+      },
+    ];
+
   return (
-    <div
-      className="w-full h-full"
-      style={{ display: "flex", justifyContent: "center" }}
-    >
-      <Tabs
-        className="w-[500px] sm:w-[700px]"
-        size="large"
-        tabBarStyle={{
-          backgroundColor: token.colorBgLayout,
-          position: "sticky",
-          top: 0,
-          zIndex: 100,
-        }}
-        items={items}
-      />
+    <div className="grid grid-cols-12 p-3">
+      <StyledCard
+        title={
+          <Typography.Text className="capitalize">
+            {settingItem.replace("_", " ")}
+          </Typography.Text>
+        }
+        className="col-span-2 rounded-r-none pl-1 pr-1"
+      >
+        {settingsItems?.map((items) => (
+          <Button
+            type="text"
+            size="large"
+            className={twMerge(
+              "flex mb-2 w-full items-center justify-start border-none hover:bg-[#F4801A] hover:text-white rounded",
+              settingItem === items.key && "w-full bg-[#F4801A] text-white"
+            )}
+            key={items.key}
+            icon={items.icon}
+            onClick={() => setSettingItem(items.key)}
+          >
+            {items.title}
+          </Button>
+        ))}
+      </StyledCard>
+      <StyledCard
+        title=" "
+        extra={settingItem === "experience" && <ExperienceAddModal />}
+        className="col-span-10 rounded-l-none capitalize"
+      >
+        {settingItem === "basic_profile" && <ProfileSettings />}
+        {settingItem === "security" && <Security />}
+        {settingItem === "experience" && <SeeExperience />}
+      </StyledCard>
     </div>
   );
 };

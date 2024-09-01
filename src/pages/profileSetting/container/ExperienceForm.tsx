@@ -8,7 +8,6 @@ import {
   Modal,
   Popconfirm,
   Select,
-  Skeleton,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { FC } from "react";
@@ -17,14 +16,12 @@ import { useJobDeptSearch } from "../../../config/hook/useJobDeptSearch";
 import { profileAPI } from "../../../libs/api/profileAPI";
 
 type ExperienceFormProps = {
-  isloading?: boolean;
   isDisabled?: boolean;
   deleteExperience?: string;
   updateLoading?: boolean;
   onCancel: () => void;
 };
 const ExperienceForm: FC<ExperienceFormProps> = ({
-  isloading,
   isDisabled,
   deleteExperience,
   updateLoading,
@@ -51,7 +48,7 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
     );
 
   return (
-    <Skeleton loading={isloading}>
+    <>
       <Form.Item
         label="Company Name"
         rules={[
@@ -64,7 +61,6 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
       >
         <Input placeholder="X LTD" />
       </Form.Item>
-
       <Form.Item
         label="Designation"
         name="designation"
@@ -77,7 +73,6 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
       >
         <Input placeholder="Professional designation" />
       </Form.Item>
-
       <Form.Item
         label="Start Date"
         name="start_date"
@@ -94,7 +89,6 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
           placeholder="Job Start Date"
         />
       </Form.Item>
-
       <Form.Item label="End Date" name="end_date">
         <DatePicker
           format={"YYYY-MM-DD"}
@@ -102,7 +96,6 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
           placeholder="Job End Date"
         />
       </Form.Item>
-
       <Form.Item
         label="Working Year"
         name="working_year"
@@ -115,7 +108,6 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
       >
         <InputNumber className="w-full" placeholder="1 years" />
       </Form.Item>
-
       <Form.Item
         label="Job Location"
         name="job_location"
@@ -128,7 +120,6 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
       >
         <Input placeholder="Dhanmondi" />
       </Form.Item>
-
       <Form.Item
         label="Responsibilities"
         name="responsibilities"
@@ -141,7 +132,6 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
       >
         <TextArea placeholder="Project Manager" />
       </Form.Item>
-
       <Form.Item
         label="Job Department"
         name="job_department"
@@ -165,7 +155,6 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
           placeholder="Job Department"
         />
       </Form.Item>
-
       {isDisabled ? (
         <div className="flex justify-between gap-2">
           <Popconfirm
@@ -184,7 +173,7 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
       ) : (
         ""
       )}
-    </Skeleton>
+    </>
   );
 };
 
