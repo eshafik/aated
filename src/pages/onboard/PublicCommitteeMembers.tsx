@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import Header from "../../components/header/Header";
 import { publicCommitteeMemberAPI } from "../../libs/api/publicMember";
 const PublicCommitteeMembers = () => {
   // const [currentSlide, setCurrentSlide] = useState(0);
@@ -26,7 +25,6 @@ const PublicCommitteeMembers = () => {
 
   return (
     <>
-      <Header />
       <Row
         className="text-center bg-slate-300 h-[calc(100vh-100px)] w-screen"
         justify={"space-between"}

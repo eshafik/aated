@@ -6,12 +6,10 @@ import {
 import { Avatar, Button, Card, Col, Row, Space, Typography } from "antd";
 import { LucideFacebook, LucideGithub, LucideLinkedin } from "lucide-react";
 import Hemel from "../../assets/hemel.jpg";
-import Header from "../../components/header/Header";
 
 const Contributor = () => {
   return (
     <>
-      <Header isDisable={true} />
       <Row
         className="h-[calc(100vh-120px)]"
         align="middle"

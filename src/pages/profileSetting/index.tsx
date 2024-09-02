@@ -43,7 +43,7 @@ const ProfileContainer = () => {
     ];
 
   return (
-    <div className="grid grid-cols-12 p-3">
+    <div className="grid grid-cols-12 pt-3">
       <StyledCard
         title={
           <Typography.Text className="capitalize">

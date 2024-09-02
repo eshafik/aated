@@ -2,7 +2,6 @@ import { LockFilled, UserOutlined } from "@ant-design/icons";
 import { App, Button, Card, Checkbox, Col, Form, Input, Row } from "antd";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/header/Header";
 import { LoginPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
 import { authService } from "../../libs/auth";
@@ -26,7 +25,6 @@ const SignIn = () => {
   );
   return (
     <>
-      <Header isDisable={true} />
       <Row className="h-[calc(100vh-120px)]" align="middle" justify="center">
         <Col xs={15} sm={12} md={10} lg={8} xl={6}>
           <Card

@@ -1,38 +1,97 @@
-import { Button, Col, Row, Typography } from "antd";
-import { useNavigate } from "react-router-dom";
-import Header from "../../components/header/Header";
+import { Carousel, Collapse, Image, Typography } from "antd";
 
 const HomePage = () => {
-  const navigate = useNavigate();
   return (
-    <div>
-      <Header />
-      <div className="bg-slate-300">
-        <Row justify={"center"}>
-          <Col span={24}>
-            <Typography.Title className="text-center">
-              Lorem ipsum dolor sit amet, consectetur adipis elit.
-            </Typography.Title>
-          </Col>
-
-          <Col span={24}>
-            <Typography.Title level={4} className="text-center">
-              Pellentesque in condimentum elit. Curabitur aliquet sapien quis
-              dolor venenatis,
-              <br /> vel scelerisque ipsum rhoncus. Nunc eu tellus efficitur
-            </Typography.Title>
-          </Col>
-
-          <Col>
-            <Button
-              type="primary"
-              size="large"
-              onClick={() => navigate("/signin")}
-            >
-              Sign In
-            </Button>
-          </Col>
-        </Row>
+    <div className="flex flex-col gap-5 mt-4">
+      <Carousel>
+        <Image
+          preview={false}
+          height={400}
+          width={"100%"}
+          src="https://letsenhance.io/static/03620c83508fc72c6d2b218c7e304ba5/11499/UpscalerAfter.jpg"
+        />
+        <Image
+          preview={false}
+          height={400}
+          width={"100%"}
+          src="https://letsenhance.io/static/03620c83508fc72c6d2b218c7e304ba5/11499/UpscalerAfter.jpg"
+        />
+        <Image
+          preview={false}
+          height={400}
+          width={"100%"}
+          src="https://letsenhance.io/static/03620c83508fc72c6d2b218c7e304ba5/11499/UpscalerAfter.jpg"
+        />
+      </Carousel>
+      <div className="grid grid-cols-12 gap-3 text-white">
+        <div className="col-span-4 h-96 bg-blue-700 p-5">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
+        </div>
+        <div className="col-span-4 h-96 bg-blue-300 p-5">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
+        </div>
+        <div className="col-span-4 h-96 bg-green-300 p-5">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
+        </div>
+      </div>
+      <div>
+        <div className="text-center">
+          <Typography.Title level={4} className="text-center">
+            Frequently Asked Question
+          </Typography.Title>
+          <Typography.Text type="secondary" className="text-center">
+            Your Queries Answered: Navigating Your Alumni Experience
+          </Typography.Text>
+        </div>
+        <Collapse
+          items={[
+            {
+              label: "Q.How do I Apply for membership?",
+              children:
+                "Online Application is easy! Simply navigate to the ' https://konnektios.net/duaa-up/' section on the website and follow the guided steps to apply for alumni Membership. Don't forget to provide accurate and updated information to stay connected with our community.",
+            },
+            {
+              label: "Q.How can I update my contact information?",
+              children:
+                "Keeping your contact details current is essential. Please Contact DUAA office to update your contact information",
+            },
+            {
+              label: "Q.What events are coming up, and how can I participate?",
+              children:
+                "Stay in the loop by visiting the 'Events' page on the website. You'll find a calendar showcasing upcoming events. Click on the event you're interested in to get more details and information on how to participate.",
+            },
+            {
+              label:
+                "Q.How can I contribute to the Alumni Scholarship Program?",
+              children:
+                "Making a difference is just a moment away. Just contact DUAA office to learn more about the program and find details on how to contribute. Your support can help shape the educational journey of aspiring scholars.",
+            },
+          ]}
+        />
       </div>
     </div>
   );
