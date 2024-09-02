@@ -1,37 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  App,
   Avatar,
   Button,
   Card,
   Form,
   Image,
-  Input,
-  Modal,
   Pagination,
   Row,
   Space,
   Spin,
   Typography,
-  message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { FC, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
-import { useMatchMedia } from "../../components/useMatchMedia";
 import { useComment } from "../../config/hook/usecomment";
+import { usePostList } from "../../config/hook/useSearch";
 import { useUserDetails } from "../../container/RoleProvider";
-import { PostPayload, PostsResponse } from "../../libs/api/@types/post";
-import { postAPI } from "../../libs/api/postAPI";
+import { PostsDetails } from "../../libs/api/@types/post";
 import { formatDate } from "../../utils/date.helpers";
 import EditPost from "../post/EditPost";
-import CreatePostModal from "./component/CreatePostModal";
 
 type PostProps = {
-  postsData?: PostsResponse;
+  postsData?: PostsDetails[];
   loadingPostList?: boolean;
-  filter: {
+  filter?: {
     handleChangePage: (
       page?: number | undefined,
       limit?: number | undefined
@@ -40,95 +33,19 @@ type PostProps = {
   };
 };
 const Posts: FC<PostProps> = ({ loadingPostList, postsData, filter }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const queryClient = useQueryClient();
-  const [form] = Form.useForm();
-  const [searchForm] = Form.useForm();
-  const { notification } = App.useApp();
-
-  const { mutate: createPostMutate, isLoading } = useMutation(
-    (payload: PostPayload) => postAPI.createPost(payload),
-    {
-      onSuccess: () => {
-        setIsModalOpen(false);
-        queryClient.invalidateQueries(["post-list"]);
-        message.success("Post successful created");
-      },
-      onError: (error: Error) => {
-        notification.error({ message: error.message });
-      },
-    }
-  );
-
   const { userID } = useUserDetails();
+  const { posts } = usePostList();
 
   const { mutate: mutateComment } = useComment();
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const isDesktopResolution = useMatchMedia("(min-width:600px)", true);
 
   return (
     <>
       <div className="max-w-3xl grid grid-cols-1 gap-4">
-        <Card
-          size="small"
-          className="sticky top-11 z-10 drop-shadow"
-          style={{ width: isDesktopResolution ? 770 : 490 }}
-        >
-          <Form form={searchForm}>
-            <div className="flex gap-2">
-              <Input.Search
-                size="large"
-                placeholder="Search Post"
-                allowClear
-                onSearch={filter.handleChangePosts}
-              />
-              <Button size="large" type="primary" onClick={() => showModal()}>
-                Create Post
-              </Button>
-            </div>
-          </Form>
-        </Card>
-
-        <Modal
-          title="Create post"
-          open={isModalOpen}
-          onOk={form.submit}
-          onCancel={handleOk}
-          okText="Submit"
-          okType="primary"
-          confirmLoading={isLoading}
-          centered
-        >
-          <Form
-            layout="vertical"
-            requiredMark={"optional"}
-            form={form}
-            onFinish={(values) =>
-              createPostMutate({
-                attachments:
-                  values.attachments[0] == null ? null : values.attachments,
-                body: values.body,
-                category: values.category,
-                title: values.title,
-              })
-            }
-          >
-            <CreatePostModal />
-          </Form>
-        </Modal>
-
         <Spin spinning={loadingPostList}>
-          {postsData?.data?.map((items, i) => (
+          {postsData?.map((items, i) => (
             <Card
+              className="mt-3"
               key={i}
               title={
                 <Space>
@@ -197,10 +114,9 @@ const Posts: FC<PostProps> = ({ loadingPostList, postsData, filter }) => {
         </Spin>
         <Pagination
           defaultCurrent={1}
-          current={postsData?.meta_data?.page}
-          total={postsData?.meta_data?.count}
-          onChange={filter.handleChangePage}
-          // showSizeChanger
+          current={posts?.meta_data?.page}
+          total={posts?.meta_data?.count}
+          onChange={filter?.handleChangePage}
           showTitle={true}
           showTotal={(total) => `Total ${total} Post`}
         />

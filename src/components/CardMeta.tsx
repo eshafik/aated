@@ -31,9 +31,9 @@ const CardMeta = ({
         )}
       >
         <div>{icon}</div>
-        <div className="flex flex-col gap-1">
-          <div className="text-md font-semibold">{title}</div>
-          <div className="text-sm font-normal text-gray-500">{description}</div>
+        <div className="flex flex-col">
+          {title}
+          {description}
         </div>
       </div>
       <div className="col-span-4">{extra}</div>

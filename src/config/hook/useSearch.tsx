@@ -15,7 +15,10 @@ export const usePostList = () => {
   };
 
   const handleChangeCategory = (post?: string) => {
-    setFilters((prev) => ({ ...prev, category: post }));
+    setFilters((prev) => ({
+      ...prev,
+      category: post === "0" ? undefined : post,
+    }));
   };
 
   const handleChangeStatus = (status: boolean) => {
@@ -25,9 +28,6 @@ export const usePostList = () => {
   const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["post-list", filters],
     queryFn: () => postAPI.getPostList(filters),
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.data!.length > 0 ? allPages.length + 1 : undefined;
-    },
   });
 
   return {

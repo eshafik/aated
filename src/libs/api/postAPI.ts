@@ -28,9 +28,6 @@ class PostAPI {
 
   getPostList(params?: PostListParams) {
     const queryParams = new URLSearchParams();
-
-    // if (params?.category !== undefined)
-    //   queryParams.append("status", params.status.toString());
     queryParams.append("limit", params?.limit?.toString() ?? "10");
     queryParams.append("page", params?.page?.toString() ?? "1");
     if (params?.search) queryParams.append("search", params.search);

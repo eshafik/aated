@@ -9,6 +9,7 @@ import {
   Popconfirm,
   Popover,
   Tooltip,
+  Typography,
 } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import { Eye, Filter, Mail, Phone } from "lucide-react";
@@ -72,8 +73,16 @@ const ActiveMembers = () => {
       render: (_, record) => (
         <CardMeta
           icon={<Avatar src={record.profile_pic} size="large" />}
-          title={record.name}
-          description={record.professional_designation}
+          title={
+            <Typography.Text className="font-semibold">
+              {record.name}
+            </Typography.Text>
+          }
+          description={
+            <Typography.Text type="secondary">
+              {record.professional_designation}
+            </Typography.Text>
+          }
         />
       ),
     },

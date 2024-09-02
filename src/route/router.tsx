@@ -16,7 +16,7 @@ import SignIn from "../pages/onboard/Signin";
 import SignUp from "../pages/onboard/Signup";
 import PersonalProfile from "../pages/personalProfile/PersonalProfile";
 import Post from "../pages/post/Post";
-import PostContainer from "../pages/posts";
+import BlogPost from "../pages/posts/BlogPost";
 import SettingsContainer from "../pages/profileSetting";
 
 export const publicRoute = createBrowserRouter([
@@ -72,7 +72,7 @@ export const protectedRouter = createBrowserRouter([
       {
         path: "posts",
         children: [
-          { index: true, element: <PostContainer /> },
+          { index: true, element: <BlogPost /> },
           { path: ":slag", element: <Post /> },
         ],
       },
