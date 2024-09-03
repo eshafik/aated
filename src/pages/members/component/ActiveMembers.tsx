@@ -1,36 +1,48 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EyeOutlined, SettingOutlined } from "@ant-design/icons";
+import { SettingOutlined } from "@ant-design/icons";
 import {
   App,
   Avatar,
-  Badge,
   Button,
-  Card,
   Dropdown,
   Form,
-  Modal,
-  Pagination,
   Popconfirm,
-  Space,
-  Spin,
-  Typography,
+  Popover,
+  Tooltip,
 } from "antd";
-import { RotateCw, SlidersHorizontal } from "lucide-react";
+import Table, { ColumnsType } from "antd/es/table";
+import { Eye, Filter, Mail, Phone } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { Link } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
+import CardMeta from "../../../components/CardMeta";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 import { useUserDetails } from "../../../container/RoleProvider";
-import { ApproveMembersPayload } from "../../../libs/api/@types/members";
+import {
+  ApproveMembersPayload,
+  MemberDetails,
+} from "../../../libs/api/@types/members";
 import { membersAPI } from "../../../libs/api/membersAPI";
 import MemberSearch from "../containers/MemberSearch";
+
+type FilterFieldType = {
+  name: string;
+  company: string;
+  designation: string;
+  job_department: string;
+  location: string;
+  occupation_type: string;
+  student_id: string;
+  batch: string;
+  skills: string;
+  employment_status: string;
+};
 
 const ActiveMembers = () => {
   const { isSuperUser } = useUserDetails();
   const { notification } = App.useApp();
   const [form] = Form.useForm();
-  const [isFiltersVisible, setIsFiltersVisible] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filters, setFilter] = useState(false);
 
   const {
     data: ActiveMemberData,
@@ -38,7 +50,11 @@ const ActiveMembers = () => {
     filter: memberFilter,
   } = useMemberList();
 
-  const { mutate } = useMutation(
+  const {
+    mutate,
+    isLoading: memberRoleLoading,
+    variables,
+  } = useMutation(
     (payload: ApproveMembersPayload) => membersAPI.updateMemberRole(payload),
     {
       onSuccess: () => {
@@ -50,196 +66,195 @@ const ActiveMembers = () => {
     }
   );
 
-  const handelOk = () => {
-    setIsModalOpen(true);
-    setIsFiltersVisible(true);
+  const columns: ColumnsType<MemberDetails> = [
+    {
+      title: "Name",
+      render: (_, record) => (
+        <CardMeta
+          icon={<Avatar src={record.profile_pic} size="large" />}
+          title={record.name}
+          description={record.professional_designation}
+        />
+      ),
+    },
+    {
+      title: "Passing Year",
+      render: (_, record) => record.passing_year,
+    },
+    {
+      title: "Student Id",
+      render: (_, record) => record.student_id,
+    },
+    {
+      title: "Batch Number",
+      render: (_, record) => record.batch_no + "th",
+    },
+    {
+      title: "Contact Details",
+      render: (_, record) => (
+        <div className="flex gap-3">
+          <Tooltip title={record.phone}>
+            <Phone size={16} className="cursor-pointer" />
+          </Tooltip>
+          <Tooltip title={record.email}>
+            <Mail size={16} className="cursor-pointer" />
+          </Tooltip>
+          {/* <Tooltip title={record.}>
+            <Phone size={16} className="cursor-pointer" />
+          </Tooltip> */}
+        </div>
+      ),
+    },
+    {
+      title: "View",
+      render: (_, record) => (
+        <Button
+          type="link"
+          href={`members/${record.id?.toString()}`}
+          icon={<Eye color="gray" />}
+        />
+      ),
+    },
+    {
+      title: "Action",
+      className: twMerge(!isSuperUser && "hidden"),
+      render: (_, record) => (
+        <Dropdown
+          menu={{
+            items: [
+              {
+                key: "admin",
+                label: (
+                  <Popconfirm
+                    title="Make Admin"
+                    description="Are you sure you want to change member role as admin?"
+                    onConfirm={() =>
+                      mutate({
+                        role: "admin",
+                        user_id: record.id,
+                      })
+                    }
+                    okText="Yes"
+                    cancelText="No"
+                    okType="danger"
+                  >
+                    Make Admin
+                  </Popconfirm>
+                ),
+              },
+              {
+                key: "member",
+                label: (
+                  <Popconfirm
+                    title="Member"
+                    description="Are you sure you want to change member role as member?"
+                    onConfirm={() =>
+                      mutate({
+                        role: "member",
+                        user_id: record?.id,
+                      })
+                    }
+                    okText="Yes"
+                    cancelText="No"
+                    okType="danger"
+                  >
+                    Make Member
+                  </Popconfirm>
+                ),
+              },
+              {
+                key: "moderator",
+                label: (
+                  <Popconfirm
+                    title="Moderator"
+                    description="Are you sure you want to change member role as moderator?"
+                    onConfirm={() =>
+                      mutate({
+                        role: "moderator",
+                        user_id: record?.id,
+                      })
+                    }
+                    okText="Yes"
+                    cancelText="No"
+                    okType="danger"
+                  >
+                    Make Moderator
+                  </Popconfirm>
+                ),
+              },
+            ],
+          }}
+        >
+          <Button
+            type="text"
+            icon={<SettingOutlined />}
+            loading={record.id === variables?.user_id && memberRoleLoading}
+          />
+        </Dropdown>
+      ),
+    },
+  ];
+
+  const serializePayload = (values: FilterFieldType) => {
+    memberFilter.handleChangeName(values.name);
+    memberFilter.handleChangeCompany(values.company);
+    memberFilter.handleChangeDesignation(values.designation);
+    memberFilter.handleChangeJobDepartment(values.job_department);
+    memberFilter.handleChangeLocation(values.location);
+    memberFilter.handleChangeOccupation(values.occupation_type);
+    memberFilter.handleChangeStudentId(values.student_id);
+    memberFilter.handleChangeOrdering(values.batch);
+    memberFilter.handleChangeSkills(values.skills);
+    memberFilter.handleChangeEmployeeStatus(values.employment_status);
   };
 
   return (
-    <Spin spinning={isLoading}>
-      <Space className="mb-3">
-        <Button
-          title="Member Filter"
-          icon={<SlidersHorizontal />}
-          onClick={() => handelOk()}
-          type="text"
-        />
-        {isFiltersVisible ? (
-          <Button
-            title="Reload"
-            type="text"
-            icon={<RotateCw />}
-            onClick={() => window.location.reload()}
-          />
-        ) : (
-          ""
-        )}
-      </Space>
+    <>
       <Form
         size="large"
         form={form}
-        onFinish={(values) => {
-          memberFilter.handleChangeName(values.name);
-          memberFilter.handleChangeCompany(values.company);
-          memberFilter.handleChangeDesignation(values.designation);
-          memberFilter.handleChangeJobDepartment(values.job_department);
-          memberFilter.handleChangeLocation(values.location);
-          memberFilter.handleChangeOccupation(values.occupation_type);
-          memberFilter.handleChangeStudentId(values.student_id);
-          memberFilter.handleChangeOrdering(values.batch);
-          memberFilter.handleChangeSkills(values.skills);
-          memberFilter.handleChangeEmployeeStatus(values.employment_status);
-        }}
+        onFinish={serializePayload}
         layout="inline"
       >
-        <Modal
+        <Popover
           title="Member Search"
-          open={isModalOpen}
-          onCancel={() => setIsModalOpen(false)}
-          confirmLoading={isLoading}
-          centered
-          footer={[
-            <Button
-              key="reset"
-              htmlType="reset"
-              onClick={() => form.resetFields()}
-            >
-              Reset Field
-            </Button>,
-            <Button
-              key="apply_filter"
-              type="primary"
-              htmlType="submit"
-              onClick={() => form.submit()}
-            >
-              Apply Filter
-            </Button>,
-          ]}
+          open={filters}
+          placement="rightTop"
+          onOpenChange={(open) => setFilter(open)}
+          content={
+            <MemberSearch
+              form={form}
+              onClear={() => memberFilter.clearFilter()}
+            />
+          }
+          trigger={"click"}
         >
-          <MemberSearch />
-        </Modal>
-      </Form>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-        {ActiveMemberData?.data?.map((item, i) => (
-          <Badge.Ribbon
-            placement="start"
-            text={`${item?.batch_no}th batch`}
-            key={i}
+          <Button
+            title="Member Filter"
+            icon={<Filter size={16} />}
+            onClick={() => setFilter(true)}
+            type="primary"
+            className="flex items-center justify-center mb-2"
+            size="middle"
           >
-            <Card
-              hoverable
-              className="rounded-2xl"
-              actions={[
-                <Link to={`${item?.id}`}>
-                  <Button type="text" icon={<EyeOutlined />}>
-                    View
-                  </Button>
-                </Link>,
-              ]}
-            >
-              {isSuperUser ? (
-                <div className="absolute top-0 right-0">
-                  <Dropdown
-                    menu={{
-                      items: [
-                        {
-                          key: "admin",
-                          label: (
-                            <Popconfirm
-                              title="Make Admin"
-                              description="Are you sure you want to change member role as admin?"
-                              onConfirm={() =>
-                                mutate({
-                                  role: "admin",
-                                  user_id: item?.id,
-                                })
-                              }
-                              okText="Yes"
-                              cancelText="No"
-                              okType="danger"
-                            >
-                              Make Admin
-                            </Popconfirm>
-                          ),
-                        },
-                        {
-                          key: "member",
-                          label: (
-                            <Popconfirm
-                              title="Member"
-                              description="Are you sure you want to change member role as member?"
-                              onConfirm={() =>
-                                mutate({
-                                  role: "member",
-                                  user_id: item?.id,
-                                })
-                              }
-                              okText="Yes"
-                              cancelText="No"
-                              okType="danger"
-                            >
-                              Make Member
-                            </Popconfirm>
-                          ),
-                        },
-                        {
-                          key: "moderator",
-                          label: (
-                            <Popconfirm
-                              title="Moderator"
-                              description="Are you sure you want to change member role as moderator?"
-                              onConfirm={() =>
-                                mutate({
-                                  role: "moderator",
-                                  user_id: item?.id,
-                                })
-                              }
-                              okText="Yes"
-                              cancelText="No"
-                              okType="danger"
-                            >
-                              Make Moderator
-                            </Popconfirm>
-                          ),
-                        },
-                      ],
-                    }}
-                  >
-                    <Button type="text" icon={<SettingOutlined />} />
-                  </Dropdown>
-                  ,
-                </div>
-              ) : (
-                ""
-              )}
-              <div className="text-center">
-                <Avatar
-                  className="h-32 w-32 shadow-2xl"
-                  src={
-                    item?.profile_pic ??
-                    "https://t3.ftcdn.net/jpg/05/79/68/24/360_F_579682479_j4jRfx0nl3C8vMrTYVapFnGP8EgNHgfk.jpg"
-                  }
-                />
-                <br />
-                <Typography.Title level={4} className="shadow-2xl">
-                  {item?.name}
-                </Typography.Title>
-                <Typography.Paragraph className="shadow-2xl">
-                  {item?.professional_designation ?? "null"}
-                </Typography.Paragraph>
-              </div>
-            </Card>
-          </Badge.Ribbon>
-        ))}
-      </div>
-      <Pagination
-        style={{ textAlign: "right", marginTop: "10px" }}
-        defaultCurrent={1}
-        total={ActiveMemberData?.meta_data?.count}
-        defaultPageSize={ActiveMemberData?.meta_data?.page_size ?? 10}
-        onChange={memberFilter.handleChangePage}
+            {memberFilter?.filters && "Filter Applied"}
+          </Button>
+        </Popover>
+      </Form>
+      <Table
+        rowKey={(id) => String(id.id)}
+        loading={isLoading}
+        columns={columns}
+        dataSource={ActiveMemberData?.data}
+        pagination={{
+          size: "default",
+          total: ActiveMemberData?.meta_data?.count,
+          pageSize: memberFilter?.filters?.limit,
+          onChange: memberFilter.handleChangePage,
+          showTotal: () => `Total: ${ActiveMemberData?.meta_data?.count} User`,
+        }}
       />
-    </Spin>
+    </>
   );
 };
 

@@ -1,36 +1,34 @@
-import { Tabs, theme } from "antd";
+import { Tabs } from "antd";
+import Scaffold from "../../container/layout/Scaffold";
 import { useUserDetails } from "../../container/RoleProvider";
 import ActiveMembers from "./component/ActiveMembers";
 import PendingMembers from "./component/PendingMembers";
 
 const Members = () => {
-  const { token } = theme.useToken();
   const { isSuperUser } = useUserDetails();
 
   return isSuperUser ? (
-    <Tabs
-      className="mt-5"
-      tabBarStyle={{
-        backgroundColor: token.colorBgLayout,
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
-      }}
-      items={[
-        {
-          key: "active_members",
-          label: "Active Members",
-          children: <ActiveMembers />,
-        },
-        {
-          key: "pending_members",
-          label: "Pending Request",
-          children: <PendingMembers />,
-        },
-      ]}
-    />
+    <Scaffold>
+      <Tabs
+        className="p-2"
+        items={[
+          {
+            key: "active_members",
+            label: "Active Members",
+            children: <ActiveMembers />,
+          },
+          {
+            key: "pending_members",
+            label: "Pending Request",
+            children: <PendingMembers />,
+          },
+        ]}
+      />
+    </Scaffold>
   ) : (
-    <ActiveMembers />
+    <Scaffold>
+      <ActiveMembers />
+    </Scaffold>
   );
 };
 

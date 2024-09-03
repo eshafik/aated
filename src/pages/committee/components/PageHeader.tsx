@@ -33,7 +33,7 @@ const PageHeader = ({
   return (
     <Row
       align="middle"
-      className={twMerge(style ? "py-0" : "py-4")}
+      className={twMerge(style ? "py-0" : "mb-3")}
       gutter={[12, 12]}
     >
       <Col flex={1}>

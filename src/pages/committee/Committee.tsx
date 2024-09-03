@@ -17,6 +17,7 @@ import { useState } from "react";
 import { UseMutateFunction, useMutation, useQueryClient } from "react-query";
 import { Link } from "react-router-dom";
 import { useCommitteeList } from "../../config/hook/useCommittee";
+import Scaffold from "../../container/layout/Scaffold";
 import { useUserDetails } from "../../container/RoleProvider";
 import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
@@ -53,7 +54,7 @@ const Committee = () => {
     setIsModalOpen(false);
   };
   return (
-    <div>
+    <Scaffold>
       <Spin spinning={isLoading}>
         <PageHeader
           title={
@@ -104,7 +105,7 @@ const Committee = () => {
           onChange={filter.handleChangePage}
         />
       </Spin>
-    </div>
+    </Scaffold>
   );
 };
 

@@ -50,6 +50,10 @@ export const useMemberList = () => {
     setFilters((prev) => ({ ...prev, employment_status: member }));
   };
 
+  const clearFilter = () => {
+    setFilters(undefined);
+  };
+
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["members-list", filters],
     queryFn: () => membersAPI.activeMembersList(filters),
@@ -65,6 +69,7 @@ export const useMemberList = () => {
     isModalDisable,
     filter: {
       filters,
+      clearFilter,
       handleChangeOrdering,
       handleChangeName,
       handleChangeCompany,

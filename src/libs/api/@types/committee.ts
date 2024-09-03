@@ -62,10 +62,10 @@ export interface CommitteeSample {
     next?: string;
     previous?: string;
   };
-  data?: CommitteeMembers[];
+  data?: CommitteeMembersDetails[];
 }
 
-export type CommitteeMembers = {
+export type CommitteeMembersDetails = {
   id?: string | number;
   member?: {
     id?: string | number;

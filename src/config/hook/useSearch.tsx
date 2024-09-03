@@ -22,14 +22,18 @@ export const usePostList = () => {
     setFilters((prev) => ({ ...prev, status }));
   };
 
-  const { data, isLoading, refetch } = useQuery({
+  const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["post-list", filters],
     queryFn: () => postAPI.getPostList(filters),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.data!.length > 0 ? allPages.length + 1 : undefined;
+    },
   });
 
   return {
     posts: data,
     isLoading,
+    isFetching,
     refetch,
     filter: {
       filters,

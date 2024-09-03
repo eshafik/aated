@@ -19,7 +19,7 @@ import { useMemberList } from "../../../config/hook/useUserSearch";
 import { useUserDetails } from "../../../container/RoleProvider";
 import {
   CommitteeMemberPayload,
-  CommitteeMembers,
+  CommitteeMembersDetails,
 } from "../../../libs/api/@types/committee";
 import { committeeAPI } from "../../../libs/api/committee";
 import EditCommittee from "../EditCommittee";
@@ -59,7 +59,7 @@ const CommitteeMembers = () => {
     mutate(id);
   };
 
-  const column: ColumnsType<CommitteeMembers> = [
+  const column: ColumnsType<CommitteeMembersDetails> = [
     {
       title: "Name",
       dataIndex: "name",
