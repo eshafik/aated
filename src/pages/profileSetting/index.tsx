@@ -57,7 +57,7 @@ const ProfileContainer = () => {
             type="text"
             size="large"
             className={twMerge(
-              "flex mb-2 w-full items-center justify-start border-none hover:bg-[#F4801A] hover:text-white rounded",
+              "flex w-full mt-1 items-center justify-start border-none hover:bg-[#F4801A] hover:text-white rounded",
               settingItem === items.key && "w-full bg-[#F4801A] text-white"
             )}
             key={items.key}
@@ -68,14 +68,17 @@ const ProfileContainer = () => {
           </Button>
         ))}
       </StyledCard>
+
       <StyledCard
         title=" "
         extra={settingItem === "experience" && <ExperienceAddModal />}
         className="col-span-10 rounded-l-none capitalize"
       >
-        {settingItem === "basic_profile" && <ProfileSettings />}
-        {settingItem === "security" && <Security />}
-        {settingItem === "experience" && <SeeExperience />}
+        <div className="pl-5">
+          {settingItem === "basic_profile" && <ProfileSettings />}
+          {settingItem === "security" && <Security />}
+          {settingItem === "experience" && <SeeExperience />}
+        </div>
       </StyledCard>
     </div>
   );
