@@ -1,7 +1,8 @@
-import { App, Button, Card, Col, Form, Input, Row, Select } from "antd";
+import { App, Button, Card, Form, Input } from "antd";
+import { ArrowRight } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CreateUserPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
 import { searchAPI } from "../../libs/api/searchAPI";
@@ -22,6 +23,7 @@ const SignUp = () => {
   const { notification } = App.useApp();
   const queryClient = useQueryClient();
   const [emailStore, setEmailStore] = useState("");
+  const [step, setStep] = useState(0);
   localStorage.setItem("user-email", emailStore);
 
   const { mutate, isLoading } = useMutation(
@@ -56,150 +58,197 @@ const SignUp = () => {
   }, []);
 
   return (
-    <Row className="h-full" align="middle" justify="center">
-      <Col xs={20} sm={15} md={12} lg={10} xl={10} xxl={7}>
-        <Card
-          type="inner"
-          size="small"
-          className="shadow-3xl"
-          title={<div className="text-center text-xl">Sign UP</div>}
+    // <Row className="h-full" align="middle" justify="center">
+    //   <Col xs={20} sm={15} md={12} lg={10} xl={10} xxl={7}>
+    //     <Card
+    //       type="inner"
+    //       size="small"
+    //       className="shadow-3xl container"
+    //       title={<div className="text-center text-xl">Sign UP</div>}
+    //     >
+    //       <Form
+    //         // className="w-96"
+    //         form={form}
+    //         onFinish={(values) => {
+    //           const payload = serialize(values);
+    //           mutate(payload);
+    //           setEmailStore(values.email);
+    //         }}
+    //         layout="vertical"
+    //       >
+    //         <Form.Item
+    //           name="name"
+    //           label="Name"
+    //           rules={[{ required: true, message: "Please enter your name" }]}
+    //         >
+    //           <Input className="h-11 " placeholder="name" />
+    //         </Form.Item>
+
+    //         <Form.Item
+    //           label="Email"
+    //           name="email"
+    //           rules={[{ required: true, message: "Please enter your email" }]}
+    //         >
+    //           <Input className="h-11" placeholder="Email" />
+    //         </Form.Item>
+
+    //         <Form.Item
+    //           label="Phone"
+    //           name="phone"
+    //           rules={[{ required: true, message: "Please enter your phone" }]}
+    //         >
+    //           <Input className="h-11" placeholder="Phone" />
+    //         </Form.Item>
+
+    //         {/* <Row justify={"space-between"} gutter={24}>
+    //           <Col span={12}>
+    //             <Form.Item
+    //               label="Student ID"
+    //               name="student_id"
+    //               rules={[
+    //                 { required: true, message: "Please enter your StudentID" },
+    //               ]}
+    //             >
+    //               <Input className="h-11" placeholder="Student ID" />
+    //             </Form.Item>
+    //           </Col>
+    //           <Col span={12}>
+    //             <Form.Item
+    //               name="passing_year"
+    //               label="Passing Year"
+    //               rules={[
+    //                 { required: true, message: "Please enter your Password" },
+    //               ]}
+    //             >
+    //               <Input className="h-11 " placeholder="Passing year" />
+    //             </Form.Item>
+    //           </Col>
+    //         </Row>
+
+    //         <Form.Item
+    //           name="batch"
+    //           label="Batch"
+    //           rules={[
+    //             {
+    //               required: true,
+    //               message: "Please enter your Batch Number",
+    //             },
+    //           ]}
+    //         >
+    //           <Select
+    //             size="large"
+    //             className="w-full rounded-none"
+    //             showSearch
+    //             allowClear
+    //             filterOption={(input, option) =>
+    //               (option?.label?.toLowerCase() ?? "").includes(input)
+    //             }
+    //             options={data?.data?.map(({ id, name }) => ({
+    //               value: id?.toString(),
+    //               label: name,
+    //             }))}
+    //             placeholder="Batch"
+    //           />
+    //         </Form.Item>
+    //         <Form.Item
+    //           label="Password"
+    //           name="password"
+    //           hasFeedback
+    //           rules={[
+    //             { required: true, message: "Please enter your Password" },
+    //           ]}
+    //         >
+    //           <Input.Password className="h-11" placeholder="Password" />
+    //         </Form.Item>
+
+    //         <Form.Item
+    //           label="Confirm Password"
+    //           name="confirmPassword"
+    //           dependencies={["password"]}
+    //           rules={[
+    //             {
+    //               required: true,
+    //               message: "Please confirm your password!",
+    //             },
+    //             ({ getFieldValue }) => ({
+    //               validator(_, value) {
+    //                 if (!value || getFieldValue("password") === value) {
+    //                   return Promise.resolve();
+    //                 }
+    //                 return Promise.reject(
+    //                   new Error(
+    //                     "The new password that you entered do not match!"
+    //                   )
+    //                 );
+    //               },
+    //             }),
+    //           ]}
+    //         >
+    //           <Input.Password className="h-11" placeholder="Confirm Password" />
+    //         </Form.Item> */}
+
+    //         <Form.Item>
+    //           <Button
+    //             type="primary"
+    //             loading={isLoading}
+    //             htmlType="submit"
+    //             className="h-11 w-full"
+    //           >
+    //             Sign UP
+    //           </Button>
+    //         </Form.Item>
+    //       </Form>
+    //       <Link to={"/signin"}>Already have an account?</Link>
+    //     </Card>
+    //   </Col>
+    // </Row>
+    <div className="h-[calc(100vh-175px)] flex justify-center items-center">
+      <Card title="Sign Up" className="container shadow-2xl w-[60vh]">
+        <Form
+          form={form}
+          onFinish={(values) => {
+            const payload = serialize(values);
+            mutate(payload);
+            setEmailStore(values.email);
+          }}
+          layout="vertical"
         >
-          <Form
-            // className="w-96"
-            form={form}
-            onFinish={(values) => {
-              const payload = serialize(values);
-              mutate(payload);
-              setEmailStore(values.email);
-            }}
-            layout="vertical"
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[{ required: true, message: "Please enter your name" }]}
           >
-            <Form.Item
-              name="name"
-              label="Name"
-              rules={[{ required: true, message: "Please enter your name" }]}
-            >
-              <Input className="h-11 " placeholder="name" />
-            </Form.Item>
+            <Input placeholder="name" />
+          </Form.Item>
 
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[{ required: true, message: "Please enter your email" }]}
-            >
-              <Input className="h-11" placeholder="Email" />
-            </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please enter your email" }]}
+          >
+            <Input placeholder="Email" />
+          </Form.Item>
 
-            <Form.Item
-              label="Phone"
-              name="phone"
-              rules={[{ required: true, message: "Please enter your phone" }]}
-            >
-              <Input className="h-11" placeholder="Phone" />
-            </Form.Item>
-
-            <Row justify={"space-between"} gutter={24}>
-              <Col span={12}>
-                <Form.Item
-                  label="Student ID"
-                  name="student_id"
-                  rules={[
-                    { required: true, message: "Please enter your StudentID" },
-                  ]}
-                >
-                  <Input className="h-11" placeholder="Student ID" />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="passing_year"
-                  label="Passing Year"
-                  rules={[
-                    { required: true, message: "Please enter your Password" },
-                  ]}
-                >
-                  <Input className="h-11 " placeholder="Passing year" />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Form.Item
-              name="batch"
-              label="Batch"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter your Batch Number",
-                },
-              ]}
-            >
-              <Select
-                size="large"
-                className="w-full rounded-none"
-                showSearch
-                allowClear
-                filterOption={(input, option) =>
-                  (option?.label?.toLowerCase() ?? "").includes(input)
-                }
-                options={data?.data?.map(({ id, name }) => ({
-                  value: id?.toString(),
-                  label: name,
-                }))}
-                placeholder="Batch"
-              />
-            </Form.Item>
-            <Form.Item
-              label="Password"
-              name="password"
-              hasFeedback
-              rules={[
-                { required: true, message: "Please enter your Password" },
-              ]}
-            >
-              <Input.Password className="h-11" placeholder="Password" />
-            </Form.Item>
-
-            <Form.Item
-              label="Confirm Password"
-              name="confirmPassword"
-              dependencies={["password"]}
-              rules={[
-                {
-                  required: true,
-                  message: "Please confirm your password!",
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error(
-                        "The new password that you entered do not match!"
-                      )
-                    );
-                  },
-                }),
-              ]}
-            >
-              <Input.Password className="h-11" placeholder="Confirm Password" />
-            </Form.Item>
-
-            <Form.Item>
-              <Button
-                type="primary"
-                loading={isLoading}
-                htmlType="submit"
-                className="h-11 w-full"
-              >
-                Sign UP
-              </Button>
-            </Form.Item>
-          </Form>
-          <Link to={"/signin"}>Already have an account?</Link>
-        </Card>
-      </Col>
-    </Row>
+          <Form.Item
+            label="Phone"
+            name="phone"
+            rules={[{ required: true, message: "Please enter your phone" }]}
+          >
+            <Input placeholder="Phone" />
+          </Form.Item>
+          <Button
+            type="primary"
+            icon={<ArrowRight size={16} />}
+            className="flex justify-center items-center ml-auto"
+            onClick={() => {
+              console.log(form.validateFields(["name"]));
+            }}
+          >
+            Next
+          </Button>
+        </Form>
+      </Card>
+    </div>
   );
 };
 
