@@ -3,24 +3,24 @@ import { Carousel, Collapse, Image, Typography } from "antd";
 const HomePage = () => {
   return (
     <div className="flex flex-col gap-5 mt-4">
-      <Carousel>
+      <Carousel accessibility autoplay autoplaySpeed={1500}>
         <Image
           preview={false}
           height={400}
           width={"100%"}
-          src="https://letsenhance.io/static/03620c83508fc72c6d2b218c7e304ba5/11499/UpscalerAfter.jpg"
+          src="https://juniv.edu/storage/image/discussion/9708_5-726fc0.jpg"
         />
         <Image
           preview={false}
           height={400}
           width={"100%"}
-          src="https://letsenhance.io/static/03620c83508fc72c6d2b218c7e304ba5/11499/UpscalerAfter.jpg"
+          src="https://images.prothomalo.com/prothomalo-english/2021-05/a281ddb6-54da-4e36-8029-bf7f36a4ae52/Jahangirnagar_University.jpg?w=1200&h=675&auto=format%2Ccompress&fit=max"
         />
         <Image
           preview={false}
           height={400}
           width={"100%"}
-          src="https://letsenhance.io/static/03620c83508fc72c6d2b218c7e304ba5/11499/UpscalerAfter.jpg"
+          src="https://www.bproperty.com/blog/wp-content/uploads/2021/07/vrr.png"
         />
       </Carousel>
       <div className="grid grid-cols-12 gap-3 text-white">

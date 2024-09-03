@@ -5,9 +5,9 @@ import Header from "../../components/header/Header";
 
 const OnboardLayout = () => {
   return (
-    <Layout className="h-screen w-screen">
-      <Layout.Content className="container bg-slate-200 p-5">
-        <div className="bg-white rounded shadow p-2">
+    <Layout className="h-full w-full bg-slate-200">
+      <Layout.Content className="container p-5 pl-14 pr-14">
+        <div className="bg-white rounded shadow p-3 overflow-auto">
           <CardMeta
             className="mb-3"
             icon={
