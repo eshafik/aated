@@ -1,21 +1,13 @@
-import { App, Button, Card, Form, Input } from "antd";
-import { ArrowRight } from "lucide-react";
-import { useCallback, useState } from "react";
+import { App, Button, Card, Form, Input, Select, Typography } from "antd";
+import { useWatch } from "antd/es/form/Form";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 import { CreateUserPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
 import { searchAPI } from "../../libs/api/searchAPI";
-
-type SignUPForm = {
-  name?: string;
-  student_id?: string;
-  phone?: string;
-  email: string;
-  passing_year?: string;
-  password?: string;
-  batch?: string;
-};
 
 const SignUp = () => {
   const [form] = Form.useForm();
@@ -24,6 +16,7 @@ const SignUp = () => {
   const queryClient = useQueryClient();
   const [emailStore, setEmailStore] = useState("");
   const [step, setStep] = useState(0);
+  const watchConfirmPassword = useWatch("confirmPassword", form);
   localStorage.setItem("user-email", emailStore);
 
   const { mutate, isLoading } = useMutation(
@@ -44,171 +37,35 @@ const SignUp = () => {
 
   const { data } = useQuery(["batch-list"], () => searchAPI.getBatchList());
 
-  const serialize = useCallback((values: SignUPForm) => {
-    const payload = {
-      name: values.name,
-      student_id: values.student_id,
-      phone: values.phone,
-      email: values.email,
-      passing_year: values.passing_year,
-      password: values.password,
-      batch: values.batch,
-    };
-    return payload;
-  }, []);
+  const loginSteps = async () => {
+    const isValid = await form.validateFields();
+    if (isValid) {
+      step < 2 && setStep(step + 1);
+      if (watchConfirmPassword !== undefined) {
+        form.submit();
+      }
+    }
+  };
 
   return (
-    // <Row className="h-full" align="middle" justify="center">
-    //   <Col xs={20} sm={15} md={12} lg={10} xl={10} xxl={7}>
-    //     <Card
-    //       type="inner"
-    //       size="small"
-    //       className="shadow-3xl container"
-    //       title={<div className="text-center text-xl">Sign UP</div>}
-    //     >
-    //       <Form
-    //         // className="w-96"
-    //         form={form}
-    //         onFinish={(values) => {
-    //           const payload = serialize(values);
-    //           mutate(payload);
-    //           setEmailStore(values.email);
-    //         }}
-    //         layout="vertical"
-    //       >
-    //         <Form.Item
-    //           name="name"
-    //           label="Name"
-    //           rules={[{ required: true, message: "Please enter your name" }]}
-    //         >
-    //           <Input className="h-11 " placeholder="name" />
-    //         </Form.Item>
-
-    //         <Form.Item
-    //           label="Email"
-    //           name="email"
-    //           rules={[{ required: true, message: "Please enter your email" }]}
-    //         >
-    //           <Input className="h-11" placeholder="Email" />
-    //         </Form.Item>
-
-    //         <Form.Item
-    //           label="Phone"
-    //           name="phone"
-    //           rules={[{ required: true, message: "Please enter your phone" }]}
-    //         >
-    //           <Input className="h-11" placeholder="Phone" />
-    //         </Form.Item>
-
-    //         {/* <Row justify={"space-between"} gutter={24}>
-    //           <Col span={12}>
-    //             <Form.Item
-    //               label="Student ID"
-    //               name="student_id"
-    //               rules={[
-    //                 { required: true, message: "Please enter your StudentID" },
-    //               ]}
-    //             >
-    //               <Input className="h-11" placeholder="Student ID" />
-    //             </Form.Item>
-    //           </Col>
-    //           <Col span={12}>
-    //             <Form.Item
-    //               name="passing_year"
-    //               label="Passing Year"
-    //               rules={[
-    //                 { required: true, message: "Please enter your Password" },
-    //               ]}
-    //             >
-    //               <Input className="h-11 " placeholder="Passing year" />
-    //             </Form.Item>
-    //           </Col>
-    //         </Row>
-
-    //         <Form.Item
-    //           name="batch"
-    //           label="Batch"
-    //           rules={[
-    //             {
-    //               required: true,
-    //               message: "Please enter your Batch Number",
-    //             },
-    //           ]}
-    //         >
-    //           <Select
-    //             size="large"
-    //             className="w-full rounded-none"
-    //             showSearch
-    //             allowClear
-    //             filterOption={(input, option) =>
-    //               (option?.label?.toLowerCase() ?? "").includes(input)
-    //             }
-    //             options={data?.data?.map(({ id, name }) => ({
-    //               value: id?.toString(),
-    //               label: name,
-    //             }))}
-    //             placeholder="Batch"
-    //           />
-    //         </Form.Item>
-    //         <Form.Item
-    //           label="Password"
-    //           name="password"
-    //           hasFeedback
-    //           rules={[
-    //             { required: true, message: "Please enter your Password" },
-    //           ]}
-    //         >
-    //           <Input.Password className="h-11" placeholder="Password" />
-    //         </Form.Item>
-
-    //         <Form.Item
-    //           label="Confirm Password"
-    //           name="confirmPassword"
-    //           dependencies={["password"]}
-    //           rules={[
-    //             {
-    //               required: true,
-    //               message: "Please confirm your password!",
-    //             },
-    //             ({ getFieldValue }) => ({
-    //               validator(_, value) {
-    //                 if (!value || getFieldValue("password") === value) {
-    //                   return Promise.resolve();
-    //                 }
-    //                 return Promise.reject(
-    //                   new Error(
-    //                     "The new password that you entered do not match!"
-    //                   )
-    //                 );
-    //               },
-    //             }),
-    //           ]}
-    //         >
-    //           <Input.Password className="h-11" placeholder="Confirm Password" />
-    //         </Form.Item> */}
-
-    //         <Form.Item>
-    //           <Button
-    //             type="primary"
-    //             loading={isLoading}
-    //             htmlType="submit"
-    //             className="h-11 w-full"
-    //           >
-    //             Sign UP
-    //           </Button>
-    //         </Form.Item>
-    //       </Form>
-    //       <Link to={"/signin"}>Already have an account?</Link>
-    //     </Card>
-    //   </Col>
-    // </Row>
     <div className="h-[calc(100vh-175px)] flex justify-center items-center">
-      <Card title="Sign Up" className="container shadow-2xl w-[60vh]">
+      <Card title="Sign Up" className="container shadow-2xl w-[50vh]">
+        <Typography.Text className="flex justify-end">
+          Step {step + 1}/3
+        </Typography.Text>
         <Form
           form={form}
           onFinish={(values) => {
-            const payload = serialize(values);
-            mutate(payload);
+            mutate({
+              name: values.name,
+              email: values.email,
+              phone: values.phone,
+              passing_year: values.passing_year,
+              batch: values.batch,
+              student_id: values.student_id,
+              password: values.password,
+            });
+
             setEmailStore(values.email);
           }}
           layout="vertical"
@@ -216,36 +73,157 @@ const SignUp = () => {
           <Form.Item
             name="name"
             label="Name"
-            rules={[{ required: true, message: "Please enter your name" }]}
+            rules={[
+              {
+                required: step === 0 ? true : false,
+                message: "Please enter your name",
+              },
+            ]}
+            className={twMerge("hidden", step === 0 && "block")}
           >
             <Input placeholder="name" />
           </Form.Item>
-
           <Form.Item
             label="Email"
             name="email"
-            rules={[{ required: true, message: "Please enter your email" }]}
+            rules={[
+              {
+                required: step === 0 ? true : false,
+                message: "Please enter your email",
+              },
+            ]}
+            className={twMerge("hidden", step === 0 && "block")}
           >
             <Input placeholder="Email" />
           </Form.Item>
-
           <Form.Item
             label="Phone"
             name="phone"
-            rules={[{ required: true, message: "Please enter your phone" }]}
+            rules={[
+              {
+                required: step === 0 ? true : false,
+                message: "Please enter your phone",
+              },
+            ]}
+            className={twMerge("hidden", step === 0 && "block")}
           >
             <Input placeholder="Phone" />
           </Form.Item>
-          <Button
-            type="primary"
-            icon={<ArrowRight size={16} />}
-            className="flex justify-center items-center ml-auto"
-            onClick={() => {
-              console.log(form.validateFields(["name"]));
-            }}
+
+          <Form.Item
+            label="Student ID"
+            name="student_id"
+            rules={[
+              {
+                required: step === 1 ? true : false,
+                message: "Please enter your StudentID",
+              },
+            ]}
+            className={twMerge("hidden", step === 1 && "block")}
           >
-            Next
-          </Button>
+            <Input placeholder="Student ID" />
+          </Form.Item>
+
+          <Form.Item
+            name="passing_year"
+            label="Passing Year"
+            rules={[
+              {
+                required: step === 1 ? true : false,
+                message: "Please enter your Password",
+              },
+            ]}
+            className={twMerge("hidden", step === 1 && "block")}
+          >
+            <Input placeholder="Passing year" />
+          </Form.Item>
+
+          <Form.Item
+            name="batch"
+            label="Batch"
+            rules={[
+              {
+                required: step === 1 ? true : false,
+                message: "Please enter your Batch Number",
+              },
+            ]}
+            className={twMerge("hidden", step === 1 && "block")}
+          >
+            <Select
+              className="w-full rounded-none"
+              showSearch
+              allowClear
+              filterOption={(input, option) =>
+                (option?.label?.toLowerCase() ?? "").includes(input)
+              }
+              options={data?.data?.map(({ id, name }) => ({
+                value: id?.toString(),
+                label: name,
+              }))}
+              placeholder="Batch"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="password"
+            hasFeedback
+            rules={[
+              {
+                required: step === 2 ? true : false,
+                message: "Please enter your Password",
+              },
+            ]}
+            className={twMerge("hidden", step === 2 && "block")}
+          >
+            <Input.Password placeholder="Password" />
+          </Form.Item>
+
+          <Form.Item
+            label="Confirm Password"
+            name="confirmPassword"
+            dependencies={["password"]}
+            rules={[
+              {
+                required: step === 2 ? true : false,
+                message: "Please confirm your password!",
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("The new password that you entered do not match!")
+                  );
+                },
+              }),
+            ]}
+            className={twMerge("hidden", step === 2 && "block")}
+          >
+            <Input.Password placeholder="Confirm Password" />
+          </Form.Item>
+
+          <div className="flex justify-between">
+            {step > 0 && (
+              <Button
+                className="flex justify-center items-center"
+                icon={<ArrowLeft size={16} />}
+                onClick={() => setStep(step - 1)}
+              >
+                Previous
+              </Button>
+            )}
+            <Button
+              type="primary"
+              icon={step !== 2 && <ArrowRight size={16} />}
+              className={"flex justify-center items-center ml-auto"}
+              onClick={loginSteps}
+              loading={isLoading}
+            >
+              {step === 2 ? "Sign Up" : "Next"}
+            </Button>
+          </div>
         </Form>
       </Card>
     </div>

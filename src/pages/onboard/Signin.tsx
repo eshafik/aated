@@ -25,7 +25,7 @@ const SignIn = () => {
   );
   return (
     <>
-      <Row className="h-[calc(100vh-120px)]" align="middle" justify="center">
+      <Row className="h-[calc(100vh-175px)]" align="middle" justify="center">
         <Col xs={15} sm={12} md={10} lg={8} xl={6}>
           <Card
             className="bg-white shadow-2xl"

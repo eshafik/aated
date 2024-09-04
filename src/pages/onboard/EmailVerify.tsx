@@ -1,4 +1,4 @@
-import { App, Button, Card, Col, Form, Input, Row, Typography } from "antd";
+import { App, Button, Card, Form, Input, Typography } from "antd";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { CreateUserPayload } from "../../libs/api/@types/auth";
@@ -24,51 +24,44 @@ const EmailVerify = () => {
     }
   );
   return (
-    <Row align={"middle"} className="h-full w-full" justify={"center"}>
-      <Col>
-        <Card hoverable>
-          <Form
-            form={form}
-            onFinish={(values) =>
-              mutate({
-                email: localStorage.getItem("user-email"),
-                otp: values.otp,
-              })
-            }
+    <div className="h-[calc(100vh-175px)] flex justify-center items-center">
+      <Card className="flex justify-center items-center">
+        <Form
+          form={form}
+          onFinish={(values) =>
+            mutate({
+              email: localStorage.getItem("user-email"),
+              otp: values.otp,
+            })
+          }
+          className="flex items-center justify-center flex-col"
+        >
+          <Typography.Title level={4} className="text-center">
+            Enter otp that sent to your email
+          </Typography.Title>
+
+          <Form.Item
+            name="otp"
+            rules={[{ required: true, message: "You have to enter" }]}
           >
-            <Typography.Title level={4} className="text-center">
-              Enter otp that sent to your email
-            </Typography.Title>
+            <Input.OTP
+              length={6}
+              placeholder="Please enter the otp"
+              className="text-center"
+            />
+          </Form.Item>
 
-            <Form.Item
-              name="otp"
-              rules={[
-                {
-                  required: true,
-                  message: "You have to enter",
-                },
-              ]}
-            >
-              <Input
-                placeholder="Please enter the otp"
-                className="text-center"
-              />
-            </Form.Item>
-
-            <Form.Item>
-              <Button
-                type="primary"
-                loading={isLoading}
-                className="w-full"
-                htmlType="submit"
-              >
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </Col>
-    </Row>
+          <Button
+            type="primary"
+            loading={isLoading}
+            className="w-full"
+            htmlType="submit"
+          >
+            Submit
+          </Button>
+        </Form>
+      </Card>
+    </div>
   );
 };
 

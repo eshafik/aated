@@ -1,5 +1,5 @@
 import { UserOutlined } from "@ant-design/icons";
-import { App, Button, Card, Col, Form, Input, Row, Typography } from "antd";
+import { App, Button, Card, Form, Input, Typography } from "antd";
 import { useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -25,54 +25,52 @@ const ForgotPassword = () => {
     }
   );
   return (
-    <Row gutter={24} className="h-full" align="middle" justify="center">
-      <Col sm={10} md={10} lg={7}>
-        <Card
-          className="text-center"
-          size="small"
-          title={
-            <>
-              <Typography.Title className="mt-3" level={4}>
-                Forgot Password
-              </Typography.Title>
-              <Typography.Paragraph type="secondary">
-                Enter your email to send a verification code
-              </Typography.Paragraph>
-            </>
-          }
+    <div className="h-[calc(100vh-175px)] flex justify-center items-center">
+      <Card
+        className="text-center"
+        size="small"
+        title={
+          <>
+            <Typography.Title className="mt-3" level={4}>
+              Forgot Password
+            </Typography.Title>
+            <Typography.Paragraph type="secondary">
+              Enter your email to send a verification code
+            </Typography.Paragraph>
+          </>
+        }
+      >
+        <Form
+          requiredMark={"optional"}
+          onFinish={(values) => {
+            mutate({
+              email: values.email,
+            });
+            setEmailStore(values.email);
+          }}
+          size="large"
+          layout="vertical"
         >
-          <Form
-            requiredMark={"optional"}
-            onFinish={(values) => {
-              mutate({
-                email: values.email,
-              });
-              setEmailStore(values.email);
-            }}
-            size="large"
-            layout="vertical"
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: "Please input your Email!" }]}
           >
-            <Form.Item
-              name="email"
-              rules={[{ required: true, message: "Please input your Email!" }]}
-            >
-              <Input prefix={<UserOutlined />} placeholder="Email" />
-            </Form.Item>
+            <Input prefix={<UserOutlined />} placeholder="Email" />
+          </Form.Item>
 
-            <Form.Item>
-              <Button
-                type="primary"
-                className="w-full"
-                loading={isLoading}
-                htmlType="submit"
-              >
-                Send
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </Col>
-    </Row>
+          <Form.Item>
+            <Button
+              type="primary"
+              className="w-full"
+              loading={isLoading}
+              htmlType="submit"
+            >
+              Send
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+    </div>
   );
 };
 
