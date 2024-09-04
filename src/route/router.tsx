@@ -16,7 +16,7 @@ import SignIn from "../pages/onboard/Signin";
 import SignUp from "../pages/onboard/Signup";
 import PersonalProfile from "../pages/personalProfile/PersonalProfile";
 import Post from "../pages/post/Post";
-import BlogPost from "../pages/posts/BlogPost";
+import BlogPost from "../pages/posts";
 import SettingsContainer from "../pages/profileSetting";
 
 export const publicRoute = createBrowserRouter([

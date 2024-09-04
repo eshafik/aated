@@ -14,12 +14,12 @@ import {
 import TextArea from "antd/es/input/TextArea";
 import { FC, useState } from "react";
 import { Link } from "react-router-dom";
-import { useComment } from "../../config/hook/usecomment";
-import { usePostList } from "../../config/hook/useSearch";
-import { useUserDetails } from "../../container/RoleProvider";
-import { PostsDetails } from "../../libs/api/@types/post";
-import { formatDate } from "../../utils/date.helpers";
-import EditPost from "../post/EditPost";
+import { useComment } from "../../../config/hook/usecomment";
+import { usePostList } from "../../../config/hook/useSearch";
+import { useUserDetails } from "../../../container/RoleProvider";
+import { PostsDetails } from "../../../libs/api/@types/post";
+import { formatDate } from "../../../utils/date.helpers";
+import EditPost from "../../post/EditPost";
 
 type PostProps = {
   postsData?: PostsDetails[];
@@ -41,7 +41,7 @@ const Posts: FC<PostProps> = ({ loadingPostList, postsData, filter }) => {
 
   return (
     <>
-      <div className="max-w-3xl grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <Spin spinning={loadingPostList}>
           {postsData?.map((items, i) => (
             <Card
