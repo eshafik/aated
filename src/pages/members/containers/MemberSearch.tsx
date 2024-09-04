@@ -1,4 +1,5 @@
 import { Button, Form, FormInstance, Input, Select } from "antd";
+import { useCallback } from "react";
 import { useQuery } from "react-query";
 import { useJobDeptSearch } from "../../../config/hook/useJobDeptSearch";
 import { searchAPI } from "../../../libs/api/searchAPI";
@@ -32,6 +33,21 @@ const MemberSearch = ({ onClear, form }: MemberSearchProps) => {
   );
 
   const { filter, jobDept: jobDeptData } = useJobDeptSearch();
+  const handleClear = useCallback(() => {
+    form.setFieldsValue({
+      name: undefined,
+      company: undefined,
+      designation: undefined,
+      job_department: undefined,
+      location: undefined,
+      occupation_type: undefined,
+      student_id: undefined,
+      batch: undefined,
+      skills: undefined,
+      employment_status: undefined,
+    });
+    onClear();
+  }, [form, onClear]);
 
   return (
     <>
@@ -104,12 +120,7 @@ const MemberSearch = ({ onClear, form }: MemberSearchProps) => {
         </div>
       </div>
       <div className="flex justify-end gap-2">
-        <Button
-          htmlType="reset"
-          onClick={() => {
-            onClear(), form.resetFields();
-          }}
-        >
+        <Button htmlType="reset" onClick={handleClear}>
           Reset Field
         </Button>
         <Button type="primary" htmlType="submit" onClick={form.submit}>
