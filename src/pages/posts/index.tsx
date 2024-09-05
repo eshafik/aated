@@ -4,13 +4,16 @@ import {
   Divider,
   Form,
   Input,
+  List,
   Select,
   Skeleton,
+  Spin,
   Tabs,
   Typography,
 } from "antd";
 import moment from "moment";
 import { useMemo, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
@@ -23,12 +26,12 @@ import CreatePostModal from "./component/CreatePostModal";
 import Posts from "./component/Posts";
 
 const BlogPost = () => {
-  const { filter, isLoading, posts } = usePostList();
+  const { filter, isLoading, posts, fetchNextPage } = usePostList();
   const [category, setCategory] = useState("all_post");
 
-  const excludeJobPosts = posts?.data?.filter(
-    (item) => item.category?.id.toString() !== "1"
-  );
+  // const excludeJobPosts = posts?.data?.filter(
+  //   (item) => item.category?.id.toString() !== "1"
+  // );
 
   const jobPostQuery = useQuery({
     queryKey: ["job-post-list"],
@@ -37,6 +40,8 @@ const BlogPost = () => {
         category: "1",
       }),
   });
+
+  const jobPosts = jobPostQuery?.data?.data?.slice(0, 2);
 
   const isMobileScreen = useMatchMedia();
 
@@ -48,8 +53,6 @@ const BlogPost = () => {
       return "all_post";
     } else if (!isMobileScreen) return "all";
   }, [category, isMobileScreen]);
-
-  console.log(renderPostType);
 
   return (
     <Skeleton loading={jobPostQuery?.isLoading && isLoading}>
@@ -105,7 +108,10 @@ const BlogPost = () => {
             ]}
           />
         )}
-        <div className="grid grid-cols-12 gap-10">
+        <div
+          id="scrollableDiv"
+          className="grid grid-cols-12 gap-10 overflow-auto p-3 h-[calc(100vh-200px)]"
+        >
           {(renderPostType === "all_post" || renderPostType === "all") && (
             <div
               className={twMerge(
@@ -114,11 +120,37 @@ const BlogPost = () => {
               )}
             >
               <CreatePostModal />
-              <Posts
-                postsData={excludeJobPosts}
-                loadingPostList={isLoading}
-                filter={filter}
-              />
+              <InfiniteScroll
+                dataLength={
+                  posts?.pages?.flatMap((data) => data?.data)?.length ?? 0
+                }
+                hasMore={
+                  Number(posts?.pages?.flatMap((date) => date?.data)?.length) <=
+                  Number(posts?.pages?.[0]?.meta_data?.count)
+                }
+                next={() => {
+                  return fetchNextPage();
+                }}
+                loader={
+                  <Spin
+                    className={twMerge(
+                      "",
+                      Number(
+                        posts?.pages?.flatMap((date) => date?.data)?.length
+                      ) < 1 && "hidden"
+                    )}
+                  />
+                }
+                scrollableTarget="scrollableDiv"
+                style={{
+                  overflow: "hidden",
+                }}
+              >
+                <List
+                  dataSource={posts?.pages?.flatMap((items) => items?.data)}
+                  renderItem={(items, i) => <Posts key={i} postDate={items!} />}
+                />
+              </InfiniteScroll>
             </div>
           )}
 
@@ -129,8 +161,8 @@ const BlogPost = () => {
                 !isMobileScreen && "col-span-6 mt-[11px]"
               )}
             >
-              <Card title="Job Posts">
-                {jobPostQuery?.data?.data?.map((items, index) => (
+              <Card title="Job Posts" className="bg-slate-100/50">
+                {jobPosts?.map((items, index) => (
                   <div className="flex flex-col gap-5" key={index}>
                     <CardMeta
                       icon={<Avatar src={items?.attachments?.[0]} />}

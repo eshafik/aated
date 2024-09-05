@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import { PostListParams } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
 
@@ -25,15 +25,30 @@ export const usePostList = () => {
     setFilters((prev) => ({ ...prev, status }));
   };
 
-  const { data, isLoading, refetch, isFetching } = useQuery({
-    queryKey: ["post-list", filters],
-    queryFn: () => postAPI.getPostList(filters),
-  });
+  const { data, isLoading, refetch, isFetching, hasNextPage, fetchNextPage } =
+    useInfiniteQuery({
+      queryKey: ["post-list", filters],
+      queryFn: ({ pageParam = 1 }) =>
+        postAPI.getPostList({
+          category: filters?.category,
+          id: filters?.id,
+          search: filters?.search,
+          page: pageParam,
+        }),
+      getNextPageParam: (lastPage) => {
+        if (lastPage?.meta_data?.next === 0) {
+          return undefined;
+        }
+        return lastPage?.meta_data?.next;
+      },
+    });
 
   return {
     posts: data,
     isLoading,
     isFetching,
+    hasNextPage,
+    fetchNextPage,
     refetch,
     filter: {
       filters,
