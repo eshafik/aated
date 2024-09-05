@@ -48,8 +48,8 @@ const SignUp = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-175px)] flex justify-center items-center">
-      <Card title="Sign Up" className="container shadow-2xl w-[50vh]">
+    <div className="h-[calc(100vh-200px)] flex justify-center items-center">
+      <Card title="Sign Up" className="container shadow-2xl w-96">
         <Typography.Text className="flex justify-end">
           Step {step + 1}/3
         </Typography.Text>

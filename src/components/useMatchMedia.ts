@@ -1,27 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 
-export const useMatchMedia = (mediaQuery: any, initialValue: any) => {
-  const [isMatching, setIsMatching] = useState(initialValue);
-  useEffect(() => {
-    const watcher = window.matchMedia(mediaQuery);
-    setIsMatching(watcher.matches);
-    const listener = (matches: any) => {
-      setIsMatching(matches.matches);
-    };
-    if (watcher.addEventListener) {
-      watcher.addEventListener("change", listener);
-    } else {
-      watcher.addListener(listener);
-    }
-    return () => {
-      if (watcher.removeEventListener) {
-        return watcher.removeEventListener("change", listener);
-      } else {
-        return watcher.removeListener(listener);
-      }
-    };
-  }, [mediaQuery]);
+export const useMatchMedia = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const screenWidth = window.innerWidth;
 
-  return isMatching;
+  useEffect(() => {
+    if (screenWidth < 600) {
+      setIsMobile(true);
+    }
+    window.addEventListener("resize", handleResize);
+  }, [screenWidth]);
+
+  const handleResize = () => {
+    if (window.innerWidth < 600) {
+      setIsMobile(true);
+    } else return setIsMobile(false);
+  };
+
+  return isMobile;
 };

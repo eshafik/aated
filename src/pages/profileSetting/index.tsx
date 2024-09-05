@@ -4,6 +4,7 @@ import { Brain, Lock, Settings } from "lucide-react";
 import { useState } from "react";
 import styled from "styled-components";
 import { twMerge } from "tailwind-merge";
+import { useMatchMedia } from "../../components/useMatchMedia";
 import ExperienceAddModal from "./components/ExperieceAddModal";
 import SeeExperience from "./components/PersonalExperience";
 import ProfileSettings from "./components/ProfileSettings";
@@ -22,6 +23,7 @@ export const StyledCard = styled(Card)`
 `;
 const ProfileContainer = () => {
   const [settingItem, setSettingItem] = useState("basic_profile");
+  const isMobile = useMatchMedia();
 
   const settingsItems: { icon: React.ReactNode; title: string; key: string }[] =
     [
@@ -44,33 +46,31 @@ const ProfileContainer = () => {
 
   return (
     <div className="grid grid-cols-12 pt-3">
-      <StyledCard
-        title={
-          <Typography.Text className="capitalize">
-            {settingItem.replace("_", " ")}
-          </Typography.Text>
-        }
-        className="col-span-2 rounded-r-none pl-1 pr-1"
-      >
+      <StyledCard title={true} className="col-span-2 rounded-r-none pl-1 pr-1">
         {settingsItems?.map((items) => (
           <Button
             type="text"
             size="large"
             className={twMerge(
               "flex w-full mt-1 items-center justify-start border-none hover:bg-[#F4801A] hover:text-white rounded",
-              settingItem === items.key && "w-full bg-[#F4801A] text-white"
+              settingItem === items.key && "w-full bg-[#F4801A] text-white",
+              isMobile && "justify-center"
             )}
             key={items.key}
             icon={items.icon}
             onClick={() => setSettingItem(items.key)}
           >
-            {items.title}
+            {!isMobile && items.title}
           </Button>
         ))}
       </StyledCard>
 
       <StyledCard
-        title=" "
+        title={
+          <Typography.Text className="capitalize">
+            {settingItem.replace("_", " ")}
+          </Typography.Text>
+        }
         extra={settingItem === "experience" && <ExperienceAddModal />}
         className="col-span-10 rounded-l-none capitalize"
       >

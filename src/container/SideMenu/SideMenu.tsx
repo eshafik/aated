@@ -27,14 +27,6 @@ const SideMenu = () => {
           icon: "",
           disabled: true,
         },
-
-        {
-          key: "members",
-          title: "members",
-          icon: <UsergroupAddOutlined />,
-          label: "Members",
-          onClick: () => navigate("/members"),
-        },
         {
           key: "posts",
           title: "posts",
@@ -42,6 +34,14 @@ const SideMenu = () => {
           onClick: () => navigate("/posts"),
           label: "Post",
         },
+        {
+          key: "members",
+          title: "members",
+          icon: <UsergroupAddOutlined />,
+          label: "Members",
+          onClick: () => navigate("/members"),
+        },
+
         {
           key: "committee",
           title: "Committee",

@@ -24,7 +24,7 @@ const HomePage = () => {
         />
       </Carousel>
       <div className="grid grid-cols-12 gap-3 text-white">
-        <div className="col-span-4 h-96 bg-blue-700 p-5">
+        <div className="col-span-12 lg:col-span-4 h-96 bg-blue-700 p-5">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
@@ -35,7 +35,7 @@ const HomePage = () => {
           more recently with desktop publishing software like Aldus PageMaker
           including versions of Lorem Ipsum.
         </div>
-        <div className="col-span-4 h-96 bg-blue-300 p-5">
+        <div className="col-span-12 lg:col-span-4 h-96 bg-blue-300 p-5">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
@@ -46,7 +46,7 @@ const HomePage = () => {
           more recently with desktop publishing software like Aldus PageMaker
           including versions of Lorem Ipsum.
         </div>
-        <div className="col-span-4 h-96 bg-green-300 p-5">
+        <div className="col-span-12 lg:col-span-4 h-96 bg-green-300 p-5">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and

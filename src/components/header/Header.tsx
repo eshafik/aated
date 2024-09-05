@@ -1,12 +1,8 @@
-import { Button, Col, Layout, Row, Typography } from "antd";
+import { Button, Layout, Typography } from "antd";
 import { Header as AntHeader } from "antd/es/layout/layout";
-import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
-type HeaderProps = {
-  isDisable?: boolean;
-};
-const Header: FC<HeaderProps> = ({ isDisable }) => {
+const Header = () => {
   const navigate = useNavigate();
   const HEADER_LINK = [
     {
@@ -33,31 +29,21 @@ const Header: FC<HeaderProps> = ({ isDisable }) => {
 
   return (
     <Layout>
-      <AntHeader className="bg-transparent">
-        <Row className="justify-between">
-          <Col>
-            {HEADER_LINK.map((item, i) => (
-              <a key={i} className="mr-5" href={item.path}>
-                <Typography.Text className="hover:text-sky-700 hover:font-bold">
-                  {item.name}
-                </Typography.Text>
-              </a>
-            ))}
-          </Col>
-          <Col>
-            {isDisable ? (
-              ""
-            ) : (
-              <Button
-                size="large"
-                type="primary"
-                onClick={() => navigate("/signup")}
-              >
-                Sign Up
-              </Button>
-            )}
-          </Col>
-        </Row>
+      <AntHeader className="bg-transparent p-0 pl-5 pr-5 flex items-center justify-between">
+        <div>
+          {HEADER_LINK.map((item, i) => (
+            <Typography.Link
+              key={i}
+              href={item.path}
+              className="hover:text-sky-700 hover:font-bold mr-3 text-black font-semibold"
+            >
+              {item.name}
+            </Typography.Link>
+          ))}
+        </div>
+        <Button type="primary" onClick={() => navigate("/signup")}>
+          Signup
+        </Button>
       </AntHeader>
     </Layout>
   );

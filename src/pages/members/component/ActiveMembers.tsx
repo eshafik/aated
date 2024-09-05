@@ -12,7 +12,7 @@ import {
   Typography,
 } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
-import { Eye, Filter, Mail, Phone } from "lucide-react";
+import { Filter, Mail, Phone } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "react-query";
 import { twMerge } from "tailwind-merge";
@@ -70,13 +70,21 @@ const ActiveMembers = () => {
   const columns: ColumnsType<MemberDetails> = [
     {
       title: "Name",
+      dataIndex: "name",
+      width: 200,
+      key: "name",
+      fixed: "left",
+      ellipsis: true,
       render: (_, record) => (
         <CardMeta
           icon={<Avatar src={record.profile_pic} size="large" />}
           title={
-            <Typography.Text className="font-semibold">
+            <Typography.Link
+              href={`members/${record.id?.toString()}`}
+              className="font-semibold"
+            >
               {record.name}
-            </Typography.Text>
+            </Typography.Link>
           }
           description={
             <Typography.Text type="secondary">
@@ -88,18 +96,22 @@ const ActiveMembers = () => {
     },
     {
       title: "Passing Year",
+      width: 120,
       render: (_, record) => record.passing_year,
     },
     {
       title: "Student Id",
+      width: 120,
       render: (_, record) => record.student_id,
     },
     {
       title: "Batch Number",
+      width: 130,
       render: (_, record) => record.batch_no + "th",
     },
     {
       title: "Contact Details",
+      width: 140,
       render: (_, record) => (
         <div className="flex gap-3">
           <Tooltip title={record.phone}>
@@ -115,17 +127,8 @@ const ActiveMembers = () => {
       ),
     },
     {
-      title: "View",
-      render: (_, record) => (
-        <Button
-          type="link"
-          href={`members/${record.id?.toString()}`}
-          icon={<Eye color="gray" />}
-        />
-      ),
-    },
-    {
       title: "Action",
+      width: 200,
       className: twMerge(!isSuperUser && "hidden"),
       render: (_, record) => (
         <Dropdown
@@ -218,7 +221,7 @@ const ActiveMembers = () => {
   };
 
   return (
-    <>
+    <div className="overflow-hidden">
       <Form
         size="large"
         form={form}
@@ -250,20 +253,23 @@ const ActiveMembers = () => {
           </Button>
         </Popover>
       </Form>
-      <Table
-        rowKey={(id) => String(id.id)}
-        loading={isLoading}
-        columns={columns}
-        dataSource={ActiveMemberData?.data}
-        pagination={{
-          size: "default",
-          total: ActiveMemberData?.meta_data?.count,
-          pageSize: memberFilter?.filters?.limit,
-          onChange: memberFilter.handleChangePage,
-          showTotal: () => `Total: ${ActiveMemberData?.meta_data?.count} User`,
-        }}
-      />
-    </>
+      <div className="overflow-auto">
+        <Table
+          rowKey={(id) => String(id.id)}
+          loading={isLoading}
+          columns={columns}
+          dataSource={ActiveMemberData?.data}
+          pagination={{
+            size: "default",
+            total: ActiveMemberData?.meta_data?.count,
+            pageSize: memberFilter?.filters?.limit,
+            onChange: memberFilter.handleChangePage,
+            showTotal: () =>
+              `Total: ${ActiveMemberData?.meta_data?.count} User`,
+          }}
+        />
+      </div>
+    </div>
   );
 };
 

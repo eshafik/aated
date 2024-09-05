@@ -24,8 +24,8 @@ const EmailVerify = () => {
     }
   );
   return (
-    <div className="h-[calc(100vh-175px)] flex justify-center items-center">
-      <Card className="flex justify-center items-center">
+    <div className="h-[calc(100vh-200px)] flex justify-center items-center">
+      <Card className="flex justify-center items-center w-96">
         <Form
           form={form}
           onFinish={(values) =>

@@ -1,13 +1,15 @@
-import { Avatar, Card, Col, Row, Space, Typography } from "antd";
+import { Avatar, Card, Typography } from "antd";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { publicCommitteeMemberAPI } from "../../libs/api/publicMember";
+
 const PublicCommitteeMembers = () => {
   // const [currentSlide, setCurrentSlide] = useState(0);
   // const caroselref = useRef<Slider>();
+  const navigate = useNavigate();
 
   const { data } = useQuery({
     queryKey: ["publicCommitteeMembers-list"],
@@ -24,89 +26,62 @@ const PublicCommitteeMembers = () => {
   };
 
   return (
-    <>
-      <Row
-        className="text-center bg-slate-300 h-[calc(100vh-100px)] w-screen"
-        justify={"space-between"}
-      >
-        <Col span={24}>
-          <Typography.Title>Our Leadership Team</Typography.Title>
-          <Typography.Title level={5}>
-            "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
-            consectetur, adipisci velit..." "There is no one who loves pain
-            itself, who seeks after it and wants to have it, simply because it
-            is pain..."
-          </Typography.Title>
-
-          {data?.data?.map((members, i) => (
-            <Space direction="vertical" key={i}>
-              {members?.committee_designation == "President" && (
-                <div className="w-56 text-center">
-                  <Avatar
-                    className="h-40 w-40"
-                    src={`http://api.aated.smartlivestocksystem.com/${members?.profile_pic}`}
-                  />
-                  <Link to={"/signin"}>
-                    <Typography.Title level={4} className="hover:font-bold">
-                      {members?.name}
-                    </Typography.Title>
-                  </Link>
-                  <Typography.Paragraph type="secondary">
-                    {members?.committee_designation}
-                  </Typography.Paragraph>
-                </div>
-              )}
-              {members?.committee_designation == "Secretary" && (
-                <div className="w-56 text-center">
-                  <Avatar
-                    className="h-40 w-40"
-                    src={`http://api.aated.smartlivestocksystem.com/${members?.profile_pic}`}
-                  />
-                  <Link to={"/signin"}>
-                    <Typography.Title level={4} className="hover:font-bold">
-                      {members?.name}
-                    </Typography.Title>
-                  </Link>
-                  <Typography.Paragraph type="secondary">
-                    {members?.committee_designation}
-                  </Typography.Paragraph>
-                </div>
-              )}
-            </Space>
-          ))}
-        </Col>
-
-        <Col span={24}>
+    <div className="h-[calc(100vh-200px)] flex flex-col justify-between gap-5 p-3">
+      <div>
+        <Typography.Title className="text-center mt-0">
+          Our Leadership Team
+        </Typography.Title>
+        <Typography.Title level={5} className="text-center">
           "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
           consectetur, adipisci velit..." "There is no one who loves pain
           itself, who seeks after it and wants to have it, simply because it is
           pain..."
-        </Col>
+        </Typography.Title>
+      </div>
 
-        <Col className="mx-auto" sm={9} xl={12}>
-          <Slider {...settings}>
-            {data?.data?.map((members, i) => (
-              <Space direction="vertical" key={i}>
-                <Link to={"/signin"}>
-                  <Card className="w-64">
-                    <Avatar
-                      className="h-20 w-20"
-                      src={`http://api.aated.smartlivestocksystem.com/${members?.profile_pic}`}
-                    />
-                    <Typography.Title level={4}>
-                      {members?.name}
-                    </Typography.Title>
-                    <Typography.Paragraph type="secondary">
-                      {members?.committee_designation}
-                    </Typography.Paragraph>
-                  </Card>
-                </Link>
-              </Space>
-            ))}
-          </Slider>
-        </Col>
-      </Row>
-    </>
+      {data?.data?.map(
+        (members, i) =>
+          members?.committee_designation === "Secretary" && (
+            <div
+              key={i}
+              className="flex flex-col items-center w-full justify-center"
+            >
+              <Avatar size={100} src={members?.profile_pic} />
+              <Typography.Title level={5} className="mt-0">
+                {members?.name}
+              </Typography.Title>
+              <Typography.Text>
+                {members?.committee_designation}
+              </Typography.Text>
+            </div>
+          )
+      )}
+
+      <div className="flex flex-col items-center mt-1">
+        <Typography.Text className="text-center">
+          "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
+          consectetur, adipisci velit..." "There is no one who loves pain
+          itself, who seeks after it and wants to have it, simply because it is
+          pain..."
+        </Typography.Text>
+
+        <Slider {...settings} className="w-full">
+          {data?.data?.map((members, i) => (
+            <Card
+              key={i}
+              className="cursor-pointer"
+              onClick={() => navigate("/signin")}
+            >
+              <Avatar className="h-20 w-20" src={members?.profile_pic} />
+              <Typography.Title level={4}>{members?.name}</Typography.Title>
+              <Typography.Paragraph type="secondary">
+                {members?.committee_designation}
+              </Typography.Paragraph>
+            </Card>
+          ))}
+        </Slider>
+      </div>
+    </div>
   );
 };
 export default PublicCommitteeMembers;

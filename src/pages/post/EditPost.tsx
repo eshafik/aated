@@ -12,6 +12,7 @@ import {
 import TextArea from "antd/es/input/TextArea";
 import { FC, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 import AvatarUploader from "../../container/AvaterUploader";
 import { PostPayload, PostsDetails } from "../../libs/api/@types/post";
 import { postAPI } from "../../libs/api/postAPI";
@@ -22,6 +23,7 @@ type EditPostProps = {
 const EditPost: FC<EditPostProps> = ({ postsDetails }) => {
   const queryClient = useQueryClient();
   const { notification } = App.useApp();
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [isEditPostOpen, setIsEditPostOpen] = useState(false);
 
@@ -46,6 +48,7 @@ const EditPost: FC<EditPostProps> = ({ postsDetails }) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["post-list"]);
+        navigate(-1);
       },
       onError: (error: Error) => {
         notification.error({ message: error.message });
