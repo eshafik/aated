@@ -30,7 +30,7 @@ const CreatePostModal = () => {
   const userProfile = JSON.parse(localStorage.getItem("user-profile") || "[]");
 
   return (
-    <Card className="shadow border rounded-lg p-3 mt-3" title="Create Post">
+    <Card className="shadow border rounded-lg mt-3" title="Create Post">
       <Form
         form={form}
         layout="vertical"
