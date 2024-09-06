@@ -1,8 +1,10 @@
 import { Button, Layout, Typography } from "antd";
 import { Header as AntHeader } from "antd/es/layout/layout";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 
 const Header = () => {
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const HEADER_LINK = [
     {
@@ -41,7 +43,11 @@ const Header = () => {
             </Typography.Link>
           ))}
         </div>
-        <Button type="primary" onClick={() => navigate("/signup")}>
+        <Button
+          className={twMerge(pathname.includes("signup") && "hidden")}
+          type="primary"
+          onClick={() => navigate("/signup")}
+        >
           Signup
         </Button>
       </AntHeader>

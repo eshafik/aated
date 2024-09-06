@@ -1,11 +1,11 @@
 import config from "../../config";
 import { authService } from "../auth/auth.service";
+import { MemberResponse } from "./@types/members";
 import {
   ExperiencePayload,
   ExperienceResponse,
   ExperiencesResponse,
   UpdateProfilePayload,
-  UserProfileResponse,
 } from "./@types/profile";
 import { HttpAuthService } from "./httpService/httpAuth.service";
 
@@ -13,16 +13,14 @@ class ProfileAPI {
   constructor(private http: HttpAuthService) {}
 
   updateProfileDetails(payload: UpdateProfilePayload) {
-    return this.http.patch<UserProfileResponse>(
+    return this.http.patch<MemberResponse>(
       "api/v1/profiles/personal/profile/",
       payload
     );
   }
 
   getProfileDetails() {
-    return this.http.get<UserProfileResponse>(
-      "api/v1/profiles/personal/profile/"
-    );
+    return this.http.get<MemberResponse>("api/v1/profiles/personal/profile/");
   }
 
   addExperiences(payload: ExperiencePayload) {

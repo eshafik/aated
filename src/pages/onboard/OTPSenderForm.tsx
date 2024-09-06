@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ForgotPasswordPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
 
-const ForgotPassword = () => {
+const OTPSenderForm = () => {
   const navigate = useNavigate();
   const { notification } = App.useApp();
   const [emailStore, setEmailStore] = useState("");
@@ -74,4 +74,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default OTPSenderForm;

@@ -77,6 +77,8 @@ export interface Experience {
   job_location?: string;
   job_department?: JobDepartment;
   responsibilities?: string;
+  start?: string;
+  end?: string;
 }
 
 export interface JobDepartment {

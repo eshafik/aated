@@ -4,13 +4,13 @@ import HomeLayout from "../container/layout/HomeLayout";
 import OnboardLayout from "../container/layout/OnboardLayout";
 import Committee from "../pages/committee/Committee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
-import ForgotPassword from "../pages/forgot-password/ForgotPassword";
-import ResetPassword from "../pages/forgot-password/ResetPassword";
 import Member from "../pages/member/Member";
 import Members from "../pages/members";
 import Contributor from "../pages/onboard/Contributor";
 import EmailVerify from "../pages/onboard/EmailVerify";
 import HomePage from "../pages/onboard/HomePage";
+import OTPSenderForm from "../pages/onboard/OTPSenderForm";
+import PasswordResetForm from "../pages/onboard/PasswordResetForm";
 import PublicCommitteeMembers from "../pages/onboard/PublicCommitteeMembers";
 import SignIn from "../pages/onboard/Signin";
 import SignUp from "../pages/onboard/Signup";
@@ -31,8 +31,8 @@ export const publicRoute = createBrowserRouter([
       { path: "verify", element: <EmailVerify /> },
       { path: "contributor", element: <Contributor /> },
       { path: "committee", element: <PublicCommitteeMembers /> },
-      { path: "forgot-password", element: <ForgotPassword /> },
-      { path: "reset-password", element: <ResetPassword /> },
+      { path: "forgot-password", element: <OTPSenderForm /> },
+      { path: "reset-password", element: <PasswordResetForm /> },
       {
         path: "*",
         element: (

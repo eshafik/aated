@@ -1,135 +1,91 @@
-import { EditOutlined } from "@ant-design/icons";
-import { Avatar, Button, Card, Divider, Row, Skeleton, Typography } from "antd";
-import { Briefcase, Info, Mail, MapPin, Phone } from "lucide-react";
-import { FC } from "react";
+import {
+  Avatar,
+  Button,
+  Card,
+  Descriptions,
+  Skeleton,
+  Tabs,
+  Tag,
+  Typography,
+} from "antd";
 import { useNavigate } from "react-router-dom";
 // import cover from "../../assets/cover.jpg";
-import { Experience } from "../libs/api/@types/members";
-import { ExperiencesResponse } from "../libs/api/@types/profile";
+import { EditOutlined } from "@ant-design/icons";
+import { twMerge } from "tailwind-merge";
+import { Experience, MemberDetails } from "../libs/api/@types/members";
 
 type ProfileLayoutProps = {
   isLoading?: boolean;
-  profile_pic?: string;
-  path?: string;
-  name?: string;
-  professional_designation?: string;
-  email?: string;
-  phone?: string;
-  student_id?: string | number;
-  batch_name?: string;
-  passing_year?: string | number;
-  contact_details?: string;
-  personalExperienceData?: ExperiencesResponse;
-  isMemberEnable?: boolean;
+  profileData?: MemberDetails;
   memberExperience?: Experience[];
+  isOwnAccount?: boolean;
 };
-const ProfileLayout: FC<ProfileLayoutProps> = ({
+const ProfileLayout = ({
   isLoading,
-  profile_pic,
-  path,
-  name,
-  professional_designation,
-  email,
-  phone,
-  student_id,
-  batch_name,
-  passing_year,
-  contact_details,
-  personalExperienceData,
-  isMemberEnable,
   memberExperience,
-}) => {
+  profileData,
+  isOwnAccount,
+}: ProfileLayoutProps) => {
   const navigate = useNavigate();
+  const noProfilePic =
+    "https://t3.ftcdn.net/jpg/05/79/68/24/360_F_579682479_j4jRfx0nl3C8vMrTYVapFnGP8EgNHgfk.jpg";
   return (
     <Skeleton loading={isLoading}>
-      <div className="flex justify-center">
-        <Card
-          className="shadow-2xl bg-white w-[500px] sm:w-[500px] md:w-[500px] lg:w-[650px]"
-          cover={
-            <img
-              className="absolute top-0"
-              src={
-                "https://timelinecovers.pro/facebook-cover/download/Best-Covers-For-Facebook-Timeline-sunflower.jpg"
-              }
+      <div className="flex justify-center pt-5">
+        <Card className="shadow-2xl w-full max-w-4xl">
+          <div className="flex gap-3 bg-yellow-400 p-4">
+            <Avatar
+              shape="square"
+              size={80}
+              src={profileData?.profile_pic ?? noProfilePic}
+              className="shadow-lg"
             />
-          }
-        >
-          <div>
-            <Row justify={"space-between"}>
-              <div>
-                {profile_pic ? (
-                  <Avatar
-                    shape="circle"
-                    size={"large"}
-                    src={profile_pic}
-                    className="h-32 w-32 top-28 shadow-lg"
-                  />
-                ) : (
-                  <Avatar className="h-32 w-24 rounded-lg" />
-                )}
-              </div>
-              {isMemberEnable ? (
-                ""
-              ) : (
-                <Button
-                  onClick={() => navigate({ pathname: path })}
-                  type="primary"
-                  icon={<EditOutlined className="text-white" />}
-                />
-              )}
-            </Row>
-            <div className="mt-28">
-              <Typography.Title level={3}>{name}</Typography.Title>
-              <div>
-                <Briefcase className="h-3 mt-3" />
-                {professional_designation}
-              </div>
-              <div>
-                <Mail className="h-3 mt-3" />
-                {email}
-              </div>
-              <div>
-                <Phone className="h-3 mt-3" />
-                {phone}
-              </div>
-              <div>
-                <Info className="h-3 mt-3" />
-                {student_id} | {batch_name} | {passing_year}
-              </div>
-              <div>
-                <MapPin className="h-3 mt-3" />
-                {contact_details}
-              </div>
+            <div className="flex-1">
+              <Typography.Title level={5} className="mt-0 mb-0">
+                {profileData?.name}
+              </Typography.Title>
+              <Descriptions
+                items={[
+                  {
+                    label: "Email",
+                    children: profileData?.email,
+                    span: 24,
+                    className: "mb-0 pb-0 truncate",
+                  },
+                  {
+                    label: "Phone",
+                    span: 24,
+                    children: profileData?.phone ?? null,
+                  },
+                ]}
+              />
             </div>
-            <Divider />
-            <Typography.Title level={4} className="flex mt-5">
-              Experiences
-            </Typography.Title>
-            {personalExperienceData?.data?.map((exp, i) => (
-              <div key={i} className="mb-8 ml-5">
-                <Typography.Title className="mt-0" level={5}>
-                  {exp?.designation}
-                </Typography.Title>
-                <div>
-                  {exp?.company_name} - {exp?.responsibilities}
-                </div>
-                <div>{exp?.working_years} Years of experience</div>
-              </div>
-            ))}
-            {isMemberEnable
-              ? memberExperience?.map((exp, i) => (
-                  <div key={i} className="mb-8 ml-5">
-                    <Typography.Title className="mt-0" level={5}>
-                      {exp?.designation}
-                    </Typography.Title>
-                    <div>
-                      {exp?.company_name} - {exp?.responsibilities}
-                    </div>
-                    <div>{exp?.working_years} Years of experience</div>
-                  </div>
-                ))
-              : ""}
+            <Button
+              size="small"
+              type="primary"
+              icon={<EditOutlined />}
+              className={twMerge("hidden", isOwnAccount && "flex ml-auto")}
+              onClick={() => navigate("/profile-setting")}
+            />
           </div>
+          <Card className="mt-5">
+            <Tabs
+              items={[
+                {
+                  label: "Basic Information",
+                  key: "basic_info",
+                  children: <BasicInfo profileData={profileData} />,
+                },
+                {
+                  label: "Experiences",
+                  key: "experiences",
+                  children: (
+                    <UserExperience experienceData={memberExperience} />
+                  ),
+                },
+              ]}
+            />
+          </Card>
         </Card>
       </div>
     </Skeleton>
@@ -137,3 +93,98 @@ const ProfileLayout: FC<ProfileLayoutProps> = ({
 };
 
 export default ProfileLayout;
+
+type BasicInfoProps = {
+  profileData?: MemberDetails;
+};
+const BasicInfo = ({ profileData }: BasicInfoProps) => {
+  return (
+    <Descriptions
+      bordered
+      layout="vertical"
+      items={[
+        {
+          label: "Student ID",
+          children: profileData?.student_id,
+        },
+        {
+          label: "Batch No",
+          children: profileData?.batch?.batch_number,
+        },
+        {
+          label: "Passing Year",
+          children: profileData?.passing_year,
+        },
+        {
+          label: "Employment Status",
+          children: (
+            <Tag className="capitalize">{profileData?.employment_status}</Tag>
+          ),
+        },
+        {
+          label: "Expertise Area",
+          children: profileData?.expertise_area,
+        },
+        {
+          label: "Professional Designation",
+          children: profileData?.professional_designation,
+        },
+        {
+          label: "Unemployment Reason",
+          children: profileData?.unemployment_reasons,
+        },
+      ]}
+    />
+  );
+};
+
+type UserExperienceProps = {
+  experienceData?: Experience[];
+};
+const UserExperience = ({ experienceData }: UserExperienceProps) => {
+  return (
+    <>
+      {experienceData?.map((items) => (
+        <Descriptions
+          className="mb-2"
+          bordered
+          items={[
+            {
+              label: "Company Name",
+              children: items?.company_name,
+              span: 24,
+            },
+            {
+              label: "Designation",
+              children: items?.designation,
+              span: 24,
+            },
+            {
+              label: "Department",
+              children: items?.job_department?.name,
+              span: 24,
+            },
+            {
+              label: "Company Address",
+              children: items?.job_location,
+              span: 24,
+            },
+            {
+              label: "Responsibilities",
+              children: items?.responsibilities,
+              span: 24,
+            },
+            {
+              label: "Working Year",
+              children: items?.working_years,
+            },
+            {
+              label: "Start/End Date",
+              children: items?.start + " to " + items?.end ?? "",
+            },
+          ]}
+        />
+      ))}
+    </>
+  );
+};

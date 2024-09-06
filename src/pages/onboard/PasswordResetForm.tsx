@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ResetPasswordPayload } from "../../libs/api/@types/auth";
 import { authAPI } from "../../libs/api/authAPI";
 
-const ResetPassword = () => {
+const PasswordResetForm = () => {
   const navigate = useNavigate();
   const { notification } = App.useApp();
 
@@ -112,4 +112,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default PasswordResetForm;

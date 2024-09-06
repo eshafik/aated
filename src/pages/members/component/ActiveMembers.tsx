@@ -15,7 +15,7 @@ import Table, { ColumnsType } from "antd/es/table";
 import { Filter, Mail, Phone } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { twMerge } from "tailwind-merge";
+import { useNavigate } from "react-router-dom";
 import CardMeta from "../../../components/CardMeta";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 import { useUserDetails } from "../../../container/RoleProvider";
@@ -44,6 +44,9 @@ const ActiveMembers = () => {
   const { notification } = App.useApp();
   const [form] = Form.useForm();
   const [filters, setFilter] = useState(false);
+  const navigate = useNavigate();
+  const noProfilePic =
+    "https://t3.ftcdn.net/jpg/05/79/68/24/360_F_579682479_j4jRfx0nl3C8vMrTYVapFnGP8EgNHgfk.jpg";
 
   const {
     data: ActiveMemberData,
@@ -77,14 +80,16 @@ const ActiveMembers = () => {
       ellipsis: true,
       render: (_, record) => (
         <CardMeta
-          icon={<Avatar src={record.profile_pic} size="large" />}
+          icon={
+            <Avatar src={record.profile_pic ?? noProfilePic} size="large" />
+          }
           title={
-            <Typography.Link
-              href={`members/${record.id?.toString()}`}
-              className="font-semibold"
+            <Typography.Text
+              onClick={() => navigate(`/members/${record.id?.toString()}`)}
+              className="font-semibold cursor-pointer"
             >
               {record.name}
-            </Typography.Link>
+            </Typography.Text>
           }
           description={
             <Typography.Text type="secondary">
@@ -129,7 +134,7 @@ const ActiveMembers = () => {
     {
       title: "Action",
       width: 200,
-      className: twMerge(!isSuperUser && "hidden"),
+      hidden: !isSuperUser,
       render: (_, record) => (
         <Dropdown
           menu={{

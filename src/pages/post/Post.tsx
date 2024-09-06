@@ -34,9 +34,10 @@ const Post = () => {
   const { notification } = App.useApp();
   const { userID } = useUserDetails();
 
-  const { data: postData, isLoading } = useQuery(["post-data"], () =>
-    postAPI.getPostDetails(slag as string)
-  );
+  const { data: postData, isLoading } = useQuery({
+    queryKey: ["post-data", slag],
+    queryFn: () => postAPI.getPostDetails(slag as string),
+  });
 
   const { mutate, isLoading: loadingComment } = useMutation(
     (payload: CommentPayload) => postAPI.createComment(payload),

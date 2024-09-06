@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import CardMeta from "../../components/CardMeta";
 import { publicCommitteeMemberAPI } from "../../libs/api/publicMember";
 
 const PublicCommitteeMembers = () => {
@@ -17,16 +18,15 @@ const PublicCommitteeMembers = () => {
   });
 
   const settings = {
-    className: "center",
-    centerMode: true,
+    dots: true,
     infinite: true,
-    slidesToShow: 3,
-    arrows: true,
     speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
   };
 
   return (
-    <div className="h-[calc(100vh-200px)] flex flex-col justify-between gap-5 p-3">
+    <div className="h-[calc(100vh-190px)] flex flex-col justify-between gap-5 p-3">
       <div>
         <Typography.Title className="text-center mt-0">
           Our Leadership Team
@@ -72,11 +72,19 @@ const PublicCommitteeMembers = () => {
               className="cursor-pointer"
               onClick={() => navigate("/signin")}
             >
-              <Avatar className="h-20 w-20" src={members?.profile_pic} />
-              <Typography.Title level={4}>{members?.name}</Typography.Title>
-              <Typography.Paragraph type="secondary">
-                {members?.committee_designation}
-              </Typography.Paragraph>
+              <CardMeta
+                icon={<Avatar src={members?.profile_pic} size={40} />}
+                title={
+                  <Typography.Text className="mb-0 mt-0">
+                    {members?.name}
+                  </Typography.Text>
+                }
+                description={
+                  <Typography.Paragraph className="mb-0" type="secondary">
+                    {members?.committee_designation}
+                  </Typography.Paragraph>
+                }
+              />
             </Card>
           ))}
         </Slider>

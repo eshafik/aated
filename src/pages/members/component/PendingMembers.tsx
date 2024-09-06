@@ -23,13 +23,19 @@ const PendingMembers = () => {
   const queryClient = useQueryClient();
   const { notification } = App.useApp();
 
-  const { data: pendingMemberData, filter, isLoading } = usePendingMemberList();
+  const {
+    data: pendingMemberData,
+    filter,
+    isLoading,
+    refetch,
+  } = usePendingMemberList();
 
   const { mutate } = useMutation(
     (payload: ApproveMembersPayload) => membersAPI.approveMembers(payload),
     {
       onSuccess: () => {
         notification.success({ message: "User Approved" });
+        refetch();
         queryClient.invalidateQueries(["members-list"]);
       },
     }

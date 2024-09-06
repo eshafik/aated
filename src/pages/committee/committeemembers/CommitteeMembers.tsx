@@ -17,6 +17,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 import { useUserDetails } from "../../../container/RoleProvider";
+import Scaffold from "../../../container/layout/Scaffold";
 import {
   CommitteeMemberPayload,
   CommitteeMembersDetails,
@@ -131,7 +132,7 @@ const CommitteeMembers = () => {
   );
 
   return (
-    <>
+    <Scaffold>
       <EditCommittee
         isOpen={isEditModalOpen}
         committeeId={slag?.toString()}
@@ -236,7 +237,7 @@ const CommitteeMembers = () => {
           />
         </div>
       </Spin>
-    </>
+    </Scaffold>
   );
 };
 
