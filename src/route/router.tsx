@@ -2,9 +2,9 @@ import { Button, Result } from "antd";
 import { Link, Navigate, createBrowserRouter } from "react-router-dom";
 import HomeLayout from "../container/layout/HomeLayout";
 import OnboardLayout from "../container/layout/OnboardLayout";
+import ProfileLayout from "../container/ProfileLayout";
 import Committee from "../pages/committee/Committee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
-import Member from "../pages/member/Member";
 import Members from "../pages/members";
 import Contributor from "../pages/onboard/Contributor";
 import EmailVerify from "../pages/onboard/EmailVerify";
@@ -14,7 +14,6 @@ import PasswordResetForm from "../pages/onboard/PasswordResetForm";
 import PublicCommitteeMembers from "../pages/onboard/PublicCommitteeMembers";
 import SignIn from "../pages/onboard/Signin";
 import SignUp from "../pages/onboard/Signup";
-import PersonalProfile from "../pages/personalProfile/PersonalProfile";
 import Post from "../pages/post/Post";
 import BlogPost from "../pages/posts";
 import SettingsContainer from "../pages/profileSetting";
@@ -60,13 +59,13 @@ export const protectedRouter = createBrowserRouter([
       { index: true, element: <Navigate to="/members" /> },
       {
         path: "profile",
-        element: <PersonalProfile />,
+        element: <ProfileLayout isEditEnable />,
       },
       {
         path: "members",
         children: [
           { index: true, element: <Members /> },
-          { path: ":memberId", element: <Member /> },
+          { path: ":memberId", element: <ProfileLayout /> },
         ],
       },
       {
