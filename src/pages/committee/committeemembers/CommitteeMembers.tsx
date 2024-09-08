@@ -43,7 +43,6 @@ const CommitteeMembers = () => {
   );
 
   const { mutate } = useMutation(
-    [""],
     (id?: string | number) => committeeAPI?.removeCommitteeMember(id),
     {
       onSuccess: () => {
@@ -139,19 +138,21 @@ const CommitteeMembers = () => {
         onCancel={() => setIsEditModalOpen(false)}
       />
       <Spin spinning={isLoading || loadingMembers}>
-        <div className="pr-11">
+        <div>
           <PageHeader
-            title={CommitteeName?.data?.name}
-            subActions={
-              isSuperUser ? (
-                <Button
-                  type="dashed"
-                  icon={<EditTwoTone />}
-                  onClick={() => setIsEditModalOpen(true)}
-                />
-              ) : (
-                ""
-              )
+            title={
+              <div>
+                {CommitteeName?.data?.name}
+                {isSuperUser && (
+                  <Button
+                    className="ml-2"
+                    type="dashed"
+                    size="small"
+                    icon={<EditTwoTone />}
+                    onClick={() => setIsEditModalOpen(true)}
+                  />
+                )}
+              </div>
             }
             subtitle={`Start Date: ${CommitteeName?.data?.start_date} & End Date: ${CommitteeName?.data?.end_date}`}
             actions={

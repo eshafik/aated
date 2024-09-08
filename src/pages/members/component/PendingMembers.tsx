@@ -89,7 +89,7 @@ const PendingMembers = () => {
             ))}
           </Row>
           <Pagination
-            style={{ textAlign: "right", marginTop: "10px" }}
+            className="top-0 flex justify-end mt-3"
             defaultCurrent={1}
             total={pendingMemberData?.meta_data?.count}
             defaultPageSize={pendingMemberData?.meta_data?.page_size ?? 10}

@@ -29,10 +29,6 @@ const BlogPost = () => {
   const { filter, isLoading, posts, fetchNextPage } = usePostList();
   const [category, setCategory] = useState("all_post");
 
-  // const excludeJobPosts = posts?.data?.filter(
-  //   (item) => item.category?.id.toString() !== "1"
-  // );
-
   const jobPostQuery = useQuery({
     queryKey: ["job-post-list"],
     queryFn: () =>
@@ -40,11 +36,8 @@ const BlogPost = () => {
         category: "1",
       }),
   });
-
   const jobPosts = jobPostQuery?.data?.data?.slice(0, 2);
-
   const isMobileScreen = useMatchMedia();
-
   const renderPostType = useMemo(() => {
     if (isMobileScreen && category === "job_post") {
       return "job_post";
@@ -58,8 +51,8 @@ const BlogPost = () => {
     <Skeleton loading={jobPostQuery?.isLoading && isLoading}>
       <Scaffold
         extra={
-          <Form>
-            <div className="flex gap-2">
+          <div className="flex justify-end">
+            <Form className="flex gap-2">
               <Input.Search
                 placeholder="Search Post"
                 allowClear
@@ -88,8 +81,8 @@ const BlogPost = () => {
                   },
                 ]}
               />
-            </div>
-          </Form>
+            </Form>
+          </div>
         }
       >
         {isMobileScreen && (
@@ -161,7 +154,7 @@ const BlogPost = () => {
                 !isMobileScreen && "col-span-6 mt-[11px]"
               )}
             >
-              <Card title="Job Posts" className="bg-slate-100/50">
+              <Card title="Job Posts">
                 {jobPosts?.map((items, index) => (
                   <div className="flex flex-col gap-5" key={index}>
                     <CardMeta

@@ -1,3 +1,4 @@
+import { Typography } from "antd";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -27,17 +28,21 @@ const CardMeta = ({
       <div
         className={twMerge(
           "col-span-12 flex items-center gap-2",
-          extra && action && "col-span-6"
+          (extra || action) && "col-span-10"
         )}
       >
         <div>{icon}</div>
         <div className="flex flex-col">
-          {title}
-          {description}
+          <Typography.Title level={5} className="mt-0 mb-0">
+            {title}
+          </Typography.Title>
+          <Typography.Text type="secondary" className="mt-0">
+            {description}
+          </Typography.Text>
         </div>
       </div>
-      <div className="col-span-4">{extra}</div>
-      <div className="col-span-2 flex justify-end">{action}</div>
+      <div className="col-span-2 flex ml-auto">{extra}</div>
+      <div className="col-span-2 flex ml-auto">{action}</div>
     </div>
   );
 };

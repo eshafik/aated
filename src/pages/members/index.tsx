@@ -1,5 +1,4 @@
 import { Tabs } from "antd";
-import Scaffold from "../../container/layout/Scaffold";
 import { useUserDetails } from "../../container/RoleProvider";
 import ActiveMembers from "./component/ActiveMembers";
 import PendingMembers from "./component/PendingMembers";
@@ -8,9 +7,8 @@ const Members = () => {
   const { isSuperUser } = useUserDetails();
 
   return isSuperUser ? (
-    <Scaffold>
+    <div className="mt-2">
       <Tabs
-        className="p-2"
         items={[
           {
             key: "active_members",
@@ -24,11 +22,11 @@ const Members = () => {
           },
         ]}
       />
-    </Scaffold>
+    </div>
   ) : (
-    <Scaffold>
+    <div className="mt-3">
       <ActiveMembers />
-    </Scaffold>
+    </div>
   );
 };
 

@@ -15,7 +15,7 @@ import {
 } from "antd";
 import { useState } from "react";
 import { UseMutateFunction, useMutation, useQueryClient } from "react-query";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCommitteeList } from "../../config/hook/useCommittee";
 import Scaffold from "../../container/layout/Scaffold";
 import { useUserDetails } from "../../container/RoleProvider";
@@ -29,6 +29,7 @@ const Committee = () => {
   const { isSuperUser } = useUserDetails();
   const queryClient = useQueryClient();
   const { notification } = App.useApp();
+  const navigate = useNavigate();
 
   const { committeeData, isLoading, filter } = useCommitteeList();
 
@@ -79,26 +80,31 @@ const Committee = () => {
           handelOk={handleOk}
           mutate={mutate}
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-12 gap-2">
           {committeeData?.data?.map((items, index) => (
-            <Link to={`members/${items?.id}`} key={index}>
-              <Card hoverable>
-                <Typography.Title level={5}>{items?.name}</Typography.Title>
-                <Typography.Paragraph type="secondary">
-                  This committee Start at{" "}
-                  <span className="text-black">{items?.start_date}</span> and
-                  End at <span className="text-black">{items?.end_date}</span>
-                </Typography.Paragraph>
-                <Tag color={items?.is_active ? "green" : "red"}>
-                  {items?.is_active ? "Active" : "Deactivate"}
-                </Tag>
-              </Card>
-            </Link>
+            <Card
+              hoverable
+              key={index}
+              onClick={() => navigate(`members/${items?.id}`)}
+              className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3"
+            >
+              <Typography.Title level={5} className="mt-0 mb-0">
+                {items?.name}
+              </Typography.Title>
+              <Typography.Paragraph type="secondary">
+                This committee Start at
+                <span className="text-black">{items?.start_date}</span> and End
+                at <span className="text-black">{items?.end_date}</span>
+              </Typography.Paragraph>
+              <Tag color={items?.is_active ? "green" : "red"}>
+                {items?.is_active ? "Active" : "Deactivate"}
+              </Tag>
+            </Card>
           ))}
         </div>
 
         <Pagination
-          style={{ textAlign: "right", marginTop: "10px" }}
+          className="flex justify-end"
           defaultCurrent={1}
           total={committeeData?.meta_data?.count}
           defaultPageSize={committeeData?.meta_data?.page_size ?? 10}

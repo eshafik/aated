@@ -1,15 +1,14 @@
-import { CardProps } from "antd";
-import { PropsWithChildren } from "react";
-import { StyledCard } from "../../components/StyleCard";
+import React, { PropsWithChildren } from "react";
 
-const Scaffold = ({ children, ...props }: PropsWithChildren & CardProps) => {
+type ScaffoldProps = {
+  extra?: React.ReactNode;
+};
+const Scaffold = ({ children, extra }: PropsWithChildren & ScaffoldProps) => {
   return (
-    <StyledCard
-      {...props}
-      className="container h-[calc(100vh-80px)] max-w-[1800px] flex flex-col overflow-auto mt-3"
-    >
+    <div className="container h-[calc(100vh-80px)] max-w-[1800px] flex flex-col overflow-auto mt-3">
+      <div className="w-full">{extra}</div>
       {children}
-    </StyledCard>
+    </div>
   );
 };
 

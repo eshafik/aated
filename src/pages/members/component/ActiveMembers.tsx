@@ -4,25 +4,26 @@ import {
   App,
   Avatar,
   Button,
+  Card,
   Dropdown,
+  Empty,
   Form,
+  Pagination,
   Popconfirm,
   Popover,
+  Skeleton,
+  Tag,
   Tooltip,
-  Typography,
 } from "antd";
-import Table, { ColumnsType } from "antd/es/table";
-import { Filter, Mail, Phone } from "lucide-react";
+import { Filter } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 import CardMeta from "../../../components/CardMeta";
 import { useMemberList } from "../../../config/hook/useUserSearch";
 import { useUserDetails } from "../../../container/RoleProvider";
-import {
-  ApproveMembersPayload,
-  MemberDetails,
-} from "../../../libs/api/@types/members";
+import { ApproveMembersPayload } from "../../../libs/api/@types/members";
 import { membersAPI } from "../../../libs/api/membersAPI";
 import MemberSearch from "../containers/MemberSearch";
 
@@ -42,11 +43,8 @@ type FilterFieldType = {
 const ActiveMembers = () => {
   const { isSuperUser } = useUserDetails();
   const { notification } = App.useApp();
-  const [form] = Form.useForm();
-  const [filters, setFilter] = useState(false);
+
   const navigate = useNavigate();
-  const noProfilePic =
-    "https://t3.ftcdn.net/jpg/05/79/68/24/360_F_579682479_j4jRfx0nl3C8vMrTYVapFnGP8EgNHgfk.jpg";
 
   const {
     data: ActiveMemberData,
@@ -70,147 +68,147 @@ const ActiveMembers = () => {
     }
   );
 
-  const columns: ColumnsType<MemberDetails> = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      width: 200,
-      key: "name",
-      fixed: "left",
-      ellipsis: true,
-      render: (_, record) => (
-        <CardMeta
-          icon={
-            <Avatar src={record.profile_pic ?? noProfilePic} size="large" />
-          }
-          title={
-            <Typography.Text
-              onClick={() => navigate(`/members/${record.id?.toString()}`)}
-              className="font-semibold cursor-pointer"
+  return (
+    <Skeleton loading={isLoading}>
+      <MemberFilter memberFilter={memberFilter} />
+      <div className="overflow-auto grid grid-cols-12 gap-3">
+        {Number(ActiveMemberData?.data?.length) > 0 ? (
+          ActiveMemberData?.data?.map((user) => (
+            <Card
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`${user?.id}`);
+              }}
+              hoverable
+              bordered={false}
+              key={user.id}
+              className="col-span-12 md:col-span-6 lg:col-span-4"
             >
-              {record.name}
-            </Typography.Text>
-          }
-          description={
-            <Typography.Text type="secondary">
-              {record.professional_designation}
-            </Typography.Text>
-          }
-        />
-      ),
-    },
-    {
-      title: "Passing Year",
-      width: 120,
-      render: (_, record) => record.passing_year,
-    },
-    {
-      title: "Student Id",
-      width: 120,
-      render: (_, record) => record.student_id,
-    },
-    {
-      title: "Batch Number",
-      width: 130,
-      render: (_, record) => record.batch_no + "th",
-    },
-    {
-      title: "Contact Details",
-      width: 140,
-      render: (_, record) => (
-        <div className="flex gap-3">
-          <Tooltip title={record.phone}>
-            <Phone size={16} className="cursor-pointer" />
-          </Tooltip>
-          <Tooltip title={record.email}>
-            <Mail size={16} className="cursor-pointer" />
-          </Tooltip>
-          {/* <Tooltip title={record.}>
-            <Phone size={16} className="cursor-pointer" />
-          </Tooltip> */}
-        </div>
-      ),
-    },
-    {
-      title: "Action",
-      width: 200,
-      hidden: !isSuperUser,
-      render: (_, record) => (
-        <Dropdown
-          menu={{
-            items: [
-              {
-                key: "admin",
-                label: (
-                  <Popconfirm
-                    title="Make Admin"
-                    description="Are you sure you want to change member role as admin?"
-                    onConfirm={() =>
-                      mutate({
-                        role: "admin",
-                        user_id: record.id,
-                      })
-                    }
-                    okText="Yes"
-                    cancelText="No"
-                    okType="danger"
+              <CardMeta
+                icon={<Avatar size={60} src={user.profile_pic} />}
+                title={
+                  <div>
+                    {user.name}
+                    <Tooltip title="Passing Year">
+                      <Tag className="ml-2" color="blue">
+                        {user.passing_year}
+                      </Tag>
+                    </Tooltip>
+                  </div>
+                }
+                description={user.email}
+                extra={
+                  <Dropdown
+                    menu={{
+                      items: [
+                        {
+                          key: "admin",
+                          onClick: (e) => e?.domEvent?.stopPropagation(),
+                          label: (
+                            <Popconfirm
+                              title="Make Admin"
+                              description="Are you sure you want to change member role as admin?"
+                              onConfirm={(e) => {
+                                e?.stopPropagation(),
+                                  mutate({
+                                    role: "admin",
+                                    user_id: user.id,
+                                  });
+                              }}
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make Admin
+                            </Popconfirm>
+                          ),
+                        },
+                        {
+                          key: "member",
+                          onClick: (e) => e?.domEvent?.stopPropagation(),
+                          label: (
+                            <Popconfirm
+                              title="Member"
+                              description="Are you sure you want to change member role as member?"
+                              onConfirm={(e) => {
+                                e?.stopPropagation(),
+                                  mutate({
+                                    role: "member",
+                                    user_id: user?.id,
+                                  });
+                              }}
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make Member
+                            </Popconfirm>
+                          ),
+                        },
+                        {
+                          key: "moderator",
+                          onClick: (e) => e?.domEvent?.stopPropagation(),
+                          label: (
+                            <Popconfirm
+                              title="Moderator"
+                              description="Are you sure you want to change member role as moderator?"
+                              onConfirm={(e) => {
+                                e?.stopPropagation(),
+                                  mutate({
+                                    role: "moderator",
+                                    user_id: user?.id,
+                                  });
+                              }}
+                              okText="Yes"
+                              cancelText="No"
+                              okType="danger"
+                            >
+                              Make Moderator
+                            </Popconfirm>
+                          ),
+                        },
+                      ],
+                    }}
                   >
-                    Make Admin
-                  </Popconfirm>
-                ),
-              },
-              {
-                key: "member",
-                label: (
-                  <Popconfirm
-                    title="Member"
-                    description="Are you sure you want to change member role as member?"
-                    onConfirm={() =>
-                      mutate({
-                        role: "member",
-                        user_id: record?.id,
-                      })
-                    }
-                    okText="Yes"
-                    cancelText="No"
-                    okType="danger"
-                  >
-                    Make Member
-                  </Popconfirm>
-                ),
-              },
-              {
-                key: "moderator",
-                label: (
-                  <Popconfirm
-                    title="Moderator"
-                    description="Are you sure you want to change member role as moderator?"
-                    onConfirm={() =>
-                      mutate({
-                        role: "moderator",
-                        user_id: record?.id,
-                      })
-                    }
-                    okText="Yes"
-                    cancelText="No"
-                    okType="danger"
-                  >
-                    Make Moderator
-                  </Popconfirm>
-                ),
-              },
-            ],
-          }}
-        >
-          <Button
-            type="text"
-            icon={<SettingOutlined />}
-            loading={record.id === variables?.user_id && memberRoleLoading}
-          />
-        </Dropdown>
-      ),
-    },
-  ];
+                    <Button
+                      className={twMerge("hidden", isSuperUser && "block")}
+                      type="text"
+                      icon={<SettingOutlined />}
+                      onClick={(e) => e.stopPropagation()}
+                      loading={
+                        user.id === variables?.user_id && memberRoleLoading
+                      }
+                    />
+                  </Dropdown>
+                }
+              />
+            </Card>
+          ))
+        ) : (
+          <div className="flex justify-center items-center w-[85vw]">
+            <Empty />
+          </div>
+        )}
+      </div>
+      <Pagination
+        className="flex justify-end mt-3"
+        defaultCurrent={1}
+        total={ActiveMemberData?.meta_data?.count}
+        defaultPageSize={ActiveMemberData?.meta_data?.page_size ?? 10}
+        onChange={memberFilter.handleChangePage}
+      />
+    </Skeleton>
+  );
+};
+
+export default ActiveMembers;
+
+type props = {
+  memberFilter: any;
+};
+const MemberFilter = ({ memberFilter }: props) => {
+  const [form] = Form.useForm();
+  const [filters, setFilter] = useState(false);
 
   const serializePayload = (values: FilterFieldType) => {
     memberFilter.handleChangeName(values.name);
@@ -224,58 +222,32 @@ const ActiveMembers = () => {
     memberFilter.handleChangeSkills(values.skills);
     memberFilter.handleChangeEmployeeStatus(values.employment_status);
   };
-
   return (
-    <div className="overflow-hidden">
-      <Form
-        size="large"
-        form={form}
-        onFinish={serializePayload}
-        layout="inline"
+    <Form size="large" form={form} onFinish={serializePayload} layout="inline">
+      <Popover
+        title="Member Search"
+        open={filters}
+        placement="rightTop"
+        onOpenChange={(open) => setFilter(open)}
+        content={
+          <MemberSearch
+            form={form}
+            onClear={() => memberFilter.clearFilter()}
+          />
+        }
+        trigger={"click"}
       >
-        <Popover
-          title="Member Search"
-          open={filters}
-          placement="rightTop"
-          onOpenChange={(open) => setFilter(open)}
-          content={
-            <MemberSearch
-              form={form}
-              onClear={() => memberFilter.clearFilter()}
-            />
-          }
-          trigger={"click"}
+        <Button
+          title="Member Filter"
+          icon={<Filter size={16} />}
+          onClick={() => setFilter(true)}
+          type="primary"
+          className="flex items-center justify-center mb-2"
+          size="middle"
         >
-          <Button
-            title="Member Filter"
-            icon={<Filter size={16} />}
-            onClick={() => setFilter(true)}
-            type="primary"
-            className="flex items-center justify-center mb-2"
-            size="middle"
-          >
-            {memberFilter?.filters && "Filter Applied"}
-          </Button>
-        </Popover>
-      </Form>
-      <div className="overflow-auto">
-        <Table
-          rowKey={(id) => String(id.id)}
-          loading={isLoading}
-          columns={columns}
-          dataSource={ActiveMemberData?.data}
-          pagination={{
-            size: "default",
-            total: ActiveMemberData?.meta_data?.count,
-            pageSize: memberFilter?.filters?.limit,
-            onChange: memberFilter.handleChangePage,
-            showTotal: () =>
-              `Total: ${ActiveMemberData?.meta_data?.count} User`,
-          }}
-        />
-      </div>
-    </div>
+          {memberFilter?.filters && "Filter Applied"}
+        </Button>
+      </Popover>
+    </Form>
   );
 };
-
-export default ActiveMembers;

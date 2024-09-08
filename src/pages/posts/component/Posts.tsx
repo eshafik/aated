@@ -30,7 +30,6 @@ const Posts = ({ postDate }: PostsType) => {
   return (
     <div className="grid grid-cols-1 gap-4">
       <Card
-        className="mt-3 bg-slate-100/50"
         title={
           <Space>
             <Avatar src={postDate?.user?.profile_pic} />
