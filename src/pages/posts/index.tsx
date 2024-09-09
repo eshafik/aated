@@ -103,7 +103,7 @@ const BlogPost = () => {
         )}
         <div
           id="scrollableDiv"
-          className="grid grid-cols-12 gap-10 overflow-auto p-3 h-[calc(100vh-200px)]"
+          className="grid grid-cols-12 gap-10 overflow-auto p-3 h-[calc(100vh-140px)]"
         >
           {(renderPostType === "all_post" || renderPostType === "all") && (
             <div
@@ -118,7 +118,7 @@ const BlogPost = () => {
                   posts?.pages?.flatMap((data) => data?.data)?.length ?? 0
                 }
                 hasMore={
-                  Number(posts?.pages?.flatMap((date) => date?.data)?.length) <=
+                  Number(posts?.pages?.flatMap((date) => date?.data)?.length) <
                   Number(posts?.pages?.[0]?.meta_data?.count)
                 }
                 next={() => {

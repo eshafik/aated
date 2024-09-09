@@ -5,9 +5,9 @@ type ScaffoldProps = {
 };
 const Scaffold = ({ children, extra }: PropsWithChildren & ScaffoldProps) => {
   return (
-    <div className="container h-[calc(100vh-80px)] max-w-[1800px] flex flex-col overflow-auto mt-3">
+    <div className="container max-h-[calc(100vh-80px)] max-w-[100vw] flex flex-col overflow-auto mt-3">
       <div className="w-full">{extra}</div>
-      {children}
+      <div>{children}</div>
     </div>
   );
 };

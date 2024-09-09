@@ -9,7 +9,7 @@ import {
   Input,
   Modal,
   Pagination,
-  Spin,
+  Skeleton,
   Tag,
   Typography,
 } from "antd";
@@ -56,7 +56,7 @@ const Committee = () => {
   };
   return (
     <Scaffold>
-      <Spin spinning={isLoading}>
+      <Skeleton loading={isLoading}>
         <PageHeader
           title={
             <>
@@ -80,37 +80,38 @@ const Committee = () => {
           handelOk={handleOk}
           mutate={mutate}
         />
-        <div className="grid grid-cols-12 gap-2">
-          {committeeData?.data?.map((items, index) => (
-            <Card
-              hoverable
-              key={index}
-              onClick={() => navigate(`members/${items?.id}`)}
-              className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3"
-            >
-              <Typography.Title level={5} className="mt-0 mb-0">
-                {items?.name}
-              </Typography.Title>
-              <Typography.Paragraph type="secondary">
-                This committee Start at
-                <span className="text-black">{items?.start_date}</span> and End
-                at <span className="text-black">{items?.end_date}</span>
-              </Typography.Paragraph>
-              <Tag color={items?.is_active ? "green" : "red"}>
-                {items?.is_active ? "Active" : "Deactivate"}
-              </Tag>
-            </Card>
-          ))}
+        <div className="h-[calc(100vh-200px)] flex flex-col justify-between">
+          <div className="grid grid-cols-12 gap-2">
+            {committeeData?.data?.map((items, index) => (
+              <Card
+                hoverable
+                key={index}
+                onClick={() => navigate(`members/${items?.id}`)}
+                className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3"
+              >
+                <Typography.Title level={5} className="mt-0 mb-0">
+                  {items?.name}
+                </Typography.Title>
+                <Typography.Paragraph type="secondary">
+                  This committee Start at
+                  <span className="text-black">{items?.start_date}</span> and
+                  End at <span className="text-black">{items?.end_date}</span>
+                </Typography.Paragraph>
+                <Tag color={items?.is_active ? "green" : "red"}>
+                  {items?.is_active ? "Active" : "Deactivate"}
+                </Tag>
+              </Card>
+            ))}
+          </div>
+          <Pagination
+            className="flex justify-end mt-2"
+            defaultCurrent={1}
+            total={committeeData?.meta_data?.count}
+            defaultPageSize={committeeData?.meta_data?.page_size ?? 10}
+            onChange={filter.handleChangePage}
+          />
         </div>
-
-        <Pagination
-          className="flex justify-end"
-          defaultCurrent={1}
-          total={committeeData?.meta_data?.count}
-          defaultPageSize={committeeData?.meta_data?.page_size ?? 10}
-          onChange={filter.handleChangePage}
-        />
-      </Spin>
+      </Skeleton>
     </Scaffold>
   );
 };

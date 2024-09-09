@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import CardMeta from "../../../components/CardMeta";
 import { useMemberList } from "../../../config/hook/useUserSearch";
+import Scaffold from "../../../container/layout/Scaffold";
 import { useUserDetails } from "../../../container/RoleProvider";
 import { ApproveMembersPayload } from "../../../libs/api/@types/members";
 import { membersAPI } from "../../../libs/api/membersAPI";
@@ -69,135 +70,139 @@ const ActiveMembers = () => {
   );
 
   return (
-    <Skeleton loading={isLoading}>
+    <Scaffold>
       <MemberFilter memberFilter={memberFilter} />
-      <div className="overflow-auto grid grid-cols-12 gap-3">
-        {Number(ActiveMemberData?.data?.length) > 0 ? (
-          ActiveMemberData?.data?.map((user) => (
-            <Card
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`${user?.id}`);
-              }}
-              hoverable
-              bordered={false}
-              key={user.id}
-              className="col-span-12 md:col-span-6 lg:col-span-4"
-            >
-              <CardMeta
-                icon={<Avatar size={60} src={user.profile_pic} />}
-                title={
-                  <div>
-                    {user.name}
-                    <Tooltip title="Passing Year">
-                      <Tag className="ml-2" color="blue">
-                        {user.passing_year}
-                      </Tag>
-                    </Tooltip>
-                  </div>
-                }
-                description={user.email}
-                extra={
-                  <Dropdown
-                    menu={{
-                      items: [
-                        {
-                          key: "admin",
-                          onClick: (e) => e?.domEvent?.stopPropagation(),
-                          label: (
-                            <Popconfirm
-                              title="Make Admin"
-                              description="Are you sure you want to change member role as admin?"
-                              onConfirm={(e) => {
-                                e?.stopPropagation(),
-                                  mutate({
-                                    role: "admin",
-                                    user_id: user.id,
-                                  });
-                              }}
-                              okText="Yes"
-                              cancelText="No"
-                              okType="danger"
-                            >
-                              Make Admin
-                            </Popconfirm>
-                          ),
-                        },
-                        {
-                          key: "member",
-                          onClick: (e) => e?.domEvent?.stopPropagation(),
-                          label: (
-                            <Popconfirm
-                              title="Member"
-                              description="Are you sure you want to change member role as member?"
-                              onConfirm={(e) => {
-                                e?.stopPropagation(),
-                                  mutate({
-                                    role: "member",
-                                    user_id: user?.id,
-                                  });
-                              }}
-                              okText="Yes"
-                              cancelText="No"
-                              okType="danger"
-                            >
-                              Make Member
-                            </Popconfirm>
-                          ),
-                        },
-                        {
-                          key: "moderator",
-                          onClick: (e) => e?.domEvent?.stopPropagation(),
-                          label: (
-                            <Popconfirm
-                              title="Moderator"
-                              description="Are you sure you want to change member role as moderator?"
-                              onConfirm={(e) => {
-                                e?.stopPropagation(),
-                                  mutate({
-                                    role: "moderator",
-                                    user_id: user?.id,
-                                  });
-                              }}
-                              okText="Yes"
-                              cancelText="No"
-                              okType="danger"
-                            >
-                              Make Moderator
-                            </Popconfirm>
-                          ),
-                        },
-                      ],
-                    }}
-                  >
-                    <Button
-                      className={twMerge("hidden", isSuperUser && "block")}
-                      type="text"
-                      icon={<SettingOutlined />}
-                      onClick={(e) => e.stopPropagation()}
-                      loading={
-                        user.id === variables?.user_id && memberRoleLoading
-                      }
-                    />
-                  </Dropdown>
-                }
-              />
-            </Card>
-          ))
-        ) : (
-          <div className="flex justify-center items-center w-[85vw]">
-            <Empty />
+      <Skeleton loading={isLoading}>
+        <div className="flex flex-col justify-between h-[calc(100vh-220px)]">
+          <div className="overflow-auto grid grid-cols-12 gap-3">
+            {Number(ActiveMemberData?.data?.length) > 0 ? (
+              ActiveMemberData?.data?.map((user) => (
+                <Card
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`${user?.id}`);
+                  }}
+                  hoverable
+                  bordered={false}
+                  key={user.id}
+                  className="col-span-12 md:col-span-6 lg:col-span-4"
+                >
+                  <CardMeta
+                    icon={<Avatar size={60} src={user.profile_pic} />}
+                    title={
+                      <div>
+                        {user.name}
+                        <Tooltip title="Passing Year">
+                          <Tag className="ml-2" color="blue">
+                            {user.passing_year}
+                          </Tag>
+                        </Tooltip>
+                      </div>
+                    }
+                    description={user.email}
+                    extra={
+                      <Dropdown
+                        menu={{
+                          items: [
+                            {
+                              key: "admin",
+                              onClick: (e) => e?.domEvent?.stopPropagation(),
+                              label: (
+                                <Popconfirm
+                                  title="Make Admin"
+                                  description="Are you sure you want to change member role as admin?"
+                                  onConfirm={(e) => {
+                                    e?.stopPropagation(),
+                                      mutate({
+                                        role: "admin",
+                                        user_id: user.id,
+                                      });
+                                  }}
+                                  okText="Yes"
+                                  cancelText="No"
+                                  okType="danger"
+                                >
+                                  Make Admin
+                                </Popconfirm>
+                              ),
+                            },
+                            {
+                              key: "member",
+                              onClick: (e) => e?.domEvent?.stopPropagation(),
+                              label: (
+                                <Popconfirm
+                                  title="Member"
+                                  description="Are you sure you want to change member role as member?"
+                                  onConfirm={(e) => {
+                                    e?.stopPropagation(),
+                                      mutate({
+                                        role: "member",
+                                        user_id: user?.id,
+                                      });
+                                  }}
+                                  okText="Yes"
+                                  cancelText="No"
+                                  okType="danger"
+                                >
+                                  Make Member
+                                </Popconfirm>
+                              ),
+                            },
+                            {
+                              key: "moderator",
+                              onClick: (e) => e?.domEvent?.stopPropagation(),
+                              label: (
+                                <Popconfirm
+                                  title="Moderator"
+                                  description="Are you sure you want to change member role as moderator?"
+                                  onConfirm={(e) => {
+                                    e?.stopPropagation(),
+                                      mutate({
+                                        role: "moderator",
+                                        user_id: user?.id,
+                                      });
+                                  }}
+                                  okText="Yes"
+                                  cancelText="No"
+                                  okType="danger"
+                                >
+                                  Make Moderator
+                                </Popconfirm>
+                              ),
+                            },
+                          ],
+                        }}
+                      >
+                        <Button
+                          className={twMerge("hidden", isSuperUser && "block")}
+                          type="text"
+                          icon={<SettingOutlined />}
+                          onClick={(e) => e.stopPropagation()}
+                          loading={
+                            user.id === variables?.user_id && memberRoleLoading
+                          }
+                        />
+                      </Dropdown>
+                    }
+                  />
+                </Card>
+              ))
+            ) : (
+              <div className="flex justify-center items-center w-[85vw]">
+                <Empty />
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      <Pagination
-        className="flex justify-end mt-3"
-        defaultCurrent={1}
-        total={ActiveMemberData?.meta_data?.count}
-        defaultPageSize={ActiveMemberData?.meta_data?.page_size ?? 10}
-        onChange={memberFilter.handleChangePage}
-      />
-    </Skeleton>
+          <Pagination
+            className="flex justify-end mt-2"
+            defaultCurrent={1}
+            total={ActiveMemberData?.meta_data?.count}
+            defaultPageSize={ActiveMemberData?.meta_data?.page_size ?? 10}
+            onChange={memberFilter.handleChangePage}
+          />
+        </div>
+      </Skeleton>
+    </Scaffold>
   );
 };
 
