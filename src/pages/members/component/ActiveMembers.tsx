@@ -73,7 +73,7 @@ const ActiveMembers = () => {
     <Scaffold>
       <MemberFilter memberFilter={memberFilter} />
       <Skeleton loading={isLoading}>
-        <div className="flex flex-col justify-between h-[calc(100vh-220px)]">
+        <div className="flex flex-col justify-between h-[calc(100vh-200px)]">
           <div className="overflow-auto grid grid-cols-12 gap-3">
             {Number(ActiveMemberData?.data?.length) > 0 ? (
               ActiveMemberData?.data?.map((user) => (
@@ -195,7 +195,7 @@ const ActiveMembers = () => {
           </div>
           <Pagination
             className="flex justify-end mt-2"
-            defaultCurrent={1}
+            current={memberFilter.filters?.page}
             total={ActiveMemberData?.meta_data?.count}
             defaultPageSize={ActiveMemberData?.meta_data?.page_size ?? 10}
             onChange={memberFilter.handleChangePage}

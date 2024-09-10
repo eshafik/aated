@@ -17,7 +17,6 @@ import { useState } from "react";
 import { UseMutateFunction, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useCommitteeList } from "../../config/hook/useCommittee";
-import Scaffold from "../../container/layout/Scaffold";
 import { useUserDetails } from "../../container/RoleProvider";
 import { CommitteePayload } from "../../libs/api/@types/committee";
 import { committeeAPI } from "../../libs/api/committee";
@@ -55,64 +54,68 @@ const Committee = () => {
     setIsModalOpen(false);
   };
   return (
-    <Scaffold>
-      <Skeleton loading={isLoading}>
-        <PageHeader
-          title={
-            <>
-              Committee
-              <Badge count={committeeData?.meta_data?.count} />
-            </>
-          }
-          subtitle="Connect with committee members by joining a Committee"
-          actions={
-            isSuperUser && (
-              <Button size="large" type="primary" onClick={() => showModal()}>
-                Create Committee
-              </Button>
-            )
-          }
-        />
-        <CreateCommitteeModal
-          form={form}
-          isLoading={loadingCreateCommittee}
-          isModalOpen={isModalOpen}
-          handelOk={handleOk}
-          mutate={mutate}
-        />
-        <div className="h-[calc(100vh-200px)] flex flex-col justify-between">
-          <div className="grid grid-cols-12 gap-2">
-            {committeeData?.data?.map((items, index) => (
-              <Card
-                hoverable
-                key={index}
-                onClick={() => navigate(`members/${items?.id}`)}
-                className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3"
-              >
-                <Typography.Title level={5} className="mt-0 mb-0">
-                  {items?.name}
-                </Typography.Title>
-                <Typography.Paragraph type="secondary">
-                  This committee Start at
-                  <span className="text-black">{items?.start_date}</span> and
-                  End at <span className="text-black">{items?.end_date}</span>
-                </Typography.Paragraph>
-                <Tag color={items?.is_active ? "green" : "red"}>
-                  {items?.is_active ? "Active" : "Deactivate"}
-                </Tag>
-              </Card>
-            ))}
+    <Skeleton loading={isLoading}>
+      <CreateCommitteeModal
+        form={form}
+        isLoading={loadingCreateCommittee}
+        isModalOpen={isModalOpen}
+        handelOk={handleOk}
+        mutate={mutate}
+      />
+      <div className="h-[calc(100vh-100px)] flex flex-col justify-between p-3">
+        <div className="grid grid-cols-12 gap-2">
+          <div className="col-span-12">
+            <PageHeader
+              title={
+                <>
+                  Committee
+                  <Badge count={committeeData?.meta_data?.count} />
+                </>
+              }
+              subtitle="Connect with committee members by joining a Committee"
+              actions={
+                isSuperUser && (
+                  <Button
+                    size="large"
+                    type="primary"
+                    onClick={() => showModal()}
+                  >
+                    Create Committee
+                  </Button>
+                )
+              }
+            />
           </div>
-          <Pagination
-            className="flex justify-end mt-2"
-            defaultCurrent={1}
-            total={committeeData?.meta_data?.count}
-            defaultPageSize={committeeData?.meta_data?.page_size ?? 10}
-            onChange={filter.handleChangePage}
-          />
+          {committeeData?.data?.map((items, index) => (
+            <Card
+              hoverable
+              key={index}
+              onClick={() => navigate(`members/${items?.id}`)}
+              className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3"
+            >
+              <Typography.Title level={5} className="mt-0 mb-0">
+                {items?.name}
+              </Typography.Title>
+              <Typography.Paragraph type="secondary">
+                This committee Start at
+                <span className="text-black">{items?.start_date}</span> and End
+                at <span className="text-black">{items?.end_date}</span>
+              </Typography.Paragraph>
+              <Tag color={items?.is_active ? "green" : "red"}>
+                {items?.is_active ? "Active" : "Deactivate"}
+              </Tag>
+            </Card>
+          ))}
         </div>
-      </Skeleton>
-    </Scaffold>
+        <Pagination
+          className="flex justify-end mt-2"
+          current={filter.filters?.page}
+          total={committeeData?.meta_data?.count}
+          defaultPageSize={committeeData?.meta_data?.page_size ?? 10}
+          onChange={filter.handleChangePage}
+        />
+      </div>
+    </Skeleton>
   );
 };
 
