@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SettingOutlined } from "@ant-design/icons";
 import {
   App,
   Avatar,
@@ -15,7 +14,7 @@ import {
   Tag,
   Tooltip,
 } from "antd";
-import { Filter } from "lucide-react";
+import { Filter, Settings2 } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -176,7 +175,7 @@ const ActiveMembers = () => {
                         <Button
                           className={twMerge("hidden", isSuperUser && "block")}
                           type="text"
-                          icon={<SettingOutlined />}
+                          icon={<Settings2 size={16} />}
                           onClick={(e) => e.stopPropagation()}
                           loading={
                             user.id === variables?.user_id && memberRoleLoading

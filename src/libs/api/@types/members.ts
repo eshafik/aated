@@ -8,7 +8,7 @@ export interface MembersResponse {
 }
 
 export type MemberDetails = {
-  id?: number | string;
+  id?: number;
   batch?: Batch;
   occupation_type?: OccupationType;
   profile_pic?: string;
@@ -34,7 +34,7 @@ export type MemberDetails = {
 
 export interface MemberResponse {
   data?: {
-    id?: number | string;
+    id?: number;
     batch?: Batch;
     occupation_type?: OccupationType;
     profile_pic?: string;
@@ -87,7 +87,7 @@ export interface JobDepartment {
 }
 
 export interface ApproveMembersPayload {
-  user_id?: number | string;
+  user_id?: number;
   role?: string;
 }
 

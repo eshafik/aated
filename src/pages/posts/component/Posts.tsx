@@ -16,19 +16,19 @@ import { useComment } from "../../../config/hook/usecomment";
 import { useUserDetails } from "../../../container/RoleProvider";
 import { PostsDetails } from "../../../libs/api/@types/post";
 import { formatDate } from "../../../utils/date.helpers";
-import EditPost from "../../post/EditPost";
+import EditPost from "../../managepost/EditPost";
 
 type PostsType = {
   postDate: PostsDetails;
 };
-const Posts = ({ postDate }: PostsType) => {
+const PostCard = ({ postDate }: PostsType) => {
   const [showMore, setShowMore] = useState(false);
   const { userID } = useUserDetails();
 
   const { mutate: mutateComment } = useComment();
 
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <div className="grid grid-cols-1 gap-4 mb-2">
       <Card
         title={
           <Space>
@@ -94,4 +94,4 @@ const Posts = ({ postDate }: PostsType) => {
   );
 };
 
-export default Posts;
+export default PostCard;

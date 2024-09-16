@@ -229,9 +229,8 @@ const CommitteeMembers = () => {
             dataSource={data?.data || []}
             columns={column}
             pagination={{
-              size: "default",
-              total: ActiveMemberData?.meta_data?.count,
-              pageSize: filter?.filters?.limit,
+              total: data?.meta_data?.count,
+              pageSize: data?.meta_data?.page_size,
               onChange: filter.handleChangePage,
               showTotal: () => `Total: ${data?.meta_data?.count} User`,
             }}

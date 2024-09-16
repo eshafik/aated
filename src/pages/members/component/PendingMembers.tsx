@@ -1,27 +1,31 @@
 import { ThunderboltOutlined } from "@ant-design/icons";
 import {
   App,
-  Avatar,
-  Badge,
   Button,
-  Card,
-  Col,
+  Descriptions,
+  Modal,
   Pagination,
-  Row,
-  Space,
-  Spin,
+  Skeleton,
   Tooltip,
-  Typography,
 } from "antd";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
+import CardMeta from "../../../components/CardMeta";
+import { StyledCard } from "../../../components/StyleCard";
 import { usePendingMemberList } from "../../../config/hook/usePendingMembers";
-import { useUserDetails } from "../../../container/RoleProvider";
-import { ApproveMembersPayload } from "../../../libs/api/@types/members";
+import Scaffold from "../../../container/layout/Scaffold";
+import {
+  ApproveMembersPayload,
+  Batch,
+  MemberDetails,
+} from "../../../libs/api/@types/members";
 import { membersAPI } from "../../../libs/api/membersAPI";
 
 const PendingMembers = () => {
   const queryClient = useQueryClient();
   const { notification } = App.useApp();
+  const [isOpen, setOpen] = useState(false);
+  const [pendingData, setPendingData] = useState<MemberDetails>();
 
   const {
     data: pendingMemberData,
@@ -30,7 +34,7 @@ const PendingMembers = () => {
     refetch,
   } = usePendingMemberList();
 
-  const { mutate } = useMutation(
+  const memberApproveMutation = useMutation(
     (payload: ApproveMembersPayload) => membersAPI.approveMembers(payload),
     {
       onSuccess: () => {
@@ -40,54 +44,59 @@ const PendingMembers = () => {
       },
     }
   );
-
-  const { isSuperUser } = useUserDetails();
-
   return (
-    <Spin spinning={isLoading}>
-      {isSuperUser ? (
-        <>
-          <Row gutter={[12, 12]}>
+    <Skeleton loading={isLoading}>
+      <Scaffold>
+        <div className="flex flex-col justify-between h-[calc(100vh-200px)]">
+          <div className="grid grid-cols-12 mt-3 gap-2">
+            <PendingMembersDetails
+              isOpen={isOpen}
+              onCancel={() => setOpen(false)}
+              batch={pendingData?.batch}
+              email={pendingData?.email}
+              name={pendingData?.name}
+              passingYear={pendingData?.passing_year}
+              studentID={pendingData?.student_id}
+            />
             {pendingMemberData?.data?.map((item, i) => (
-              <Col key={i} xs={24} md={8} lg={6}>
-                <Badge.Ribbon text={`${item?.batch?.name} batch`}>
-                  <Card type="inner" hoverable className="h-full">
-                    <Space align="start" size="middle">
-                      <Avatar
-                        size="large"
-                        className="bg-primary/[15%] border-none dark:bg-primary flex justify-center items-center"
-                        src={item?.profile_pic}
+              <StyledCard
+                key={i}
+                hoverable
+                onClick={(e) => {
+                  e.stopPropagation();
+                  !isOpen && setOpen(true);
+                  setPendingData({
+                    name: item.name,
+                    email: item.email,
+                    batch: item.batch,
+                    passing_year: item.passing_year,
+                    student_id: item.student_id,
+                  });
+                }}
+                className="col-span-12 lg:col-span-4 xl:col-span-3 md:col-span-6 cursor-pointer"
+              >
+                <CardMeta
+                  title={item.name}
+                  description={item.email}
+                  extra={
+                    <Tooltip title="Active this member">
+                      <Button
+                        loading={memberApproveMutation.isLoading}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          memberApproveMutation.mutate({
+                            user_id: item.id,
+                          });
+                        }}
+                        icon={<ThunderboltOutlined />}
                       />
-                      <Space.Compact direction="vertical">
-                        <Typography.Title level={5} className="mb-1 mt-1">
-                          {item?.name}
-                        </Typography.Title>
-                        <Typography.Paragraph
-                          type="secondary"
-                          className="mb-0"
-                          ellipsis={{ rows: 2 }}
-                        >
-                          {item?.professional_designation}
-                        </Typography.Paragraph>
-                      </Space.Compact>
-                    </Space>
-                    <div className="text-end">
-                      <Tooltip title="Active">
-                        <Button
-                          onClick={() =>
-                            mutate({
-                              user_id: item?.id,
-                            })
-                          }
-                          icon={<ThunderboltOutlined />}
-                        />
-                      </Tooltip>
-                    </div>
-                  </Card>
-                </Badge.Ribbon>
-              </Col>
+                    </Tooltip>
+                  }
+                />
+              </StyledCard>
             ))}
-          </Row>
+          </div>
+
           <Pagination
             className="top-0 flex justify-end mt-3"
             defaultCurrent={1}
@@ -95,12 +104,70 @@ const PendingMembers = () => {
             defaultPageSize={pendingMemberData?.meta_data?.page_size ?? 10}
             onChange={filter.handleChangePage}
           />
-        </>
-      ) : (
-        "You Do not have permission to perform this action."
-      )}
-    </Spin>
+        </div>
+      </Scaffold>
+    </Skeleton>
   );
 };
 
 export default PendingMembers;
+
+type props = {
+  name?: string;
+  email?: string;
+  studentID?: string;
+  passingYear?: number;
+  batch?: Batch;
+  isOpen: boolean;
+  onCancel: () => void;
+};
+const PendingMembersDetails = ({
+  batch,
+  email,
+  name,
+  passingYear,
+  studentID,
+  isOpen,
+  onCancel,
+}: props) => {
+  return (
+    <Modal open={isOpen} onCancel={() => onCancel()} footer={false}>
+      <Descriptions
+        bordered
+        layout="horizontal"
+        items={[
+          {
+            label: "Name",
+            key: "name",
+            children: name,
+            span: 3,
+          },
+          {
+            label: "Email",
+            key: "email",
+            children: email,
+            span: 3,
+          },
+          {
+            label: "Batch No",
+            key: "batch_no",
+            children: batch?.name,
+            span: 3,
+          },
+          {
+            label: "Passing Year",
+            key: "passing_year",
+            children: passingYear,
+            span: 24,
+          },
+          {
+            label: "Student ID",
+            key: "student_id",
+            children: studentID,
+            span: 3,
+          },
+        ]}
+      />
+    </Modal>
+  );
+};

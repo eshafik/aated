@@ -47,8 +47,6 @@ class CommitteeAPI {
   }
 
   getCommitteeMembersList(id?: string) {
-    // const queryParams = new URLSearchParams();
-    // if (params?.id) queryParams.append("name", params?.id);
     return this.http.get<CommitteeSample>(
       `api/v1/committee/committee-member/?committee_id=${id}`
     );

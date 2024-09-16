@@ -5,6 +5,7 @@ import OnboardLayout from "../container/layout/OnboardLayout";
 import ProfileLayout from "../container/ProfileLayout";
 import Committee from "../pages/committee/Committee";
 import CommitteeMembers from "../pages/committee/committeemembers/CommitteeMembers";
+import Post from "../pages/managepost/Post";
 import Members from "../pages/members";
 import Contributor from "../pages/onboard/Contributor";
 import EmailVerify from "../pages/onboard/EmailVerify";
@@ -14,7 +15,6 @@ import PasswordResetForm from "../pages/onboard/PasswordResetForm";
 import PublicCommitteeMembers from "../pages/onboard/PublicCommitteeMembers";
 import SignIn from "../pages/onboard/Signin";
 import SignUp from "../pages/onboard/Signup";
-import Post from "../pages/post/Post";
 import BlogPost from "../pages/posts";
 import SettingsContainer from "../pages/profileSetting";
 

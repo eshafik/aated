@@ -23,10 +23,11 @@ import { usePostList } from "../../config/hook/useSearch";
 import Scaffold from "../../container/layout/Scaffold";
 import { postAPI } from "../../libs/api/postAPI";
 import CreatePostModal from "./component/CreatePostModal";
-import Posts from "./component/Posts";
+import PostCard from "./component/Posts";
 
 const BlogPost = () => {
-  const { filter, isLoading, posts, fetchNextPage } = usePostList();
+  const { filter, isLoading, posts, fetchNextPage, hasNextPage } =
+    usePostList();
   const [category, setCategory] = useState("all_post");
 
   const jobPostQuery = useQuery({
@@ -50,6 +51,7 @@ const BlogPost = () => {
   return (
     <Skeleton loading={jobPostQuery?.isLoading && isLoading}>
       <Scaffold
+        className="overflow-hidden"
         extra={
           <div className="flex justify-end">
             <Form className="flex gap-2">
@@ -101,14 +103,12 @@ const BlogPost = () => {
             ]}
           />
         )}
-        <div
-          id="scrollableDiv"
-          className="grid grid-cols-12 gap-10 overflow-auto p-3 h-[calc(100vh-140px)]"
-        >
+        <div className="grid grid-cols-12 gap-3 overflow-auto  h-[calc(100vh-140px)]">
           {(renderPostType === "all_post" || renderPostType === "all") && (
             <div
+              id="scrollableDiv"
               className={twMerge(
-                "col-span-12 flex flex-col",
+                "col-span-12 flex flex-col overflow-auto p-2",
                 !isMobileScreen && "col-span-6"
               )}
             >
@@ -117,17 +117,14 @@ const BlogPost = () => {
                 dataLength={
                   posts?.pages?.flatMap((data) => data?.data)?.length ?? 0
                 }
-                hasMore={
-                  Number(posts?.pages?.flatMap((date) => date?.data)?.length) <
-                  Number(posts?.pages?.[0]?.meta_data?.count)
-                }
+                hasMore={hasNextPage ?? false}
                 next={() => {
                   return fetchNextPage();
                 }}
                 loader={
                   <Spin
                     className={twMerge(
-                      "",
+                      "flex justify-center items-center",
                       Number(
                         posts?.pages?.flatMap((date) => date?.data)?.length
                       ) < 1 && "hidden"
@@ -140,8 +137,11 @@ const BlogPost = () => {
                 }}
               >
                 <List
+                  className="mt-2"
                   dataSource={posts?.pages?.flatMap((items) => items?.data)}
-                  renderItem={(items, i) => <Posts key={i} postDate={items!} />}
+                  renderItem={(items, i) => (
+                    <PostCard key={i} postDate={items!} />
+                  )}
                 />
               </InfiniteScroll>
             </div>
@@ -150,7 +150,7 @@ const BlogPost = () => {
           {(renderPostType === "job_post" || renderPostType === "all") && (
             <div
               className={twMerge(
-                "col-span-12",
+                "col-span-12 overflow-auto p-2",
                 !isMobileScreen && "col-span-6 mt-[11px]"
               )}
             >
