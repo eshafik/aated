@@ -5,6 +5,7 @@ import {
   Form,
   Input,
   List,
+  Pagination,
   Select,
   Skeleton,
   Spin,
@@ -16,6 +17,7 @@ import { useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import { twMerge } from "tailwind-merge";
 import CardMeta from "../../components/CardMeta";
 import { useMatchMedia } from "../../components/useMatchMedia";
@@ -25,19 +27,35 @@ import { postAPI } from "../../libs/api/postAPI";
 import CreatePostModal from "./component/CreatePostModal";
 import PostCard from "./component/Posts";
 
+export const StyledCard = styled(Card)`
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+
+  .ant-card-body {
+    padding: 3 !important;
+    flex: 1 1 0%;
+    overflow-y: auto;
+  }
+`;
+
 const BlogPost = () => {
+  const [jobPagination, setJobPagination] = useState<{
+    page: string;
+  }>();
   const { filter, isLoading, posts, fetchNextPage, hasNextPage } =
     usePostList();
   const [category, setCategory] = useState("all_post");
 
   const jobPostQuery = useQuery({
-    queryKey: ["job-post-list"],
+    queryKey: ["job-post-list", jobPagination],
     queryFn: () =>
       postAPI.getPostList({
         category: "1",
+        page: jobPagination?.page,
       }),
   });
-  const jobPosts = jobPostQuery?.data?.data?.slice(0, 2);
+  const jobPosts = jobPostQuery?.data?.data;
   const isMobileScreen = useMatchMedia();
   const renderPostType = useMemo(() => {
     if (isMobileScreen && category === "job_post") {
@@ -103,13 +121,13 @@ const BlogPost = () => {
             ]}
           />
         )}
-        <div className="grid grid-cols-12 gap-3 overflow-auto  h-[calc(100vh-140px)]">
+        <div className="flex gap-10 w-full overflow-hidden h-[calc(100vh-140px)]">
           {(renderPostType === "all_post" || renderPostType === "all") && (
             <div
               id="scrollableDiv"
               className={twMerge(
-                "col-span-12 flex flex-col overflow-auto p-2",
-                !isMobileScreen && "col-span-6"
+                "flex flex-col overflow-auto p-2",
+                !isMobileScreen && "w-4/5"
               )}
             >
               <CreatePostModal />
@@ -148,15 +166,33 @@ const BlogPost = () => {
           )}
 
           {(renderPostType === "job_post" || renderPostType === "all") && (
-            <div
+            <StyledCard
+              loading={jobPostQuery?.isLoading}
               className={twMerge(
-                "col-span-12 overflow-auto p-2",
-                !isMobileScreen && "col-span-6 mt-[11px]"
+                "p-2",
+                !isMobileScreen && "w-2/3 h-[450px] overflow-auto mt-[11px]"
               )}
+              title="Job Posts"
+              actions={[
+                <Pagination
+                  simple
+                  size="small"
+                  className="flex justify-end mt-2"
+                  current={jobPostQuery?.data?.meta_data?.page}
+                  total={jobPostQuery?.data?.meta_data?.count}
+                  defaultPageSize={jobPostQuery?.data?.meta_data?.page_size}
+                  onChange={(page) =>
+                    setJobPagination({
+                      page: page.toString(),
+                    })
+                  }
+                />,
+              ]}
             >
-              <Card title="Job Posts">
-                {jobPosts?.map((items, index) => (
-                  <div className="flex flex-col gap-5" key={index}>
+              <List
+                dataSource={jobPosts}
+                renderItem={(items, i) => (
+                  <div className="flex flex-col gap-5" key={i}>
                     <CardMeta
                       icon={<Avatar src={items?.attachments?.[0]} />}
                       title={
@@ -183,13 +219,13 @@ const BlogPost = () => {
                     >
                       More Details
                     </Link>
-                    {Number(jobPostQuery?.data?.data?.length) - 1 !== index && (
+                    {Number(jobPostQuery?.data?.data?.length) - 1 !== i && (
                       <Divider />
                     )}
                   </div>
-                ))}
-              </Card>
-            </div>
+                )}
+              />
+            </StyledCard>
           )}
         </div>
       </Scaffold>

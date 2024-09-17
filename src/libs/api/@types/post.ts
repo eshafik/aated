@@ -87,8 +87,8 @@ export interface PostSearchPayload {
 
 export interface PostListParams {
   id?: string;
-  limit?: number;
-  page?: number;
+  limit?: string;
+  page?: string;
   search?: string;
   category?: string;
 }

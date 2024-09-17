@@ -10,7 +10,7 @@ export const usePostList = () => {
     setFilters((prev) => ({ ...prev, search: post }));
   };
 
-  const handleChangePage = (page?: number, limit?: number) => {
+  const handleChangePage = (page?: string, limit?: string) => {
     setFilters((prev) => ({ ...prev, page, limit }));
   };
 
