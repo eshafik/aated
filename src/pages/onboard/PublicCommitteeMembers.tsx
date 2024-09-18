@@ -1,29 +1,23 @@
-import { Avatar, Card, Typography } from "antd";
+import { Avatar, Typography } from "antd";
 import { useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
-import CardMeta from "../../components/CardMeta";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { publicCommitteeMemberAPI } from "../../libs/api/publicMember";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
 
 const PublicCommitteeMembers = () => {
   // const [currentSlide, setCurrentSlide] = useState(0);
   // const caroselref = useRef<Slider>();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const { data } = useQuery({
     queryKey: ["publicCommitteeMembers-list"],
     queryFn: () => publicCommitteeMemberAPI.getPublicCommitteeMembers(),
   });
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-  };
 
   return (
     <div className="h-[calc(100vh-190px)] flex flex-col justify-between gap-5 p-3">
@@ -65,29 +59,34 @@ const PublicCommitteeMembers = () => {
           pain..."
         </Typography.Text>
 
-        <Slider {...settings} className="w-full">
-          {data?.data?.map((members, i) => (
-            <Card
-              key={i}
-              className="cursor-pointer"
-              onClick={() => navigate("/signin")}
-            >
-              <CardMeta
-                icon={<Avatar src={members?.profile_pic} size={40} />}
-                title={
-                  <Typography.Text className="mb-0 mt-0">
-                    {members?.name}
+        <div className="w-96 mt-10 flex justify-center items-center">
+          <Swiper
+            slidesPerView={2}
+            spaceBetween={30}
+            loop={true}
+            pagination={{
+              clickable: true,
+            }}
+            navigation={true}
+            modules={[Pagination, Navigation]}
+            className="mySwiper flex justify-center items-center w-full"
+          >
+            {data?.data?.map((members, i) => (
+              <SwiperSlide key={i}>
+                <div
+                  key={i}
+                  className="bg-gray-200 w-44 flex justify-center items-center flex-col text-center p-5 rounded-lg"
+                >
+                  <Avatar src={members.profile_pic} size={100} />
+                  <Typography.Title level={5}>{members.name}</Typography.Title>
+                  <Typography.Text type="secondary">
+                    {members.committee_designation}
                   </Typography.Text>
-                }
-                description={
-                  <Typography.Paragraph className="mb-0" type="secondary">
-                    {members?.committee_designation}
-                  </Typography.Paragraph>
-                }
-              />
-            </Card>
-          ))}
-        </Slider>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
     </div>
   );

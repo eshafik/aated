@@ -49,11 +49,10 @@ const ProfileContainer = () => {
       <StyledCard title={true} className="col-span-2 rounded-r-none pl-1 pr-1">
         {settingsItems?.map((items) => (
           <Button
-            type="text"
+            type={settingItem === items.key ? "primary" : "text"}
             size="large"
             className={twMerge(
-              "flex w-full mt-1 items-center justify-start border-none hover:bg-[#F4801A] hover:text-white rounded",
-              settingItem === items.key && "w-full bg-[#F4801A] text-white",
+              "flex w-full mt-1 items-center justify-start border-none rounded",
               isMobile && "justify-center"
             )}
             key={items.key}

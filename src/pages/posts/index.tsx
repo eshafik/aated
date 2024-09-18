@@ -169,7 +169,7 @@ const BlogPost = () => {
             <StyledCard
               loading={jobPostQuery?.isLoading}
               className={twMerge(
-                "p-2",
+                "h-[calc(100vh-175px)] w-full p-2",
                 !isMobileScreen && "w-2/3 h-[450px] overflow-auto mt-[11px]"
               )}
               title="Job Posts"
