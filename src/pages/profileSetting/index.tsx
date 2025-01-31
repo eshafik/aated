@@ -34,7 +34,7 @@ const ProfileContainer = () => {
       },
       {
         icon: <File size={16} />,
-        title: "Experience",
+        title: "Experiences",
         key: "experience",
       },
       {

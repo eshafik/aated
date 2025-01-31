@@ -50,7 +50,7 @@ const PublicCommitteeMembers = () => {
       )}
 
 <div className="w-full mt-10 flex justify-center items-center">
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full px-4 py-4">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 w-full px-4 py-4">
     {data?.data?.map((members, i) => (
       members?.committee_designation?.toLowerCase() !== "president" && (
         <div

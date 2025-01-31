@@ -1,4 +1,7 @@
 import { Carousel, Collapse, Image, Typography } from "antd";
+import { Link } from "react-router-dom";
+
+import AppFooter from "../../pages/committee/components/AppFooter"
 
 //https://mevrik-cloud.mevrik.com/apps_342/TYEE-342_XZH_aated-logo.png
 //https://www.bproperty.com/blog/wp-content/uploads/2021/07/vrr.png
@@ -27,44 +30,27 @@ const HomePage = () => {
         />
       </Carousel>
       <div className="grid grid-cols-12 gap-3 text-white">
-        <div className="col-span-12 lg:col-span-4 h-96 bg-blue-500 p-5">
+        <div className="col-span-12 lg:col-span-4 h-100 bg-blue-500 p-5">
           <h1>About Us</h1>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.</p>
+          <p>The DUET Textile Engineering Alumni Association was formed to build a bridge between our graduates and the university, offering a platform for networking, mentorship, and knowledge sharing. Our association is dedicated to fostering an ongoing relationship between the department and its alumni, encouraging a sense of community and collaboration. We believe in creating opportunities for alumni to engage with current students, sharing experiences, advice, and career insights that can shape the next generation of textile engineers. The association organizes various events such as seminars, workshops, and reunions, aiming to keep our members connected and up-to-date on the latest developments in the textile industry.  
+          <Link
+            to="/about-us"
+            className="text-black  transition-colors mt-2"
+          > 
+              See more ...
+          </Link>
+          </p>
           
         </div>
-        <div className="col-span-12 lg:col-span-4 h-96 bg-blue-500 p-5">
+        <div className="col-span-12 lg:col-span-4 h-100 bg-blue-500 p-5">
           <h1>Our History</h1>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.</p>
+          <p>The Department of Textile Engineering at Dhaka University of Engineering and Technology (DUET) was established in 2005, with a vision to create highly skilled professionals capable of addressing the dynamic needs of the textile industry. Over the years, the department has built a strong academic foundation, offering comprehensive programs that blend theoretical knowledge with practical application. Our alumni have become leaders in various sectors of the textile industry, both nationally and internationally, contributing significantly to technological advancements. The establishment of the Alumni Association Portal marks a significant milestone in fostering stronger connections between the department and its graduates. Through this platform, we aim to strengthen the ties within the DUET Textile Engineering community, celebrating past achievements while paving the way for future collaboration and growth.</p>
           
         </div>
-        <div className="col-span-12 lg:col-span-4 h-96 bg-blue-600 p-5">
+        <div className="col-span-12 lg:col-span-4 h-100 bg-blue-600 p-5">
           <h1>Our Mission</h1>
           <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.
+          The mission of the DUET Textile Engineering Alumni Association is to create a strong, supportive network of alumni that fosters professional development and strengthens the bond between the university and its graduates. We aim to provide a platform for alumni to connect, collaborate, and contribute to the growth of the textile industry both locally and globally. Our goal is to facilitate continuous learning, career opportunities, and mentorship for both alumni and current students. Through active engagement and contributions, we seek to maintain the legacy of excellence established by the department. Ultimately, we aspire to build an alumni community that drives innovation, supports professional growth, and gives back to the next generation of textile engineers.
           </p>
         </div>
       </div>
@@ -103,6 +89,7 @@ const HomePage = () => {
           ]}
         />
       </div>
+      <AppFooter />
     </div>
   );
 };

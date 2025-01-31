@@ -17,6 +17,7 @@ import SignIn from "../pages/onboard/Signin";
 import SignUp from "../pages/onboard/Signup";
 import BlogPost from "../pages/posts";
 import SettingsContainer from "../pages/profileSetting";
+import AboutUs from "../pages/onboard/AboutUs";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ export const publicRoute = createBrowserRouter([
       { path: "committee", element: <PublicCommitteeMembers /> },
       { path: "forgot-password", element: <OTPSenderForm /> },
       { path: "reset-password", element: <PasswordResetForm /> },
+      {path: "about-us", element: <AboutUs /> },
       {
         path: "*",
         element: (
