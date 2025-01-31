@@ -28,7 +28,7 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
   updateLoading,
   onCancel,
 }) => {
-  const { jobDept: jobDeptData, filter } = useJobDeptSearch();
+  const { jobDept: jobDeptData } = useJobDeptSearch();
   const [searchValue, setSearchValue] = useState<string>("");
   const [noResults, setNoResults] = useState<boolean>(false);
   const { notification } = App.useApp();
@@ -53,10 +53,10 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
   // Update search value and check for results
   const handleSearch = (value: string) => {
     setSearchValue(value);
-    const filteredData = jobDeptData?.data.filter(({ name }) =>
-      name.toLowerCase().includes(value.toLowerCase())
+    const filteredData = jobDeptData?.data?.filter(({ name }) =>
+      name?.toLowerCase().includes(value.toLowerCase())
     );
-    setNoResults(filteredData.length === 0); // Set noResults based on filtered data
+    setNoResults(filteredData?.length === 0); // Set noResults based on filtered data
   };
 
   // Handle when a user selects from the dropdown

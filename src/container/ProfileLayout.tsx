@@ -11,7 +11,6 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 // import cover from "../../assets/cover.jpg";
 import { EditOutlined } from "@ant-design/icons";
-import { useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { twMerge } from "tailwind-merge";
