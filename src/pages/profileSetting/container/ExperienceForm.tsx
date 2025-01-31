@@ -10,7 +10,7 @@ import {
   Select,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useJobDeptSearch } from "../../../config/hook/useJobDeptSearch";
 import { profileAPI } from "../../../libs/api/profileAPI";
@@ -21,6 +21,7 @@ type ExperienceFormProps = {
   updateLoading?: boolean;
   onCancel: () => void;
 };
+
 const ExperienceForm: FC<ExperienceFormProps> = ({
   isDisabled,
   deleteExperience,
@@ -28,6 +29,8 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
   onCancel,
 }) => {
   const { jobDept: jobDeptData, filter } = useJobDeptSearch();
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [noResults, setNoResults] = useState<boolean>(false);
   const { notification } = App.useApp();
   const queryClient = useQueryClient();
 
@@ -46,6 +49,21 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
         },
       }
     );
+
+  // Update search value and check for results
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+    const filteredData = jobDeptData?.data.filter(({ name }) =>
+      name.toLowerCase().includes(value.toLowerCase())
+    );
+    setNoResults(filteredData.length === 0); // Set noResults based on filtered data
+  };
+
+  // Handle when a user selects from the dropdown
+  const handleSelect = (value: string) => {
+    setSearchValue(value);
+    setNoResults(false); // Reset noResults if a valid department is selected
+  };
 
   return (
     <>
@@ -138,22 +156,32 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
         rules={[
           {
             required: true,
-            message: "Please enter you department name",
+            message: "Please enter your department name",
           },
         ]}
       >
-        <Select
-          showSearch
-          onSearch={filter.handleChangeJobDept}
-          filterOption={(input, option) =>
-            (option?.label?.toLowerCase() ?? "").includes(input)
-          }
-          options={jobDeptData?.data?.map(({ name }) => ({
-            value: name,
-            label: name,
-          }))}
-          placeholder="Job Department"
-        />
+        {noResults ? (
+          <Input
+            value={searchValue}
+            onChange={(e) => handleSearch(e.target.value)}
+            onBlur={() => setNoResults(searchValue.trim().length === 0)}
+            placeholder="Enter your department"
+          />
+        ) : (
+          <Select
+            showSearch
+            value={searchValue}
+            onSearch={handleSearch}
+            onSelect={handleSelect}
+            filterOption={false} // Disable internal filtering
+            options={jobDeptData?.data?.map(({ name }) => ({
+              value: name,
+              label: name,
+            }))}
+            placeholder="Select Job Department"
+            notFoundContent={null} // Prevent showing 'Not Found' when no match
+          />
+        )}
       </Form.Item>
       {isDisabled ? (
         <div className="flex justify-between gap-2">

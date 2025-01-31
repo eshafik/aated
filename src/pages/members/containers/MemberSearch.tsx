@@ -109,7 +109,7 @@ const MemberSearch = ({ onClear, form }: MemberSearchProps) => {
               placeholder="Job department"
               options={jobDeptData?.data?.map(({ id, name }) => ({
                 key: id,
-                value: name?.toLowerCase(),
+                value: id?.toString(),
                 label: name,
               }))}
             />

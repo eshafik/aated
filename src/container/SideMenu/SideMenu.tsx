@@ -28,20 +28,19 @@ const SideMenu = () => {
           disabled: true,
         },
         {
-          key: "posts",
-          title: "posts",
-          icon: <ReadOutlined />,
-          onClick: () => navigate("/posts"),
-          label: "Post",
-        },
-        {
           key: "members",
           title: "members",
           icon: <UsergroupAddOutlined />,
           label: "Members",
           onClick: () => navigate("/members"),
         },
-
+        {
+          key: "profile-setting",
+          title: "Setting",
+          icon: <SettingOutlined />,
+          onClick: () => navigate("profile-setting"),
+          label: "Profile Setting",
+        },
         {
           key: "committee",
           title: "Committee",
@@ -50,11 +49,11 @@ const SideMenu = () => {
           label: "Committee",
         },
         {
-          key: "profile-setting",
-          title: "Setting",
-          icon: <SettingOutlined />,
-          onClick: () => navigate("profile-setting"),
-          label: "Profile Setting",
+          key: "posts",
+          title: "posts",
+          icon: <ReadOutlined />,
+          onClick: () => navigate("/posts"),
+          label: "Post",
         },
       ]}
     />

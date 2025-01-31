@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Card, Typography } from "antd";
-import { Brain, Lock, Settings } from "lucide-react";
+import { File, Lock, User } from "lucide-react";
 import { useState } from "react";
 import styled from "styled-components";
 import { twMerge } from "tailwind-merge";
@@ -28,19 +28,19 @@ const ProfileContainer = () => {
   const settingsItems: { icon: React.ReactNode; title: string; key: string }[] =
     [
       {
-        icon: <Settings size={16} />,
+        icon: <User size={16} />,
         title: "Basic Profile",
         key: "basic_profile",
+      },
+      {
+        icon: <File size={16} />,
+        title: "Experience",
+        key: "experience",
       },
       {
         icon: <Lock size={16} />,
         title: "Security",
         key: "security",
-      },
-      {
-        icon: <Brain size={16} />,
-        title: "Experience",
-        key: "experience",
       },
     ];
 
