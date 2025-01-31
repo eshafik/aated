@@ -40,7 +40,7 @@ const ProfileLayout = ({ isEditEnable }: ProfileLayoutProps) => {
     <Skeleton loading={isLoading}>
       <div className="flex justify-center pt-2">
         <Card className="shadow-2xl max-w-3xl">
-          <div className="flex gap-3 bg-yellow-400 p-4 rounded-lg">
+          <div className="flex gap-3 bg-blue-400 p-4 rounded-lg">
             <Avatar
               shape="square"
               size={80}
@@ -113,7 +113,8 @@ const BasicInfo = ({ profileData }: BasicInfoProps) => {
   return (
     <Descriptions
       bordered
-      layout="vertical"
+      layout="horizontal"
+      column={1}
       items={[
         {
           label: "Student ID",
@@ -152,7 +153,7 @@ const BasicInfo = ({ profileData }: BasicInfoProps) => {
           label: "Unemployment Reason",
           children: profileData?.unemployment_reasons,
         },
-      ]}
+      ].filter((item) => item.children)}
     />
   );
 };
@@ -161,69 +162,50 @@ type UserExperienceProps = {
   experienceData?: Experience[];
 };
 const UserExperience = ({ experienceData }: UserExperienceProps) => {
-  const [expID, setExpID] = useState(experienceData?.[0]?.id);
   return (
-    <>
-      <div className="flex gap-2">
-        {experienceData?.map((exp, i) => (
-          <Button
-            size="small"
-            className="mb-2"
-            key={i}
-            onClick={() => setExpID(Number(exp?.id))}
-            type={expID === exp.id ? "primary" : "default"}
-          >
-            {i + 1}
-          </Button>
-        ))}
-      </div>
-      {experienceData?.map(
-        (items) =>
-          expID === items.id && (
-            <Descriptions
-              key={items?.id}
-              className="mb-2"
-              bordered
-              items={[
-                {
-                  label: "Company Name",
-                  children: items?.company_name,
-                  span: 24,
-                },
-                {
-                  label: "Designation",
-                  children: items?.designation,
-                  span: 24,
-                },
-                {
-                  label: "Department",
-                  children: items?.job_department?.name,
-                  span: 24,
-                },
-                {
-                  label: "Company Address",
-                  children: items?.job_location,
-                  span: 24,
-                },
-                {
-                  label: "Responsibilities",
-                  children: items?.responsibilities,
-                  span: 24,
-                },
-                {
-                  label: "Working Year",
-                  children: items?.working_years,
-                },
-                {
-                  label: "Start/End Date",
-                  children:
-                    items?.start + "  to  " + (items?.end ?? "Continuing"),
-                },
-              ]}
-            />
-          )
-      )}
-    </>
+    <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
+      {/* Render each experience in its own grid */}
+      {experienceData?.map((items, i) => (
+        <div
+          key={items.id}
+          className="border p-4 rounded shadow-sm bg-white"
+        >
+          {/* Header with Experience Number */}
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="font-semibold">Experience {i + 1}</h3>
+            {/* Optional: Add an edit button or action here */}
+            <Button size="small" type="primary">
+              Edit
+            </Button>
+          </div>
+
+          {/* Descriptions for the Experience */}
+          <Descriptions bordered column={1}>
+            <Descriptions.Item label="Company Name">
+              {items?.company_name}
+            </Descriptions.Item>
+            <Descriptions.Item label="Designation">
+              {items?.designation}
+            </Descriptions.Item>
+            <Descriptions.Item label="Department">
+              {items?.job_department?.name}
+            </Descriptions.Item>
+            <Descriptions.Item label="Company Address">
+              {items?.job_location}
+            </Descriptions.Item>
+            <Descriptions.Item label="Responsibilities">
+              {items?.responsibilities}
+            </Descriptions.Item>
+            <Descriptions.Item label="Working Year">
+              {items?.working_years}
+            </Descriptions.Item>
+            <Descriptions.Item label="Start/End Date">
+              {items?.start} to {items?.end ?? "Present"}
+            </Descriptions.Item>
+          </Descriptions>
+        </div>
+      ))}
+    </div>
   );
 };
 

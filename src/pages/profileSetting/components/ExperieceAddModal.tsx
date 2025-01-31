@@ -60,7 +60,7 @@ const ExperienceAddModal = () => {
           <ExperienceForm onCancel={() => setIsModalOpen(false)} />
         </Form>
       </Modal>
-      <Button onClick={() => setIsModalOpen(true)}>Add Experience</Button>
+      <Button style={{ backgroundColor: "#2563EB", borderColor: "#2563EB", color: "white" }} onClick={() => setIsModalOpen(true)}>Add Experience</Button>
     </>
   );
 };

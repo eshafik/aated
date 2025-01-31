@@ -1,13 +1,11 @@
 import { Avatar, Typography } from "antd";
 import { useQuery } from "react-query";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { publicCommitteeMemberAPI } from "../../libs/api/publicMember";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-import { Navigation, Pagination } from "swiper/modules";
 
 const PublicCommitteeMembers = () => {
   // const [currentSlide, setCurrentSlide] = useState(0);
@@ -52,7 +50,7 @@ const PublicCommitteeMembers = () => {
       )}
 
 <div className="w-full mt-10 flex justify-center items-center">
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full px-4">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full px-4 py-4">
     {data?.data?.map((members, i) => (
       members?.committee_designation?.toLowerCase() !== "president" && (
         <div

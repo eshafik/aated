@@ -41,7 +41,7 @@ type FilterFieldType = {
 };
 
 const ActiveMembers = () => {
-  const { isSuperUser, isAdmin, isModarator } = useUserDetails();
+  const { isSuperUser, isAdmin } = useUserDetails();
   const { notification } = App.useApp();
 
   const navigate = useNavigate();
@@ -215,6 +215,7 @@ const MemberFilter = ({ memberFilter }: props) => {
   const [filters, setFilter] = useState(false);
 
   const serializePayload = (values: FilterFieldType) => {
+    // Apply the filter logic here
     memberFilter.handleChangeName(values.name);
     memberFilter.handleChangeCompany(values.company);
     memberFilter.handleChangeDesignation(values.designation);
@@ -225,39 +226,47 @@ const MemberFilter = ({ memberFilter }: props) => {
     memberFilter.handleChangeOrdering(values.batch);
     memberFilter.handleChangeSkills(values.skills);
     memberFilter.handleChangeEmployeeStatus(values.employment_status);
+
+    // Close the Popover after applying the filter
+    setFilter(false);
   };
+
   return (
     <Form size="large" form={form} onFinish={serializePayload} layout="inline">
-  <Popover
-    title="Member Search"
-    open={filters}
-    placement="rightTop"
-    onOpenChange={(open) => setFilter(open)}
-    content={
-      <div className="w-[300px] sm:w-[90vw] max-w-full overflow-auto"> {/* Add overflow-auto */}
-        <MemberSearch
-          form={form}
-          onClear={() => {
-            memberFilter.clearFilter();
-            setFilter(false); // Close the popover after clearing
-          }}
-        />
-      </div>
-    }
-    trigger="click"
-    overlayClassName="popover-overlay" // Add a custom class for the overlay
-  >
-    <Button
-      title="Member Filter"
-      icon={<Filter size={16} />}
-      onClick={() => setFilter(true)}
-      type="primary"
-      className="flex items-center justify-center mb-2"
-      size="middle"
-    >
-      {memberFilter?.filters && "Filtered"}
-    </Button>
-  </Popover>
-</Form>
+      <Popover
+        title="Search & Filter"
+        open={filters}
+        placement="bottom" // Ensure the Popover appears below the filter icon
+        onOpenChange={(open) => setFilter(open)}
+        getPopupContainer={(triggerNode) => {
+          const parentNode = triggerNode.parentNode;
+          return parentNode instanceof HTMLElement ? parentNode : document.body;
+        }}
+        content={
+          <div className="min-w-[300px] sm:min-w-[400px] max-w-[90vw] overflow-auto">
+            <MemberSearch
+              form={form}
+              onClear={() => {
+                memberFilter.clearFilter();
+                setFilter(false); // Close the popover after clearing
+              }}
+            />
+          </div>
+        }
+        trigger="click"
+        overlayClassName="popover-overlay"
+      >
+        <Button
+          title="Member Filter"
+          icon={<Filter size={16} />}
+          onClick={() => setFilter(true)}
+          type="primary"
+          className="flex items-center justify-center mb-2"
+          size="middle"
+        >
+          {memberFilter?.filters && "Filtered"}
+        </Button>
+      </Popover>
+    </Form>
   );
 };
