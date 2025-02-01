@@ -86,7 +86,7 @@ const ProfileLayout = ({ isEditEnable }: ProfileLayoutProps) => {
                   children: <BasicInfo profileData={memberData?.data} />,
                 },
                 {
-                  label: "Experiences",
+                  label: "Professional Info",
                   key: "experiences",
                   children: (
                     <UserExperience
