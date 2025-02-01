@@ -13,8 +13,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '250m'  # Limit to 250 millicores (equivalent to 0.25 CPU)
-          memory: 256M
+          cpus: '150m'  # Limit to 250 millicores (equivalent to 0.25 CPU)
+          memory: 125M
 
 networks:
   aated-network:
