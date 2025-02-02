@@ -88,7 +88,7 @@ export const protectedRouter = createBrowserRouter([
         ],
       },
       {
-        path: "profile-setting",
+        path: "profile-setting/:tab?",
         element: <SettingsContainer />,
       },
     ],

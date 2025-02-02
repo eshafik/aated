@@ -9,6 +9,7 @@ import {
   Typography,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 // import cover from "../../assets/cover.jpg";
 import { EditOutlined } from "@ant-design/icons";
 import { useQuery } from "react-query";
@@ -17,6 +18,7 @@ import { twMerge } from "tailwind-merge";
 import { Experience, MemberDetails } from "../libs/api/@types/members";
 import { membersAPI } from "../libs/api/membersAPI";
 import ExperienceAddModal from "../pages/profileSetting/components/ExperieceAddModal";
+import UpdateExperienceForm from "../pages/profileSetting/container/UpdateExperienceForm";
 
 type ProfileLayoutProps = {
   isEditEnable?: boolean;
@@ -76,7 +78,7 @@ const ProfileLayout = ({ isEditEnable }: ProfileLayoutProps) => {
                 isProfileEditEnable && "flex ml-auto"
               )}
               onClick={() => navigate("/profile-setting")}
-            />
+            >Edit</Button>
           </div>
           <StyledCard className="mt-2">
             <Tabs
@@ -167,6 +169,7 @@ const UserExperience = ({
   experienceData,
   isExpEditable,
 }: UserExperienceProps) => {
+  const [editModalVisible, setEditModalVisible] = useState<string | null>(null);
   // const navigate = useNavigate();
   return (
     <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
@@ -178,11 +181,18 @@ const UserExperience = ({
             <h3 className="font-semibold">Experience {i + 1}</h3>
             {/* Optional: Add an edit button or action here */}
             {isExpEditable && (
-              <Button size="small" type="primary">
+              <Button size="small" type="primary" onClick={() => setEditModalVisible(items?.id.toString())}>
                 Edit
               </Button>
             )}
           </div>
+          {items && editModalVisible === items?.id?.toString() && (
+              <UpdateExperienceForm
+                slug={items.id.toString()}
+                open={true}
+                onCancel={() => setEditModalVisible(null)} // Close the modal
+              />
+            )}
 
           {/* Descriptions for the Experience */}
           <Descriptions bordered column={1}>

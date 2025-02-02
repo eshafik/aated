@@ -2,6 +2,7 @@
 import { Button, Card, Typography } from "antd";
 import { File, Lock, User } from "lucide-react";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { twMerge } from "tailwind-merge";
 import { useMatchMedia } from "../../components/useMatchMedia";
@@ -22,7 +23,10 @@ export const StyledCard = styled(Card)`
   }
 `;
 const ProfileContainer = () => {
-  const [settingItem, setSettingItem] = useState("basic_profile");
+  // const [settingItem, setSettingItem] = useState("basic_profile");
+  // const isMobile = useMatchMedia();
+  const { tab } = useParams(); // Extract the tab parameter from the URL
+  const [settingItem, setSettingItem] = useState(tab || "basic_profile"); // Default to "basic_profile" if no tab is provided
   const isMobile = useMatchMedia();
 
   const settingsItems: { icon: React.ReactNode; title: string; key: string }[] =
