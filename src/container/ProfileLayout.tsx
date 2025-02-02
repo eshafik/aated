@@ -16,6 +16,7 @@ import styled from "styled-components";
 import { twMerge } from "tailwind-merge";
 import { Experience, MemberDetails } from "../libs/api/@types/members";
 import { membersAPI } from "../libs/api/membersAPI";
+import ExperienceAddModal from "../pages/profileSetting/components/ExperieceAddModal";
 
 type ProfileLayoutProps = {
   isEditEnable?: boolean;
@@ -170,7 +171,7 @@ const UserExperience = ({
   return (
     <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
       {/* Render each experience in its own grid */}
-      {experienceData?.map((items, i) => (
+      {experienceData && experienceData?.length > 0 ? (experienceData?.map((items, i) => (
         <div key={items.id} className="border p-4 rounded shadow-sm bg-white">
           {/* Header with Experience Number */}
           <div className="flex justify-between items-center mb-3">
@@ -208,7 +209,13 @@ const UserExperience = ({
             </Descriptions.Item>
           </Descriptions>
         </div>
-      ))}
+      ))): (
+        // Show "Add Experience" button if no professional info data is found
+        <div className="flex flex-col items-center justify-center p-6 bg-white border rounded shadow-sm">
+          <p className="text-gray-500 mb-4">No professional experience found.</p>
+          <ExperienceAddModal />
+        </div>
+      )}
     </div>
   );
 };
