@@ -44,7 +44,7 @@ const ExperienceAddModal = () => {
             mutateCreateExperience({
               company_name: values.company_name,
               designation: values.designation,
-              job_department: values.job_department,
+              job_department: values.job_department?.[0],
               job_location: values.job_location,
               responsibilities: values.responsibilities,
               start: values.start_date.format("YYYY-MM-DD"),
@@ -60,7 +60,16 @@ const ExperienceAddModal = () => {
           <ExperienceForm onCancel={() => setIsModalOpen(false)} />
         </Form>
       </Modal>
-      <Button style={{ backgroundColor: "#2563EB", borderColor: "#2563EB", color: "white" }} onClick={() => setIsModalOpen(true)}>Add Experience</Button>
+      <Button
+        style={{
+          backgroundColor: "#2563EB",
+          borderColor: "#2563EB",
+          color: "white",
+        }}
+        onClick={() => setIsModalOpen(true)}
+      >
+        Add Experience
+      </Button>
     </>
   );
 };

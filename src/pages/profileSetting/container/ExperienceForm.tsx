@@ -10,7 +10,8 @@ import {
   Select,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { FC, useState } from "react";
+import { debounce } from "lodash";
+import { FC } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useJobDeptSearch } from "../../../config/hook/useJobDeptSearch";
 import { profileAPI } from "../../../libs/api/profileAPI";
@@ -28,9 +29,7 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
   updateLoading,
   onCancel,
 }) => {
-  const { jobDept: jobDeptData } = useJobDeptSearch();
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [noResults, setNoResults] = useState<boolean>(false);
+  const { jobDept: jobDeptData, filter, isLoading } = useJobDeptSearch();
   const { notification } = App.useApp();
   const queryClient = useQueryClient();
 
@@ -50,20 +49,10 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
       }
     );
 
-  // Update search value and check for results
-  const handleSearch = (value: string) => {
-    setSearchValue(value);
-    const filteredData = jobDeptData?.data?.filter(({ name }) =>
-      name?.toLowerCase().includes(value.toLowerCase())
-    );
-    setNoResults(filteredData?.length === 0); // Set noResults based on filtered data
-  };
-
-  // Handle when a user selects from the dropdown
-  const handleSelect = (value: string) => {
-    setSearchValue(value);
-    setNoResults(false); // Reset noResults if a valid department is selected
-  };
+  const handleJobSearch = debounce(
+    (value: string) => filter.handleChangeJobDept(value),
+    1000
+  );
 
   return (
     <>
@@ -160,29 +149,23 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
           },
         ]}
       >
-        {noResults ? (
-          <Input
-            value={searchValue}
-            onChange={(e) => handleSearch(e.target.value)}
-            onBlur={() => setNoResults(searchValue.trim().length === 0)}
-            placeholder="Enter your department"
-          />
-        ) : (
-          <Select
-            showSearch
-            value={searchValue}
-            onSearch={handleSearch}
-            onSelect={handleSelect}
-            filterOption={false} // Disable internal filtering
-            options={jobDeptData?.data?.map(({ name }) => ({
-              value: name,
-              label: name,
-            }))}
-            placeholder="Select Job Department"
-            notFoundContent={null} // Prevent showing 'Not Found' when no match
-          />
-        )}
+        <Select
+          showSearch
+          options={jobDeptData?.data?.map(({ name }) => ({
+            value: name,
+            label: name,
+          }))}
+          placeholder="Select Job Department"
+          onSearch={handleJobSearch}
+          loading={isLoading}
+          mode="tags"
+          onChange={(value) => {
+            if (value.length > 1) value.pop();
+          }}
+          // tagRender={(value) => <div>{value.label}</div>}
+        />
       </Form.Item>
+
       {isDisabled ? (
         <div className="flex justify-between gap-2">
           <Popconfirm

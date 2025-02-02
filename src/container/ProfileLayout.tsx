@@ -91,6 +91,7 @@ const ProfileLayout = ({ isEditEnable }: ProfileLayoutProps) => {
                   children: (
                     <UserExperience
                       experienceData={memberData?.data?.experiences}
+                      isExpEditable={isProfileEditEnable}
                     />
                   ),
                 },
@@ -159,23 +160,27 @@ const BasicInfo = ({ profileData }: BasicInfoProps) => {
 
 type UserExperienceProps = {
   experienceData?: Experience[];
+  isExpEditable?: boolean;
 };
-const UserExperience = ({ experienceData }: UserExperienceProps) => {
+const UserExperience = ({
+  experienceData,
+  isExpEditable,
+}: UserExperienceProps) => {
+  // const navigate = useNavigate();
   return (
     <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
       {/* Render each experience in its own grid */}
       {experienceData?.map((items, i) => (
-        <div
-          key={items.id}
-          className="border p-4 rounded shadow-sm bg-white"
-        >
+        <div key={items.id} className="border p-4 rounded shadow-sm bg-white">
           {/* Header with Experience Number */}
           <div className="flex justify-between items-center mb-3">
             <h3 className="font-semibold">Experience {i + 1}</h3>
             {/* Optional: Add an edit button or action here */}
-            <Button size="small" type="primary">
-              Edit
-            </Button>
+            {isExpEditable && (
+              <Button size="small" type="primary">
+                Edit
+              </Button>
+            )}
           </div>
 
           {/* Descriptions for the Experience */}

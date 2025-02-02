@@ -50,7 +50,7 @@ const MemberSearch = ({ onClear, form }: MemberSearchProps) => {
 
   return (
     <>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 overflow-auto max-h-[calc(100vh-420px)]">
         {/* Single column layout for mobile */}
         <Form.Item name="name">
           <Input placeholder="Name" />
