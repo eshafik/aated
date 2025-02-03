@@ -98,7 +98,7 @@ const ActiveMembers = () => {
                         </Tooltip>
                       </div>
                     }
-                    description={user.email}
+                    description={user.professional_designation}
                     extra={
                       <Dropdown
                       menu={{

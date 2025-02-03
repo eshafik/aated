@@ -181,7 +181,7 @@ const UserExperience = ({
             <h3 className="font-semibold">Experience {i + 1}</h3>
             {/* Optional: Add an edit button or action here */}
             {isExpEditable && (
-              <Button size="small" type="primary" onClick={() => setEditModalVisible(items?.id.toString())}>
+              <Button size="small" type="primary" onClick={() => setEditModalVisible(items && items?.id?.toString() || null)}>
                 Edit
               </Button>
             )}
