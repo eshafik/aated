@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Card, Typography } from "antd";
-import { File, Lock, User } from "lucide-react";
+import { Briefcase, Lock, User } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -37,7 +37,7 @@ const ProfileContainer = () => {
         key: "basic_profile",
       },
       {
-        icon: <File size={16} />,
+        icon: <Briefcase size={16} />,
         title: "Experiences",
         key: "experience",
       },

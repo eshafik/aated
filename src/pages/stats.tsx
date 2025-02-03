@@ -8,12 +8,14 @@ const STAT_PATHS = {
   total_members: "/members",
   total_posts: "/posts",
   total_job_posts: "/posts",
-  total_committee_member: "/committee",
+  total_committee_members: "/committee",
   total_pending_requests: "/members",
 };
 
+type StatKey = keyof typeof STAT_PATHS;
+
 // Define colors and icons for each stat
-const CARD_STYLES = [
+const CARD_STYLES: { key: StatKey; color: string; icon: string }[] = [
   { key: "total_members", color: "bg-blue-500", icon: "👥" },
   { key: "total_posts", color: "bg-green-500", icon: "📝" },
   { key: "total_job_posts", color: "bg-yellow-500", icon: "💼" },
@@ -37,7 +39,6 @@ const StatsDashboard = () => {
             <Card
               key={key}
               className={`shadow-md hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden`}
-              bodyStyle={{ padding: 0 }}
               style={{ height: "200px" }} // Fixed height
             >
               <div className="flex flex-col h-full">
