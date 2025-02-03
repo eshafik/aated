@@ -52,7 +52,7 @@ const SignIn = () => {
               <Input
                 className="h-11"
                 prefix={<UserOutlined />}
-                placeholder="Username"
+                placeholder="Email"
               />
             </Form.Item>
             <Form.Item
