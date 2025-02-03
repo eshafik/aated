@@ -6,7 +6,7 @@ import { HttpAuthService } from "./httpService/httpAuth.service";
 class Stats {
   constructor(private http: HttpAuthService) {}
 
-  getPublicCommitteeMembers() {
+  getStats() {
     return this.http.get<StatsData>(
       "api/v1/users/stats/"
     );

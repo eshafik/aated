@@ -1,5 +1,5 @@
 export type StatsData = {
-    data?: [
+    data?:
       {
         total_members?: number;
         total_posts?: number;
@@ -7,6 +7,6 @@ export type StatsData = {
         total_committee_members?: number;
         total_pending_requests?: number;
       }
-    ];
+    ;
   };
   

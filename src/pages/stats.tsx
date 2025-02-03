@@ -2,6 +2,7 @@ import { Card, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { statsAPI } from "../libs/api/statsAPI";
+import { StatsData } from "../libs/api/@types/stats";
 
 // Define the paths for each stat
 const STAT_PATHS = {
@@ -25,11 +26,11 @@ const CARD_STYLES: { key: StatKey; color: string; icon: string }[] = [
 
 const StatsDashboard = () => {
   // Fetch stats data
-  const { data, isLoading } = useQuery("stats", () => statsAPI.getPublicCommitteeMembers());
+  const { data, isLoading } = useQuery("stats", () => statsAPI.getStats());
 
   // Extract stats data
-  const stats = data?.data?.[0];
-
+  const stats = data?.data;
+  console.log('stats', stats);
   return (
     <div className="p-4">
       {/* <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Dashboard Statistics</h1> */}
@@ -39,7 +40,7 @@ const StatsDashboard = () => {
             <Card
               key={key}
               className={`shadow-md hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden`}
-              style={{ height: "200px" }} // Fixed height
+              // style={{ height: "200px" }} // Fixed height
             >
               <div className="flex flex-col h-full">
                 {/* Top Section */}
@@ -53,7 +54,7 @@ const StatsDashboard = () => {
                   <p className="text-xl font-bold text-gray-800 text-center">{stats?.[key] || 0}</p>
                   <Link
                     to={STAT_PATHS[key]}
-                    className="text-xs font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-300 text-center"
+                    className="text-xl font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-300 text-center"
                   >
                     View All
                   </Link>

@@ -153,6 +153,10 @@ const BasicInfo = ({ profileData }: BasicInfoProps) => {
           children: profileData?.professional_designation,
         },
         {
+          label: "Occupation Type",
+          children: profileData?.occupation_type?.name,
+        },
+        {
           label: "Unemployment Reason",
           children: profileData?.unemployment_reasons,
         },
@@ -195,29 +199,41 @@ const UserExperience = ({
             )}
 
           {/* Descriptions for the Experience */}
-          <Descriptions bordered column={1}>
-            <Descriptions.Item label="Company Name">
-              {items?.company_name}
-            </Descriptions.Item>
-            <Descriptions.Item label="Designation">
-              {items?.designation}
-            </Descriptions.Item>
-            <Descriptions.Item label="Department">
-              {items?.job_department?.name}
-            </Descriptions.Item>
-            <Descriptions.Item label="Company Address">
-              {items?.job_location}
-            </Descriptions.Item>
-            <Descriptions.Item label="Responsibilities">
-              {items?.responsibilities}
-            </Descriptions.Item>
-            <Descriptions.Item label="Working Year">
-              {items?.working_years}
-            </Descriptions.Item>
-            <Descriptions.Item label="Start/End Date">
-              {items?.start} to {items?.end ?? "Present"}
-            </Descriptions.Item>
-          </Descriptions>
+          <Descriptions 
+          bordered
+          layout="horizontal"
+          column={1}
+          items={[
+            {
+              label: "Company",
+              children: items?.company_name,
+            },
+            {
+              label: "Designation",
+              children: items?.designation,
+            },
+            {
+              label: "Department",
+              children: items?.job_department?.name,
+            },
+            {
+              label: "Address",
+              children: items?.job_location,
+            },
+            {
+              label: "Roles",
+              children: items?.responsibilities,
+            },
+            {
+              label: "Years",
+              children: items?.working_years,
+            },
+            {
+              label: "Period",
+              children: `${items?.start} to ${items?.end ?? "Present"}`,
+            },
+          ].filter((item) => item.children)}
+          />
         </div>
       ))): (
         // Show "Add Experience" button if no professional info data is found

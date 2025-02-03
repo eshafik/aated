@@ -44,7 +44,7 @@ const ExperienceItem = ({ exp }: { exp: Experience }) => {
             type="link" // Use "link" type for a text-like button
             icon={<EditOutlined />} // Optional: Include the EditOutlined icon
             onClick={() => setVisible(true)} // Open the modal on click
-            className="absolute right-7"
+            className="absolute right-1"
           >
             Edit
           </Button>
@@ -53,12 +53,18 @@ const ExperienceItem = ({ exp }: { exp: Experience }) => {
           {exp?.designation}
         </Typography.Title>
         <div>
-          {exp?.company_name} | {exp?.responsibilities}
+          <b>{exp?.company_name}</b> ({exp?.start} - {exp?.end || "Present"})
         </div>
         <div>
-          {exp?.start} To {exp?.end}
+          <b>Department: </b>{exp?.job_department?.name}
         </div>
-        <div>{exp?.working_years} Year/(s) of experience</div>
+        <div>
+          <b>Roles:</b> {exp?.responsibilities}
+        </div>
+        <div>
+          <b>Location:</b> {exp?.job_location}
+        </div>
+        <div>Duration: {exp?.working_years} Year/Years</div>
       </div>
     </>
   );
