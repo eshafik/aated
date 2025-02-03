@@ -18,6 +18,7 @@ import SignUp from "../pages/onboard/Signup";
 import BlogPost from "../pages/posts";
 import SettingsContainer from "../pages/profileSetting";
 import AboutUs from "../pages/onboard/AboutUs";
+import StatsDashboard from "../pages/stats";
 
 export const publicRoute = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ export const protectedRouter = createBrowserRouter([
       {
         path: "profile",
         element: <ProfileLayout isEditEnable />,
+      },
+      {
+        path: "stats",
+        element: <StatsDashboard />,
       },
       {
         path: "members",

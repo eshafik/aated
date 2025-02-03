@@ -10,7 +10,7 @@ import {
 import { Content, Header } from "antd/es/layout/layout";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, Link } from "react-router-dom";
 import { profileAPI } from "../../libs/api/profileAPI";
 import { authService } from "../../libs/auth";
 import RoleProvider from "../RoleProvider";
@@ -121,7 +121,7 @@ const HomeLayout = () => {
                 }
                 menu={{ items }}
               >
-                {data?.data?.name}
+                <Link to='profile'>{data?.data?.name}</Link>
               </Dropdown.Button>
             </div>
           </Header>

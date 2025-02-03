@@ -16,7 +16,7 @@ const SignIn = () => {
       onSuccess: ({ data: { refresh, access } }) => {
         authService.setToken(access);
         authService.setRefreshToken(refresh);
-        navigate("/members");
+        navigate("/stats");
       },
       onError: () => {
         notification.error({ message: "Invalid username/password " });

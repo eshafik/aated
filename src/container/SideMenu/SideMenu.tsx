@@ -3,6 +3,7 @@ import {
   ReadOutlined,
   SettingOutlined,
   UsergroupAddOutlined,
+  DashboardFilled
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +27,13 @@ const SideMenu = () => {
           key: "1",
           icon: "",
           disabled: true,
+        },
+        {
+          key: "stats",
+          title: "Dashboard",
+          icon: <DashboardFilled />,
+          label: "Dashboard",
+          onClick: () => navigate("/stats"),
         },
         {
           key: "members",
