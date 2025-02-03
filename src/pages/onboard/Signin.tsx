@@ -37,7 +37,7 @@ const SignIn = () => {
           <Form
             onFinish={(values) =>
               mutate({
-                username: values.username,
+                username: values.username.toLowerCase(),
                 password: values.password,
               })
             }
