@@ -239,7 +239,7 @@ const UserExperience = ({
         // Show "Add Experience" button if no professional info data is found
         <div className="flex flex-col items-center justify-center p-6 bg-white border rounded shadow-sm">
           <p className="text-gray-500 mb-4">No professional experience found.</p>
-          <ExperienceAddModal />
+          {isExpEditable && <ExperienceAddModal />}
         </div>
       )}
     </div>
