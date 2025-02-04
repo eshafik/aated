@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Avatar,
   Button,
@@ -7,8 +6,7 @@ import {
   Skeleton,
   Tabs,
   Tag,
-  Typography,
-  Tooltip
+  Typography
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
@@ -263,9 +261,9 @@ const UserExperience = ({
               <b>Location:</b> {items?.job_location}
             </Typography.Text>
             </div>
-            <div>
+            {/* <div>
             <Typography.Text><b>Duration:</b> {items?.working_years} Year/Years</Typography.Text>
-            </div>
+            </div> */}
           </div>
         </div>
       ))): (
