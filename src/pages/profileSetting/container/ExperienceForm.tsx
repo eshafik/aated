@@ -103,7 +103,7 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
           placeholder="Job End Date"
         />
       </Form.Item>
-      <Form.Item
+      {/* <Form.Item
         label="Working Year"
         name="working_year"
         rules={[
@@ -114,7 +114,7 @@ const ExperienceForm: FC<ExperienceFormProps> = ({
         ]}
       >
         <InputNumber className="w-full" placeholder="1 years" />
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item
         label="Job Location"
         name="job_location"

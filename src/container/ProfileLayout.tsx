@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Avatar,
   Button,
@@ -7,6 +8,7 @@ import {
   Tabs,
   Tag,
   Typography,
+  Tooltip
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
@@ -17,6 +19,7 @@ import styled from "styled-components";
 import { twMerge } from "tailwind-merge";
 import { Experience, MemberDetails } from "../libs/api/@types/members";
 import { membersAPI } from "../libs/api/membersAPI";
+import TextAlignment from "../components/textAlignment";
 import ExperienceAddModal from "../pages/profileSetting/components/ExperieceAddModal";
 import UpdateExperienceForm from "../pages/profileSetting/container/UpdateExperienceForm";
 
@@ -59,7 +62,7 @@ const ProfileLayout = ({ isEditEnable }: ProfileLayoutProps) => {
                     label: "Email",
                     children: memberData?.data?.email,
                     span: 24,
-                    className: "mb-0 pb-0 truncate",
+                    className: "mb-0 pb-0",
                   },
                   {
                     label: "Phone",
@@ -199,7 +202,7 @@ const UserExperience = ({
             )}
 
           {/* Descriptions for the Experience */}
-          <Descriptions 
+          {/* <Descriptions 
           bordered
           layout="horizontal"
           column={1}
@@ -233,7 +236,37 @@ const UserExperience = ({
               children: `${items?.start} to ${items?.end ?? "Present"}`,
             },
           ].filter((item) => item.children)}
-          />
+          /> */}
+          <div>
+            <div>
+            <Typography.Title className="mt-0" level={5}>
+              {items?.designation}
+            </Typography.Title>
+            </div>
+            <div>
+              <Typography.Text className="mt-0">
+              <b>{items?.company_name}</b> ({items?.start} - {items?.end || "Present"})
+              </Typography.Text>
+            </div>
+            <div>
+            <Typography.Text>
+              <b>Department: </b>{items?.job_department?.name}
+            </Typography.Text>
+            </div>
+            <div>
+            <div>
+              <TextAlignment responsibilities={items?.responsibilities} title="Roles" />
+            </div>
+            </div>
+            <div>
+            <Typography.Text>
+              <b>Location:</b> {items?.job_location}
+            </Typography.Text>
+            </div>
+            <div>
+            <Typography.Text><b>Duration:</b> {items?.working_years} Year/Years</Typography.Text>
+            </div>
+          </div>
         </div>
       ))): (
         // Show "Add Experience" button if no professional info data is found
