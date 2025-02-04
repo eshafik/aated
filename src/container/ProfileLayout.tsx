@@ -43,7 +43,7 @@ const ProfileLayout = ({ isEditEnable }: ProfileLayoutProps) => {
     <Skeleton loading={isLoading}>
       <div className="flex justify-center pt-2">
         <Card className="shadow-2xl max-w-3xl">
-          <div className="flex gap-3 bg-blue-400 p-4 rounded-lg">
+          <div className="flex gap-3 bg-blue-400 p-4 rounded-lg items-start">
             <Avatar
               shape="square"
               size={80}
@@ -51,21 +51,22 @@ const ProfileLayout = ({ isEditEnable }: ProfileLayoutProps) => {
               className="shadow-lg"
             />
             <div className="flex-1">
-              <Typography.Title level={5} className="mt-0 mb-0">
+              <Typography.Title level={5} className="m-0">
                 {memberData?.data?.name}
               </Typography.Title>
               <Descriptions
                 items={[
                   {
-                    label: "Email",
+                    // label: "Email",
                     children: memberData?.data?.email,
                     span: 24,
-                    className: "mb-0 pb-0",
+                    className: "m-0",
                   },
                   {
-                    label: "Phone",
+                    label: "Cell",
                     span: 24,
                     children: memberData?.data?.phone ?? null,
+                    className: "m-0 mt-0",
                   },
                 ]}
               />
@@ -248,6 +249,11 @@ const UserExperience = ({
             </div>
             <div>
             <Typography.Text>
+              <b>Location:</b> {items?.job_location}
+            </Typography.Text>
+            </div>
+            <div>
+            <Typography.Text>
               <b>Department: </b>{items?.job_department?.name}
             </Typography.Text>
             </div>
@@ -256,11 +262,7 @@ const UserExperience = ({
               <TextAlignment responsibilities={items?.responsibilities} title="Roles" />
             </div>
             </div>
-            <div>
-            <Typography.Text>
-              <b>Location:</b> {items?.job_location}
-            </Typography.Text>
-            </div>
+            
             {/* <div>
             <Typography.Text><b>Duration:</b> {items?.working_years} Year/Years</Typography.Text>
             </div> */}
