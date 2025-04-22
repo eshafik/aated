@@ -199,14 +199,14 @@ const CommitteeMembers = () => {
                   optionFilterProp="children"
                   showSearch
                   allowClear
-                  filterOption={(input, option) =>
-                    (option?.label?.toLowerCase() ?? "").includes(input)
-                  }
                   loading={loadingMembers}
-                  options={ActiveMemberData?.data?.map(({ id, name }) => ({
-                    value: id,
-                    label: name,
-                  }))}
+                  options={
+                    ActiveMemberData?.data?.map(({ id, name }) => ({
+                      value: id,
+                      label: name,
+                    })) || []
+                  }
+                  filterOption={false}
                   placeholder="Members"
                 />
               </Form.Item>
