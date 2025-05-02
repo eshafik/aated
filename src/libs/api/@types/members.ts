@@ -56,6 +56,7 @@ export interface MemberResponse {
     contact_details?: string;
     is_active?: boolean;
     experiences?: Experience[];
+    email_notification?: boolean;
   };
 }
 

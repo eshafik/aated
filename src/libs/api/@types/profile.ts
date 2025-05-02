@@ -61,6 +61,7 @@ export interface UpdateProfilePayload {
   contact_details?: string;
   is_active?: boolean;
   password?: string;
+  email_notification?: boolean;
 }
 
 export interface OccupationType {}

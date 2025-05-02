@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Card, Typography } from "antd";
-import { Briefcase, Lock, User } from "lucide-react";
+import { Briefcase, Lock, User, Bell } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -10,6 +10,7 @@ import ExperienceAddModal from "./components/ExperieceAddModal";
 import SeeExperience from "./components/PersonalExperience";
 import ProfileSettings from "./components/ProfileSettings";
 import Security from "./components/Security";
+import NotificationSettings from "./components/NotificationSettings";
 
 export const StyledCard = styled(Card)`
   height: calc(100vh - 80px);
@@ -46,6 +47,11 @@ const ProfileContainer = () => {
         title: "Security",
         key: "security",
       },
+      {
+        icon: <Bell size={16} />,
+        title: "Notification Settings",
+        key: "notification",
+      },
     ];
 
   return (
@@ -81,6 +87,7 @@ const ProfileContainer = () => {
           {settingItem === "basic_profile" && <ProfileSettings />}
           {settingItem === "security" && <Security />}
           {settingItem === "experience" && <SeeExperience />}
+          {settingItem === "notification" && <NotificationSettings />}
         </div>
       </StyledCard>
     </div>
