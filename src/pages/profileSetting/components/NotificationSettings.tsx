@@ -1,6 +1,5 @@
-import React from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { App, Button, Spin, Switch } from "antd";
+import { App, Spin, Switch } from "antd";
 
 import { profileAPI } from "../../../libs/api/profileAPI";
 
