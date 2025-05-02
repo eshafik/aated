@@ -68,7 +68,7 @@ const MemberSearch = ({ onClear, form }: MemberSearchProps) => {
           <Input placeholder="Company" />
         </Form.Item>
         <Form.Item name="employment_status">
-          <Select placeholder="Employee Status" options={employeeOptions} />
+          <Select placeholder="Employment Status" options={employeeOptions} />
         </Form.Item>
         <Form.Item name="batch">
           <Select
